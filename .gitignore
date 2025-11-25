@@ -1,0 +1,101 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+/coverage/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# Gradle caches
+.gradle/
+**/build/
+**/.gradle/
+
+# Keystore
+*.jks
+*.keystore
+key.properties
+
+# iOS build artifacts
+/ios/build/
+/ios/Pods/
+/ios/SourcePackages/
+/ios/.swiftpm
+/ios/.symlinks/
+/ios/Runner.xcworkspace/
+/ios/Runner.xcodeproj/project.xcworkspace/
+/ios/Runner.xcodeproj/xcuserdata/
+/ios/Runner.xcworkspace/xcuserdata/# Xcode User data
+*/xcuserdata/
+*/xcshareddata/WorkspaceSettings.xcsettings
+
+# CocoaPods
+Pods/
+Podfile.lock
+Pods/
+
+# Flutter 로컬 설정 및 캐시
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.flutter-settings
+
+# VSCode 확장 플러그인 캐시
+.vscode/extensions/
+
+# macOS Finder 메타데이터
+**/.DS_Store
+**/.Trash/
+
+# Dart analysis server directory
+.dart_server/
+
+# Dart tool state files
+.dart_tool/package_config.json
+
+# Environment and credential files
+.env
+*.env
+*.secret
+*.credentials
+*.pem
+*.p12
+*.key
