@@ -1,7 +1,9 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:value_date/themes.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -39,11 +41,31 @@ class _MainApp extends ConsumerState {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      home: Scaffold(body: Center(child: Text('test-text'.tr()))),
+    return AdaptiveTheme(
+      light: Themes.light,
+      dark: Themes.dark,
+      initial: AdaptiveThemeMode.system,
+      debugShowFloatingThemeButton: true,
+      builder: (theme, darkTheme) => MaterialApp(
+        theme: theme,
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        home: Scaffold(
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('test-text'.tr()),
+                FilledButton(
+                  onPressed: () {},
+                  child: Text('toggle-theme'.tr()),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
