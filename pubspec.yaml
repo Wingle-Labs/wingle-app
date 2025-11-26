@@ -13,6 +13,10 @@ dependencies:
   flutter_riverpod: ^3.0.3
   flutter_native_splash: ^2.4.7
   adaptive_theme: ^3.7.2
+  hive_ce: ^2.15.1
+  hive_ce_flutter: ^2.3.3
+  hive_ce_generator: ^1.10.0
+  
 
 dev_dependencies:
   flutter_test:
