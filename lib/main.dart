@@ -1,10 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   runApp(
     ProviderScope(
@@ -19,12 +22,23 @@ void main() async {
 }
 
 /// The main application widget.
-class MainApp extends ConsumerWidget {
+class MainApp extends ConsumerStatefulWidget {
   /// The main application widget.
   const MainApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState createState() => _MainApp();
+}
+
+class _MainApp extends ConsumerState {
+  @override
+  void initState() {
+    super.initState();
+    FlutterNativeSplash.remove();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
