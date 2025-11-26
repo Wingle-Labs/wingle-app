@@ -1,0 +1,49 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'config/adaptive_theme.dart';
+
+/// 어댑티브 테마를 사용하는 메인 어플리케이션 위젯
+/// 어플리케이션의 전반적인 테마와 레이아웃을 관리합니다.
+class App extends ConsumerStatefulWidget {
+  /// 메인 어플리케이션 위젯을 생성합니다.
+  /// 어댑티브 테마와 네비게이션을 포함합니다.
+  const App({super.key});
+
+  @override
+  ConsumerState<App> createState() => _AppState();
+}
+
+class _AppState extends ConsumerState<App> {
+  @override
+  void initState() {
+    super.initState();
+    FlutterNativeSplash.remove();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AppTheming(home: const _Home());
+  }
+}
+
+class _Home extends ConsumerWidget {
+  const _Home();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('test-text'.tr()),
+            FilledButton(onPressed: () {}, child: Text('toggle-theme'.tr())),
+          ],
+        ),
+      ),
+    );
+  }
+}
