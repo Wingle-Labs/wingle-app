@@ -4,17 +4,15 @@ void main() {
   runApp(const MainApp());
 }
 
+/// The main application widget.
 class MainApp extends StatelessWidget {
+  /// The main application widget.
   const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+      home: Scaffold(body: Center(child: Text('Hello World!'))),
     );
   }
 }
