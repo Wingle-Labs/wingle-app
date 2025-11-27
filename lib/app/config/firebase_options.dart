@@ -52,19 +52,19 @@ class DefaultFirebaseOptions {
   }
 
   static FirebaseOptions android = FirebaseOptions(
-    apiKey: EnvUtil.get(FirebaseEnvKey.androidApiKey),
-    appId: EnvUtil.get(FirebaseEnvKey.androidAppId),
-    messagingSenderId: EnvUtil.get(FirebaseEnvKey.messagingSenderId),
-    projectId: EnvUtil.get(FirebaseEnvKey.projectId),
-    storageBucket: EnvUtil.get(FirebaseEnvKey.storageBucket),
+    apiKey: EnvUtil.get(FirebaseEnvFile.androidApiKey),
+    appId: EnvUtil.get(FirebaseEnvFile.androidAppId),
+    messagingSenderId: EnvUtil.get(FirebaseEnvFile.messagingSenderId),
+    projectId: EnvUtil.get(FirebaseEnvFile.projectId),
+    storageBucket: EnvUtil.get(FirebaseEnvFile.storageBucket),
   );
 
   static FirebaseOptions ios = FirebaseOptions(
-    apiKey: EnvUtil.get(FirebaseEnvKey.iosApiKey),
-    appId: EnvUtil.get(FirebaseEnvKey.iosAppId),
-    messagingSenderId: EnvUtil.get(FirebaseEnvKey.messagingSenderId),
-    projectId: EnvUtil.get(FirebaseEnvKey.projectId),
-    storageBucket: EnvUtil.get(FirebaseEnvKey.storageBucket),
-    iosBundleId: EnvUtil.get(FirebaseEnvKey.iosBundleId),
+    apiKey: EnvUtil.get(FirebaseEnvFile.iosApiKey),
+    appId: EnvUtil.get(FirebaseEnvFile.iosAppId),
+    messagingSenderId: EnvUtil.get(FirebaseEnvFile.messagingSenderId),
+    projectId: EnvUtil.get(FirebaseEnvFile.projectId),
+    storageBucket: EnvUtil.get(FirebaseEnvFile.storageBucket),
+    iosBundleId: EnvUtil.get(FirebaseEnvFile.iosBundleId),
   );
 }
