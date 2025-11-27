@@ -99,3 +99,8 @@ Pods/
 *.pem
 *.p12
 *.key
+
+# Firebase
+firebase.json
+GoogleService-Info.plist
+google-services.json
