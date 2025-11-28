@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:value_date/app/router/app_router.dart';
-import 'package:value_date/common/constants/route_constants.dart';
+import 'package:wingle/app/router/app_router.dart';
+import 'package:wingle/common/constants/route_constants.dart';
 
 part 'router_provider.g.dart';
 

@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:hive_ce/hive.dart';
-import 'package:value_date/common/constants/secure_storage_constants.dart';
-import 'package:value_date/common/utils/secure_storage_util.dart';
+import 'package:wingle/common/constants/secure_storage_constants.dart';
+import 'package:wingle/common/utils/secure_storage_util.dart';
 
 /// Hive AES Cipher를 관리하는 싱글톤 클래스
 class SecureKeyManager {

@@ -3,8 +3,8 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
-import 'package:value_date/common/constants/env_constants.dart';
-import 'package:value_date/common/utils/env_util.dart';
+import 'package:wingle/common/constants/env_constants.dart';
+import 'package:wingle/common/utils/env_util.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///

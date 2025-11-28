@@ -1,5 +1,5 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:value_date/common/constants/secure_storage_constants.dart';
+import 'package:wingle/common/constants/secure_storage_constants.dart';
 
 /// Secure Storage를 사용하여 Hive AES 키를 안전하게 관리하는 유틸리티 클래스
 /// 앱 종료 후에도 키를 유지하고, 보안적으로 안전하게 저장합니다.

@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_ce/hive.dart';
-import 'package:value_date/common/constants/hive_constants.dart';
-import 'package:value_date/common/utils/hive_util.dart';
+import 'package:wingle/common/constants/hive_constants.dart';
+import 'package:wingle/common/utils/hive_util.dart';
 
 void main() {
   late Directory tempDir;

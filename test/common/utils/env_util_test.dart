@@ -1,7 +1,7 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:value_date/common/constants/env_constants.dart';
-import 'package:value_date/common/utils/env_util.dart';
+import 'package:wingle/common/constants/env_constants.dart';
+import 'package:wingle/common/utils/env_util.dart';
 
 void main() {
   final testEnvKey = EnvKey<String>(path: "", name: "TEST_KEY");

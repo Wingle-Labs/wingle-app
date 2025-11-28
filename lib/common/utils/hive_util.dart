@@ -1,7 +1,7 @@
 // lib/common/utils/hive_util.dart
 
 import 'package:hive_ce_flutter/hive_flutter.dart';
-import 'package:value_date/common/constants/hive_constants.dart';
+import 'package:wingle/common/constants/hive_constants.dart';
 
 /// Hive 유틸리티 클래스 - Hive box에 대한 CRUD 작업을 제공합니다.
 /// key를 직접 string으로 입력하지 않고, HiveKey 타입을 통해 안전하게 접근합니다.

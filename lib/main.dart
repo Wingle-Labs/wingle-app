@@ -3,11 +3,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
-import 'package:value_date/app/config/firebase_options.dart';
-import 'package:value_date/app/config/localization.dart';
-import 'package:value_date/common/utils/env_util.dart';
-import 'package:value_date/common/utils/hive_util.dart';
-import 'package:value_date/common/utils/secure_key_manager.dart';
+import 'package:wingle/app/config/firebase_options.dart';
+import 'package:wingle/app/config/localization.dart';
+import 'package:wingle/common/utils/env_util.dart';
+import 'package:wingle/common/utils/hive_util.dart';
+import 'package:wingle/common/utils/secure_key_manager.dart';
 
 import 'app/app.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:value_date/app/providers/router_provider.dart';
+import 'package:wingle/app/providers/router_provider.dart';
 
 import 'config/adaptive_theme.dart';
 

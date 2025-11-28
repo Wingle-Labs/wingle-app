@@ -1,5 +1,5 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:value_date/common/constants/env_constants.dart';
+import 'package:wingle/common/constants/env_constants.dart';
 
 /// 환경 변수 관리 유틸리티
 class EnvUtil {

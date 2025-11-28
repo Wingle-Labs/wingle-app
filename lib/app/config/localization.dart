@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:value_date/common/constants/localization_constants.dart';
+import 'package:wingle/common/constants/localization_constants.dart';
 
 /// 로컬라이제이션을 초기화하고 제공하는 래퍼 위젯
 /// 어플리케이션의 다국어 지원을 관리합니다.
