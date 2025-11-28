@@ -19,10 +19,13 @@ class HiveKey<T> {
   const HiveKey(this.box, this.name);
 }
 
-/// Hive Box 기본 인터페이스
+/// Hive Box 추상 클래스
 abstract class HiveBox {
   /// Box 이름
   String get name;
+
+  /// 암호화 여부
+  bool get isEncrypted;
 
   /// Hive Key 생성 메서드 - 하위 클래스에서 구현해야 함
   HiveKey<String> create(String key);
@@ -32,6 +35,9 @@ abstract class HiveBox {
 class HiveLoginBox implements HiveBox {
   @override
   String get name => 'user_login_info';
+
+  @override
+  bool get isEncrypted => true;
 
   @override
   HiveKey<String> create(String key) {
