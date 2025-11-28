@@ -13,6 +13,10 @@ class OnboardingPage extends ConsumerStatefulWidget {
 class _OnboardingPageState extends ConsumerState<OnboardingPage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: Center(child: Text('Onboarding Page')));
+    return Scaffold(
+      body: Center(
+        child: FilledButton(onPressed: () {}, child: Text("카카오톡으로 로그인 ")),
+      ),
+    );
   }
 }

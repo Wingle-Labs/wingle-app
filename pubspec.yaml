@@ -22,6 +22,7 @@ dependencies:
   riverpod_annotation: ^3.0.3
   riverpod_generator: ^3.0.3
   flutter_secure_storage: ^9.2.4
+  kakao_flutter_sdk: ^1.9.7+3
   
 
 dev_dependencies:

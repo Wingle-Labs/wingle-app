@@ -3,8 +3,11 @@ class EnvConstants {
   /// Firebase 환경 변수 파일
   static final firebase = FirebaseEnvFile();
 
+  /// Kakao 환경 변수 파일
+  static final kakao = KakaoEnvFile();
+
   /// 기타 환경 변수 파일들
-  static final envs = <EnvFile>[firebase];
+  static final envs = <EnvFile>[firebase, kakao];
 }
 
 /// 환경 변수 인터페이스
@@ -74,4 +77,26 @@ class FirebaseEnvFile implements EnvFile {
 
   /// 싱글톤
   static final FirebaseEnvFile _instance = FirebaseEnvFile();
+}
+
+/// Kakao 관련 Env 파일
+class KakaoEnvFile implements EnvFile {
+  @override
+  String get path => 'lib/app/config/env/kakao.env';
+
+  @override
+  EnvKey<String> create(String key) {
+    return EnvKey<String>(path: path, name: key);
+  }
+
+  /// Kakao Native App Key
+  static EnvKey<String> nativeAppKey = _instance.create('KAKAO_NATIVE_APP_KEY');
+
+  /// Kakao JavaScript App Key
+  static EnvKey<String> javaScriptAppKey = _instance.create(
+    'KAKAO_JAVASCRIPT_APP_KEY',
+  );
+
+  /// 싱글톤
+  static final KakaoEnvFile _instance = KakaoEnvFile();
 }

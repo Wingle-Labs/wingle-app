@@ -38,9 +38,12 @@ class EnvUtil {
   }
 
   /// 모든 env 파일 로드
-  static Future<void> loadAll() async {
-    for (var env in EnvConstants.envs) {
-      await loadEnv(env);
+  static Future<void> loadAll(List<EnvFile> envFiles) async {
+    Map<String, String> merged = {};
+
+    for (final file in envFiles) {
+      await dotenv.load(fileName: file.path, mergeWith: merged);
+      merged = Map.from(dotenv.env);
     }
   }
 }

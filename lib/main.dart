@@ -3,8 +3,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk_common.dart';
 import 'package:wingle/app/config/firebase_options.dart';
 import 'package:wingle/app/config/localization.dart';
+import 'package:wingle/common/constants/env_constants.dart';
 import 'package:wingle/common/utils/env_util.dart';
 import 'package:wingle/common/utils/hive_util.dart';
 import 'package:wingle/common/utils/secure_key_manager.dart';
@@ -21,12 +23,16 @@ void main() async {
   /// 4. 환경 변수 로드
   /// 5. Hive 박스 초기화
   /// 6. Firebase 초기화
+  /// 7. 카카오 SDK 초기화
   await EasyLocalization.ensureInitialized();
   await SecureKeyManager.instance.initialize();
   await Hive.initFlutter();
-  await EnvUtil.loadAll();
+  await EnvUtil.loadAll(EnvConstants.envs);
   await HiveUtil.initialize(SecureKeyManager.instance.cipher);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
+  KakaoSdk.init(
+    nativeAppKey: EnvUtil.get(KakaoEnvFile.nativeAppKey),
+    javaScriptAppKey: EnvUtil.get(KakaoEnvFile.javaScriptAppKey),
+  );
   runApp(ProviderScope(child: AppLocalizationWrapper(child: const App())));
 }

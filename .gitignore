@@ -66,6 +66,7 @@ key.properties
 /ios/Runner.xcworkspace/xcuserdata/# Xcode User data
 */xcuserdata/
 */xcshareddata/WorkspaceSettings.xcsettings
+/ios/Runner/Config.xcconfig
 
 # CocoaPods
 Pods/
@@ -104,3 +105,6 @@ Pods/
 firebase.json
 GoogleService-Info.plist
 google-services.json
+
+# private scripts
+scripts/private-*.sh
