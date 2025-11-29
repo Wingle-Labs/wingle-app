@@ -10,6 +10,7 @@ import 'package:wingle/common/constants/env_constants.dart';
 import 'package:wingle/common/utils/env_util.dart';
 import 'package:wingle/common/utils/hive_util.dart';
 import 'package:wingle/common/utils/secure_key_manager.dart';
+import 'package:wingle/features/auth/data/datasources/google_api.dart';
 
 import 'app/app.dart';
 
@@ -24,6 +25,7 @@ void main() async {
   /// 5. Hive 박스 초기화
   /// 6. Firebase 초기화
   /// 7. 카카오 SDK 초기화
+  /// 8. Google SDK 초기화
   await EasyLocalization.ensureInitialized();
   await SecureKeyManager.instance.initialize();
   await Hive.initFlutter();
@@ -33,6 +35,9 @@ void main() async {
   KakaoSdk.init(
     nativeAppKey: EnvUtil.get(KakaoEnvFile.nativeAppKey),
     javaScriptAppKey: EnvUtil.get(KakaoEnvFile.javaScriptAppKey),
+  );
+  await GoogleApiManager.instance.init(
+    googleClientId: EnvUtil.get(GoogleEnvFile.clientId),
   );
   runApp(ProviderScope(child: AppLocalizationWrapper(child: const App())));
 }

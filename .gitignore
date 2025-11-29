@@ -66,7 +66,7 @@ key.properties
 /ios/Runner.xcworkspace/xcuserdata/# Xcode User data
 */xcuserdata/
 */xcshareddata/WorkspaceSettings.xcsettings
-/ios/Runner/Config.xcconfig
+Config.xcconfig
 
 # CocoaPods
 Pods/
