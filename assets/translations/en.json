@@ -1,3 +1,11 @@
 {
-  "test-text": "Wingle"
+  "onboarding": {
+    "title": "Wingle - Find your match by values.",
+    "button" : {
+      "kakao": "Sign in with Kakao",
+      "google": "Sign in with Google",
+      "apple": "Sign in with Apple",
+      "phone": "Sign in with Phone"
+    }
+  }
 }

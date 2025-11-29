@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wingle/app/providers/router_provider.dart';
 
 import 'config/adaptive_theme.dart';
 
@@ -25,16 +24,6 @@ class _AppState extends ConsumerState<App> {
 
   @override
   Widget build(BuildContext context) {
-    return AppTheming(home: const _Main());
-  }
-}
-
-class _Main extends ConsumerWidget {
-  const _Main();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final router = ref.read(routerProvider);
-    return MaterialApp.router(routerConfig: router);
+    return AppTheming();
   }
 }

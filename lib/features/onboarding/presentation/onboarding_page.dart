@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wingle/features/auth/data/datasources/apple_api.dart';
-import 'package:wingle/features/auth/data/datasources/google_api.dart';
-import 'package:wingle/features/auth/data/datasources/kakao_api.dart';
+import 'package:wingle/app/config/theme/constants/size.dart';
+import 'package:wingle/features/auth/presentation/social_buttons.dart';
 
 /// Onboarding 페이지
 class OnboardingPage extends ConsumerStatefulWidget {
@@ -19,26 +18,21 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
     return Scaffold(
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: .spaceEvenly,
           children: [
-            FilledButton(
-              onPressed: () async {
-                await KakaoApiManager.instance.getTokenWithLogin();
-              },
-              child: Text("카카오톡으로 로그인 "),
+            SizedBox(),
+            SizedBox(
+              width: AppContainerSize.wrap,
+              height: AppContainerSize.wrap,
+              child: Center(
+                child: Text(
+                  "Wingle - 가치관으로 만나다.",
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ),
             ),
-            FilledButton(
-              onPressed: () async {
-                await GoogleApiManager.instance.signIn();
-              },
-              child: Text("구글로 로그인 "),
-            ),
-            FilledButton(
-              onPressed: () async {
-                await AppleApiManager.signIn();
-              },
-              child: Text("애플로 로그인 "),
-            ),
+            SocialAuthButtons(),
+            SizedBox(),
           ],
         ),
       ),
