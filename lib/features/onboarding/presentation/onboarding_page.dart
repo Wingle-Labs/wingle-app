@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wingle/features/auth/data/datasources/apple_api.dart';
 import 'package:wingle/features/auth/data/datasources/google_api.dart';
 import 'package:wingle/features/auth/data/datasources/kakao_api.dart';
 
@@ -31,6 +32,12 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                 await GoogleApiManager.instance.signIn();
               },
               child: Text("구글로 로그인 "),
+            ),
+            FilledButton(
+              onPressed: () async {
+                await AppleApiManager.signIn();
+              },
+              child: Text("애플로 로그인 "),
             ),
           ],
         ),
