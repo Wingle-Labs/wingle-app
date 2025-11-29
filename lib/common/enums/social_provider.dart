@@ -8,7 +8,4 @@ enum SocialProvider {
 
   /// 애플
   apple,
-
-  /// 휴대폰
-  phone,
 }
