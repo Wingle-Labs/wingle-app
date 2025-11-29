@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wingle/features/auth/data/datasources/kakao_api.dart';
 
 /// Onboarding 페이지
 class OnboardingPage extends ConsumerStatefulWidget {
@@ -15,7 +16,13 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: FilledButton(onPressed: () {}, child: Text("카카오톡으로 로그인 ")),
+        child: FilledButton(
+          onPressed: () async {
+            final token = await KakaoApiManager.instance.getTokenWithLogin();
+            print(token);
+          },
+          child: Text("카카오톡으로 로그인 "),
+        ),
       ),
     );
   }
