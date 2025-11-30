@@ -43,34 +43,26 @@ class _PhoneAuthPageState extends ConsumerState<PhoneAuthPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('onboarding.phone.title'.tr())),
-      body: Padding(
-        padding: EdgeInsets.all(AppPadding.scaffold),
+      body: SingleChildScrollView(
+        padding: .all(AppPadding.scaffold),
         child: Column(
-          mainAxisAlignment: .center,
+          crossAxisAlignment: .start,
           children: [
-            Spacer(),
-            Column(
-              crossAxisAlignment: .start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(bottom: AppSpacing.lg),
-                  child: Text(
-                    'onboarding.phone.instruction'.tr(),
-                    style: TextStyle(fontSize: AppFontSize.large),
-                  ),
-                ),
-                DefaultCard(child: PhoneTextField()),
-              ],
+            Padding(
+              padding: .symmetric(vertical: AppSpacing.xl),
+              child: Text(
+                'onboarding.phone.instruction'.tr(),
+                style: TextStyle(fontSize: AppFontSize.xl),
+              ),
             ),
-            Spacer(),
-            Spacer(),
+            DefaultCard(child: PhoneTextField()),
           ],
         ),
       ),
       floatingActionButton: SmoothRectWrapper(
         child: FloatingActionButton.extended(
           backgroundColor: AppColor.primary,
-          extendedPadding: EdgeInsets.zero,
+          extendedPadding: .zero,
           onPressed: () {
             ref.read(isLoadingProvider.notifier).toggle();
             context.go(
@@ -87,7 +79,8 @@ class _PhoneAuthPageState extends ConsumerState<PhoneAuthPage> {
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: .centerFloat,
+      floatingActionButtonAnimator: .noAnimation,
     );
   }
 }

@@ -22,10 +22,10 @@ class DefaultCard extends ConsumerWidget {
       child: Container(
         decoration: BoxDecoration(
           color: theme.cardColor,
-          borderRadius: BorderRadius.circular(AppRadius.iosStyle),
-          border: Border.all(color: theme.dividerColor),
+          borderRadius: .circular(AppRadius.iosStyle),
+          border: .all(color: theme.dividerColor),
         ),
-        padding: EdgeInsets.all(AppPadding.card),
+        padding: .all(AppPadding.card),
         height: height,
         child: child,
       ),

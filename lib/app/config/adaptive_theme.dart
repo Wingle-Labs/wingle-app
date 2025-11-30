@@ -2,6 +2,7 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wingle/app/providers/localization_provider.dart';
 import 'package:wingle/app/providers/router_provider.dart';
 
 import 'theme/themes.dart';
@@ -23,7 +24,7 @@ class AppTheming extends ConsumerWidget {
       builder: (theme, darkTheme) => MaterialApp.router(
         theme: theme,
         darkTheme: darkTheme,
-        locale: context.locale,
+        locale: ref.watch(localizationProvider),
         supportedLocales: context.supportedLocales,
         localizationsDelegates: context.localizationDelegates,
         routerConfig: router,

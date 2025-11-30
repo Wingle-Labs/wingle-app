@@ -63,11 +63,13 @@ class SocialAuthButtons extends ConsumerWidget {
   final BuildContext context;
 
   List<SocialButtonConfig> _configs() {
+    final theme = Theme.of(context);
     return [
       SocialButtonConfig(
         symbol: Iconify(
           Bx.bxs_message_rounded,
           color: AppColor.lightButtonText,
+          size: AppIconSize.large,
         ),
         symbolColor: AppColor.lightButtonText,
         bgColor: AppColor.kakao,

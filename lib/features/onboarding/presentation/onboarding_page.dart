@@ -1,6 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
+import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/features/auth/presentation/social_buttons.dart';
 
 /// Onboarding 페이지
@@ -14,27 +17,51 @@ class OnboardingPage extends ConsumerStatefulWidget {
 
 class _OnboardingPageState extends ConsumerState<OnboardingPage> {
   @override
+  @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: .spaceEvenly,
-          children: [
-            SizedBox(),
-            SizedBox(
-              width: AppContainerSize.wrap,
-              height: AppContainerSize.wrap,
-              child: Center(
-                child: Text(
-                  "Wingle - 가치관으로 만나다.",
-                  style: Theme.of(context).textTheme.titleLarge,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: constraints.maxHeight, // 화면 높이만큼 보장
+              ),
+              child: IntrinsicHeight(
+                child: Padding(
+                  padding: const EdgeInsets.all(AppPadding.scaffold),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: AppSpacing.xl),
+                      Spacer(),
+                      SizedBox(
+                        width: AppContainerSize.wrap,
+                        height: AppContainerSize.wrap,
+                        child: Center(
+                          child: Text(
+                            "onboarding.title".tr(),
+                            style: theme.textTheme.titleLarge,
+                          ),
+                        ),
+                      ),
+
+                      SocialAuthButtons(context: context),
+                      Spacer(),
+
+                      const SizedBox(
+                        height: AppSpacing.xl,
+                        width: double.infinity,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-            SocialAuthButtons(context: context),
-            SizedBox(),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

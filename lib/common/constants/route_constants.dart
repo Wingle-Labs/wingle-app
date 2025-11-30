@@ -15,6 +15,9 @@ class AppRoutes {
   /// 인증번호 입력 화면 경로
   static const String otp = 'otp';
 
+  /// 나이 입력 화면 경로
+  static const String age = 'age';
+
   /// 경로를 포함하여 출력하는 함수
   static String fullPath(List<String> path) => path.join('/');
 }

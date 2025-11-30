@@ -15,6 +15,20 @@
           "label": "Phone Number"
       },
       "button": "Send Auth code"
+    },
+    "age": {
+      "title": "Age Input",
+      "instruction": "Enter your actual birthdate.",
+      "textfield": {
+        "label": "Birthdate"
+      },
+      "button": {
+        "next": "Next"
+      },
+      "checkbox" : {
+        "adult": "I am 18 years old or older.",
+        "block": "I agree that the use of the service will be restricted if false information is entered."
+      }
     }
   }
 }

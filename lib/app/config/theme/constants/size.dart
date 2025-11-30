@@ -42,6 +42,9 @@ class AppContainerSize {
   /// 큰 높이
   static const double large = 64;
 
+  /// 매우 큰 높이
+  static const double xl = 128;
+
   /// wrap
   static const double wrap = 300;
 }
