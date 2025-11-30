@@ -11,4 +11,10 @@ class AppRadius {
 
   /// 큰 둥근 모서리
   static const double lg = 20;
+
+  /// iOS Style
+  static const double iosStyle = 24;
+
+  /// iOS Smoothing
+  static const double iosSmoothing = 0.6;
 }

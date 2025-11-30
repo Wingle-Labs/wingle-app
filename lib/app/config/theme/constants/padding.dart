@@ -7,5 +7,11 @@ class AppPadding {
   static const double vertical = 12;
 
   /// 버튼 내부 패딩
-  static const double button = 12;
+  static const double button = 16;
+
+  /// Scaffold 내부 패딩
+  static const double scaffold = 24;
+
+  /// 카드 내부 패딩
+  static const double card = 20;
 }

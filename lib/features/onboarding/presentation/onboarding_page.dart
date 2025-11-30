@@ -31,7 +31,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                 ),
               ),
             ),
-            SocialAuthButtons(),
+            SocialAuthButtons(context: context),
             SizedBox(),
           ],
         ),

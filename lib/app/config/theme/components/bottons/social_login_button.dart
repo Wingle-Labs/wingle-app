@@ -64,7 +64,11 @@ class SocialLoginButton extends ConsumerWidget {
           data: IconThemeData(
             color: symbolColor ?? Theme.of(context).colorScheme.onPrimary,
           ),
-          child: SizedBox(width: 24, height: 24, child: symbol),
+          child: SizedBox(
+            width: AppIconSize.large,
+            height: AppIconSize.large,
+            child: symbol,
+          ),
         ),
         Expanded(
           child: Center(

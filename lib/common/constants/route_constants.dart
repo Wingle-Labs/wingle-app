@@ -9,9 +9,12 @@ class AppRoutes {
   /// 온보딩 화면 경로
   static const String onboarding = '/onboarding';
 
-  /// 로그인 화면 경로
-  static const String login = 'login';
+  /// 전화번호 인증 화면 경로
+  static const String phone = 'phone';
 
-  /// 회원가입 화면 경로
-  static const String signup = 'signup';
+  /// 인증번호 입력 화면 경로
+  static const String otp = 'otp';
+
+  /// 경로를 포함하여 출력하는 함수
+  static String fullPath(List<String> path) => path.join('/');
 }

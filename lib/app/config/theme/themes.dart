@@ -10,6 +10,9 @@ class Themes {
     primaryColor: AppColor.primary,
     scaffoldBackgroundColor: Colors.white,
     textTheme: TextTheme(bodyLarge: TextStyle(color: AppColor.lightButtonText)),
+    hintColor: AppColor.lightCaption,
+    cardColor: AppColor.lightCard,
+    dividerColor: AppColor.lightCardBorder,
   );
 
   /// 다크 테마
@@ -19,5 +22,16 @@ class Themes {
     primaryColor: AppColor.primary,
     scaffoldBackgroundColor: Colors.black,
     textTheme: TextTheme(bodyLarge: TextStyle(color: AppColor.darkButtonText)),
+    hintColor: AppColor.darkCaption,
+    cardColor: AppColor.darkCard,
+    dividerColor: AppColor.darkCardBorder,
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+        textStyle: WidgetStatePropertyAll(
+          TextStyle(color: AppColor.lightButtonText),
+        ),
+        backgroundColor: WidgetStatePropertyAll(AppColor.primary),
+      ),
+    ),
   );
 }

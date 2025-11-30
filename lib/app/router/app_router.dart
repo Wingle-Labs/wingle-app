@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wingle/common/constants/route_constants.dart';
+import 'package:wingle/features/auth/presentation/phone_auth.dart';
+import 'package:wingle/features/auth/presentation/phone_otp.dart';
 import 'package:wingle/features/onboarding/presentation/onboarding_page.dart';
 
 /// 앱 라우터 정의 클래스
@@ -19,7 +21,15 @@ class AppRouter {
 
   /// 온보딩 라우트 목록
   static List<GoRoute> get onboardingRoutes => [
-    GoRoute(path: AppRoutes.login, builder: (context, state) => Container()),
-    GoRoute(path: AppRoutes.signup, builder: (context, state) => Container()),
+    GoRoute(
+      path: AppRoutes.phone,
+      builder: (context, state) => PhoneAuthPage(),
+      routes: [
+        GoRoute(
+          path: AppRoutes.otp,
+          builder: (context, state) => PhoneOtpPage(),
+        ),
+      ],
+    ),
   ];
 }

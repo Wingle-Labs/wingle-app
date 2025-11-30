@@ -28,7 +28,7 @@ class AppIconSize {
   static const double regular = 20;
 
   /// 큰 아이콘 크기
-  static const double large = 28;
+  static const double large = 24;
 }
 
 /// 어플리케이션의 공통 높이 정의

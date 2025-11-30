@@ -1,6 +1,8 @@
 import 'package:colorful_iconify_flutter/icons/logos.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/bx.dart';
 import 'package:iconify_flutter/icons/ic.dart';
@@ -8,6 +10,7 @@ import 'package:wingle/app/config/theme/components/bottons/social_login_button.d
 import 'package:wingle/app/config/theme/constants/color.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
+import 'package:wingle/common/constants/route_constants.dart';
 import 'package:wingle/features/auth/data/datasources/apple_api.dart';
 import 'package:wingle/features/auth/data/datasources/google_api.dart';
 import 'package:wingle/features/auth/data/datasources/kakao_api.dart';
@@ -52,9 +55,12 @@ class SocialButtonConfig {
 }
 
 /// 소셜 로그인 버튼 그룹
-class SocialAuthButtons extends StatelessWidget {
+class SocialAuthButtons extends ConsumerWidget {
   /// 생성자
-  const SocialAuthButtons({super.key});
+  const SocialAuthButtons({super.key, required this.context});
+
+  /// BuildContext
+  final BuildContext context;
 
   List<SocialButtonConfig> _configs() {
     return [
@@ -94,13 +100,15 @@ class SocialAuthButtons extends StatelessWidget {
         symbolColor: AppColor.darkButtonText,
         text: "onboarding.button.phone".tr(),
         textColor: AppColor.darkButtonText,
-        onPressed: () async {},
+        onPressed: () async => context.go(
+          AppRoutes.fullPath([AppRoutes.onboarding, AppRoutes.phone]),
+        ),
       ),
     ];
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final items = _configs();
 
     return SizedBox(
