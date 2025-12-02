@@ -19,6 +19,9 @@ class ScrollableScaffold extends ConsumerStatefulWidget {
   /// FloatingActionButton
   final Widget? floatingActionButton;
 
+  /// 바디 마지막 여유 공간 추가 여부
+  final bool? addBottomSpacing;
+
   /// 생성자
   const ScrollableScaffold({
     super.key,
@@ -26,6 +29,7 @@ class ScrollableScaffold extends ConsumerStatefulWidget {
     this.spacing,
     required this.body,
     this.floatingActionButton,
+    this.addBottomSpacing,
   });
 
   @override
@@ -42,7 +46,12 @@ class _ScrollableScaffoldState extends ConsumerState<ScrollableScaffold> {
         child: Column(
           crossAxisAlignment: .start,
           spacing: widget.spacing ?? AppSpacing.md,
-          children: widget.body,
+          children: [
+            ...widget.body,
+            widget.addBottomSpacing ?? true
+                ? Padding(padding: .only(bottom: AppSpacing.xl))
+                : const SizedBox.shrink(),
+          ],
         ),
       ),
       floatingActionButtonLocation: .centerFloat,

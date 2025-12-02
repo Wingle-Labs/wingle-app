@@ -29,6 +29,23 @@
         "adult": "I am 18 years old or older.",
         "block": "I agree that the use of the service will be restricted if false information is entered."
       }
+    }, 
+    "requiredSelfIntro": {
+      "loading": {
+        "instruction": "Write a sincere self-introduction.",
+        "descriptions": {
+          "is_visible": "Your value can be known to the other person.",
+          "auto_save": "Your content is automatically saved, so please write slowly."
+        },
+        "button": {
+          "next": "Start"
+        }
+      },
+      "title": "Required Self Introduction",
+      "instruction": "Each question should be answered sincerely.",
+      "button": {
+        "next": "Next"
+      }
     }
   }
 }

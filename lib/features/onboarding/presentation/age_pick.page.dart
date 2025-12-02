@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/components/bottons/default_floating_button.dart';
 import 'package:wingle/app/config/theme/components/cards/default_card.dart';
 import 'package:wingle/app/config/theme/components/pickers/date_picker.dart';
 import 'package:wingle/app/config/theme/components/texts/default_intruction.dart';
 import 'package:wingle/app/config/theme/components/wrappers/scrollable_scaffold.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
+import 'package:wingle/common/constants/route_constants.dart';
 import 'package:wingle/features/onboarding/presentation/components/agreement_group.dart';
 
 /// 나이 선택 페이지
@@ -55,7 +57,14 @@ class _AgePickPageState extends ConsumerState<AgePickPage> {
         ),
       ],
       floatingActionButton: DefaultFloatingButton(
-        onPressed: () {},
+        onPressed: () {
+          context.push(
+            AppRoutes.fullPath([
+              AppRoutes.onboarding,
+              AppRoutes.requiredSelfIntro,
+            ]),
+          );
+        },
         label: 'onboarding.age.button.next',
         isLoading: false,
       ),

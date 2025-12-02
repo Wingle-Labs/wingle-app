@@ -1,10 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
-import 'package:wingle/features/auth/presentation/social_buttons.dart';
+import 'package:wingle/common/constants/route_constants.dart';
+import 'package:wingle/features/auth/presentation/components/social_buttons.dart';
 
 /// Onboarding 페이지
 class OnboardingPage extends ConsumerStatefulWidget {
@@ -49,7 +51,15 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                       ),
 
                       SocialAuthButtons(context: context),
-                      Spacer(),
+                      TextButton(
+                        onPressed: () => context.push(
+                          AppRoutes.fullPath([
+                            AppRoutes.onboarding,
+                            AppRoutes.requiredSelfIntro,
+                          ]),
+                        ),
+                        child: Text('onboarding.button.phone'.tr()),
+                      ),
 
                       const SizedBox(
                         height: AppSpacing.xl,

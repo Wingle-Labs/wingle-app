@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wingle/common/constants/route_constants.dart';
 import 'package:wingle/features/auth/presentation/phone_auth.dart';
 import 'package:wingle/features/auth/presentation/phone_otp.dart';
+import 'package:wingle/features/onboarding/presentation/required_self_intro.dart';
 import 'package:wingle/features/onboarding/presentation/age_pick.page.dart';
 import 'package:wingle/features/onboarding/presentation/onboarding_page.dart';
 
@@ -33,5 +34,9 @@ class AppRouter {
       ],
     ),
     GoRoute(path: AppRoutes.age, builder: (context, state) => AgePickPage()),
+    GoRoute(
+      path: AppRoutes.requiredSelfIntro,
+      builder: (context, state) => RequiredSelfIntroPage(),
+    ),
   ];
 }
