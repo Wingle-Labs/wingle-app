@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/components/bottons/loadding_text_button.dart';
@@ -32,12 +31,7 @@ class DefaultFloatingButton extends ConsumerWidget {
       backgroundColor: AppColor.primary,
       extendedPadding: .zero,
       onPressed: onPressed,
-      shape: RoundedRectangleBorder(
-        borderRadius: SmoothBorderRadius(
-          cornerRadius: AppRadius.iosStyle,
-          cornerSmoothing: AppRadius.iosSmoothing,
-        ),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: AppRadius.iosStyleRadius),
       label: LoadingTextButton(label: label.tr(), isLoading: isLoading),
     );
   }

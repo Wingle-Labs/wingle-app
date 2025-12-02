@@ -14,4 +14,7 @@ class AppSpacing {
 
   /// 매우 큰 간격
   static const double xl = 48;
+
+  /// Bottom 여백
+  static const double bottom = 96;
 }

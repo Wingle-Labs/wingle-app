@@ -49,7 +49,7 @@ class _ScrollableScaffoldState extends ConsumerState<ScrollableScaffold> {
           children: [
             ...widget.body,
             widget.addBottomSpacing ?? true
-                ? Padding(padding: .only(bottom: AppSpacing.xl))
+                ? Padding(padding: .only(bottom: AppSpacing.bottom))
                 : const SizedBox.shrink(),
           ],
         ),

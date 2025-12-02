@@ -27,7 +27,7 @@ class SelfIntroduceCard extends ConsumerWidget {
         crossAxisAlignment: .start,
         children: [
           Text(
-            title.tr(),
+            title,
             style: TextStyle(fontSize: AppFontSize.large),
             locale: context.locale,
           ),

@@ -46,6 +46,15 @@
       "button": {
         "next": "Next"
       }
+    },
+    "selectiveSelfIntro": {
+      "title": "Selective Self Introduction",
+      "button": {
+        "next": "Next"
+      }
     }
+  },
+  "home": {
+    "title": "Home"
   }
 }

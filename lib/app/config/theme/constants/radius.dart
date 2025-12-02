@@ -1,3 +1,5 @@
+import 'package:figma_squircle/figma_squircle.dart';
+
 /// 어플리케이션의 공통 둥근 모서리 정의
 class AppRadius {
   /// 아주 작은 둥근 모서리
@@ -17,4 +19,10 @@ class AppRadius {
 
   /// iOS Smoothing
   static const double iosSmoothing = 0.6;
+
+  /// iOS Style Radius
+  static SmoothBorderRadius iosStyleRadius = SmoothBorderRadius(
+    cornerRadius: AppRadius.iosStyle,
+    cornerSmoothing: AppRadius.iosSmoothing,
+  );
 }

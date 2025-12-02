@@ -1,4 +1,3 @@
-import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/components/wrappers/smooth_rect.dart';
@@ -60,21 +59,11 @@ class MultilineTextField extends ConsumerWidget {
           focusColor: AppColor.primary,
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: theme.dividerColor, width: 2),
-            borderRadius: SmoothBorderRadius.all(
-              SmoothRadius(
-                cornerRadius: AppRadius.iosStyle,
-                cornerSmoothing: AppRadius.iosSmoothing,
-              ),
-            ),
+            borderRadius: AppRadius.iosStyleRadius,
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: AppColor.primary, width: 2),
-            borderRadius: SmoothBorderRadius.all(
-              SmoothRadius(
-                cornerRadius: AppRadius.iosStyle,
-                cornerSmoothing: AppRadius.iosSmoothing,
-              ),
-            ),
+            borderRadius: AppRadius.iosStyleRadius,
           ),
           contentPadding: .all(AppPadding.textfield),
         ),

@@ -21,6 +21,9 @@ class AppRoutes {
   /// 필수 자기소개 입력 화면
   static const String requiredSelfIntro = 'required-self-intro';
 
+  /// 선택형 자기소개 입력 화면
+  static const String selectiveSelfIntro = 'selective-self-intro';
+
   /// 경로를 포함하여 출력하는 함수
   static String fullPath(List<String> path) => path.join('/');
 }

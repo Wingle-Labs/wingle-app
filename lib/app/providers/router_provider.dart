@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wingle/app/router/app_router.dart';
 import 'package:wingle/common/constants/route_constants.dart';
+import 'package:wingle/features/home/presentation/home.dart';
 
 part 'router_provider.g.dart';
 
@@ -19,5 +20,9 @@ GoRouter router(Ref ref) {
       return null;
     },
     routes: AppRouter.routes,
+    // TODO: 에러 페이지 구현
+    errorBuilder: (context, state) {
+      return Home();
+    },
   );
 }

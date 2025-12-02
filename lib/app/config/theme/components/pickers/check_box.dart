@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/constants/color.dart';
+import 'package:wingle/app/config/theme/constants/radius.dart';
 
 /// 기본 체크박스
 class DefaultCheckBox extends ConsumerWidget {
@@ -26,6 +27,9 @@ class DefaultCheckBox extends ConsumerWidget {
       onChanged: onChanged,
       checkColor: theme.scaffoldBackgroundColor,
       activeColor: AppColor.primary,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppRadius.iosStyle),
+      ),
     );
   }
 }
