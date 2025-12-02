@@ -4,9 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/components/bottons/loadding_text_button.dart';
 import 'package:wingle/app/config/theme/components/cards/default_card.dart';
+import 'package:wingle/app/config/theme/components/wrappers/scrollable_scaffold.dart';
 import 'package:wingle/app/config/theme/components/wrappers/smooth_rect.dart';
 import 'package:wingle/app/config/theme/constants/color.dart';
-import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/constants/route_constants.dart';
@@ -24,29 +24,18 @@ class PhoneOtpPage extends ConsumerStatefulWidget {
 class _PhoneOtpPageState extends ConsumerState<PhoneOtpPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('onboarding.phone.otp.title'.tr())),
-      body: SingleChildScrollView(
-        padding: .all(AppPadding.scaffold),
-        child: Column(
-          mainAxisAlignment: .center,
-          children: [
-            Column(
-              crossAxisAlignment: .start,
-              children: [
-                Padding(
-                  padding: .symmetric(vertical: AppSpacing.xl),
-                  child: Text(
-                    'onboarding.phone.otp.instruction'.tr(),
-                    style: TextStyle(fontSize: AppFontSize.xl),
-                  ),
-                ),
-                DefaultCard(child: PhoneOtpTextField()),
-              ],
-            ),
-          ],
+    return ScrollableScaffold(
+      title: 'onboarding.phone.otp.title',
+      body: <Widget>[
+        Padding(
+          padding: .symmetric(vertical: AppSpacing.xl),
+          child: Text(
+            'onboarding.phone.otp.instruction'.tr(),
+            style: TextStyle(fontSize: AppFontSize.xl),
+          ),
         ),
-      ),
+        DefaultCard(child: PhoneOtpTextField()),
+      ],
       floatingActionButton: SmoothRectWrapper(
         child: FloatingActionButton.extended(
           backgroundColor: AppColor.primary,
@@ -62,8 +51,6 @@ class _PhoneOtpPageState extends ConsumerState<PhoneOtpPage> {
           ),
         ),
       ),
-      floatingActionButtonLocation: .centerFloat,
-      floatingActionButtonAnimator: .noAnimation,
     );
   }
 }

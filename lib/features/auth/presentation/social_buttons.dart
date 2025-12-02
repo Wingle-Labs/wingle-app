@@ -63,7 +63,6 @@ class SocialAuthButtons extends ConsumerWidget {
   final BuildContext context;
 
   List<SocialButtonConfig> _configs() {
-    final theme = Theme.of(context);
     return [
       SocialButtonConfig(
         symbol: Iconify(

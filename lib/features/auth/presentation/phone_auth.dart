@@ -5,9 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wingle/app/config/theme/components/bottons/loadding_text_button.dart';
 import 'package:wingle/app/config/theme/components/cards/default_card.dart';
+import 'package:wingle/app/config/theme/components/wrappers/scrollable_scaffold.dart';
 import 'package:wingle/app/config/theme/components/wrappers/smooth_rect.dart';
 import 'package:wingle/app/config/theme/constants/color.dart';
-import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/constants/route_constants.dart';
@@ -41,24 +41,18 @@ class PhoneAuthPage extends ConsumerStatefulWidget {
 class _PhoneAuthPageState extends ConsumerState<PhoneAuthPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('onboarding.phone.title'.tr())),
-      body: SingleChildScrollView(
-        padding: .all(AppPadding.scaffold),
-        child: Column(
-          crossAxisAlignment: .start,
-          children: [
-            Padding(
-              padding: .symmetric(vertical: AppSpacing.xl),
-              child: Text(
-                'onboarding.phone.instruction'.tr(),
-                style: TextStyle(fontSize: AppFontSize.xl),
-              ),
-            ),
-            DefaultCard(child: PhoneTextField()),
-          ],
+    return ScrollableScaffold(
+      title: 'onboarding.phone.title',
+      body: <Widget>[
+        Padding(
+          padding: .symmetric(vertical: AppSpacing.xl),
+          child: Text(
+            'onboarding.phone.instruction'.tr(),
+            style: TextStyle(fontSize: AppFontSize.xl),
+          ),
         ),
-      ),
+        DefaultCard(child: PhoneTextField()),
+      ],
       floatingActionButton: SmoothRectWrapper(
         child: FloatingActionButton.extended(
           backgroundColor: AppColor.primary,
@@ -79,8 +73,6 @@ class _PhoneAuthPageState extends ConsumerState<PhoneAuthPage> {
           ),
         ),
       ),
-      floatingActionButtonLocation: .centerFloat,
-      floatingActionButtonAnimator: .noAnimation,
     );
   }
 }
