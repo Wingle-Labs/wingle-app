@@ -115,7 +115,7 @@ class SocialAuthButtons extends ConsumerWidget {
     return SizedBox(
       width: AppContainerSize.wrap,
       child: Column(
-        spacing: AppSpacing.lg,
+        spacing: AppSpacing.md,
         children: [
           for (final c in items)
             SocialLoginButton(

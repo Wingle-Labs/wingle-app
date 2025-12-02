@@ -21,7 +21,7 @@ class _PhoneOtpTextFieldState extends ConsumerState<PhoneOtpTextField> {
         UnderlineField(
           controller: _phoneOtpController,
           label: 'onboarding.phone.otp.textfield.label',
-          keyboardType: TextInputType.number,
+          keyboardType: .number,
           autofillHints: [AutofillHints.oneTimeCode],
         ),
       ],

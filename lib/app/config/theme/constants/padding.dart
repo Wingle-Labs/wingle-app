@@ -14,4 +14,7 @@ class AppPadding {
 
   /// 카드 내부 패딩
   static const double card = 20;
+
+  /// TextField 내부 패딩
+  static const double textfield = 12;
 }

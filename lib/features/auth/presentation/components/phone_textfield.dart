@@ -22,7 +22,7 @@ class _PhoneTextFieldState extends ConsumerState<PhoneTextField> {
           controller: _phoneController,
           label: 'onboarding.phone.textfield.label',
           hint: 'onboarding.phone.textfield.hint',
-          keyboardType: TextInputType.phone,
+          keyboardType: .phone,
           autofillHints: [AutofillHints.telephoneNumberDevice],
         ),
       ],

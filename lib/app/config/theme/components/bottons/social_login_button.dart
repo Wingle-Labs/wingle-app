@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wingle/app/config/theme/constants/color.dart';
+import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
-import 'package:wingle/app/config/theme/constants/spacing.dart';
 
 /// 공통 소셜 로그인 버튼
 class SocialLoginButton extends ConsumerWidget {
@@ -57,12 +56,13 @@ class SocialLoginButton extends ConsumerWidget {
 
   /// 버튼을 생성하는 메소드
   Widget _child(VoidCallback onPressed, BuildContext context) {
+    final theme = Theme.of(context);
     return Row(
       mainAxisAlignment: .start,
       children: [
         IconTheme(
           data: IconThemeData(
-            color: symbolColor ?? Theme.of(context).colorScheme.onPrimary,
+            color: symbolColor ?? theme.colorScheme.onPrimary,
             size: AppIconSize.large,
           ),
           child: SizedBox(
@@ -74,12 +74,12 @@ class SocialLoginButton extends ConsumerWidget {
         Expanded(
           child: Center(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+              padding: .symmetric(horizontal: AppPadding.button),
               child: Text(
                 text,
                 style: TextStyle(
                   fontSize: AppFontSize.medium,
-                  color: textColor ?? Theme.of(context).colorScheme.onPrimary,
+                  color: textColor ?? theme.colorScheme.onPrimary,
                 ),
               ),
             ),
@@ -95,18 +95,14 @@ class SocialLoginButton extends ConsumerWidget {
     VoidCallback onPressed,
     BuildContext context,
   ) {
+    final theme = Theme.of(context);
     return OutlinedButton(
       onPressed: onPressed,
       style: OutlinedButton.styleFrom(
-        backgroundColor: bgColor ?? Theme.of(context).scaffoldBackgroundColor,
-        padding: const EdgeInsets.symmetric(
-          vertical: AppSpacing.lg,
-          horizontal: AppSpacing.lg,
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppRadius.md),
-        ),
-        side: BorderSide(color: borderColor ?? AppColor.primary),
+        backgroundColor: bgColor ?? theme.scaffoldBackgroundColor,
+        padding: .all(AppPadding.button),
+        shape: RoundedRectangleBorder(borderRadius: .circular(AppRadius.md)),
+        side: BorderSide(color: borderColor ?? theme.primaryColor),
       ),
       child: child,
     );
@@ -118,17 +114,13 @@ class SocialLoginButton extends ConsumerWidget {
     VoidCallback onPressed,
     BuildContext context,
   ) {
+    final theme = Theme.of(context);
     return FilledButton(
       onPressed: onPressed,
       style: FilledButton.styleFrom(
-        backgroundColor: bgColor ?? AppColor.primary,
-        padding: const EdgeInsets.symmetric(
-          vertical: AppSpacing.lg,
-          horizontal: AppSpacing.lg,
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppRadius.md),
-        ),
+        backgroundColor: bgColor ?? theme.primaryColor,
+        padding: .all(AppPadding.button),
+        shape: RoundedRectangleBorder(borderRadius: .circular(AppRadius.md)),
       ),
       child: child,
     );

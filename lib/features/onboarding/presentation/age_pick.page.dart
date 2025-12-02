@@ -1,15 +1,12 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wingle/app/config/theme/components/bottons/loadding_text_button.dart';
+import 'package:wingle/app/config/theme/components/bottons/default_floating_button.dart';
 import 'package:wingle/app/config/theme/components/cards/default_card.dart';
 import 'package:wingle/app/config/theme/components/pickers/date_picker.dart';
+import 'package:wingle/app/config/theme/components/texts/default_intruction.dart';
 import 'package:wingle/app/config/theme/components/wrappers/scrollable_scaffold.dart';
-import 'package:wingle/app/config/theme/components/wrappers/smooth_rect.dart';
-import 'package:wingle/app/config/theme/constants/color.dart';
-import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
-import 'package:wingle/features/onboarding/presentation/agreement_group.dart';
+import 'package:wingle/features/onboarding/presentation/components/agreement_group.dart';
 
 /// 나이 선택 페이지
 class AgePickPage extends ConsumerStatefulWidget {
@@ -26,13 +23,7 @@ class _AgePickPageState extends ConsumerState<AgePickPage> {
     return ScrollableScaffold(
       title: 'onboarding.age.title',
       body: <Widget>[
-        Padding(
-          padding: .only(bottom: AppSpacing.xl),
-          child: Text(
-            'onboarding.age.instruction'.tr(),
-            style: TextStyle(fontSize: AppFontSize.xl),
-          ),
-        ),
+        DefaultInstruction('onboarding.age.instruction'),
         DefaultCard(
           child: Column(
             children: [
@@ -63,16 +54,10 @@ class _AgePickPageState extends ConsumerState<AgePickPage> {
           ),
         ),
       ],
-      floatingActionButton: SmoothRectWrapper(
-        child: FloatingActionButton.extended(
-          backgroundColor: AppColor.primary,
-          extendedPadding: .zero,
-          onPressed: () {},
-          label: LoadingTextButton(
-            isLoading: false,
-            label: 'onboarding.age.button.next'.tr(),
-          ),
-        ),
+      floatingActionButton: DefaultFloatingButton(
+        onPressed: () {},
+        label: 'onboarding.age.button.next',
+        isLoading: false,
       ),
     );
   }
