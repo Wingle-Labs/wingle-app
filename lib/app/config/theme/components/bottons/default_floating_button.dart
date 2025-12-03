@@ -16,21 +16,27 @@ class DefaultFloatingButton extends ConsumerWidget {
   /// isLoading
   final bool isLoading;
 
+  /// disabled
+  final bool? disabled;
+
   /// 생성자
   const DefaultFloatingButton({
     super.key,
     this.onPressed,
     required this.label,
     this.isLoading = false,
+    this.disabled,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return FloatingActionButton.extended(
       elevation: 0,
-      backgroundColor: AppColor.primary,
+      backgroundColor: disabled == true
+          ? AppColor.disabledDark
+          : AppColor.primary,
       extendedPadding: .zero,
-      onPressed: onPressed,
+      onPressed: disabled == true ? null : onPressed,
       shape: RoundedRectangleBorder(borderRadius: AppRadius.iosStyleRadius),
       label: LoadingTextButton(label: label.tr(), isLoading: isLoading),
     );

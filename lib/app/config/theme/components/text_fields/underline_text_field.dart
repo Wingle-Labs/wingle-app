@@ -1,10 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 
-/// 전화번호 입력 TextField
+/// 밑줄이 그어진 텍스트 필드
 class UnderlineField extends ConsumerStatefulWidget {
   /// Controller
   final TextEditingController controller;
@@ -27,6 +28,21 @@ class UnderlineField extends ConsumerStatefulWidget {
   /// 포커스 node
   final FocusNode? focusNode;
 
+  /// onChanged 콜백
+  final void Function(String)? onChanged;
+
+  /// enabled
+  final bool? enabled;
+
+  /// suffix widget
+  final Widget suffix;
+
+  /// max length
+  final int? maxLength;
+
+  /// helper text
+  final String? helper;
+
   /// 생성자
   const UnderlineField({
     super.key,
@@ -35,8 +51,13 @@ class UnderlineField extends ConsumerStatefulWidget {
     this.hint,
     required this.keyboardType,
     this.autofillHints,
-    this.bottomPadding = AppSpacing.md,
+    this.bottomPadding = AppPadding.card,
     this.focusNode,
+    this.onChanged,
+    this.enabled,
+    this.suffix = const SizedBox(),
+    this.maxLength,
+    this.helper,
   });
 
   @override
@@ -49,9 +70,17 @@ class _UnderlineFieldState extends ConsumerState<UnderlineField> {
     final theme = Theme.of(context);
     return Column(
       children: [
-        TextField(
+        TextFormField(
+          autofocus: true,
+          maxLength: widget.maxLength,
+          enabled: widget.enabled,
           controller: widget.controller,
+          onChanged: widget.onChanged,
           decoration: InputDecoration(
+            helperStyle: TextStyle(
+              fontSize: AppFontSize.small,
+              color: theme.hintColor,
+            ),
             labelText: widget.label.tr(),
             labelStyle: TextStyle(
               fontSize: AppFontSize.medium,
@@ -59,16 +88,20 @@ class _UnderlineFieldState extends ConsumerState<UnderlineField> {
             ),
             hintText: widget.hint?.tr(),
             hintStyle: TextStyle(
-              fontSize: AppFontSize.large,
+              fontSize: AppFontSize.medium,
               color: theme.hintColor,
             ),
+            alignLabelWithHint: true,
             fillColor: theme.primaryColor,
             enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: theme.hintColor),
+              borderSide: BorderSide(color: theme.primaryColor),
             ),
             focusColor: theme.primaryColor,
             focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: theme.primaryColor),
+            ),
+            disabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: theme.hintColor),
             ),
           ),
           keyboardType: widget.keyboardType,
@@ -77,6 +110,10 @@ class _UnderlineFieldState extends ConsumerState<UnderlineField> {
           cursorHeight: AppFontSize.large,
           autofillHints: widget.autofillHints,
           focusNode: widget.focusNode,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: AppSpacing.xs),
+          child: widget.suffix,
         ),
         SizedBox(height: widget.bottomPadding),
       ],

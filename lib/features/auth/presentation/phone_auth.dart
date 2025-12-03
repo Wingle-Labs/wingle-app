@@ -1,29 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wingle/app/config/theme/components/bottons/default_floating_button.dart';
 import 'package:wingle/app/config/theme/components/cards/default_card.dart';
 import 'package:wingle/app/config/theme/components/texts/default_intruction.dart';
 import 'package:wingle/app/config/theme/components/wrappers/scrollable_scaffold.dart';
-import 'package:wingle/common/constants/route_constants.dart';
+import 'package:wingle/features/auth/domain/usecases/request_phone_code.dart';
 import 'package:wingle/features/auth/presentation/components/phone_textfield.dart';
-
-part 'phone_auth.g.dart';
-
-@riverpod
-/// 로딩 상태
-class IsLoading extends _$IsLoading {
-  @override
-  bool build() {
-    return false;
-  }
-
-  /// 로딩 상태를 토글합니다.
-  void toggle() {
-    state = !state;
-  }
-}
+import 'package:wingle/features/auth/presentation/providers/phone_auth_provider.dart';
+import 'package:wingle/features/auth/presentation/states/phone_auth_state.dart';
 
 /// 전화번호 인증 페이지
 class PhoneAuthPage extends ConsumerStatefulWidget {
@@ -37,6 +21,12 @@ class PhoneAuthPage extends ConsumerStatefulWidget {
 class _PhoneAuthPageState extends ConsumerState<PhoneAuthPage> {
   @override
   Widget build(BuildContext context) {
+    ref.listen<PhoneAuthState>(phoneAuthProvider, (previous, next) {
+      if (next.pushOtpCondition()) {
+        RequestPhoneCode.navigateToOtp(context);
+      }
+    });
+
     return ScrollableScaffold(
       title: 'onboarding.phone.title',
       body: <Widget>[
@@ -44,18 +34,16 @@ class _PhoneAuthPageState extends ConsumerState<PhoneAuthPage> {
         DefaultCard(child: PhoneTextField()),
       ],
       floatingActionButton: DefaultFloatingButton(
-        onPressed: () {
-          ref.read(isLoadingProvider.notifier).toggle();
-          context.go(
-            AppRoutes.fullPath([
-              AppRoutes.onboarding,
-              AppRoutes.phone,
-              AppRoutes.otp,
-            ]),
-          );
+        onPressed: () async {
+          await ref.read(phoneAuthProvider.notifier).requestPhoneCode();
         },
-        label: 'onboarding.phone.button',
-        isLoading: ref.watch(isLoadingProvider),
+        disabled: !ref.watch(
+          phoneAuthProvider.select((state) => state.phoneNumber.isValid),
+        ),
+        label: 'onboarding.phone.button.request',
+        isLoading: ref.watch(
+          phoneAuthProvider.select((state) => state.isSending),
+        ),
       ),
     );
   }

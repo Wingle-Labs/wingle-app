@@ -11,10 +11,13 @@
       "title": "전화번호 인증",
       "instruction": "본인인증을 위해\n휴대폰 번호를 입력해주세요.",
       "textfield" : {
-          "hint": "01012345678",
-          "label": "휴대폰 번호"
+          "label": "휴대폰 번호",
+          "helper": "-를 제외한 휴대폰 번호를 입력해주세요."
       },
-      "button": "인증번호 전송",
+      "button": {
+        "request": "인증번호 요청",
+        "change": "번호 변경"
+      },
       "otp": {
         "title": "인증번호 입력",
         "instruction": "인증번호를 입력해주세요.",

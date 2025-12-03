@@ -11,10 +11,13 @@
       "title": "Phone Authentication",
       "instruction": "Enter your phone number to authenticate yourself.",
       "textfield" : {
-          "hint": "01012345678",
-          "label": "Phone Number"
+          "label": "Phone Number",
+          "helper": "Enter your phone number without -"
       },
-      "button": "Send Auth code"
+      "button": {
+        "request": "Request Code",
+        "change": "Change Number"
+      }
     },
     "age": {
       "title": "Age Input",
