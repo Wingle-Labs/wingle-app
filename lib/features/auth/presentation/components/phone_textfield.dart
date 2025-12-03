@@ -31,6 +31,7 @@ class _PhoneTextFieldState extends ConsumerState<PhoneTextField> {
       keyboardType: .phone,
       autofillHints: [AutofillHints.telephoneNumberDevice],
       enabled: !isSent && !isSending,
+      inputFormatters: AuthConstrants.phoneFormatter,
       suffix: isSent
           ? TextButton(
               onPressed: ref.read(phoneAuthProvider.notifier).changePhoneNumber,

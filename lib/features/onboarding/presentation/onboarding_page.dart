@@ -39,9 +39,10 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                     children: [
                       const SizedBox(height: AppSpacing.xl),
                       Spacer(),
-                      SizedBox(
+                      Container(
                         width: AppContainerSize.wrap,
                         height: AppContainerSize.wrap,
+                        margin: .only(bottom: AppSpacing.xl),
                         child: Center(
                           child: Text(
                             "onboarding.title".tr(),
@@ -51,6 +52,15 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                       ),
 
                       SocialAuthButtons(context: context),
+                      Padding(
+                        padding: .only(top: AppSpacing.sm),
+                        child: Text(
+                          "or",
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: theme.hintColor,
+                          ),
+                        ),
+                      ),
                       TextButton(
                         onPressed: () => context.push(
                           AppRoutes.fullPath([
@@ -58,11 +68,11 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                             AppRoutes.requiredSelfIntro,
                           ]),
                         ),
-                        child: Text('onboarding.button.phone'.tr()),
+                        child: Text('onboarding.button.signUp'.tr()),
                       ),
 
                       const SizedBox(
-                        height: AppSpacing.xl,
+                        height: AppSpacing.md,
                         width: double.infinity,
                       ),
                     ],

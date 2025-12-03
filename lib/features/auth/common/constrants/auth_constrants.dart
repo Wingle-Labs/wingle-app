@@ -1,3 +1,5 @@
+import 'package:flutter/services.dart';
+
 /// 전화번호 인증에 사용되는 상수 정의
 class AuthConstrants {
   /// 전화번호 정규식
@@ -8,4 +10,9 @@ class AuthConstrants {
 
   /// SMS 인증번호 길이
   static const int smsCodeLength = 6;
+
+  /// Formatter
+  static List<TextInputFormatter> phoneFormatter = [
+    FilteringTextInputFormatter.digitsOnly,
+  ];
 }

@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
@@ -43,6 +44,9 @@ class UnderlineField extends ConsumerStatefulWidget {
   /// helper text
   final String? helper;
 
+  /// InputFormatters
+  final List<TextInputFormatter>? inputFormatters;
+
   /// 생성자
   const UnderlineField({
     super.key,
@@ -58,6 +62,7 @@ class UnderlineField extends ConsumerStatefulWidget {
     this.suffix = const SizedBox(),
     this.maxLength,
     this.helper,
+    this.inputFormatters,
   });
 
   @override
@@ -104,6 +109,7 @@ class _UnderlineFieldState extends ConsumerState<UnderlineField> {
               borderSide: BorderSide(color: theme.hintColor),
             ),
           ),
+          inputFormatters: widget.inputFormatters,
           keyboardType: widget.keyboardType,
           style: TextStyle(fontSize: AppFontSize.large),
           cursorColor: theme.primaryColor,
