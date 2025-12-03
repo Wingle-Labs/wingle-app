@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/components/text_fields/underline_text_field.dart';
@@ -35,8 +36,7 @@ class _PhoneTextFieldState extends ConsumerState<PhoneTextField> {
       suffix: isSent
           ? TextButton(
               onPressed: ref.read(phoneAuthProvider.notifier).changePhoneNumber,
-              // child: Text("onboarding.phone.button.change".tr()),
-              child: Text('번호를 변경하고 싶어요'),
+              child: Text("onboarding.phone.button.change".tr()),
             )
           : const SizedBox(),
       maxLength: AuthConstrants.phoneMaxLength,
