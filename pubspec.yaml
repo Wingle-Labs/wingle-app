@@ -22,11 +22,8 @@ dependencies:
   riverpod_annotation: ^3.0.3
   riverpod_generator: ^3.0.3
   flutter_secure_storage: ^9.2.4
-  kakao_flutter_sdk: ^1.9.7+3
   dio: ^5.9.0
   json_annotation: ^4.9.0
-  google_sign_in: ^7.2.0
-  sign_in_with_apple: ^7.0.1
   iconify_flutter: ^0.0.7
   colorful_iconify_flutter: ^0.0.5
   firebase_auth: ^6.1.2

@@ -3,14 +3,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk_common.dart';
 import 'package:wingle/app/config/firebase_options.dart';
 import 'package:wingle/app/config/localization.dart';
 import 'package:wingle/common/constants/env_constants.dart';
 import 'package:wingle/common/utils/env_util.dart';
 import 'package:wingle/common/utils/hive_util.dart';
 import 'package:wingle/common/utils/secure_key_manager.dart';
-import 'package:wingle/features/auth/data/datasources/google_api.dart';
 
 import 'app/app.dart';
 
@@ -32,12 +30,5 @@ void main() async {
   await EnvUtil.loadAll(EnvConstants.envs);
   await HiveUtil.initialize(SecureKeyManager.instance.cipher);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  KakaoSdk.init(
-    nativeAppKey: EnvUtil.get(KakaoEnvFile.nativeAppKey),
-    javaScriptAppKey: EnvUtil.get(KakaoEnvFile.javaScriptAppKey),
-  );
-  await GoogleApiManager.instance.init(
-    googleClientId: EnvUtil.get(GoogleEnvFile.clientId),
-  );
   runApp(ProviderScope(child: AppLocalizationWrapper(child: const App())));
 }

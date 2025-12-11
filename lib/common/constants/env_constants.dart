@@ -3,14 +3,8 @@ class EnvConstants {
   /// Firebase 환경 변수 파일
   static final firebase = FirebaseEnvFile();
 
-  /// Kakao 환경 변수 파일
-  static final kakao = KakaoEnvFile();
-
-  /// Google 환경 변수 파일
-  static final google = GoogleEnvFile();
-
   /// 기타 환경 변수 파일들
-  static final envs = <EnvFile>[firebase, kakao, google];
+  static final envs = <EnvFile>[firebase];
 }
 
 /// 환경 변수 인터페이스
@@ -80,53 +74,4 @@ class FirebaseEnvFile implements EnvFile {
 
   /// 싱글톤
   static final FirebaseEnvFile _instance = FirebaseEnvFile();
-}
-
-/// Kakao 관련 Env 파일
-class KakaoEnvFile implements EnvFile {
-  @override
-  String get path => 'lib/app/config/env/kakao.env';
-
-  @override
-  EnvKey<String> create(String key) {
-    return EnvKey<String>(path: path, name: key);
-  }
-
-  /// Kakao Native App Key
-  static EnvKey<String> nativeAppKey = _instance.create('KAKAO_NATIVE_APP_KEY');
-
-  /// Kakao JavaScript App Key
-  static EnvKey<String> javaScriptAppKey = _instance.create(
-    'KAKAO_JAVASCRIPT_APP_KEY',
-  );
-
-  /// 싱글톤
-  static final KakaoEnvFile _instance = KakaoEnvFile();
-}
-
-/// Google 관련 Env 파일
-class GoogleEnvFile implements EnvFile {
-  @override
-  String get path => 'lib/app/config/env/google.env';
-
-  @override
-  EnvKey<String> create(String key) {
-    return EnvKey<String>(path: path, name: key);
-  }
-
-  /// Google Client ID
-  static EnvKey<String> clientId = _instance.create('GOOGLE_CLIENT_ID');
-
-  /// Google Reversed Client ID
-  static EnvKey<String> reversedClientId = _instance.create(
-    'GOOGLE_REVERSED_CLIENT_ID',
-  );
-
-  /// Google Server Client ID
-  static EnvKey<String> serverClientId = _instance.create(
-    'GOOGLE_SERVER_CLIENT_ID',
-  );
-
-  /// 싱글톤
-  static final GoogleEnvFile _instance = GoogleEnvFile();
 }
