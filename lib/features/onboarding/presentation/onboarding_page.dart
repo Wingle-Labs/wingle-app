@@ -6,7 +6,6 @@ import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/constants/route_constants.dart';
-import 'package:wingle/features/auth/presentation/components/social_buttons.dart';
 
 /// Onboarding 페이지
 class OnboardingPage extends ConsumerStatefulWidget {
@@ -50,8 +49,6 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                           ),
                         ),
                       ),
-
-                      SocialAuthButtons(context: context),
                       Padding(
                         padding: .only(top: AppSpacing.sm),
                         child: Text(
