@@ -2,9 +2,6 @@
   "onboarding": {
     "title": "Wingle - 가치관으로 만나다.",
     "button" : {
-      "kakao": "카카오 계정으로 로그인",
-      "google": "Google 계정으로 로그인",
-      "apple": "Apple 계정으로 로그인",
       "phone": "전화번호로 로그인",
       "signUp": "회원가입 하기"
     },

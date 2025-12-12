@@ -5,21 +5,6 @@ class AppColor {
   /// 주요 색상
   static const Color primary = Color(0xFFBF00FF);
 
-  /// 카카오 로그인 버튼 색상
-  static const Color kakao = Color(0xFFFEE500);
-
-  /// 구글 로그인 버튼 색상
-  static const Color google = Colors.white;
-
-  /// 구글 로그인 버튼 테두리 색상
-  static Color googleOutlinedButtonBorder = Colors.grey.withValues(alpha: 0.6);
-
-  /// 애플 로그인 버튼 색상
-  static const Color apple = Colors.black;
-
-  /// 애플 로그인 버튼 테두리 색상
-  static Color appleOutlinedButtonBorder = Colors.grey.withValues(alpha: 0.6);
-
   /// 어두운 버튼 텍스트 색상
   static const Color darkButtonText = Colors.white;
 
