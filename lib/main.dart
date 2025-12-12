@@ -22,8 +22,6 @@ void main() async {
   /// 4. 환경 변수 로드
   /// 5. Hive 박스 초기화
   /// 6. Firebase 초기화
-  /// 7. 카카오 SDK 초기화
-  /// 8. Google SDK 초기화
   await EasyLocalization.ensureInitialized();
   await SecureKeyManager.instance.initialize();
   await Hive.initFlutter();
