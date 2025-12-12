@@ -25,6 +25,6 @@ class VerifyPhoneCode {
 
   /// 인증 완료 시 나이 입력 화면으로 이동
   static void navigateToAge(BuildContext context) {
-    context.push(AppRoutes.fullPath([AppRoutes.onboarding, AppRoutes.age]));
+    context.push(AppRouteUtil.fullPath([.onboarding, .age]));
   }
 }

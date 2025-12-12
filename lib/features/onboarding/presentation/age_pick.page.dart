@@ -61,10 +61,7 @@ class _AgePickPageState extends ConsumerState<AgePickPage> {
       floatingActionButton: DefaultFloatingButton(
         onPressed: () {
           context.push(
-            AppRoutes.fullPath([
-              AppRoutes.onboarding,
-              AppRoutes.requiredSelfIntro,
-            ]),
+            AppRouteUtil.fullPath([.onboarding, .requiredSelfIntro]),
           );
         },
         label: 'onboarding.age.button.next',

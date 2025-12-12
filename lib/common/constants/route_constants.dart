@@ -1,29 +1,69 @@
-/// Go route에서 사용되는 Path 경로 정의
-class AppRoutes {
-  /// 루트 경로
-  static const String root = '/';
+/// 앱 화면 경로 열거형
+enum AppRoute {
+  /// 루트 화면 경로 (앱 최초 진입 지점)
+  root,
 
   /// 홈 화면 경로
-  static const String home = '/home';
+  home,
 
-  /// 온보딩 화면 경로
-  static const String onboarding = '/onboarding';
+  /// 온보딩 전체 흐름의 루트 경로
+  onboarding,
 
-  /// 전화번호 인증 화면 경로
-  static const String phone = 'phone';
+  /// 온보딩 내부의 로그인 화면 경로
+  login,
 
-  /// 인증번호 입력 화면 경로
-  static const String otp = 'otp';
+  /// 온보딩 내부의 회원가입 화면 경로
+  signup,
+
+  /// 전화번호 입력 화면 경로
+  phone,
+
+  /// 인증번호(OTP) 입력 화면 경로
+  otp,
 
   /// 나이 입력 화면 경로
-  static const String age = 'age';
+  age,
 
-  /// 필수 자기소개 입력 화면
-  static const String requiredSelfIntro = 'required-self-intro';
+  /// 필수 자기소개 입력 화면 경로
+  requiredSelfIntro,
 
-  /// 선택형 자기소개 입력 화면
-  static const String selectiveSelfIntro = 'selective-self-intro';
+  /// 선택형 자기소개 입력 화면 경로
+  selectiveSelfIntro,
+}
 
-  /// 경로를 포함하여 출력하는 함수
-  static String fullPath(List<String> path) => path.join('/');
+/// AppRoute enum을 실제 문자열 경로로 변환하는 확장
+extension AppRoutePath on AppRoute {
+  /// 실제 문자열 경로
+  String get path {
+    switch (this) {
+      case AppRoute.root:
+        return '/';
+      case AppRoute.home:
+        return '/home';
+      case AppRoute.onboarding:
+        return '/onboarding';
+      case AppRoute.login:
+        return 'login';
+      case AppRoute.signup:
+        return 'signup';
+      case AppRoute.phone:
+        return 'phone';
+      case AppRoute.otp:
+        return 'otp';
+      case AppRoute.age:
+        return 'age';
+      case AppRoute.requiredSelfIntro:
+        return 'required-self-intro';
+      case AppRoute.selectiveSelfIntro:
+        return 'selective-self-intro';
+    }
+  }
+}
+
+/// AppRoute 관련 함수
+extension AppRouteUtil on AppRoute {
+  /// AppRoute 목록을 받아 전체 경로(fullPath)를 생성하는 유틸 확장
+  static String fullPath(List<AppRoute> routes) {
+    return routes.map((e) => e.path).join('/');
+  }
 }

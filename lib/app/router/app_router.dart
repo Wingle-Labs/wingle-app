@@ -13,13 +13,11 @@ import 'package:wingle/features/onboarding/presentation/selective_self_intro.dar
 class AppRouter {
   /// 최상위 라우트 목록
   static List<GoRoute> get routes => <GoRoute>[
-    GoRoute(path: AppRoutes.root, builder: (context, state) => Container()),
-    GoRoute(path: AppRoutes.home, builder: (context, state) => Home()),
+    GoRoute(path: AppRoute.root.path, builder: (context, state) => Container()),
+    GoRoute(path: AppRoute.home.path, builder: (context, state) => Home()),
     GoRoute(
-      path: AppRoutes.onboarding,
-      builder: (context, state) {
-        return OnboardingPage();
-      },
+      path: AppRoute.onboarding.path,
+      builder: (context, state) => OnboardingPage(),
       routes: onboardingRoutes,
     ),
   ];
@@ -27,22 +25,25 @@ class AppRouter {
   /// 온보딩 라우트 목록
   static List<GoRoute> get onboardingRoutes => [
     GoRoute(
-      path: AppRoutes.phone,
+      path: AppRoute.phone.path,
       builder: (context, state) => PhoneAuthPage(),
       routes: [
         GoRoute(
-          path: AppRoutes.otp,
+          path: AppRoute.otp.path,
           builder: (context, state) => PhoneOtpPage(),
         ),
       ],
     ),
-    GoRoute(path: AppRoutes.age, builder: (context, state) => AgePickPage()),
     GoRoute(
-      path: AppRoutes.requiredSelfIntro,
+      path: AppRoute.age.path,
+      builder: (context, state) => AgePickPage(),
+    ),
+    GoRoute(
+      path: AppRoute.requiredSelfIntro.path,
       builder: (context, state) => RequiredSelfIntroPage(),
     ),
     GoRoute(
-      path: AppRoutes.selectiveSelfIntro,
+      path: AppRoute.selectiveSelfIntro.path,
       builder: (context, state) => SelectiveSelfIntro(),
     ),
   ];

@@ -36,7 +36,7 @@ class _SelectiveSelfIntroState extends ConsumerState<SelectiveSelfIntro> {
         ),
         floatingActionButton: DefaultFloatingButton(
           label: 'onboarding.selectiveSelfIntro.button.next',
-          onPressed: () => context.go(AppRoutes.home),
+          onPressed: () => context.go(AppRoute.home.path),
         ),
         floatingActionButtonLocation: .centerFloat,
       ),

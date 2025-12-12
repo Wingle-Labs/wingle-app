@@ -25,12 +25,6 @@ class RequestPhoneCode {
 
   /// 코드 요청 완료 시 인증 코드 입력 화면으로 이동
   static void navigateToOtp(BuildContext context) {
-    context.push(
-      AppRoutes.fullPath([
-        AppRoutes.onboarding,
-        AppRoutes.phone,
-        AppRoutes.otp,
-      ]),
-    );
+    context.push(AppRouteUtil.fullPath([.onboarding, .phone, .otp]));
   }
 }

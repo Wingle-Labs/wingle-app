@@ -37,19 +37,14 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const SizedBox(height: AppSpacing.xl),
                       Spacer(),
                       Container(
                         width: AppContainerSize.wrap,
                         height: AppContainerSize.wrap,
                         margin: .only(bottom: AppSpacing.xl),
-                        child: Center(
-                          child: Text(
-                            "onboarding.title".tr(),
-                            style: theme.textTheme.titleLarge,
-                          ),
-                        ),
+                        child: Placeholder(),
                       ),
+                      Spacer(),
                       PhoneLoginButton(),
                       Padding(
                         padding: .only(top: AppSpacing.sm),
@@ -62,9 +57,9 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                       ),
                       TextButton(
                         onPressed: () => context.push(
-                          AppRoutes.fullPath([
-                            AppRoutes.onboarding,
-                            AppRoutes.requiredSelfIntro,
+                          AppRouteUtil.fullPath([
+                            .onboarding,
+                            .requiredSelfIntro,
                           ]),
                         ),
                         child: Text('onboarding.button.signUp'.tr()),

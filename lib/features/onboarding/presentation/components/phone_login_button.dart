@@ -17,9 +17,8 @@ class PhoneLoginButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     return FilledButton(
-      onPressed: () => context.push(
-        AppRoutes.fullPath([AppRoutes.onboarding, AppRoutes.phone]),
-      ),
+      onPressed: () =>
+          context.push(AppRouteUtil.fullPath([.onboarding, .phone])),
       style: FilledButton.styleFrom(
         backgroundColor: theme.primaryColor,
         padding: .all(AppPadding.button),
@@ -32,12 +31,9 @@ class PhoneLoginButton extends ConsumerWidget {
             data: IconThemeData(
               color: theme.colorScheme.onPrimary,
               size: AppIconSize.large,
+              applyTextScaling: true,
             ),
-            child: SizedBox(
-              width: AppIconSize.large,
-              height: AppIconSize.large,
-              child: Icon(Icons.call, color: AppColor.darkButtonText),
-            ),
+            child: Icon(Icons.call, color: AppColor.darkButtonText),
           ),
           Expanded(
             child: Center(

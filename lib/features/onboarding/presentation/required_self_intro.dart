@@ -33,9 +33,9 @@ class RequiredSelfIntroPage extends ConsumerWidget {
       floatingActionButton: DefaultFloatingButton(
         label: 'onboarding.requiredSelfIntro.button.next',
         onPressed: () => context.push(
-          AppRoutes.fullPath([
-            AppRoutes.onboarding,
-            AppRoutes.selectiveSelfIntro,
+          AppRouteUtil.fullPath([
+            .onboarding,
+            .selectiveSelfIntro,
           ]),
         ),
       ),

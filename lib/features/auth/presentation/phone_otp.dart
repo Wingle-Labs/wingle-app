@@ -23,16 +23,12 @@ class _PhoneOtpPageState extends ConsumerState<PhoneOtpPage> {
     return ScrollableScaffold(
       title: 'onboarding.phone.otp.title',
       body: <Widget>[
-        DefaultInstruction(
-          'onboarding.phone.otp.instruction',
-        ),
+        DefaultInstruction('onboarding.phone.otp.instruction'),
         DefaultCard(child: PhoneOtpTextField()),
       ],
       floatingActionButton: DefaultFloatingButton(
         onPressed: () {
-          context.push(
-            AppRoutes.fullPath([AppRoutes.onboarding, AppRoutes.age]),
-          );
+          context.push(AppRouteUtil.fullPath([.onboarding, .age]));
         },
         label: 'onboarding.phone.otp.button.done',
         isLoading: false,

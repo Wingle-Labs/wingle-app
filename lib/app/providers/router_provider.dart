@@ -15,7 +15,7 @@ final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 GoRouter router(Ref ref) {
   return GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: AppRoutes.onboarding,
+    initialLocation: AppRoute.onboarding.path,
     redirect: (context, state) {
       return null;
     },
