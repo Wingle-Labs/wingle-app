@@ -5,8 +5,8 @@ import 'package:wingle/app/config/theme/components/bottons/default_floating_butt
 import 'package:wingle/app/config/theme/components/cards/default_card.dart';
 import 'package:wingle/app/config/theme/components/texts/default_intruction.dart';
 import 'package:wingle/app/config/theme/components/wrappers/scrollable_scaffold.dart';
-import 'package:wingle/common/constants/route_constants.dart';
 import 'package:wingle/features/auth/presentation/components/phone_otp_textfield.dart';
+import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// 전화번호 인증 페이지
 class PhoneOtpPage extends ConsumerStatefulWidget {
@@ -28,7 +28,7 @@ class _PhoneOtpPageState extends ConsumerState<PhoneOtpPage> {
       ],
       floatingActionButton: DefaultFloatingButton(
         onPressed: () {
-          context.push(AppRouteUtil.fullPath([.onboarding, .age]));
+          context.pushNamed(OnboardingRoutes.age.name);
         },
         label: 'onboarding.phone.otp.button.done',
         isLoading: false,

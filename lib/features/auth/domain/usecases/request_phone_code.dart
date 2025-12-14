@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wingle/common/constants/route_constants.dart';
 import 'package:wingle/features/auth/domain/models/phone_number.dart';
 import 'package:wingle/features/auth/domain/repositories/phone_auth_repository.dart';
+import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// 휴대폰 번호 인증
 class RequestPhoneCode {
@@ -25,6 +25,6 @@ class RequestPhoneCode {
 
   /// 코드 요청 완료 시 인증 코드 입력 화면으로 이동
   static void navigateToOtp(BuildContext context) {
-    context.push(AppRouteUtil.fullPath([.onboarding, .phone, .otp]));
+    context.pushNamed(OnboardingRoutes.otp.name);
   }
 }

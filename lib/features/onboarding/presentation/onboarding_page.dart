@@ -5,8 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
-import 'package:wingle/common/constants/route_constants.dart';
 import 'package:wingle/features/onboarding/presentation/components/phone_login_button.dart';
+import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// Onboarding 페이지
 class OnboardingPage extends ConsumerStatefulWidget {
@@ -56,11 +56,8 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () => context.push(
-                          AppRouteUtil.fullPath([
-                            .onboarding,
-                            .requiredSelfIntro,
-                          ]),
+                        onPressed: () => context.pushNamed(
+                          OnboardingRoutes.requiredSelfIntro.name,
                         ),
                         child: Text('onboarding.button.signUp'.tr()),
                       ),

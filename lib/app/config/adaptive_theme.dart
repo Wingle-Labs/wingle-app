@@ -15,7 +15,6 @@ class AppTheming extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final router = ref.read(routerProvider);
     return AdaptiveTheme(
       light: Themes.light,
       dark: Themes.dark,
@@ -27,7 +26,7 @@ class AppTheming extends ConsumerWidget {
         locale: ref.watch(localizationProvider),
         supportedLocales: context.supportedLocales,
         localizationsDelegates: context.localizationDelegates,
-        routerConfig: router,
+        routerConfig: ref.watch(routerProvider),
       ),
     );
   }

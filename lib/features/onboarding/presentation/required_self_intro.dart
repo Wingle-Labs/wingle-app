@@ -5,8 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/components/bottons/default_floating_button.dart';
 import 'package:wingle/app/config/theme/components/texts/default_intruction.dart';
 import 'package:wingle/app/config/theme/components/wrappers/scrollable_scaffold.dart';
-import 'package:wingle/common/constants/route_constants.dart';
 import 'package:wingle/features/onboarding/presentation/components/introduce_card_group.dart';
+import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// 필수 자기소개 페이지
 class RequiredSelfIntroPage extends ConsumerWidget {
@@ -32,12 +32,8 @@ class RequiredSelfIntroPage extends ConsumerWidget {
       addBottomSpacing: true,
       floatingActionButton: DefaultFloatingButton(
         label: 'onboarding.requiredSelfIntro.button.next',
-        onPressed: () => context.push(
-          AppRouteUtil.fullPath([
-            .onboarding,
-            .selectiveSelfIntro,
-          ]),
-        ),
+        onPressed: () =>
+            context.pushNamed(OnboardingRoutes.selectiveSelfIntro.name),
       ),
     );
   }

@@ -7,8 +7,8 @@ import 'package:wingle/app/config/theme/components/pickers/date_picker.dart';
 import 'package:wingle/app/config/theme/components/texts/default_intruction.dart';
 import 'package:wingle/app/config/theme/components/wrappers/scrollable_scaffold.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
-import 'package:wingle/common/constants/route_constants.dart';
 import 'package:wingle/features/onboarding/presentation/components/agreement_group.dart';
+import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// 나이 선택 페이지
 class AgePickPage extends ConsumerStatefulWidget {
@@ -60,9 +60,7 @@ class _AgePickPageState extends ConsumerState<AgePickPage> {
       ],
       floatingActionButton: DefaultFloatingButton(
         onPressed: () {
-          context.push(
-            AppRouteUtil.fullPath([.onboarding, .requiredSelfIntro]),
-          );
+          context.pushNamed(OnboardingRoutes.requiredSelfIntro.name);
         },
         label: 'onboarding.age.button.next',
         isLoading: false,

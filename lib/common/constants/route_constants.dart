@@ -1,8 +1,5 @@
 /// 앱 화면 경로 열거형
 enum AppRoute {
-  /// 루트 화면 경로 (앱 최초 진입 지점)
-  root,
-
   /// 홈 화면 경로
   home,
 
@@ -36,8 +33,6 @@ extension AppRoutePath on AppRoute {
   /// 실제 문자열 경로
   String get path {
     switch (this) {
-      case AppRoute.root:
-        return '/';
       case AppRoute.home:
         return '/home';
       case AppRoute.onboarding:
@@ -57,13 +52,5 @@ extension AppRoutePath on AppRoute {
       case AppRoute.selectiveSelfIntro:
         return 'selective-self-intro';
     }
-  }
-}
-
-/// AppRoute 관련 함수
-extension AppRouteUtil on AppRoute {
-  /// AppRoute 목록을 받아 전체 경로(fullPath)를 생성하는 유틸 확장
-  static String fullPath(List<AppRoute> routes) {
-    return routes.map((e) => e.path).join('/');
   }
 }
