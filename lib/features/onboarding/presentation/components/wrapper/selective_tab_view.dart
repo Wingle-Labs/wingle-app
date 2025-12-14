@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
-import 'package:wingle/features/onboarding/presentation/components/selective_card_group.dart';
+import 'package:wingle/features/onboarding/presentation/components/wrapper/selective_card_group.dart';
 
 /// 선택형 자기소개 탭 뷰
 class SelectiveTabView extends ConsumerWidget {

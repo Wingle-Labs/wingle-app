@@ -7,7 +7,7 @@ import 'package:wingle/app/config/theme/components/pickers/date_picker.dart';
 import 'package:wingle/app/config/theme/components/texts/default_intruction.dart';
 import 'package:wingle/app/config/theme/components/wrappers/scrollable_scaffold.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
-import 'package:wingle/features/onboarding/presentation/components/agreement_group.dart';
+import 'package:wingle/features/onboarding/presentation/components/wrapper/agreement_group.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// 나이 선택 페이지

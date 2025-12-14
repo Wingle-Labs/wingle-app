@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/components/bottons/default_floating_button.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
 import 'package:wingle/common/constants/route_constants.dart';
-import 'package:wingle/features/onboarding/presentation/components/selective_tab_view.dart';
+import 'package:wingle/features/onboarding/presentation/components/wrapper/selective_tab_view.dart';
 
 /// 선택형 자기소개 페이지
 class SelectiveSelfIntro extends ConsumerStatefulWidget {

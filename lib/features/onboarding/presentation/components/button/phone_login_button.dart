@@ -17,7 +17,7 @@ class PhoneLoginButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     return FilledButton(
-      onPressed: () => context.pushNamed(OnboardingRoutes.phone.name),
+      onPressed: () => context.pushNamed(OnboardingRoutes.login.name),
       style: FilledButton.styleFrom(
         backgroundColor: theme.primaryColor,
         padding: .all(AppPadding.button),

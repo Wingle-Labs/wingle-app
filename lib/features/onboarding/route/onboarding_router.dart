@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wingle/features/auth/presentation/phone_auth.dart';
 import 'package:wingle/features/auth/presentation/phone_otp.dart';
 import 'package:wingle/features/onboarding/presentation/age_pick.page.dart';
+import 'package:wingle/features/onboarding/presentation/login_page.dart';
 import 'package:wingle/features/onboarding/presentation/onboarding_page.dart';
 import 'package:wingle/features/onboarding/presentation/required_self_intro.dart';
 import 'package:wingle/features/onboarding/presentation/selective_self_intro.dart';
@@ -22,7 +23,7 @@ final List<GoRoute> onboardingRoutes = [
   GoRoute(
     name: OnboardingRoutes.login.name,
     path: OnboardingRoutes.login.path,
-    builder: (context, state) => Placeholder(),
+    builder: (context, state) => LoginPage(),
     routes: loginRoutes,
   ),
 
