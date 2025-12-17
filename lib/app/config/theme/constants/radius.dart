@@ -22,7 +22,7 @@ class AppRadius {
 
   /// iOS Style Radius
   static SmoothBorderRadius iosStyleRadius = SmoothBorderRadius(
-    cornerRadius: AppRadius.iosStyle,
-    cornerSmoothing: AppRadius.iosSmoothing,
+    cornerRadius: iosStyle,
+    cornerSmoothing: iosSmoothing,
   );
 }

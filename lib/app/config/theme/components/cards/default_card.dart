@@ -6,10 +6,10 @@ import 'package:wingle/app/config/theme/constants/radius.dart';
 
 /// 기본 카드 컴포넌트
 class DefaultCard extends ConsumerWidget {
-  /// 높이
+  /// 카드 높이
   final double? height;
 
-  /// child
+  /// 카드 내부 위젯
   final Widget child;
 
   /// 생성자

@@ -22,6 +22,9 @@ class ScrollableScaffold extends ConsumerStatefulWidget {
   /// 바디 마지막 여유 공간 추가 여부
   final bool? addBottomSpacing;
 
+  /// 바디 정렬 방식
+  final CrossAxisAlignment crossAxisAlignment;
+
   /// 생성자
   const ScrollableScaffold({
     super.key,
@@ -30,6 +33,7 @@ class ScrollableScaffold extends ConsumerStatefulWidget {
     required this.body,
     this.floatingActionButton,
     this.addBottomSpacing,
+    this.crossAxisAlignment = .start,
   });
 
   @override
@@ -44,7 +48,7 @@ class _ScrollableScaffoldState extends ConsumerState<ScrollableScaffold> {
       body: SingleChildScrollView(
         padding: .all(AppPadding.scaffold),
         child: Column(
-          crossAxisAlignment: .start,
+          crossAxisAlignment: widget.crossAxisAlignment,
           spacing: widget.spacing ?? AppSpacing.md,
           children: [
             ...widget.body,

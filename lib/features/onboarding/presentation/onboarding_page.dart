@@ -18,8 +18,6 @@ class OnboardingPage extends ConsumerStatefulWidget {
 class _OnboardingPageState extends ConsumerState<OnboardingPage> {
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return ConstrainedScrollableScaffold(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -32,17 +30,9 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
             child: Placeholder(),
           ),
           Spacer(),
-          PhoneLoginButton(),
-          Padding(
-            padding: .only(top: AppSpacing.sm),
-            child: Text(
-              "or",
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.hintColor,
-              ),
-            ),
-          ),
           SignupButton(),
+          SizedBox(height: AppSpacing.md),
+          PhoneLoginButton(),
           const SizedBox(height: AppSpacing.md, width: double.infinity),
         ],
       ),

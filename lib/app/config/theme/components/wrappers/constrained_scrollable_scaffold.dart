@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wingle/app/config/theme/components/wrappers/smooth_rect.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 
 /// 콘텐츠의 최소 높이를 화면 높이로 보장하면서
@@ -8,15 +9,27 @@ import 'package:wingle/app/config/theme/constants/padding.dart';
 /// 내용이 적을 때는 화면을 꽉 채우고,
 /// 내용이 많을 때는 자연스럽게 스크롤됩니다.
 class ConstrainedScrollableScaffold extends ConsumerWidget {
+  /// 상단 AppBar
+  final AppBar? appBar;
+
   /// 스크롤 영역 안에 배치될 Widget
   final Widget child;
 
+  /// 하단 FloatingActionButton
+  final Widget? floatingActionButton;
+
   /// 스크롤 가능한 제약형 Scaffold를 생성합니다.
-  const ConstrainedScrollableScaffold({super.key, required this.child});
+  const ConstrainedScrollableScaffold({
+    super.key,
+    this.appBar,
+    required this.child,
+    this.floatingActionButton,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
+      appBar: appBar,
       body: LayoutBuilder(
         builder: (context, constraints) {
           return SingleChildScrollView(
@@ -36,6 +49,11 @@ class ConstrainedScrollableScaffold extends ConsumerWidget {
           );
         },
       ),
+      floatingActionButtonLocation: .centerFloat,
+      floatingActionButton: floatingActionButton != null
+          ? SmoothRectWrapper(child: floatingActionButton as Widget)
+          : null,
+      floatingActionButtonAnimator: FloatingActionButtonAnimator.noAnimation,
     );
   }
 }

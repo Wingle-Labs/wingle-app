@@ -36,6 +36,9 @@ class AppContainerSize {
   /// 작은 높이
   static const double small = 40;
 
+  /// 버튼 최소 길이
+  static const double buttonMinimun = 48;
+
   /// 중간 높이
   static const double regular = 56;
 
