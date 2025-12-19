@@ -40,4 +40,10 @@ class AppColor {
 
   /// 어두운 카드 테두리 색상
   static Color darkCardBorder = Colors.grey.withValues(alpha: 0.1);
+
+  /// 밝은 그림자 색상
+  static Color lightShadow = Colors.grey.withValues(alpha: 1);
+
+  /// 어두운 그림자 색상
+  static Color darkShadow = Colors.white.withValues(alpha: 1);
 }

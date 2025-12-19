@@ -17,6 +17,7 @@ class Themes {
       primary: AppColor.primary,
       onPrimary: AppColor.darkButtonText,
     ),
+    shadowColor: AppColor.lightShadow,
   );
 
   /// 다크 테마
@@ -33,5 +34,6 @@ class Themes {
       primary: AppColor.primary,
       onPrimary: AppColor.darkButtonText,
     ),
+    shadowColor: AppColor.darkShadow,
   );
 }

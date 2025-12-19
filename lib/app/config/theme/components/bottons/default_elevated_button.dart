@@ -39,6 +39,7 @@ class DefaultElevatedButton extends ConsumerWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor ?? theme.primaryColor,
         foregroundColor: foregroundColor ?? theme.colorScheme.onPrimary,
+        shadowColor: theme.shadowColor,
         side: borderSide,
         shape: RoundedRectangleBorder(borderRadius: AppRadius.iosStyleRadius),
         minimumSize: const Size(
