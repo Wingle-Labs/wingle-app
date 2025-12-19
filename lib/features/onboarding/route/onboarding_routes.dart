@@ -16,6 +16,12 @@ abstract final class OnboardingRoutes {
   /// 비밀번호 재설정
   static const resetPassword = RouteNode(parent: login, name: 'reset-password');
 
+  /// 전화번호 변경
+  static const changePhoneNumber = RouteNode(
+    parent: login,
+    name: 'change-phone-number',
+  );
+
   // ! 회원가입 하위 루트
   /// 전화번호 입력
   static const phone = RouteNode(parent: signup, name: 'phone');

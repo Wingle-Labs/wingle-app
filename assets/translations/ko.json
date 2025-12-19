@@ -2,7 +2,7 @@
   "onboarding": {
     "title": "Wingle - 가치관으로 만나다.",
     "button" : {
-      "login": "계정이 이미 있습니다.",
+      "login": "이미 계정이 있어요",
       "signUp": "시작하기"
     },
     "login": {
@@ -13,7 +13,8 @@
       "button": {
         "reset-password": "비밀번호 재설정",
         "signUp": "회원가입",
-        "done": "로그인"
+        "done": "로그인",
+        "changePhoneNumber": "전화번호 변경"
       }
     },
     "phone": {

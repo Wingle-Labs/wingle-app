@@ -6,6 +6,7 @@ import 'package:wingle/app/config/theme/components/cards/default_card.dart';
 import 'package:wingle/app/config/theme/components/wrappers/scrollable_scaffold.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/features/auth/presentation/components/phone_textfield.dart';
+import 'package:wingle/features/onboarding/presentation/components/button/change_phone_number_button.dart';
 import 'package:wingle/features/onboarding/presentation/components/button/reset_password_button.dart';
 import 'package:wingle/features/onboarding/presentation/components/button/signup_button.dart';
 
@@ -45,9 +46,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           child: Row(
             mainAxisAlignment: .center,
             children: [
+              Expanded(child: ChangePhoneNumberButton()),
               Expanded(child: ResetPasswordButton()),
-              Expanded(child: ResetPasswordButton()),
-              Expanded(child: SignupButton()),
+              Expanded(child: SignupButton(isInOnboarding: false)),
             ],
           ),
         ),

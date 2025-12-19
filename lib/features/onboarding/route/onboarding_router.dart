@@ -43,6 +43,11 @@ final List<GoRoute> loginRoutes = [
     path: OnboardingRoutes.resetPassword.path,
     builder: (context, state) => Placeholder(),
   ),
+  GoRoute(
+    name: OnboardingRoutes.changePhoneNumber.name,
+    path: OnboardingRoutes.changePhoneNumber.path,
+    builder: (context, state) => Placeholder(),
+  ),
 ];
 
 /// ! 회원가입 하위 라우트 목록
