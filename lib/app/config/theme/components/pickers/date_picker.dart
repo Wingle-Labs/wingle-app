@@ -48,27 +48,27 @@ class DatePicker extends ConsumerWidget {
             mainAxisAlignment: .spaceEvenly,
             year: ScrollViewDetailOptions(
               selectedTextStyle: TextStyle(
-                fontSize: AppFontSize.large,
+                fontSize: AppFontSize.subtitle,
                 fontWeight: FontWeight.bold,
                 color: theme.primaryColor,
               ),
-              textStyle: TextStyle(fontSize: AppFontSize.medium),
+              textStyle: TextStyle(fontSize: AppFontSize.body),
             ),
             month: ScrollViewDetailOptions(
               selectedTextStyle: TextStyle(
-                fontSize: AppFontSize.large,
+                fontSize: AppFontSize.subtitle,
                 fontWeight: FontWeight.bold,
                 color: theme.primaryColor,
               ),
-              textStyle: TextStyle(fontSize: AppFontSize.medium),
+              textStyle: TextStyle(fontSize: AppFontSize.body),
             ),
             day: ScrollViewDetailOptions(
               selectedTextStyle: TextStyle(
-                fontSize: AppFontSize.large,
+                fontSize: AppFontSize.subtitle,
                 fontWeight: FontWeight.bold,
                 color: theme.primaryColor,
               ),
-              textStyle: TextStyle(fontSize: AppFontSize.medium),
+              textStyle: TextStyle(fontSize: AppFontSize.body),
             ),
           ),
           locale: locale,

@@ -1,22 +1,22 @@
 /// 어플리케이션의 공통 폰트 크기 정의
 class AppFontSize {
-  /// 아주 작은 폰트 크기
-  static const double xs = 8;
+  /// 캡션 크기
+  static const double caption = 12;
 
-  /// 작은 폰트 크기
-  static const double small = 12;
+  /// 버튼 텍스트 크기
+  static const double button = 16;
 
-  /// 중간 폰트 크기
-  static const double medium = 16;
+  /// 보통 폰트 크기
+  static const double body = 16;
 
-  /// 큰 폰트 크기
-  static const double large = 20;
+  /// 페이지 서브 타이틀 크기
+  static const double subtitle = 20;
 
-  /// 매우 큰 폰트 크기
-  static const double xl = 24;
+  /// 페이지 메인 타이틀 크기
+  static const double title = 24;
 
-  /// 제목 폰트 크기
-  static const double title = 48;
+  /// 앱 스플래시 텍스트 크기
+  static const double headline = 40;
 }
 
 /// 어플리케이션의 공통 아이콘 크기 정의

@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 
 /// 어플리케이션의 공통 색상 정의
 class AppColor {
-  /// 주요 색상
-  static const Color primary = Color(0xFFBF00FF);
+  /// Light Mode 주요 색상
+  static const Color lightPrimary = Color(0xFF744C33);
+
+  /// Dark Mode 주요 색상
+  static const Color darkPrimary = Color.fromRGBO(115, 100, 90, 1.0);
 
   /// 어두운 버튼 텍스트 색상
   static const Color darkButtonText = Colors.white;

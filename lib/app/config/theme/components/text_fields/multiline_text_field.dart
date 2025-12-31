@@ -47,7 +47,7 @@ class MultilineTextField extends ConsumerWidget {
       child: TextFormField(
         minLines: minLines,
         maxLines: maxLines,
-        cursorColor: AppColor.primary,
+        cursorColor: AppColor.lightPrimary,
         focusNode: focusNode,
         onChanged: onChanged,
         controller: controller,
@@ -56,13 +56,13 @@ class MultilineTextField extends ConsumerWidget {
           hintStyle: TextStyle(color: theme.hintColor),
           helperText: helper,
           helperStyle: TextStyle(color: theme.hintColor),
-          focusColor: AppColor.primary,
+          focusColor: AppColor.lightPrimary,
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: theme.dividerColor, width: 2),
             borderRadius: AppRadius.iosStyleRadius,
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: AppColor.primary, width: 2),
+            borderSide: BorderSide(color: AppColor.lightPrimary, width: 2),
             borderRadius: AppRadius.iosStyleRadius,
           ),
           contentPadding: .all(AppPadding.textfield),

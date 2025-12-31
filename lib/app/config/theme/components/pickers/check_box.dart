@@ -26,7 +26,7 @@ class DefaultCheckBox extends ConsumerWidget {
       value: value,
       onChanged: onChanged,
       checkColor: theme.scaffoldBackgroundColor,
-      activeColor: AppColor.primary,
+      activeColor: AppColor.lightPrimary,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppRadius.iosStyle),
       ),

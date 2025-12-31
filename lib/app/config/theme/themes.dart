@@ -7,14 +7,14 @@ class Themes {
   static final ThemeData light = ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
-    primaryColor: AppColor.primary,
+    primaryColor: AppColor.lightPrimary,
     scaffoldBackgroundColor: Colors.white,
     textTheme: TextTheme(bodyLarge: TextStyle(color: AppColor.lightButtonText)),
     hintColor: AppColor.lightCaption,
     cardColor: AppColor.lightCard,
     dividerColor: AppColor.lightCardBorder,
     colorScheme: ColorScheme.light(
-      primary: AppColor.primary,
+      primary: AppColor.lightPrimary,
       onPrimary: AppColor.darkButtonText,
     ),
     shadowColor: AppColor.lightShadow,
@@ -24,16 +24,53 @@ class Themes {
   static final ThemeData dark = ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,
-    primaryColor: AppColor.primary,
+    primaryColor: AppColor.darkPrimary,
     scaffoldBackgroundColor: Colors.black,
     textTheme: TextTheme(bodyLarge: TextStyle(color: AppColor.darkButtonText)),
     hintColor: AppColor.darkCaption,
     cardColor: AppColor.darkCard,
     dividerColor: AppColor.darkCardBorder,
     colorScheme: ColorScheme.dark(
-      primary: AppColor.primary,
+      primary: AppColor.lightPrimary,
       onPrimary: AppColor.darkButtonText,
     ),
     shadowColor: AppColor.darkShadow,
   );
 }
+
+/// 다크모드 텍스트 테마 정의
+TextTheme darkTextTheme = TextTheme(
+  displayLarge: TextStyle(color: AppColor.darkButtonText),
+  displayMedium: TextStyle(color: AppColor.darkButtonText),
+  displaySmall: TextStyle(color: AppColor.darkButtonText),
+  headlineLarge: TextStyle(color: AppColor.darkButtonText),
+  headlineMedium: TextStyle(color: AppColor.darkButtonText),
+  headlineSmall: TextStyle(color: AppColor.darkButtonText),
+  titleLarge: TextStyle(color: AppColor.darkButtonText),
+  titleMedium: TextStyle(color: AppColor.darkButtonText),
+  titleSmall: TextStyle(color: AppColor.darkButtonText),
+  bodyLarge: TextStyle(color: AppColor.darkButtonText),
+  bodyMedium: TextStyle(color: AppColor.darkButtonText),
+  // labelLarge: TextStyle(color: AppColor.darkButtonText),
+  labelMedium: TextStyle(fontSize: 12, color: AppColor.darkButtonText),
+  // labelSmall: TextStyle(color: AppColor.darkButtonText),
+);
+
+/// 라이트모드 텍스트 테마 정의
+TextTheme lightTextTheme = TextTheme(
+  displayLarge: TextStyle(color: AppColor.darkButtonText),
+  displayMedium: TextStyle(color: AppColor.darkButtonText),
+  displaySmall: TextStyle(color: AppColor.darkButtonText),
+  headlineLarge: TextStyle(color: AppColor.darkButtonText),
+  headlineMedium: TextStyle(color: AppColor.darkButtonText),
+  headlineSmall: TextStyle(color: AppColor.darkButtonText),
+  titleLarge: TextStyle(color: AppColor.darkButtonText),
+  titleMedium: TextStyle(color: AppColor.darkButtonText),
+  titleSmall: TextStyle(color: AppColor.darkButtonText),
+  bodyLarge: TextStyle(color: AppColor.darkButtonText),
+  bodyMedium: TextStyle(color: AppColor.darkButtonText),
+  bodySmall: TextStyle(color: AppColor.darkButtonText),
+  labelLarge: TextStyle(color: AppColor.darkButtonText),
+  labelMedium: TextStyle(color: AppColor.darkButtonText),
+  labelSmall: TextStyle(color: AppColor.darkButtonText),
+);

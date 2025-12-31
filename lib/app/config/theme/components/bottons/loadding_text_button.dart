@@ -27,7 +27,7 @@ class LoadingTextButton extends ConsumerWidget {
         final textPainter = TextPainter(
           text: TextSpan(
             text: label,
-            style: TextStyle(fontSize: AppFontSize.medium),
+            style: TextStyle(fontSize: AppFontSize.body),
           ),
           maxLines: 1,
           textDirection: TextDirection.ltr,
@@ -54,7 +54,7 @@ class LoadingTextButton extends ConsumerWidget {
                     label,
                     style: TextStyle(
                       color: AppColor.darkButtonText,
-                      fontSize: AppFontSize.medium,
+                      fontSize: AppFontSize.body,
                     ),
                   ),
           ),

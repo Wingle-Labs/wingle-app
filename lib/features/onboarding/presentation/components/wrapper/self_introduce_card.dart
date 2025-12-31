@@ -28,7 +28,7 @@ class SelfIntroduceCard extends ConsumerWidget {
         children: [
           Text(
             title,
-            style: TextStyle(fontSize: AppFontSize.large),
+            style: TextStyle(fontSize: AppFontSize.subtitle),
             locale: context.locale,
           ),
           Padding(padding: .only(bottom: AppSpacing.md)),

@@ -34,7 +34,7 @@ class DefaultFloatingButton extends ConsumerWidget {
       elevation: 0,
       backgroundColor: disabled == true
           ? AppColor.disabledDark
-          : AppColor.primary,
+          : AppColor.lightPrimary,
       extendedPadding: .zero,
       onPressed: disabled == true ? null : onPressed,
       shape: RoundedRectangleBorder(borderRadius: AppRadius.iosStyleRadius),

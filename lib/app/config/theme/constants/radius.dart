@@ -15,7 +15,7 @@ class AppRadius {
   static const double lg = 20;
 
   /// iOS Style
-  static const double iosStyle = 24;
+  static const double iosStyle = 18;
 
   /// iOS Smoothing
   static const double iosSmoothing = 0.6;

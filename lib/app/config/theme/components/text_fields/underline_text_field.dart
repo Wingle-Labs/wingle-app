@@ -83,17 +83,17 @@ class _UnderlineFieldState extends ConsumerState<UnderlineField> {
           onChanged: widget.onChanged,
           decoration: InputDecoration(
             helperStyle: TextStyle(
-              fontSize: AppFontSize.small,
+              fontSize: AppFontSize.caption,
               color: theme.hintColor,
             ),
             labelText: widget.label.tr(),
             labelStyle: TextStyle(
-              fontSize: AppFontSize.medium,
+              fontSize: AppFontSize.body,
               color: theme.hintColor,
             ),
             hintText: widget.hint?.tr(),
             hintStyle: TextStyle(
-              fontSize: AppFontSize.medium,
+              fontSize: AppFontSize.body,
               color: theme.hintColor,
             ),
             alignLabelWithHint: true,
@@ -111,9 +111,9 @@ class _UnderlineFieldState extends ConsumerState<UnderlineField> {
           ),
           inputFormatters: widget.inputFormatters,
           keyboardType: widget.keyboardType,
-          style: TextStyle(fontSize: AppFontSize.large),
+          style: TextStyle(fontSize: AppFontSize.subtitle),
           cursorColor: theme.primaryColor,
-          cursorHeight: AppFontSize.large,
+          cursorHeight: AppFontSize.subtitle,
           autofillHints: widget.autofillHints,
           focusNode: widget.focusNode,
         ),

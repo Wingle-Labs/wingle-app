@@ -16,7 +16,7 @@ class DefaultInstruction extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: .symmetric(vertical: AppPadding.vertical),
-      child: Text(text.tr(), style: TextStyle(fontSize: AppFontSize.xl)),
+      child: Text(text.tr(), style: TextStyle(fontSize: AppFontSize.title)),
     );
   }
 }
