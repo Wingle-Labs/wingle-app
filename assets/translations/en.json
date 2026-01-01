@@ -1,3 +1,61 @@
 {
-  "test-text": "Value Date"
+  "onboarding": {
+    "title": "Wingle - Find your match by values.",
+    "button" : {
+      "phone": "Sign in with Phone",
+      "signUp": "Sign Up"
+    },
+    "phone": {
+      "title": "Phone Authentication",
+      "instruction": "Enter your phone number to authenticate yourself.",
+      "textfield" : {
+          "label": "Phone Number",
+          "helper": "Enter your phone number without -"
+      },
+      "button": {
+        "request": "Request Code",
+        "change": "Change Number"
+      }
+    },
+    "age": {
+      "title": "Age Input",
+      "instruction": "Enter your actual birthdate.",
+      "textfield": {
+        "label": "Birthdate"
+      },
+      "button": {
+        "next": "Next"
+      },
+      "checkbox" : {
+        "adult": "I am 18 years old or older.",
+        "block": "I agree that the use of the service will be restricted if false information is entered."
+      }
+    }, 
+    "requiredSelfIntro": {
+      "loading": {
+        "instruction": "Write a sincere self-introduction.",
+        "descriptions": {
+          "is_visible": "Your value can be known to the other person.",
+          "auto_save": "Your content is automatically saved, so please write slowly."
+        },
+        "button": {
+          "next": "Start"
+        }
+      },
+      "title": "Required Self Introduction",
+      "instruction": "Each question should be answered sincerely.",
+      "button": {
+        "next": "Next"
+      }
+    },
+    "selectiveSelfIntro": {
+      "title": "Selective Self Introduction",
+      "button": {
+        "next": "Next"
+      }
+    }
+  },
+  "home": {
+    "title": "Home"
+  }
 }

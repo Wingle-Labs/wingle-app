@@ -1,0 +1,53 @@
+/// 어플리케이션의 공통 폰트 크기 정의
+class AppFontSize {
+  /// 캡션 크기
+  static const double caption = 12;
+
+  /// 버튼 텍스트 크기
+  static const double button = 16;
+
+  /// 보통 폰트 크기
+  static const double body = 16;
+
+  /// 페이지 서브 타이틀 크기
+  static const double subtitle = 20;
+
+  /// 페이지 메인 타이틀 크기
+  static const double title = 24;
+
+  /// 앱 스플래시 텍스트 크기
+  static const double headline = 40;
+}
+
+/// 어플리케이션의 공통 아이콘 크기 정의
+class AppIconSize {
+  /// 작은 아이콘 크기
+  static const double small = 16;
+
+  /// 중간 아이콘 크기
+  static const double regular = 20;
+
+  /// 큰 아이콘 크기
+  static const double large = 24;
+}
+
+/// 어플리케이션의 공통 높이 정의
+class AppContainerSize {
+  /// 작은 높이
+  static const double small = 40;
+
+  /// 버튼 최소 길이
+  static const double buttonMinimun = 48;
+
+  /// 중간 높이
+  static const double regular = 56;
+
+  /// 큰 높이
+  static const double large = 64;
+
+  /// 매우 큰 높이
+  static const double xl = 128;
+
+  /// wrap
+  static const double wrap = 300;
+}
