@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:wingle/app/config/theme/design_system.dart';
 import 'package:wingle/app/router/app_router.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
@@ -15,8 +14,8 @@ final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 GoRouter router(Ref ref) {
   return GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: designSystemRoute.path,
-    // initialLocation: OnboardingRoutes.root.path,
+    // initialLocation: designSystemRoute.path,
+    initialLocation: OnboardingRoutes.root.path,
     redirect: (context, state) {
       return null;
     },
