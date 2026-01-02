@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/components/wrappers/smooth_rect.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
+import 'package:wingle/common/extensions/context_colors.dart';
 
 /// 스크롤 가능한 Scaffold
 class ScrollableScaffold extends ConsumerStatefulWidget {
@@ -43,8 +44,10 @@ class ScrollableScaffold extends ConsumerStatefulWidget {
 class _ScrollableScaffoldState extends ConsumerState<ScrollableScaffold> {
   @override
   Widget build(BuildContext context) {
+    final colorScheme = context.colors;
     return Scaffold(
       appBar: AppBar(title: Text(widget.title.tr())),
+      backgroundColor: colorScheme.background,
       body: SingleChildScrollView(
         padding: .all(AppPadding.scaffold),
         child: Column(
