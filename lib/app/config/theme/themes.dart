@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:wingle/app/config/theme/color/app_colors.dart';
+import 'package:wingle/app/config/theme/color/dark_color_scheme.dart';
+import 'package:wingle/app/config/theme/color/light_color_scheme.dart';
 import 'package:wingle/app/config/theme/constants/color.dart';
 
 /// 어플리케이션 테마 정의
@@ -7,34 +10,14 @@ class Themes {
   static final ThemeData light = ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
-    primaryColor: AppColor.lightPrimary,
-    scaffoldBackgroundColor: Colors.white,
-    textTheme: TextTheme(bodyLarge: TextStyle(color: AppColor.lightButtonText)),
-    hintColor: AppColor.lightCaption,
-    cardColor: AppColor.lightCard,
-    dividerColor: AppColor.lightCardBorder,
-    colorScheme: ColorScheme.light(
-      primary: AppColor.lightPrimary,
-      onPrimary: AppColor.darkButtonText,
-    ),
-    shadowColor: AppColor.lightShadow,
+    extensions: const [AppColors(LightColorScheme())],
   );
 
   /// 다크 테마
   static final ThemeData dark = ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,
-    primaryColor: AppColor.darkPrimary,
-    scaffoldBackgroundColor: Colors.black,
-    textTheme: TextTheme(bodyLarge: TextStyle(color: AppColor.darkButtonText)),
-    hintColor: AppColor.darkCaption,
-    cardColor: AppColor.darkCard,
-    dividerColor: AppColor.darkCardBorder,
-    colorScheme: ColorScheme.dark(
-      primary: AppColor.lightPrimary,
-      onPrimary: AppColor.darkButtonText,
-    ),
-    shadowColor: AppColor.darkShadow,
+    extensions: const [AppColors(DarkColorScheme())],
   );
 }
 
