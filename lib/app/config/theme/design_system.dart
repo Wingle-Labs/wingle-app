@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wingle/app/config/theme/color/app_color_scheme.dart';
+import 'package:wingle/app/config/theme/components/bottons/default_button.dart';
 import 'package:wingle/app/config/theme/components/wrappers/scrollable_scaffold.dart';
-import 'package:wingle/app/config/theme/constants/radius.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/weight.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
@@ -23,323 +22,292 @@ class DesignSystem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = context.colors;
+    final baseLength = 48.0;
     return ScrollableScaffold(
       title: "디자인 시스템",
       body: [
-        Row(
-          mainAxisAlignment: .center,
-          spacing: 8 * 5,
-          mainAxisSize: .max,
-          children: [
-            _buildByColor(colorScheme),
-            // _buildByColor(secondPrimaryColor),
-            // _buildByColor(AppColor.primary),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildByColor(AppColorScheme colorScheme) {
-    final baseLength = 48.0;
-    return Column(
-      spacing: 8 * 5,
-      mainAxisSize: .min,
-      children: [
         Container(
           height: 100,
-          width: baseLength * 5,
           color: colorScheme.primary,
-        ),
-
-        Container(
-          width: baseLength * 5,
-          padding: .all(AppFontSize.button),
-          decoration: BoxDecoration(
-            borderRadius: AppRadius.iosStyleRadius,
-            color: colorScheme.primary,
-          ),
           child: Center(
             child: Text(
-              '활성화된 채워진 버튼',
+              "Primary Color",
               style: TextStyle(
-                fontSize: AppFontSize.button,
-                color: Colors.white,
+                color: colorScheme.onPrimary,
+                fontSize: AppFontSize.subtitle,
                 fontWeight: AppFontWeight.semiBold,
               ),
             ),
           ),
         ),
 
-        Container(
-          width: baseLength * 5,
-          padding: .all(AppFontSize.button),
-          decoration: BoxDecoration(
-            borderRadius: AppRadius.iosStyleRadius,
-            color: colorScheme.textBackground30,
-          ),
-          child: Center(
-            child: Text(
-              '비활성화된 채워진 버튼',
-              style: TextStyle(
-                fontSize: AppFontSize.button,
-                color: colorScheme.textDisabled,
-                fontWeight: AppFontWeight.semiBold,
-              ),
-            ),
-          ),
+        // TODO: 디자이너에게 pressedColor 색상 확인 요청
+        DefaultButton(
+          label: "활성화 상태: 채워진 버튼",
+          backgroundColor: colorScheme.primary,
+          pressedColor: colorScheme.overlayPressed,
+          textColor: colorScheme.onPrimary,
+          onPressed: () {},
         ),
 
-        Container(
-          width: baseLength * 5,
-          padding: .all(AppFontSize.button),
-          decoration: BoxDecoration(
-            borderRadius: AppRadius.iosStyleRadius,
-            color: Colors.transparent,
-          ),
-          child: Center(
-            child: Text(
-              '텍스트 버튼',
-              style: TextStyle(
-                fontSize: AppFontSize.button,
-                color: colorScheme.primary,
-                fontWeight: AppFontWeight.semiBold,
-              ),
-            ),
-          ),
+        // TODO: 디자이너에게 비활성화 backgroundColor 지정 요청
+        DefaultButton(
+          label: "비활성화 상태: 채워진 버튼",
+          backgroundColor: Color(0xFFF2F2F2),
+          pressedColor: colorScheme.overlayPressed,
+          textColor: colorScheme.textDisabled,
+          onPressed: null,
         ),
 
-        Container(
-          width: baseLength * 5,
-          padding: .all(AppFontSize.button),
-          decoration: BoxDecoration(
-            borderRadius: AppRadius.iosStyleRadius,
-            color: Colors.transparent,
-          ),
-          child: Center(
-            child: Text(
-              '비활성화된 텍스트 버튼',
-              style: TextStyle(
-                fontSize: AppFontSize.button,
-                color: colorScheme.textDisabled,
-                fontWeight: AppFontWeight.semiBold,
-              ),
-            ),
-          ),
+        // TODO: 디자이너에게 pressedColor 색상 확인 요청
+        DefaultButton(
+          label: "활성화 상태: 테두리 버튼",
+          backgroundColor: colorScheme.surfaceElevated,
+          pressedColor: colorScheme.statePressed,
+          textColor: colorScheme.primary,
+          borderSide: BorderSide(color: colorScheme.primary, width: 1.2),
+          onPressed: () {},
         ),
 
-        Container(
-          width: baseLength * 5,
-          padding: .all(AppFontSize.button),
-          decoration: BoxDecoration(
-            borderRadius: AppRadius.iosStyleRadius,
-            color: Colors.transparent,
-            border: Border.all(color: colorScheme.primary, width: 1.2),
-          ),
-          child: Center(
-            child: Text(
-              '아웃라인 버튼',
-              style: TextStyle(
-                fontSize: AppFontSize.button,
-                color: colorScheme.primary,
-                fontWeight: AppFontWeight.semiBold,
-              ),
-            ),
-          ),
+        // TODO: 디자이너에게 비활성화 backgroundColor 지정 요청
+        DefaultButton(
+          label: "비활성화 상태: 테두리 버튼",
+          backgroundColor: Color(0xFFF2F2F2),
+          pressedColor: colorScheme.statePressed,
+          textColor: colorScheme.textDisabled,
+          onPressed: null,
+          borderSide: BorderSide(color: colorScheme.textDisabled, width: 1.2),
         ),
 
-        Container(
-          width: baseLength * 5,
-          padding: .all(AppFontSize.button),
-          decoration: BoxDecoration(
-            borderRadius: AppRadius.iosStyleRadius,
-            color: Colors.transparent,
-            border: Border.all(color: colorScheme.textBackground30, width: 1.2),
-          ),
-          child: Center(
-            child: Text(
-              '비활성화된 아웃라인 버튼',
-              style: TextStyle(
-                fontSize: AppFontSize.button,
-                color: colorScheme.textDisabled,
-                fontWeight: AppFontWeight.semiBold,
-              ),
-            ),
-          ),
+        // TODO: 디자이너에게 pressedColor 색상 확인 요청
+        DefaultButton(
+          label: "활성화 상태: 텍스트 버튼",
+          backgroundColor: colorScheme.surfaceElevated,
+          pressedColor: colorScheme.statePressed,
+          textColor: colorScheme.primary,
+          onPressed: () {},
         ),
 
-        Container(
-          width: 20,
-          height: 20,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: colorScheme.primary, width: 2.4),
-          ),
-          child: Center(
-            child: Container(
-              width: 10,
-              height: 10,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: colorScheme.primary,
-              ),
-            ),
-          ),
+        // TODO: 디자이너에게 비활성화 backgroundColor 지정 요청
+        DefaultButton(
+          label: "비활성화 상태: 텍스트 버튼",
+          backgroundColor: Color(0xFFF2F2F2),
+          pressedColor: colorScheme.statePressed,
+          textColor: colorScheme.textDisabled,
+          onPressed: null,
         ),
 
-        Container(
-          width: 20,
-          height: 20,
-          padding: EdgeInsets.all(AppFontSize.button),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: colorScheme.border, width: 2.4),
-          ),
-          child: null,
-        ),
+        // Container(
+        //   width: baseLength * 5,
+        //   padding: .all(AppFontSize.button),
+        //   decoration: BoxDecoration(
+        //     borderRadius: AppRadius.iosStyleRadius,
+        //     color: Colors.transparent,
+        //     border: Border.all(color: colorScheme.primary, width: 1.2),
+        //   ),
+        //   child: Center(
+        //     child: Text(
+        //       '아웃라인 버튼',
+        //       style: TextStyle(
+        //         fontSize: AppFontSize.button,
+        //         color: colorScheme.primary,
+        //         fontWeight: AppFontWeight.semiBold,
+        //       ),
+        //     ),
+        //   ),
+        // ),
 
-        Container(
-          // height: baseLength,
-          width: baseLength * 5,
-          padding: .all(AppFontSize.button),
-          decoration: BoxDecoration(
-            borderRadius: AppRadius.iosStyleRadius,
-            color: colorScheme.surface,
-          ),
-          child: Row(
-            spacing: AppFontSize.button,
-            children: [
-              Container(
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: colorScheme.primary, width: 2.4),
-                ),
-                child: Center(
-                  child: Container(
-                    width: 10,
-                    height: 10,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: colorScheme.primary,
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Text(
-                  '선택된 리스트 버튼',
-                  style: TextStyle(
-                    fontWeight: AppFontWeight.semiBold,
-                    fontSize: AppFontSize.button,
-                    color: colorScheme.textPrimary,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+        // Container(
+        //   width: baseLength * 5,
+        //   padding: .all(AppFontSize.button),
+        //   decoration: BoxDecoration(
+        //     borderRadius: AppRadius.iosStyleRadius,
+        //     color: Colors.transparent,
+        //     border: Border.all(color: colorScheme.textBackground30, width: 1.2),
+        //   ),
+        //   child: Center(
+        //     child: Text(
+        //       '비활성화된 아웃라인 버튼',
+        //       style: TextStyle(
+        //         fontSize: AppFontSize.button,
+        //         color: colorScheme.textDisabled,
+        //         fontWeight: AppFontWeight.semiBold,
+        //       ),
+        //     ),
+        //   ),
+        // ),
 
-        Container(
-          // height: baseLength,
-          width: baseLength * 5,
-          padding: .all(AppFontSize.button),
-          constraints: BoxConstraints(
-            minHeight: baseLength,
-            minWidth: baseLength,
-          ),
-          decoration: BoxDecoration(
-            borderRadius: AppRadius.iosStyleRadius,
-            color: colorScheme.textBackground30,
-          ),
-          child: Row(
-            spacing: AppFontSize.button,
-            children: [
-              Container(
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: colorScheme.textDisabled,
-                    width: 2.4,
-                  ),
-                ),
-                child: null,
-              ),
-              Expanded(
-                child: Text(
-                  '선택 안된 리스트 버튼',
-                  style: TextStyle(
-                    fontWeight: AppFontWeight.semiBold,
-                    fontSize: AppFontSize.button,
-                    color: colorScheme.textDisabled,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+        // Container(
+        //   width: 20,
+        //   height: 20,
+        //   decoration: BoxDecoration(
+        //     shape: BoxShape.circle,
+        //     border: Border.all(color: colorScheme.primary, width: 2.4),
+        //   ),
+        //   child: Center(
+        //     child: Container(
+        //       width: 10,
+        //       height: 10,
+        //       decoration: BoxDecoration(
+        //         shape: BoxShape.circle,
+        //         color: colorScheme.primary,
+        //       ),
+        //     ),
+        //   ),
+        // ),
 
-        Container(
-          padding: .symmetric(vertical: 8, horizontal: AppFontSize.button),
-          decoration: BoxDecoration(
-            borderRadius: AppRadius.iosStyleRadius,
-            color: colorScheme.primary,
-          ),
-          child: Center(
-            child: Text(
-              '선택된 칩 버튼',
-              style: TextStyle(
-                fontSize: AppFontSize.caption,
-                color: Colors.white,
-                fontWeight: AppFontWeight.bold,
-              ),
-            ),
-          ),
-        ),
+        // Container(
+        //   width: 20,
+        //   height: 20,
+        //   padding: EdgeInsets.all(AppFontSize.button),
+        //   decoration: BoxDecoration(
+        //     shape: BoxShape.circle,
+        //     border: Border.all(color: colorScheme.border, width: 2.4),
+        //   ),
+        //   child: null,
+        // ),
 
-        Container(
-          padding: .symmetric(vertical: 8, horizontal: AppFontSize.button),
-          decoration: BoxDecoration(
-            borderRadius: AppRadius.iosStyleRadius,
-            color: colorScheme.textBackground30,
-          ),
-          child: Center(
-            child: Text(
-              '선택 안된 칩 버튼',
-              style: TextStyle(
-                fontSize: AppFontSize.caption,
-                color: colorScheme.textDisabled,
-                fontWeight: AppFontWeight.bold,
-              ),
-            ),
-          ),
-        ),
+        // Container(
+        //   // height: baseLength,
+        //   width: baseLength * 5,
+        //   padding: .all(AppFontSize.button),
+        //   decoration: BoxDecoration(
+        //     borderRadius: AppRadius.iosStyleRadius,
+        //     color: colorScheme.surface,
+        //   ),
+        //   child: Row(
+        //     spacing: AppFontSize.button,
+        //     children: [
+        //       Container(
+        //         width: 20,
+        //         height: 20,
+        //         decoration: BoxDecoration(
+        //           shape: BoxShape.circle,
+        //           border: Border.all(color: colorScheme.primary, width: 2.4),
+        //         ),
+        //         child: Center(
+        //           child: Container(
+        //             width: 10,
+        //             height: 10,
+        //             decoration: BoxDecoration(
+        //               shape: BoxShape.circle,
+        //               color: colorScheme.primary,
+        //             ),
+        //           ),
+        //         ),
+        //       ),
+        //       Expanded(
+        //         child: Text(
+        //           '선택된 리스트 버튼',
+        //           style: TextStyle(
+        //             fontWeight: AppFontWeight.semiBold,
+        //             fontSize: AppFontSize.button,
+        //             color: colorScheme.textPrimary,
+        //           ),
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ),
 
-        Container(
-          padding: .symmetric(vertical: 8, horizontal: 8),
-          decoration: BoxDecoration(
-            borderRadius: AppRadius.iosStyleRadius,
-            color: colorScheme.primary,
-          ),
-          child: Center(child: Icon(Icons.close, color: Colors.white)),
-        ),
+        // Container(
+        //   // height: baseLength,
+        //   width: baseLength * 5,
+        //   padding: .all(AppFontSize.button),
+        //   constraints: BoxConstraints(
+        //     minHeight: baseLength,
+        //     minWidth: baseLength,
+        //   ),
+        //   decoration: BoxDecoration(
+        //     borderRadius: AppRadius.iosStyleRadius,
+        //     color: colorScheme.textBackground30,
+        //   ),
+        //   child: Row(
+        //     spacing: AppFontSize.button,
+        //     children: [
+        //       Container(
+        //         width: 20,
+        //         height: 20,
+        //         decoration: BoxDecoration(
+        //           shape: BoxShape.circle,
+        //           border: Border.all(
+        //             color: colorScheme.textDisabled,
+        //             width: 2.4,
+        //           ),
+        //         ),
+        //         child: null,
+        //       ),
+        //       Expanded(
+        //         child: Text(
+        //           '선택 안된 리스트 버튼',
+        //           style: TextStyle(
+        //             fontWeight: AppFontWeight.semiBold,
+        //             fontSize: AppFontSize.button,
+        //             color: colorScheme.textDisabled,
+        //           ),
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ),
 
-        Flexible(
-          child: Container(
-            height: baseLength,
-            color: Colors.grey[200],
-            child: Center(
-              child: Text(
-                'Flexible child',
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
-          ),
-        ),
+        // Container(
+        //   padding: .symmetric(vertical: 8, horizontal: AppFontSize.button),
+        //   decoration: BoxDecoration(
+        //     borderRadius: AppRadius.iosStyleRadius,
+        //     color: colorScheme.primary,
+        //   ),
+        //   child: Center(
+        //     child: Text(
+        //       '선택된 칩 버튼',
+        //       style: TextStyle(
+        //         fontSize: AppFontSize.caption,
+        //         color: Colors.white,
+        //         fontWeight: AppFontWeight.bold,
+        //       ),
+        //     ),
+        //   ),
+        // ),
 
+        // Container(
+        //   padding: .symmetric(vertical: 8, horizontal: AppFontSize.button),
+        //   decoration: BoxDecoration(
+        //     borderRadius: AppRadius.iosStyleRadius,
+        //     color: colorScheme.textBackground30,
+        //   ),
+        //   child: Center(
+        //     child: Text(
+        //       '선택 안된 칩 버튼',
+        //       style: TextStyle(
+        //         fontSize: AppFontSize.caption,
+        //         color: colorScheme.textDisabled,
+        //         fontWeight: AppFontWeight.bold,
+        //       ),
+        //     ),
+        //   ),
+        // ),
+
+        // Container(
+        //   padding: .symmetric(vertical: 8, horizontal: 8),
+        //   decoration: BoxDecoration(
+        //     borderRadius: AppRadius.iosStyleRadius,
+        //     color: colorScheme.primary,
+        //   ),
+        //   child: Center(child: Icon(Icons.close, color: Colors.white)),
+        // ),
+
+        // Flexible(
+        //   child: Container(
+        //     height: baseLength,
+        //     color: Colors.grey[200],
+        //     child: Center(
+        //       child: Text(
+        //         'Flexible child',
+        //         style: TextStyle(color: Colors.black),
+        //       ),
+        //     ),
+        //   ),
+        // ),
         SizedBox(height: baseLength),
       ],
     );
