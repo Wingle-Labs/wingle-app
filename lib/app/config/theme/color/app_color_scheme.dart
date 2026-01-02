@@ -39,11 +39,11 @@ abstract interface class AppColorScheme {
   /// 완전 비활성화 텍스트, 시스템 메타 정보 텍스트
   Color get textDisabledStrong;
 
-  /// - [textBg30]: 배경 대비 30% 텍스트 색상
-  Color get textBg30;
+  /// - [textBackground30]: 배경 대비 30% 텍스트 색상
+  Color get textBackground30;
 
-  /// - [textBg10]: 배경 대비 10% 텍스트 색상
-  Color get textBg10;
+  /// - [textBackground10]: 배경 대비 10% 텍스트 색상
+  Color get textBackground10;
 
   // ! Surface 관련 컬러: 컨테이너 및 레이어별 배경 색상
   /// - [surface]: 기본 표면 색상
