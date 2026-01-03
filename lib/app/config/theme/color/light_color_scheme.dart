@@ -8,15 +8,14 @@ class LightColorScheme implements AppColorScheme {
   /// 싱글톤 인스턴스
   const LightColorScheme();
 
-  @override
-  Color get background => Color(0xFFFAFAFA);
-
+  // ! Primary Color: 주요 컬러
   @override
   Color get primary => Color(0xFF5E402D);
 
   @override
   Color get onPrimary => Color(0xFFFFFFFF);
 
+  // ! 텍스트 관련 컬러: 계층과 용도에 따른 구분
   @override
   Color get textPrimary => Color(0xFF1C1C1C);
 
@@ -35,11 +34,9 @@ class LightColorScheme implements AppColorScheme {
   @override
   Color get textDisabledStrong => Color(0xFF9E9E9E);
 
+  // ! Surface 관련 컬러: 컨테이너 및 레이어별 배경 색상
   @override
-  Color get textBackground30 => Color(0xFFF2F2F2);
-
-  @override
-  Color get textBackground10 => Color(0xFFE2E2E2);
+  Color get background => Color(0xFFFAFAFA);
 
   @override
   Color get surface => Color(0xFFFFFFFF);
@@ -47,12 +44,18 @@ class LightColorScheme implements AppColorScheme {
   @override
   Color get surfaceVariant => Color(0xFFF2F2F2);
 
-  // TODO: FFFFFF Shadow가 무엇을 의미하는 지 디자이너의 확인 필요
   @override
   Color get surfaceElevated => Color(0xFFFFFFFF);
 
+  // ! 인터랙션 피드백 및 상태 표현용 오버레이 및 경계 색상
   @override
-  Color get scrimBorder => Color.from(alpha: 0.45, red: 0, green: 0, blue: 0);
+  Color get border => Color(0xFFE2E2E2);
+
+  @override
+  Color get divider => Color(0xFFECECEC);
+
+  @override
+  Color get scrim => Color.from(alpha: 0.45, red: 0, green: 0, blue: 0);
 
   @override
   Color get overlayPressed =>
@@ -65,12 +68,33 @@ class LightColorScheme implements AppColorScheme {
   @override
   Color get overlayLoading => Color.from(alpha: 0.2, red: 0, green: 0, blue: 0);
 
+  // ! 상태 존재 버튼의 상태 표현 컬러
+  // ! Chip, Radio, Checkbox, ListButton 등
   @override
-  Color get border => Color(0xFFE2E2E2);
+  Color get stateBtnSelected => Color(0xFF5E402D);
 
   @override
-  Color get divider => Color(0xFFECECEC);
+  Color get stateBtnUnselected => Color(0xFFC8BDB6);
 
+  @override
+  Color get stateBtnDisabled => Color(0xFFC8BDB6);
+
+  // ! 단순 버튼의 상태 표현 컬러
+  // ! Filled, Outlined, Text 버튼
+  @override
+  Color get btnDefault => throw UnimplementedError();
+
+  @override
+  Color get btnDisabled => throw UnimplementedError();
+
+  // ! 프로필 카드 속 입력사항 Badge 표현 컬러
+  @override // TODO: implement profileStatusBadgeDefault
+  Color get profileStatusBadgeDefault => throw UnimplementedError();
+
+  @override // TODO: implement profileStatusBadgeDisabled
+  Color get profileStatusBadgeDisabled => throw UnimplementedError();
+
+  // ! Feedback 컬러
   @override
   Color get error => Color(0xFFD64545);
 
@@ -95,28 +119,25 @@ class LightColorScheme implements AppColorScheme {
   @override
   Color get onInfo => Color(0xFFFFFFFF);
 
+  @override // TODO: implement cancel
+  Color get cancel => throw UnimplementedError();
+
+  @override // TODO: implement onCancel
+  Color get onCancel => throw UnimplementedError();
+
+  // ! 디자인에서 제공하는 톤 스케일: Primary 색상 계열의 다양한 명도 단계
   @override
-  Color get stateDefault => Color(0xFF5E402D);
+  Color get primaryScale90 => Color(0xFFF1EAE4);
 
   @override
-  Color get statePressed => Color(0xFFC8BDB6);
-
-  // TODO: 정확한 색상인지 확인 필요
-  @override
-  Color get stateDisabled => Color(0xFFC8BDB6);
+  Color get primaryScale70 => Color(0xFFC8B6AB);
 
   @override
-  Color get scalePrimary90 => Color(0xFFF1EAE4);
+  Color get primaryScale50 => Color(0xFF5E402D);
 
   @override
-  Color get scalePrimary70 => Color(0xFFC8B6AB);
+  Color get primaryScale30 => Color(0xFF4F3525);
 
   @override
-  Color get scalePrimary50 => Color(0xFF5E402D);
-
-  @override
-  Color get scalePrimary30 => Color(0xFF4F3525);
-
-  @override
-  Color get scalePrimary10 => Color(0xFF37291E);
+  Color get primaryScale10 => Color(0xFF37291E);
 }
