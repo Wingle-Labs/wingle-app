@@ -43,7 +43,7 @@ class DesignSystem extends ConsumerWidget {
 
         DefaultButton(
           label: "활성화 상태: 채워진 버튼",
-          backgroundColor: colorScheme.primary,
+          backgroundColor: colorScheme.btnDefault,
           pressedColor: colorScheme.overlayPressed,
           textColor: colorScheme.onPrimary,
           onPressed: () {},
@@ -51,7 +51,7 @@ class DesignSystem extends ConsumerWidget {
 
         DefaultButton(
           label: "비활성화 상태: 채워진 버튼",
-          backgroundColor: Color(0xFFF2F2F2),
+          backgroundColor: colorScheme.btnDisabled,
           pressedColor: colorScheme.overlayPressed,
           textColor: colorScheme.textDisabled,
           onPressed: null,
@@ -61,8 +61,8 @@ class DesignSystem extends ConsumerWidget {
           label: "활성화 상태: 테두리 버튼",
           backgroundColor: colorScheme.surfaceElevated,
           pressedColor: colorScheme.overlayPressed,
-          textColor: colorScheme.primary,
-          borderSide: BorderSide(color: colorScheme.primary, width: 1.2),
+          textColor: colorScheme.btnDefault,
+          borderSide: BorderSide(color: colorScheme.btnDefault, width: 1.2),
           onPressed: () {},
         ),
 
