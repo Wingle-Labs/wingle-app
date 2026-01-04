@@ -15,6 +15,12 @@ class DarkColorScheme implements AppColorScheme {
   @override
   Color get onPrimary => Color(0xFFF5F1EE);
 
+  @override
+  Color get secondary => Color(0xFFFFFFFF);
+
+  @override
+  Color get onSecondary => Color(0xFF121212);
+
   // ! 텍스트 관련 컬러: 계층과 용도에 따른 구분
   @override
   Color get textPrimary => Color(0xFFEDEDED);
@@ -90,20 +96,18 @@ class DarkColorScheme implements AppColorScheme {
 
   @override
   Color get divider => Color(0xFF1F1F1F);
-  @override
-  Color get scrim => Color.from(alpha: 0.10, red: 255, green: 255, blue: 255);
 
   @override
-  Color get overlayPressed =>
-      Color.from(alpha: 0.08, red: 255, green: 255, blue: 255);
+  Color get scrim => Color(0xFFFFFFFF).withValues(alpha: 0.10);
 
   @override
-  Color get overlayDisabled =>
-      Color.from(alpha: 0.08, red: 255, green: 255, blue: 255);
+  Color get overlayPressed => Color(0xFFFFFFFF).withValues(alpha: 0.08);
 
   @override
-  Color get overlayLoading =>
-      Color.from(alpha: 0.12, red: 255, green: 255, blue: 255);
+  Color get overlayDisabled => Color(0xFFFFFFFF).withValues(alpha: 0.08);
+
+  @override
+  Color get overlayLoading => Color(0xFFFFFFFF).withValues(alpha: 0.12);
 
   // ! 상태 존재 버튼의 상태 표현 컬러
   // ! Chip, Radio, Checkbox, ListButton 등

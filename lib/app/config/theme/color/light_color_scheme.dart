@@ -15,6 +15,16 @@ class LightColorScheme implements AppColorScheme {
   @override
   Color get onPrimary => Color(0xFFFFFFFF);
 
+  /// -[secondary]: Light Mode에서 사용되는 보조 Primary
+  /// Light Mode에서만 우선순위가 낮은 인터랙션 요소를 표현하기 위해 사용
+  @override
+  Color get secondary => Color(0xFF5E402D).withValues(alpha: 0.3);
+
+  /// -[onSecondary]: [secondary] 위에 배치되는 전경 색상
+  /// 보조 인터랙션 요소 내부의 텍스트 및 아이콘에 사용
+  @override
+  Color get onSecondary => Color(0xFF5E402D);
+
   // ! 텍스트 관련 컬러: 계층과 용도에 따른 구분
   @override
   Color get textPrimary => Color(0xFF1C1C1C);
@@ -92,18 +102,18 @@ class LightColorScheme implements AppColorScheme {
   Color get divider => Color(0xFFECECEC);
 
   @override
-  Color get scrim => Color.from(alpha: 0.45, red: 0, green: 0, blue: 0);
+  Color get scrim => Color(0xFF000000).withValues(alpha: 0.45);
 
   @override
   Color get overlayPressed =>
-      Color.from(alpha: 0.12, red: 0, green: 0, blue: 0);
+      Color(0xFF000000).withValues(alpha: 0.12);
 
   @override
   Color get overlayDisabled =>
-      Color.from(alpha: 0.12, red: 0, green: 0, blue: 0);
+      Color(0xFF000000).withValues(alpha: 0.12);
 
   @override
-  Color get overlayLoading => Color.from(alpha: 0.2, red: 0, green: 0, blue: 0);
+  Color get overlayLoading => Color(0xFF000000).withValues(alpha: 0.2);
 
   // ! 상태 존재 버튼의 상태 표현 컬러
   // ! Chip, Radio, Checkbox, ListButton 등
