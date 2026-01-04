@@ -8,15 +8,14 @@ class DarkColorScheme implements AppColorScheme {
   /// 싱글톤 인스턴스
   const DarkColorScheme();
 
-  @override
-  Color get background => Color(0xFF070707);
-
+  // ! Primary Color: 주요 컬러
   @override
   Color get primary => Color(0xFF765642);
 
   @override
   Color get onPrimary => Color(0xFFF5F1EE);
 
+  // ! 텍스트 관련 컬러: 계층과 용도에 따른 구분
   @override
   Color get textPrimary => Color(0xFFEDEDED);
 
@@ -35,11 +34,9 @@ class DarkColorScheme implements AppColorScheme {
   @override
   Color get textDisabledStrong => Color(0xFF6A6A6A);
 
+  // ! Surface 관련 컬러: 컨테이너 및 레이어별 배경 색상
   @override
-  Color get textBackground30 => Color(0xFF1A1A1A);
-
-  @override
-  Color get textBackground10 => Color(0xFF121212);
+  Color get background => Color(0xFF070707);
 
   @override
   Color get surface => Color(0xFF121212);
@@ -51,27 +48,12 @@ class DarkColorScheme implements AppColorScheme {
   Color get surfaceElevated => Color(0xFF1E1E1E);
 
   @override
-  Color get scrimBorder =>
-      Color.from(alpha: 0.10, red: 255, green: 255, blue: 255);
+  Color get surfaceDisabled => Color(0xFF1A1A1A);
 
   @override
-  Color get overlayPressed =>
-      Color.from(alpha: 0.08, red: 255, green: 255, blue: 255);
+  Color get surfaceDisabledSubtle => Color(0xFF121212);
 
-  @override
-  Color get overlayDisabled =>
-      Color.from(alpha: 0.08, red: 255, green: 255, blue: 255);
-
-  @override
-  Color get overlayLoading =>
-      Color.from(alpha: 0.12, red: 255, green: 255, blue: 255);
-
-  @override
-  Color get border => Color(0xFF242424);
-
-  @override
-  Color get divider => Color(0xFF1F1F1F);
-
+  // ! Feedback 컬러
   @override
   Color get error => Color(0xFFE06B6B);
 
@@ -88,35 +70,80 @@ class DarkColorScheme implements AppColorScheme {
   Color get warning => Color(0xFFF0B75A);
 
   @override
-  Color get onWarning => Color(0xFFECECEC);
+  Color get onWarning => Color(0xFF2A1B00);
 
   @override
   Color get info => Color(0xFF6FA3E8);
 
   @override
-  Color get onInfo => Color(0xFF0B1624);
+  Color get onInfo => Color(0xFF6FA3E8);
 
   @override
-  Color get stateDefault => Color(0xFF765642);
+  Color get cancel => Color(0xFF9E9E9E);
 
   @override
-  Color get statePressed => Color(0xFF654937);
+  Color get onCancel => Color(0xFF070707);
+
+  // ! 인터랙션 피드백 및 상태 표현용 오버레이 및 경계 색상
+  @override
+  Color get border => Color(0xFF242424);
 
   @override
-  Color get stateDisabled => Color(0xFF3F342D);
+  Color get divider => Color(0xFF1F1F1F);
+  @override
+  Color get scrim => Color.from(alpha: 0.10, red: 255, green: 255, blue: 255);
 
   @override
-  Color get scalePrimary90 => Color(0xFF8A6A55);
+  Color get overlayPressed =>
+      Color.from(alpha: 0.08, red: 255, green: 255, blue: 255);
 
   @override
-  Color get scalePrimary70 => Color(0xFF765642);
+  Color get overlayDisabled =>
+      Color.from(alpha: 0.08, red: 255, green: 255, blue: 255);
 
   @override
-  Color get scalePrimary50 => Color(0xFF654937);
+  Color get overlayLoading =>
+      Color.from(alpha: 0.12, red: 255, green: 255, blue: 255);
+
+  // ! 상태 존재 버튼의 상태 표현 컬러
+  // ! Chip, Radio, Checkbox, ListButton 등
+  @override
+  Color get stateBtnSelected => Color(0xFF765642);
 
   @override
-  Color get scalePrimary30 => Color(0xFF53412B);
+  Color get stateBtnUnselected => Color(0xFF242424);
 
   @override
-  Color get scalePrimary10 => Color(0xFF3F3021);
+  Color get stateBtnDisabled => Color(0xFF3F342D);
+
+  // ! 단순 버튼의 상태 표현 컬러
+  // ! Filled, Outlined, Text 버튼
+  @override
+  Color get btnDefault => Color(0xFF765642);
+
+  @override
+  Color get btnDisabled => Color(0xFF3F342D);
+
+  // ! 프로필 카드 속 입력사항 Badge 표현 컬러
+  @override
+  Color get profileStatusBadgeDefault => Color(0xFF765642);
+
+  @override
+  Color get profileStatusBadgeDisabled => Color(0xFF3F342D);
+
+  // ! 디자인에서 제공하는 톤 스케일: Primary 색상 계열의 다양한 명도 단계
+  @override
+  Color get primaryScale90 => Color(0xFF8A6A55);
+
+  @override
+  Color get primaryScale70 => Color(0xFF765642);
+
+  @override
+  Color get primaryScale50 => Color(0xFF654937);
+
+  @override
+  Color get primaryScale30 => Color(0xFF53412B);
+
+  @override
+  Color get primaryScale10 => Color(0xFF3F3021);
 }

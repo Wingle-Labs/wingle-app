@@ -76,7 +76,7 @@ class DesignSystem extends ConsumerWidget {
           padding: .all(AppFontSize.button),
           decoration: BoxDecoration(
             borderRadius: AppRadius.iosStyleRadius,
-            color: colorScheme.textBackground30,
+            color: colorScheme.btnDisabled,
           ),
           child: Center(
             child: Text(
@@ -154,7 +154,7 @@ class DesignSystem extends ConsumerWidget {
           decoration: BoxDecoration(
             borderRadius: AppRadius.iosStyleRadius,
             color: Colors.transparent,
-            border: Border.all(color: colorScheme.textBackground30, width: 1.2),
+            border: Border.all(color: colorScheme.btnDisabled, width: 1.2),
           ),
           child: Center(
             child: Text(
@@ -251,7 +251,7 @@ class DesignSystem extends ConsumerWidget {
           ),
           decoration: BoxDecoration(
             borderRadius: AppRadius.iosStyleRadius,
-            color: colorScheme.textBackground30,
+            color: colorScheme.btnDisabled,
           ),
           child: Row(
             spacing: AppFontSize.button,
@@ -304,7 +304,7 @@ class DesignSystem extends ConsumerWidget {
           padding: .symmetric(vertical: 8, horizontal: AppFontSize.button),
           decoration: BoxDecoration(
             borderRadius: AppRadius.iosStyleRadius,
-            color: colorScheme.textBackground30,
+            color: colorScheme.btnDisabled,
           ),
           child: Center(
             child: Text(
