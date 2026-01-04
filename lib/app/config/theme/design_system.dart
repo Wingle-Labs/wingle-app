@@ -41,7 +41,6 @@ class DesignSystem extends ConsumerWidget {
           ),
         ),
 
-        // TODO: 디자이너에게 pressedColor 색상 확인 요청
         DefaultButton(
           label: "활성화 상태: 채워진 버튼",
           backgroundColor: colorScheme.primary,
@@ -50,7 +49,6 @@ class DesignSystem extends ConsumerWidget {
           onPressed: () {},
         ),
 
-        // TODO: 디자이너에게 비활성화 backgroundColor 지정 요청
         DefaultButton(
           label: "비활성화 상태: 채워진 버튼",
           backgroundColor: Color(0xFFF2F2F2),
@@ -59,40 +57,36 @@ class DesignSystem extends ConsumerWidget {
           onPressed: null,
         ),
 
-        // TODO: 디자이너에게 pressedColor 색상 확인 요청
         DefaultButton(
           label: "활성화 상태: 테두리 버튼",
           backgroundColor: colorScheme.surfaceElevated,
-          pressedColor: colorScheme.statePressed,
+          pressedColor: colorScheme.overlayPressed,
           textColor: colorScheme.primary,
           borderSide: BorderSide(color: colorScheme.primary, width: 1.2),
           onPressed: () {},
         ),
 
-        // TODO: 디자이너에게 비활성화 backgroundColor 지정 요청
         DefaultButton(
           label: "비활성화 상태: 테두리 버튼",
           backgroundColor: Color(0xFFF2F2F2),
-          pressedColor: colorScheme.statePressed,
+          pressedColor: colorScheme.overlayPressed,
           textColor: colorScheme.textDisabled,
           onPressed: null,
           borderSide: BorderSide(color: colorScheme.textDisabled, width: 1.2),
         ),
 
-        // TODO: 디자이너에게 pressedColor 색상 확인 요청
         DefaultButton(
           label: "활성화 상태: 텍스트 버튼",
           backgroundColor: colorScheme.surfaceElevated,
-          pressedColor: colorScheme.statePressed,
+          pressedColor: colorScheme.overlayPressed,
           textColor: colorScheme.primary,
           onPressed: () {},
         ),
 
-        // TODO: 디자이너에게 비활성화 backgroundColor 지정 요청
         DefaultButton(
           label: "비활성화 상태: 텍스트 버튼",
           backgroundColor: Color(0xFFF2F2F2),
-          pressedColor: colorScheme.statePressed,
+          pressedColor: colorScheme.overlayPressed,
           textColor: colorScheme.textDisabled,
           onPressed: null,
         ),
@@ -123,7 +117,10 @@ class DesignSystem extends ConsumerWidget {
         //   decoration: BoxDecoration(
         //     borderRadius: AppRadius.iosStyleRadius,
         //     color: Colors.transparent,
-        //     border: Border.all(color: colorScheme.textBackground30, width: 1.2),
+        //     border: Border.all(
+        //       color: colorScheme.textBackground30,
+        //       width: 1.2,
+        //     ),
         //   ),
         //   child: Center(
         //     child: Text(
