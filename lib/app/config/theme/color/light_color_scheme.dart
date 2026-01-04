@@ -102,18 +102,18 @@ class LightColorScheme implements AppColorScheme {
   Color get divider => Color(0xFFECECEC);
 
   @override
-  Color get scrim => Color.from(alpha: 0.45, red: 0, green: 0, blue: 0);
+  Color get scrim => Color(0xFF000000).withValues(alpha: 0.45);
 
   @override
   Color get overlayPressed =>
-      Color.from(alpha: 0.12, red: 0, green: 0, blue: 0);
+      Color(0xFF000000).withValues(alpha: 0.12);
 
   @override
   Color get overlayDisabled =>
-      Color.from(alpha: 0.12, red: 0, green: 0, blue: 0);
+      Color(0xFF000000).withValues(alpha: 0.12);
 
   @override
-  Color get overlayLoading => Color.from(alpha: 0.2, red: 0, green: 0, blue: 0);
+  Color get overlayLoading => Color(0xFF000000).withValues(alpha: 0.2);
 
   // ! 상태 존재 버튼의 상태 표현 컬러
   // ! Chip, Radio, Checkbox, ListButton 등
