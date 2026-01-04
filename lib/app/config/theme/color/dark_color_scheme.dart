@@ -15,6 +15,12 @@ class DarkColorScheme implements AppColorScheme {
   @override
   Color get onPrimary => Color(0xFFF5F1EE);
 
+  @override
+  Color get secondary => Color(0xFFFFFFFF);
+
+  @override
+  Color get onSecondary => Color(0xFF121212);
+
   // ! 텍스트 관련 컬러: 계층과 용도에 따른 구분
   @override
   Color get textPrimary => Color(0xFFEDEDED);
