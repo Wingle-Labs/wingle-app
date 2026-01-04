@@ -13,6 +13,14 @@ abstract interface class AppColorScheme {
   /// primary 버튼 내부 텍스트 / 아이콘
   Color get onPrimary;
 
+  /// -[secondary]: [primary] 색상의 시각적 강도를 낮춘 보조 강조 색상
+  /// 우선순위가 낮은 인터랙션 요소를 표현하기 위해 
+  Color get secondary;
+
+  /// -[onSecondary]: [secondary] 위에 배치되는 전경 색상
+  /// 보조 인터랙션 요소 내부의 텍스트 및 아이콘에 사용
+  Color get onSecondary;
+
   // ! 텍스트 관련 컬러: 계층과 용도에 따른 구분
   /// - [textPrimary]: 텍스트 강조 레벨 1단계
   /// Title, Body text 등 핵심 정보 텍스트
