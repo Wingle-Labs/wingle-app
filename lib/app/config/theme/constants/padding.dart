@@ -6,8 +6,11 @@ class AppPadding {
   /// 세로 패딩
   static const double vertical = 12;
 
-  /// 버튼 내부 패딩
-  static const double button = 16;
+  /// 버튼 내부 세로 패딩
+  static const double btnVertical = 14;
+
+  /// 버튼 내부 가로 패딩
+  static const double btnHorizontal = 20;
 
   /// Scaffold 내부 패딩
   static const double scaffold = 24;
