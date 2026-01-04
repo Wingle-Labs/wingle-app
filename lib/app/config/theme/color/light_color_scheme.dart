@@ -51,7 +51,7 @@ class LightColorScheme implements AppColorScheme {
   Color get surfaceDisabled => Color(0xFFE2E2E2);
 
   @override
-  Color get surfaceDisableSubtle => Color(0xFFF2F2F2);
+  Color get surfaceDisabledSubtle => Color(0xFFF2F2F2);
 
   // ! Feedback 컬러
   @override

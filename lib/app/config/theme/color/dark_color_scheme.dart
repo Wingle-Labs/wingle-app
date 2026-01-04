@@ -51,7 +51,7 @@ class DarkColorScheme implements AppColorScheme {
   Color get surfaceDisabled => Color(0xFF1A1A1A);
 
   @override
-  Color get surfaceDisableSubtle => Color(0xFF121212);
+  Color get surfaceDisabledSubtle => Color(0xFF121212);
 
   // ! Feedback 컬러
   @override

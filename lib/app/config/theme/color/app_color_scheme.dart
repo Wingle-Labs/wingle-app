@@ -62,8 +62,8 @@ abstract interface class AppColorScheme {
   /// 사용자가 현재 상호작용할 수 없는 상태임을 시각적으로 표현
   Color get surfaceDisabled;
 
-  /// - [surfaceDisableSubtle]: 비활성화된 UI 요소의 배경의 보조
-  Color get surfaceDisableSubtle;
+  /// - [surfaceDisabledSubtle]: 비활성화된 UI 요소의 배경의 보조
+  Color get surfaceDisabledSubtle;
 
   // ! Feedback 컬러
   /// - [error]: 삭제 및 강력한 경고 요소
