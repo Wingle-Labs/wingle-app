@@ -34,6 +34,12 @@ class LightColorScheme implements AppColorScheme {
   @override
   Color get textDisabledStrong => Color(0xFF9E9E9E);
 
+  @override
+  Color get textBackground30 => Color(0xFFF2F2F2);
+
+  @override
+  Color get textBackground10 => Color(0xFFE2E2E2);
+
   // ! Surface 관련 컬러: 컨테이너 및 레이어별 배경 색상
   @override
   Color get background => Color(0xFFFAFAFA);
@@ -46,6 +52,36 @@ class LightColorScheme implements AppColorScheme {
 
   @override
   Color get surfaceElevated => Color(0xFFFFFFFF);
+  // ! Feedback 컬러
+  @override
+  Color get error => Color(0xFFD64545);
+
+  @override
+  Color get onError => Color(0xFFFFFFFF);
+
+  @override
+  Color get success => Color(0xFF2E7D5A);
+
+  @override
+  Color get onSuccess => Color(0xFFFFFFFF);
+
+  @override
+  Color get warning => Color(0xFFE6A23C);
+
+  @override
+  Color get onWarning => Color(0xFF1C1C1C);
+
+  @override
+  Color get info => Color(0xFF3A7BD5);
+
+  @override
+  Color get onInfo => Color(0xFFFFFFFF);
+
+  @override // TODO: implement cancel
+  Color get cancel => throw UnimplementedError();
+
+  @override // TODO: implement onCancel
+  Color get onCancel => throw UnimplementedError();
 
   // ! 인터랙션 피드백 및 상태 표현용 오버레이 및 경계 색상
   @override
@@ -93,37 +129,6 @@ class LightColorScheme implements AppColorScheme {
 
   @override // TODO: implement profileStatusBadgeDisabled
   Color get profileStatusBadgeDisabled => throw UnimplementedError();
-
-  // ! Feedback 컬러
-  @override
-  Color get error => Color(0xFFD64545);
-
-  @override
-  Color get onError => Color(0xFFFFFFFF);
-
-  @override
-  Color get success => Color(0xFF2E7D5A);
-
-  @override
-  Color get onSuccess => Color(0xFFFFFFFF);
-
-  @override
-  Color get warning => Color(0xFFE6A23C);
-
-  @override
-  Color get onWarning => Color(0xFF1C1C1C);
-
-  @override
-  Color get info => Color(0xFF3A7BD5);
-
-  @override
-  Color get onInfo => Color(0xFFFFFFFF);
-
-  @override // TODO: implement cancel
-  Color get cancel => throw UnimplementedError();
-
-  @override // TODO: implement onCancel
-  Color get onCancel => throw UnimplementedError();
 
   // ! 디자인에서 제공하는 톤 스케일: Primary 색상 계열의 다양한 명도 단계
   @override

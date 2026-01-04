@@ -34,6 +34,12 @@ class DarkColorScheme implements AppColorScheme {
   @override
   Color get textDisabledStrong => Color(0xFF6A6A6A);
 
+  @override
+  Color get textBackground30 => Color(0xFF1A1A1A);
+
+  @override
+  Color get textBackground10 => Color(0xFF121212);
+
   // ! Surface 관련 컬러: 컨테이너 및 레이어별 배경 색상
   @override
   Color get background => Color(0xFF070707);
@@ -46,6 +52,36 @@ class DarkColorScheme implements AppColorScheme {
 
   @override
   Color get surfaceElevated => Color(0xFF1E1E1E);
+  // ! Feedback 컬러
+  @override
+  Color get error => Color(0xFFE06B6B);
+
+  @override
+  Color get onError => Color(0xFF1A1A1A);
+
+  @override
+  Color get success => Color(0xFF4FAF88);
+
+  @override
+  Color get onSuccess => Color(0xFF0F1F18);
+
+  @override
+  Color get warning => Color(0xFFF0B75A);
+
+  @override
+  Color get onWarning => Color(0xFF2A1B00);
+
+  @override
+  Color get info => Color(0xFF6FA3E8);
+
+  @override
+  Color get onInfo => Color(0xFF6FA3E8);
+
+  @override
+  Color get cancel => Color(0xFF9E9E9E);
+
+  @override
+  Color get onCancel => Color(0xFF070707);
 
   // ! 인터랙션 피드백 및 상태 표현용 오버레이 및 경계 색상
   @override
@@ -74,7 +110,7 @@ class DarkColorScheme implements AppColorScheme {
   Color get stateBtnSelected => Color(0xFF765642);
 
   @override
-  Color get stateBtnUnselected => Color(0xFF654937);
+  Color get stateBtnUnselected => Color(0xFF242424);
 
   @override
   Color get stateBtnDisabled => Color(0xFF3F342D);
@@ -82,48 +118,17 @@ class DarkColorScheme implements AppColorScheme {
   // ! 단순 버튼의 상태 표현 컬러
   // ! Filled, Outlined, Text 버튼
   @override
-  Color get btnDefault => throw UnimplementedError();
+  Color get btnDefault => Color(0xFF765642);
 
   @override
-  Color get btnDisabled => throw UnimplementedError();
+  Color get btnDisabled => Color(0xFF3F342D);
 
   // ! 프로필 카드 속 입력사항 Badge 표현 컬러
-  @override // TODO: implement profileStatusBadgeDefault
-  Color get profileStatusBadgeDefault => throw UnimplementedError();
-
-  @override // TODO: implement profileStatusBadgeDisabled
-  Color get profileStatusBadgeDisabled => throw UnimplementedError();
-
-  // ! Feedback 컬러
   @override
-  Color get error => Color(0xFFE06B6B);
+  Color get profileStatusBadgeDefault => Color(0xFF765642);
 
   @override
-  Color get onError => Color(0xFF1A1A1A);
-
-  @override
-  Color get success => Color(0xFF4FAF88);
-
-  @override
-  Color get onSuccess => Color(0xFF0F1F18);
-
-  @override
-  Color get warning => Color(0xFFF0B75A);
-
-  @override
-  Color get onWarning => Color(0xFFECECEC);
-
-  @override
-  Color get info => Color(0xFF6FA3E8);
-
-  @override
-  Color get onInfo => Color(0xFF0B1624);
-
-  @override
-  Color get cancel => throw UnimplementedError();
-
-  @override
-  Color get onCancel => throw UnimplementedError();
+  Color get profileStatusBadgeDisabled => Color(0xFF3F342D);
 
   // ! 디자인에서 제공하는 톤 스케일: Primary 색상 계열의 다양한 명도 단계
   @override

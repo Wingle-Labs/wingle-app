@@ -41,6 +41,14 @@ abstract interface class AppColorScheme {
   /// 명암비 2.6:1로 가시성이 떨어지는 색상
   Color get textDisabledStrong;
 
+  // TODO: 디자이너의 Role에 따라 주석 추가
+  /// - [textBackground30]
+  Color get textBackground30;
+
+  // TODO: 디자이너의 Role에 따라 주석 추가
+  /// - [textBackground10]
+  Color get textBackground10;
+
   // ! Surface 관련 컬러: 컨테이너 및 레이어별 배경 색상
   /// - [background]: 앱 전체의 바닥 레이어 / 움직이지 않는 레이어
   /// 앱 전체 배경, 스크롤 영역 바탕, 최외곽 영역
@@ -57,6 +65,41 @@ abstract interface class AppColorScheme {
   /// - [surfaceElevated]: 시각적 깊이, 레이어 우선순위 표현 또는 사용자 포커스를 끌어야 하는 컨테이너의 배경
   /// Modal, Bottom Sheet, Floating Card, Tooltip
   Color get surfaceElevated;
+
+  // ! Feedback 컬러
+  /// - [error]: 삭제 및 강력한 경고 요소
+  /// error 버튼 배경 색상
+  Color get error;
+
+  /// - [onError]: 삭제 및 강력한 경고 요소 텍스트 색상
+  /// error 버튼 텍스트 색상
+  Color get onError;
+
+  /// - [success]: 성공, 통과 요소
+  Color get success;
+
+  /// - [onSuccess]: 성공, 통과 요소 텍스트 색상
+  Color get onSuccess;
+
+  /// - [warning]: 가벼운 경고 요소
+  Color get warning;
+
+  /// - [onWarning]: 가벼운 경고 요소 텍스트 색상
+  Color get onWarning;
+
+  /// - [info]: 안내 색상
+  Color get info;
+
+  /// - [onInfo]: 안내 텍스트 색상
+  Color get onInfo;
+
+  /// - [cancel]: 취소, 주의 필요성 낮은 요소 색상
+  /// cancel 버튼 배경 색상
+  Color get cancel;
+
+  /// - [onCancel]: 취소, 주의 필요성 낮은 요소 텍스트 색상
+  /// cancel 버튼 텍스트 색상
+  Color get onCancel;
 
   // ! 인터랙션 피드백 및 상태 표현용 오버레이 및 경계 색상
   /// - [border]: 영역 구분용 경계선 색상
@@ -105,41 +148,6 @@ abstract interface class AppColorScheme {
 
   /// - [profileStatusBadgeDisabled]: Badge의 비활성 상태
   Color get profileStatusBadgeDisabled;
-
-  // ! Feedback 컬러
-  /// - [error]: 삭제 및 강력한 경고 요소
-  /// error 버튼 배경 색상
-  Color get error;
-
-  /// - [onError]: 삭제 및 강력한 경고 요소 텍스트 색상
-  /// error 버튼 텍스트 색상
-  Color get onError;
-
-  /// - [success]: 성공, 통과 요소
-  Color get success;
-
-  /// - [onSuccess]: 성공, 통과 요소 텍스트 색상
-  Color get onSuccess;
-
-  /// - [warning]: 가벼운 경고 요소
-  Color get warning;
-
-  /// - [onWarning]: 가벼운 경고 요소 텍스트 색상
-  Color get onWarning;
-
-  /// - [info]: 안내 색상
-  Color get info;
-
-  /// - [onInfo]: 안내 텍스트 색상
-  Color get onInfo;
-
-  /// - [cancel]: 취소, 주의 필요성 낮은 요소 색상
-  /// cancel 버튼 배경 색상
-  Color get cancel;
-
-  /// - [onCancel]: 취소, 주의 필요성 낮은 요소 텍스트 색상
-  /// cancel 버튼 텍스트 색상
-  Color get onCancel;
 
   // ! 디자인에서 제공하는 톤 스케일: Primary 색상 계열의 다양한 명도 단계
   /// - [primaryScale90]: 90% 명도 톤
