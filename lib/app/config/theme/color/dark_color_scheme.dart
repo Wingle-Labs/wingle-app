@@ -34,12 +34,6 @@ class DarkColorScheme implements AppColorScheme {
   @override
   Color get textDisabledStrong => Color(0xFF6A6A6A);
 
-  @override
-  Color get textBackground30 => Color(0xFF1A1A1A);
-
-  @override
-  Color get textBackground10 => Color(0xFF121212);
-
   // ! Surface 관련 컬러: 컨테이너 및 레이어별 배경 색상
   @override
   Color get background => Color(0xFF070707);
@@ -52,6 +46,13 @@ class DarkColorScheme implements AppColorScheme {
 
   @override
   Color get surfaceElevated => Color(0xFF1E1E1E);
+
+  @override
+  Color get surfaceDisabled => Color(0xFF1A1A1A);
+
+  @override
+  Color get surfaceDisableSubtle => Color(0xFF121212);
+
   // ! Feedback 컬러
   @override
   Color get error => Color(0xFFE06B6B);

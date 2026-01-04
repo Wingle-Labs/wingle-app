@@ -34,12 +34,6 @@ class LightColorScheme implements AppColorScheme {
   @override
   Color get textDisabledStrong => Color(0xFF9E9E9E);
 
-  @override
-  Color get textBackground30 => Color(0xFFF2F2F2);
-
-  @override
-  Color get textBackground10 => Color(0xFFE2E2E2);
-
   // ! Surface 관련 컬러: 컨테이너 및 레이어별 배경 색상
   @override
   Color get background => Color(0xFFFAFAFA);
@@ -52,6 +46,13 @@ class LightColorScheme implements AppColorScheme {
 
   @override
   Color get surfaceElevated => Color(0xFFFFFFFF);
+
+  @override
+  Color get surfaceDisabled => Color(0xFFE2E2E2);
+
+  @override
+  Color get surfaceDisableSubtle => Color(0xFFF2F2F2);
+
   // ! Feedback 컬러
   @override
   Color get error => Color(0xFFD64545);
@@ -77,11 +78,11 @@ class LightColorScheme implements AppColorScheme {
   @override
   Color get onInfo => Color(0xFFFFFFFF);
 
-  @override // TODO: implement cancel
-  Color get cancel => throw UnimplementedError();
+  @override
+  Color get cancel => Color(0xFF6B6B6B);
 
-  @override // TODO: implement onCancel
-  Color get onCancel => throw UnimplementedError();
+  @override
+  Color get onCancel => Color(0xFFFFFFFF);
 
   // ! 인터랙션 피드백 및 상태 표현용 오버레이 및 경계 색상
   @override
@@ -118,17 +119,17 @@ class LightColorScheme implements AppColorScheme {
   // ! 단순 버튼의 상태 표현 컬러
   // ! Filled, Outlined, Text 버튼
   @override
-  Color get btnDefault => throw UnimplementedError();
+  Color get btnDefault => Color(0xFF5E402D);
 
   @override
-  Color get btnDisabled => throw UnimplementedError();
+  Color get btnDisabled => Color(0xFFC8BDB6);
 
   // ! 프로필 카드 속 입력사항 Badge 표현 컬러
-  @override // TODO: implement profileStatusBadgeDefault
-  Color get profileStatusBadgeDefault => throw UnimplementedError();
+  @override
+  Color get profileStatusBadgeDefault => Color(0xFF5E402D);
 
-  @override // TODO: implement profileStatusBadgeDisabled
-  Color get profileStatusBadgeDisabled => throw UnimplementedError();
+  @override
+  Color get profileStatusBadgeDisabled => Color(0xFFC8BDB6);
 
   // ! 디자인에서 제공하는 톤 스케일: Primary 색상 계열의 다양한 명도 단계
   @override
