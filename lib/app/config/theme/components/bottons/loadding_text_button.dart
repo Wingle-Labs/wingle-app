@@ -33,13 +33,13 @@ class LoadingTextButton extends ConsumerWidget {
           textDirection: TextDirection.ltr,
         )..layout();
 
-        final textWidth = textPainter.size.width + AppPadding.button;
-        final textHeight = textPainter.size.height + AppPadding.button;
+        final textWidth = textPainter.size.width + AppPadding.btnHorizontal;
+        final textHeight = textPainter.size.height + AppPadding.btnVertical;
 
         return SizedBox(
           // 텍스트 영역 + 양쪽 패딩 16px
-          width: textWidth + AppPadding.button,
-          height: textHeight + AppPadding.button,
+          width: textWidth + AppPadding.btnHorizontal,
+          height: textHeight + AppPadding.btnVertical,
           child: Center(
             child: isLoading
                 ? SizedBox(

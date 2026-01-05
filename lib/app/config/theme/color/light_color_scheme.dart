@@ -105,12 +105,10 @@ class LightColorScheme implements AppColorScheme {
   Color get scrim => Color(0xFF000000).withValues(alpha: 0.45);
 
   @override
-  Color get overlayPressed =>
-      Color(0xFF000000).withValues(alpha: 0.12);
+  Color get overlayPressed => Color(0xFF000000).withValues(alpha: 0.12);
 
   @override
-  Color get overlayDisabled =>
-      Color(0xFF000000).withValues(alpha: 0.12);
+  Color get overlayDisabled => Color(0xFF000000).withValues(alpha: 0.12);
 
   @override
   Color get overlayLoading => Color(0xFF000000).withValues(alpha: 0.2);
@@ -132,7 +130,7 @@ class LightColorScheme implements AppColorScheme {
   Color get btnDefault => Color(0xFF5E402D);
 
   @override
-  Color get btnDisabled => Color(0xFFC8BDB6);
+  Color get btnDisabled => Color(0xFFE2E2E2);
 
   // ! 프로필 카드 속 입력사항 Badge 표현 컬러
   @override

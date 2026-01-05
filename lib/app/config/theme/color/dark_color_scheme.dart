@@ -126,7 +126,7 @@ class DarkColorScheme implements AppColorScheme {
   Color get btnDefault => Color(0xFF765642);
 
   @override
-  Color get btnDisabled => Color(0xFF3F342D);
+  Color get btnDisabled => Color(0xFF1A1A1A);
 
   // ! 프로필 카드 속 입력사항 Badge 표현 컬러
   @override

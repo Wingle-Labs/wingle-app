@@ -1,5 +1,8 @@
 /// 어플리케이션의 공통 스페이싱 정의
 class AppSpacing {
+  /// 버튼 내부 요소 간 간격
+  static const double buttonInternal = 8;
+
   /// 아주 작은 간격
   static const double xs = 8;
 

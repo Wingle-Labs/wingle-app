@@ -51,3 +51,9 @@ class AppContainerSize {
   /// wrap
   static const double wrap = 300;
 }
+
+/// 어플리케이션 내 선 두께 정의
+class AppLineWidth {
+  /// 테두리 두께
+  static const double outline = 1.2;
+}

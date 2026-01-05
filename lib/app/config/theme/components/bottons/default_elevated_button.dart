@@ -49,7 +49,10 @@ class DefaultElevatedButton extends ConsumerWidget {
           AppContainerSize.buttonMinimun,
           AppContainerSize.buttonMinimun,
         ),
-        padding: const .all(AppPadding.button),
+        padding: const EdgeInsets.symmetric(
+          vertical: AppPadding.btnVertical,
+          horizontal: AppPadding.btnHorizontal,
+        ),
       ),
       child: child,
     );
