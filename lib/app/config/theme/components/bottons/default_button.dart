@@ -33,6 +33,9 @@ class DefaultButton extends ConsumerWidget {
   /// Trailing 아이콘
   final IconData? trailing;
 
+  /// 비활성화 상태 여부
+  final bool isDisabled;
+
   /// const 생성자
   const DefaultButton({
     super.key,
@@ -44,11 +47,11 @@ class DefaultButton extends ConsumerWidget {
     this.borderSide = .none,
     this.leading,
     this.trailing,
+    this.isDisabled = false,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDisabled = onPressed == null;
     return Material(
       color: backgroundColor,
       shape: RoundedRectangleBorder(
@@ -56,7 +59,11 @@ class DefaultButton extends ConsumerWidget {
         side: borderSide,
       ),
       child: InkWell(
-        onTap: onPressed,
+        onTap: isDisabled
+            ? null
+            : () {
+                onPressed?.call();
+              },
         canRequestFocus: !isDisabled,
         borderRadius: AppRadius.iosStyleRadius,
         overlayColor: .resolveWith<Color?>((states) {
