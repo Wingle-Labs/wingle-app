@@ -11,6 +11,7 @@ class Themes {
     useMaterial3: true,
     brightness: Brightness.light,
     extensions: const [AppColors(LightColorScheme())],
+    fontFamily: "Pretendard",
   );
 
   /// 다크 테마
@@ -18,6 +19,7 @@ class Themes {
     useMaterial3: true,
     brightness: Brightness.dark,
     extensions: const [AppColors(DarkColorScheme())],
+    fontFamily: "Pretendard",
   );
 }
 
