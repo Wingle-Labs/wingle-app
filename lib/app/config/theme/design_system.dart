@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/components/bottons/default_button.dart';
+import 'package:wingle/app/config/theme/components/bottons/default_filled_button.dart';
 import 'package:wingle/app/config/theme/components/wrappers/scrollable_scaffold.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/weight.dart';
@@ -41,56 +42,30 @@ class DesignSystem extends ConsumerWidget {
           ),
         ),
 
-        DefaultButton(
-          label: "활성화 상태: 채워진 버튼",
-          backgroundColor: colorScheme.btnDefault,
-          pressedColor: colorScheme.overlayPressed,
-          foregroundColor: colorScheme.onPrimary,
-          onPressed: () {},
-        ),
+        DefaultFilledButton(label: "활성화 상태: 채워진 버튼"),
 
-        DefaultButton(
-          label: "비활성화 상태: 채워진 버튼",
-          backgroundColor: colorScheme.btnDisabled,
-          pressedColor: colorScheme.overlayPressed,
-          foregroundColor: colorScheme.textDisabled,
-          onPressed: null,
-        ),
+        DefaultFilledButton(label: "비활성화 상태: 채워진 버튼", isDisabled: true),
 
-        DefaultButton(
+        DefaultFilledButton(
           label: "활성화 상태: 채워진 버튼 with leading",
-          backgroundColor: colorScheme.btnDefault,
-          pressedColor: colorScheme.overlayPressed,
-          foregroundColor: colorScheme.onPrimary,
-          onPressed: () {},
-          leading: Icons.add,
+          leadingIcon: Icons.add,
         ),
 
-        DefaultButton(
+        DefaultFilledButton(
           label: "비활성화 상태: 채워진 버튼 with leading",
-          backgroundColor: colorScheme.btnDisabled,
-          pressedColor: colorScheme.overlayPressed,
-          foregroundColor: colorScheme.textDisabled,
-          onPressed: null,
-          leading: Icons.add,
+          leadingIcon: Icons.add,
+          isDisabled: true,
         ),
 
-        DefaultButton(
+        DefaultFilledButton(
           label: "활성화 상태: 채워진 버튼 with trailing",
-          backgroundColor: colorScheme.btnDefault,
-          pressedColor: colorScheme.overlayPressed,
-          foregroundColor: colorScheme.onPrimary,
-          onPressed: () {},
-          trailing: Icons.add,
+          trailingIcon: Icons.add,
         ),
 
-        DefaultButton(
+        DefaultFilledButton(
           label: "비활성화 상태: 채워진 버튼 with trailing",
-          backgroundColor: colorScheme.btnDisabled,
-          pressedColor: colorScheme.overlayPressed,
-          foregroundColor: colorScheme.textDisabled,
-          onPressed: null,
-          trailing: Icons.add,
+          trailingIcon: Icons.add,
+          isDisabled: true,
         ),
 
         DefaultButton(
@@ -99,7 +74,6 @@ class DesignSystem extends ConsumerWidget {
           pressedColor: colorScheme.overlayPressed,
           foregroundColor: colorScheme.btnDefault,
           borderSide: BorderSide(color: colorScheme.btnDefault, width: 1.2),
-          onPressed: () {},
         ),
 
         DefaultButton(
@@ -107,7 +81,6 @@ class DesignSystem extends ConsumerWidget {
           backgroundColor: Colors.transparent,
           pressedColor: colorScheme.overlayPressed,
           foregroundColor: colorScheme.textDisabledStrong,
-          onPressed: null,
           borderSide: BorderSide(
             color: colorScheme.textDisabledStrong,
             width: 1.2,
@@ -119,7 +92,6 @@ class DesignSystem extends ConsumerWidget {
           backgroundColor: colorScheme.background,
           pressedColor: colorScheme.overlayPressed,
           foregroundColor: colorScheme.primary,
-          onPressed: () {},
         ),
 
         DefaultButton(
@@ -127,7 +99,6 @@ class DesignSystem extends ConsumerWidget {
           backgroundColor: colorScheme.background,
           pressedColor: colorScheme.overlayPressed,
           foregroundColor: colorScheme.textDisabledStrong,
-          onPressed: null,
         ),
 
         // Container(
