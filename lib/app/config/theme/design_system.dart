@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/components/bottons/default_button.dart';
 import 'package:wingle/app/config/theme/components/bottons/default_filled_button.dart';
+import 'package:wingle/app/config/theme/components/bottons/default_outlined_button.dart';
 import 'package:wingle/app/config/theme/components/wrappers/scrollable_scaffold.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/weight.dart';
@@ -68,24 +69,9 @@ class DesignSystem extends ConsumerWidget {
           isDisabled: true,
         ),
 
-        DefaultButton(
-          label: "활성화 상태: 테두리 버튼",
-          backgroundColor: Colors.transparent,
-          pressedColor: colorScheme.overlayPressed,
-          foregroundColor: colorScheme.btnDefault,
-          borderSide: BorderSide(color: colorScheme.btnDefault, width: 1.2),
-        ),
+        DefaultOutlinedButton(label: "활성화 상태: 테두리 버튼"),
 
-        DefaultButton(
-          label: "비활성화 상태: 테두리 버튼",
-          backgroundColor: Colors.transparent,
-          pressedColor: colorScheme.overlayPressed,
-          foregroundColor: colorScheme.textDisabledStrong,
-          borderSide: BorderSide(
-            color: colorScheme.textDisabledStrong,
-            width: 1.2,
-          ),
-        ),
+        DefaultOutlinedButton(label: "비활성화 상태: 테두리 버튼", isDisabled: true),
 
         DefaultButton(
           label: "활성화 상태: 텍스트 버튼",
