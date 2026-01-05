@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
+import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/app/config/theme/constants/weight.dart';
 
 /// 디자인 시스템 기본 버튼
@@ -20,10 +22,16 @@ class DefaultButton extends ConsumerWidget {
   final Color pressedColor;
 
   /// 텍스트 색상
-  final Color textColor;
+  final Color foregroundColor;
 
   /// 버튼 테두리
-  final BorderSide? borderSide;
+  final BorderSide borderSide;
+
+  /// Leading 아이콘
+  final IconData? leading;
+
+  /// Trailing 아이콘
+  final IconData? trailing;
 
   /// const 생성자
   const DefaultButton({
@@ -31,42 +39,73 @@ class DefaultButton extends ConsumerWidget {
     required this.label,
     required this.backgroundColor,
     required this.pressedColor,
-    required this.textColor,
-    required this.onPressed,
-    this.borderSide,
+    required this.foregroundColor,
+    this.onPressed,
+    this.borderSide = .none,
+    this.leading,
+    this.trailing,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDisabled = onPressed == null;
     return Material(
       color: backgroundColor,
       shape: RoundedRectangleBorder(
         borderRadius: AppRadius.iosStyleRadius,
-        side: borderSide ?? .none,
+        side: borderSide,
       ),
       child: InkWell(
         onTap: onPressed,
+        canRequestFocus: !isDisabled,
         borderRadius: AppRadius.iosStyleRadius,
-        overlayColor: WidgetStateProperty.resolveWith<Color?>((states) {
+        overlayColor: .resolveWith<Color?>((states) {
+          if (isDisabled) return null;
           if (states.contains(WidgetState.pressed)) return pressedColor;
           return null;
         }),
         child: ConstrainedBox(
-          constraints: const BoxConstraints(
+          constraints: BoxConstraints(
             minWidth: AppContainerSize.buttonMinimun,
             minHeight: AppContainerSize.buttonMinimun,
           ),
           child: Padding(
-            padding: const EdgeInsets.all(AppFontSize.button),
-            child: Center(
-              child: Text(
-                label.tr(),
-                style: TextStyle(
-                  fontSize: AppFontSize.button,
-                  fontWeight: AppFontWeight.semiBold,
-                  color: textColor,
+            padding: const .symmetric(
+              vertical: AppPadding.btnVertical,
+              horizontal: AppPadding.btnHorizontal,
+            ),
+            child: Row(
+              mainAxisAlignment: .center,
+              mainAxisSize: .max,
+              spacing: AppSpacing.buttonInternal,
+              children: [
+                if (leading != null)
+                  Icon(
+                    leading,
+                    size: AppFontSize.button,
+                    color: foregroundColor,
+                    applyTextScaling: true,
+                  ),
+                Flexible(
+                  child: Text(
+                    label.tr(),
+                    style: TextStyle(
+                      fontSize: AppFontSize.button,
+                      fontWeight: AppFontWeight.semiBold,
+                      color: foregroundColor,
+                    ),
+                    textAlign: .center,
+                  ),
                 ),
-              ),
+
+                if (trailing != null)
+                  Icon(
+                    trailing,
+                    size: AppFontSize.button,
+                    color: foregroundColor,
+                    applyTextScaling: true,
+                  ),
+              ],
             ),
           ),
         ),

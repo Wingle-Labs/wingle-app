@@ -45,7 +45,7 @@ class DesignSystem extends ConsumerWidget {
           label: "활성화 상태: 채워진 버튼",
           backgroundColor: colorScheme.btnDefault,
           pressedColor: colorScheme.overlayPressed,
-          textColor: colorScheme.onPrimary,
+          foregroundColor: colorScheme.onPrimary,
           onPressed: () {},
         ),
 
@@ -53,41 +53,80 @@ class DesignSystem extends ConsumerWidget {
           label: "비활성화 상태: 채워진 버튼",
           backgroundColor: colorScheme.btnDisabled,
           pressedColor: colorScheme.overlayPressed,
-          textColor: colorScheme.textDisabled,
+          foregroundColor: colorScheme.textDisabled,
           onPressed: null,
         ),
 
         DefaultButton(
-          label: "활성화 상태: 테두리 버튼",
-          backgroundColor: colorScheme.surfaceElevated,
+          label: "활성화 상태: 채워진 버튼 with leading",
+          backgroundColor: colorScheme.btnDefault,
           pressedColor: colorScheme.overlayPressed,
-          textColor: colorScheme.btnDefault,
+          foregroundColor: colorScheme.onPrimary,
+          onPressed: () {},
+          leading: Icons.add,
+        ),
+
+        DefaultButton(
+          label: "비활성화 상태: 채워진 버튼 with leading",
+          backgroundColor: colorScheme.btnDisabled,
+          pressedColor: colorScheme.overlayPressed,
+          foregroundColor: colorScheme.textDisabled,
+          onPressed: null,
+          leading: Icons.add,
+        ),
+
+        DefaultButton(
+          label: "활성화 상태: 채워진 버튼 with trailing",
+          backgroundColor: colorScheme.btnDefault,
+          pressedColor: colorScheme.overlayPressed,
+          foregroundColor: colorScheme.onPrimary,
+          onPressed: () {},
+          trailing: Icons.add,
+        ),
+
+        DefaultButton(
+          label: "비활성화 상태: 채워진 버튼 with trailing",
+          backgroundColor: colorScheme.btnDisabled,
+          pressedColor: colorScheme.overlayPressed,
+          foregroundColor: colorScheme.textDisabled,
+          onPressed: null,
+          trailing: Icons.add,
+        ),
+
+        DefaultButton(
+          label: "활성화 상태: 테두리 버튼",
+          backgroundColor: Colors.transparent,
+          pressedColor: colorScheme.overlayPressed,
+          foregroundColor: colorScheme.btnDefault,
           borderSide: BorderSide(color: colorScheme.btnDefault, width: 1.2),
           onPressed: () {},
         ),
 
         DefaultButton(
           label: "비활성화 상태: 테두리 버튼",
-          backgroundColor: Color(0xFFF2F2F2),
+          backgroundColor: Colors.transparent,
           pressedColor: colorScheme.overlayPressed,
-          textColor: colorScheme.textDisabled,
+          foregroundColor: colorScheme.textDisabledStrong,
           onPressed: null,
-          borderSide: BorderSide(color: colorScheme.textDisabled, width: 1.2),
+          borderSide: BorderSide(
+            color: colorScheme.textDisabledStrong,
+            width: 1.2,
+          ),
         ),
 
         DefaultButton(
           label: "활성화 상태: 텍스트 버튼",
-          backgroundColor: colorScheme.surfaceElevated,
+          backgroundColor: colorScheme.background,
           pressedColor: colorScheme.overlayPressed,
-          textColor: colorScheme.primary,
+          foregroundColor: colorScheme.primary,
           onPressed: () {},
         ),
 
         DefaultButton(
           label: "비활성화 상태: 텍스트 버튼",
-          backgroundColor: Color(0xFFF2F2F2),
+          backgroundColor: colorScheme.background,
           pressedColor: colorScheme.overlayPressed,
-          textColor: colorScheme.textDisabled,
+          foregroundColor: colorScheme.textDisabledStrong,
           onPressed: null,
         ),
 
