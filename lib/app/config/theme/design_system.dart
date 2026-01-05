@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wingle/app/config/theme/components/bottons/default_button.dart';
 import 'package:wingle/app/config/theme/components/bottons/default_filled_button.dart';
 import 'package:wingle/app/config/theme/components/bottons/default_outlined_button.dart';
+import 'package:wingle/app/config/theme/components/bottons/default_text_button.dart';
 import 'package:wingle/app/config/theme/components/wrappers/scrollable_scaffold.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/weight.dart';
@@ -73,92 +73,9 @@ class DesignSystem extends ConsumerWidget {
 
         DefaultOutlinedButton(label: "비활성화 상태: 테두리 버튼", isDisabled: true),
 
-        DefaultButton(
-          label: "활성화 상태: 텍스트 버튼",
-          backgroundColor: colorScheme.background,
-          pressedColor: colorScheme.overlayPressed,
-          foregroundColor: colorScheme.primary,
-        ),
+        DefaultTextButton(label: "활성화 상태: 텍스트 버튼"),
 
-        DefaultButton(
-          label: "비활성화 상태: 텍스트 버튼",
-          backgroundColor: colorScheme.background,
-          pressedColor: colorScheme.overlayPressed,
-          foregroundColor: colorScheme.textDisabledStrong,
-        ),
-
-        // Container(
-        //   width: baseLength * 5,
-        //   padding: .all(AppFontSize.button),
-        //   decoration: BoxDecoration(
-        //     borderRadius: AppRadius.iosStyleRadius,
-        //     color: Colors.transparent,
-        //     border: Border.all(color: colorScheme.primary, width: 1.2),
-        //   ),
-        //   child: Center(
-        //     child: Text(
-        //       '아웃라인 버튼',
-        //       style: TextStyle(
-        //         fontSize: AppFontSize.button,
-        //         color: colorScheme.primary,
-        //         fontWeight: AppFontWeight.semiBold,
-        //       ),
-        //     ),
-        //   ),
-        // ),
-
-        // Container(
-        //   width: baseLength * 5,
-        //   padding: .all(AppFontSize.button),
-        //   decoration: BoxDecoration(
-        //     borderRadius: AppRadius.iosStyleRadius,
-        //     color: Colors.transparent,
-        //     border: Border.all(
-        //       color: colorScheme.textBackground30,
-        //       width: 1.2,
-        //     ),
-        //   ),
-        //   child: Center(
-        //     child: Text(
-        //       '비활성화된 아웃라인 버튼',
-        //       style: TextStyle(
-        //         fontSize: AppFontSize.button,
-        //         color: colorScheme.textDisabled,
-        //         fontWeight: AppFontWeight.semiBold,
-        //       ),
-        //     ),
-        //   ),
-        // ),
-
-        // Container(
-        //   width: 20,
-        //   height: 20,
-        //   decoration: BoxDecoration(
-        //     shape: BoxShape.circle,
-        //     border: Border.all(color: colorScheme.primary, width: 2.4),
-        //   ),
-        //   child: Center(
-        //     child: Container(
-        //       width: 10,
-        //       height: 10,
-        //       decoration: BoxDecoration(
-        //         shape: BoxShape.circle,
-        //         color: colorScheme.primary,
-        //       ),
-        //     ),
-        //   ),
-        // ),
-
-        // Container(
-        //   width: 20,
-        //   height: 20,
-        //   padding: EdgeInsets.all(AppFontSize.button),
-        //   decoration: BoxDecoration(
-        //     shape: BoxShape.circle,
-        //     border: Border.all(color: colorScheme.border, width: 2.4),
-        //   ),
-        //   child: null,
-        // ),
+        DefaultTextButton(label: "비활성화 상태: 텍스트 버튼", isDisabled: true),
 
         // Container(
         //   // height: baseLength,
@@ -287,19 +204,6 @@ class DesignSystem extends ConsumerWidget {
         //     color: colorScheme.primary,
         //   ),
         //   child: Center(child: Icon(Icons.close, color: Colors.white)),
-        // ),
-
-        // Flexible(
-        //   child: Container(
-        //     height: baseLength,
-        //     color: Colors.grey[200],
-        //     child: Center(
-        //       child: Text(
-        //         'Flexible child',
-        //         style: TextStyle(color: Colors.black),
-        //       ),
-        //     ),
-        //   ),
         // ),
         SizedBox(height: baseLength),
       ],

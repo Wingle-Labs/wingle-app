@@ -34,7 +34,7 @@ class SignupButton extends ConsumerWidget {
           )
         : DefaultTextButton(
             onPressed: () => context.pushNamed(OnboardingRoutes.signup.name),
-            text: text,
+            label: text,
           );
   }
 }

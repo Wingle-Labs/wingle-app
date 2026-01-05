@@ -14,7 +14,7 @@ class ChangePhoneNumberButton extends ConsumerWidget {
     return DefaultTextButton(
       onPressed: () =>
           context.pushNamed(OnboardingRoutes.changePhoneNumber.name),
-      text: "onboarding.login.button.changePhoneNumber",
+      label: "onboarding.login.button.changePhoneNumber",
     );
   }
 }
