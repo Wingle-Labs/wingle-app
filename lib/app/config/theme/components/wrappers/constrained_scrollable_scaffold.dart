@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/components/wrappers/smooth_rect.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
+import 'package:wingle/common/extensions/context_colors.dart';
 
 /// 콘텐츠의 최소 높이를 화면 높이로 보장하면서
 /// 화면을 초과하는 경우에는 스크롤로 수용하는 Scaffold.
@@ -30,6 +31,7 @@ class ConstrainedScrollableScaffold extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: appBar,
+      backgroundColor: context.colors.background,
       body: LayoutBuilder(
         builder: (context, constraints) {
           return SingleChildScrollView(
