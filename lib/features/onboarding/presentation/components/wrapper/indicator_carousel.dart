@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:wingle/app/config/theme/components/states/indicator.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
+import 'package:wingle/features/onboarding/presentation/models/onboarding_carousel_item.dart';
 
 /// Indicator와 Carousel을 포함한 Widget
 class IndicatorCarousel extends StatelessWidget {
   /// Carousel의 아이템들
-  final List<MapEntry<Widget, ImageProvider>> items;
+  final List<OnboardingCarouselItem> items;
 
   /// Carousel의 컨트롤러
   final CarouselSliderController controller;
@@ -40,13 +41,13 @@ class IndicatorCarousel extends StatelessWidget {
               children: [
                 SizedBox(
                   height: AppContainerSize.indicatorDescription,
-                  child: Center(child: entry.key),
+                  child: Center(child: entry.content),
                 ),
                 const SizedBox(height: AppSpacing.xs),
                 SizedBox(
                   height: AppContainerSize.indicatorImage,
                   width: AppContainerSize.indicatorImage,
-                  child: Image(image: entry.value, fit: BoxFit.cover),
+                  child: Image(image: entry.image, fit: BoxFit.cover),
                 ),
               ],
             );
