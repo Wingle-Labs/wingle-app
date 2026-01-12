@@ -33,6 +33,9 @@ class AppIconSize {
 
 /// 어플리케이션의 공통 높이 정의
 class AppContainerSize {
+  /// indicator
+  static const double indicator = 8;
+
   /// 작은 높이
   static const double small = 40;
 
@@ -47,6 +50,12 @@ class AppContainerSize {
 
   /// 매우 큰 높이
   static const double xl = 128;
+
+  /// Indicator Description Widget 높이
+  static const double indicatorDescription = 180;
+
+  /// Indicator Image Widget 높이
+  static const double indicatorImage = 190;
 
   /// wrap
   static const double wrap = 300;
