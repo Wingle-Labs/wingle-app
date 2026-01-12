@@ -37,8 +37,7 @@ class OnboardingBottomButtons extends ConsumerWidget {
                 child: DefaultFilledButton(
                   label: "다음",
                   onPressed: () {
-                    controller.nextPage();
-                    ref.read(carouselIndexProvider.notifier).incrementIndex();
+                    ref.read(onboardingCarouselProvider.notifier).next();
                   },
                 ),
               ),
