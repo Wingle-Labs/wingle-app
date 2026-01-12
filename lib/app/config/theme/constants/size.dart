@@ -4,7 +4,7 @@ class AppFontSize {
   static const double caption = 12;
 
   /// 버튼 텍스트 크기
-  static const double button = 16;
+  static const double button = 14;
 
   /// 보통 폰트 크기
   static const double body = 16;
