@@ -20,13 +20,12 @@ class OnboardingCarouselNotifier extends Notifier<int> {
 
   /// 다음 페이지로 이동
   void next() {
-      state++;
-      controller.animateToPage(state);
+    state++;
+    controller.animateToPage(state);
   }
 
   /// 마지막 페이지로 이동
   void skipToLast(int lastIndex) {
-    state = lastIndex;
     controller.animateToPage(lastIndex);
   }
 
