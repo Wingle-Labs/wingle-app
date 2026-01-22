@@ -3,8 +3,11 @@ class AppSpacing {
   /// 버튼 내부 요소 간 간격
   static const double buttonInternal = 8;
 
-  /// 아주 작은 간격
-  static const double xs = 8;
+  /// 가장 작은 간격
+  static const double xxs = 8;
+
+  /// 매우 작은 간격
+  static const double xs = 12;
 
   /// 작은 간격
   static const double sm = 16;

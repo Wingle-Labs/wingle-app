@@ -21,21 +21,21 @@ class Indicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = context.colors;
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+    return SizedBox(
+      height: AppContainerSize.indicatorContainer,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        spacing: AppSpacing.xs,
+        spacing: AppSpacing.xxs,
         children: List.generate(length, (index) {
           return Container(
             width: AppContainerSize.indicator,
             height: AppContainerSize.indicator,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              // TODO: 정확한 컬러 토큰 적용
-              color: colorScheme.primary.withValues(
-                alpha: currentIndex == index ? 1 : 0.3,
-              ),
+              color: currentIndex == index
+                  ? colorScheme.primary
+                  // TODO: 정확한 컬러 토큰 적용
+                  : Colors.black.withValues(alpha: 0.3),
             ),
           );
         }).toList(),

@@ -39,24 +39,36 @@ class IndicatorCarousel extends StatelessWidget {
           items: items.map((entry) {
             return Column(
               children: [
-                SizedBox(
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.sm,
+                    vertical: AppSpacing.xs,
+                  ),
                   height: AppContainerSize.indicatorDescription,
                   child: Center(child: entry.content),
                 ),
-                const SizedBox(height: AppSpacing.xs),
+                const SizedBox(height: AppSpacing.xxs),
                 SizedBox(
-                  height: AppContainerSize.indicatorImage,
-                  width: AppContainerSize.indicatorImage,
-                  child: Image(image: entry.image, fit: BoxFit.cover),
+                  height: AppContainerSize.carouselImageContainer,
+                  width: AppContainerSize.carouselImageContainer,
+                  child: Center(
+                    child: Image(
+                      image: entry.image,
+                      width: AppContainerSize.carouselImageContainerWidth,
+                      height: AppContainerSize.carouselImageContainerWidth,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
                 ),
               ],
             );
           }).toList(),
-          // TODO: 매직 넘버 제거
           options: CarouselOptions(
-            aspectRatio: 1 / 1.5,
-            viewportFraction: 0.9,
-            enlargeCenterPage: true,
+            height:
+                AppContainerSize.indicatorDescription +
+                AppContainerSize.carouselImageContainer +
+                AppSpacing.xxs,
+            viewportFraction: 1,
             enableInfiniteScroll: false,
             onPageChanged: (index, _) => onIndexChanged(index),
           ),

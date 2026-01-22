@@ -51,11 +51,20 @@ class AppContainerSize {
   /// 매우 큰 높이
   static const double xl = 128;
 
+  /// Indicator Container 높이
+  static const double indicatorContainer = 44;
+
   /// Indicator Description Widget 높이
   static const double indicatorDescription = 180;
 
   /// Indicator Image Widget 높이
   static const double indicatorImage = 190;
+
+  /// Carousel Image Container 높이
+  static const double carouselImageContainer = 370;
+
+  /// Carousel Image 길이
+  static const double carouselImageContainerWidth = 180;
 
   /// wrap
   static const double wrap = 300;

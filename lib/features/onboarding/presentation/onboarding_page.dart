@@ -28,6 +28,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
     final lastIndex = onboardingCarouselItems.length - 1;
 
     return ConstrainedScrollableScaffold(
+      padding: .zero,
       appBar: AppBar(
         backgroundColor: context.colors.background,
         actions: currentIndex < lastIndex
@@ -49,7 +50,6 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Spacer(),
           IndicatorCarousel(
             items: onboardingCarouselItems,
             controller: controller,
@@ -59,11 +59,18 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
             },
           ),
           Spacer(),
-          OnboardingBottomButtons(
-            controller: controller,
-            isLastPage: currentIndex == lastIndex,
+          Container(
+            margin: const EdgeInsets.only(
+              left: 16,
+              right: 16,
+              top: 16,
+              bottom: 32,
+            ),
+            child: OnboardingBottomButtons(
+              controller: controller,
+              isLastPage: currentIndex == lastIndex,
+            ),
           ),
-          const SizedBox(height: AppSpacing.md, width: double.infinity),
         ],
       ),
     );

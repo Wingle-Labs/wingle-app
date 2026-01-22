@@ -19,12 +19,16 @@ class ConstrainedScrollableScaffold extends ConsumerWidget {
   /// 하단 FloatingActionButton
   final Widget? floatingActionButton;
 
+  /// 페이지 내부 패딩
+  final EdgeInsets? padding;
+
   /// 스크롤 가능한 제약형 Scaffold를 생성합니다.
   const ConstrainedScrollableScaffold({
     super.key,
     this.appBar,
     required this.child,
     this.floatingActionButton,
+    this.padding,
   });
 
   @override
@@ -43,7 +47,7 @@ class ConstrainedScrollableScaffold extends ConsumerWidget {
               ),
               child: IntrinsicHeight(
                 child: Padding(
-                  padding: const EdgeInsets.all(AppPadding.scaffold),
+                  padding: padding ?? .all(AppPadding.scaffold),
                   child: child,
                 ),
               ),
