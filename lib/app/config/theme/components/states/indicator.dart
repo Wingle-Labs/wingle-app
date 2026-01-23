@@ -34,8 +34,7 @@ class Indicator extends StatelessWidget {
               shape: BoxShape.circle,
               color: currentIndex == index
                   ? colorScheme.primary
-                  // TODO: 정확한 컬러 토큰 적용
-                  : Colors.black.withValues(alpha: 0.3),
+                  : colorScheme.textDisabledStrong,
             ),
           );
         }).toList(),
