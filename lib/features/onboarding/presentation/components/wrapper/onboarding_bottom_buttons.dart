@@ -45,9 +45,9 @@ class OnboardingBottomButtons extends ConsumerWidget {
           )
         : Column(
             children: [
-              SignupButton(),
-              SizedBox(height: AppSpacing.xxs),
               PhoneLoginButton(),
+              SizedBox(height: AppSpacing.xxs),
+              SignupButton(),
             ],
           );
   }
