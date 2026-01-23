@@ -26,7 +26,7 @@ class OnboardingCarouselNotifier extends Notifier<int> {
 
   /// 마지막 페이지로 이동
   void skipToLast(int lastIndex) {
-    controller.animateToPage(lastIndex);
+    controller.jumpToPage(lastIndex);
   }
 
   /// 인덱스 업데이트
