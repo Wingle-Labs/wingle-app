@@ -31,6 +31,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
       padding: .zero,
       appBar: AppBar(
         backgroundColor: context.colors.background,
+        surfaceTintColor: context.colors.background,
         actions: currentIndex < lastIndex
             ? [
                 IntrinsicWidth(

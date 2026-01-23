@@ -61,7 +61,7 @@ class AppContainerSize {
   static const double indicatorImage = 190;
 
   /// Carousel Image Container 높이
-  static const double carouselImageContainer = 370;
+  static const double carouselImageContainer = 273;
 
   /// Carousel Image 길이
   static const double carouselImageContainerWidth = 180;
