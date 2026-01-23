@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wingle/app/config/theme/components/texts/text_scale_wrapper.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
@@ -94,14 +95,17 @@ class DefaultButton extends ConsumerWidget {
                     applyTextScaling: true,
                   ),
                 Flexible(
-                  child: Text(
-                    label.tr(),
-                    style: TextStyle(
-                      fontSize: AppFontSize.button,
-                      fontWeight: AppFontWeight.semiBold,
-                      color: foregroundColor,
+                  child: TextScaleWrapper(
+                    policy: .cappedLarge,
+                    child: Text(
+                      label.tr(),
+                      style: TextStyle(
+                        fontSize: AppFontSize.button,
+                        fontWeight: AppFontWeight.semiBold,
+                        color: foregroundColor,
+                      ),
+                      textAlign: .center,
                     ),
-                    textAlign: .center,
                   ),
                 ),
 
