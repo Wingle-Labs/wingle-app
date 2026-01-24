@@ -6,7 +6,7 @@ import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
-import 'package:wingle/app/config/theme/constants/weight.dart';
+import 'package:wingle/common/extensions/context_colors.dart';
 
 /// 디자인 시스템 기본 버튼
 class DefaultButton extends ConsumerWidget {
@@ -99,9 +99,7 @@ class DefaultButton extends ConsumerWidget {
                     policy: .cappedLarge,
                     child: Text(
                       label.tr(),
-                      style: TextStyle(
-                        fontSize: AppFontSize.button,
-                        fontWeight: AppFontWeight.semiBold,
+                      style: context.typography.button.copyWith(
                         color: foregroundColor,
                       ),
                       textAlign: .center,
