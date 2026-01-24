@@ -20,4 +20,7 @@ class AppPadding {
 
   /// TextField 내부 패딩
   static const double textfield = 16;
+
+  /// TextField와 suffix 간의 패딩
+  static const double textfieldSuffix = 12;
 }

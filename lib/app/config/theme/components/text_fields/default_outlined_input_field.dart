@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:wingle/app/config/theme/components/texts/text_scale_policy.dart';
 import 'package:wingle/app/config/theme/components/texts/text_scale_wrapper.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
@@ -30,6 +31,12 @@ class DefaultOutlinedInputField extends StatelessWidget {
   /// 텍스트 스케일링 정책
   final TextScalePolicy policy;
 
+  /// 입력 포맷터
+  final List<TextInputFormatter>? inputFormatters;
+
+  /// Trailing 위젯
+  final Widget? suffix;
+
   /// 생성자
   const DefaultOutlinedInputField({
     super.key,
@@ -40,6 +47,8 @@ class DefaultOutlinedInputField extends StatelessWidget {
     this.errorText,
     this.onChanged,
     this.policy = TextScalePolicy.system,
+    this.inputFormatters,
+    this.suffix,
   });
 
   @override
@@ -50,12 +59,15 @@ class DefaultOutlinedInputField extends StatelessWidget {
     return TextScaleWrapper(
       policy: policy,
       child: TextFormField(
+        inputFormatters: inputFormatters,
         keyboardType: keyboardType,
         obscureText: obscureText,
         autofillHints: autofillHints,
         onChanged: onChanged,
         textAlignVertical: TextAlignVertical.center,
         autovalidateMode: AutovalidateMode.onUserInteraction,
+        cursorColor: colors.primary,
+        cursorErrorColor: colors.error,
         decoration: InputDecoration(
           constraints: const BoxConstraints(minHeight: AppPadding.textfield),
           isDense: true,
@@ -64,23 +76,36 @@ class DefaultOutlinedInputField extends StatelessWidget {
           filled: true,
           fillColor: colors.surface,
           contentPadding: const EdgeInsets.all(AppPadding.textfield),
+          // 입력 가능 상태
           enabledBorder: OutlineInputBorder(
             borderRadius: AppRadius.iosStyleRadius,
             borderSide: BorderSide(color: colors.primaryScale70, width: 1),
           ),
+          // 입력 중인 상태
           focusedBorder: OutlineInputBorder(
             borderRadius: AppRadius.iosStyleRadius,
             borderSide: BorderSide(color: colors.primaryScale70, width: 2),
           ),
+          // 에러 상태
           errorBorder: OutlineInputBorder(
             borderRadius: AppRadius.iosStyleRadius,
             borderSide: BorderSide(color: colors.error, width: 1),
           ),
+          // 에러 상태(입력 중)
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: AppRadius.iosStyleRadius,
             borderSide: BorderSide(color: colors.error, width: 2),
           ),
           errorText: errorText?.tr(),
+          suffixIcon: suffix != null
+              ? Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    suffix as Widget,
+                    const SizedBox(width: AppPadding.textfieldSuffix),
+                  ],
+                )
+              : null,
         ),
       ),
     );

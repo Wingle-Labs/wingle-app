@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/components/text_fields/default_outlined_input_field.dart';
 import 'package:wingle/app/config/theme/components/texts/default_text.dart';
@@ -38,6 +39,7 @@ class PhoneInputField extends ConsumerWidget {
           errorText: loginState.phone.isEmpty || loginState.isPhoneValid
               ? null
               : '010으로 시작하는 11자리 숫자를 입력하세요',
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         ),
       ],
     );
