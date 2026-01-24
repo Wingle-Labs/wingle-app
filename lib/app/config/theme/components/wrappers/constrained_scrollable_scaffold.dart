@@ -22,6 +22,9 @@ class ConstrainedScrollableScaffold extends ConsumerWidget {
   /// 페이지 내부 패딩
   final EdgeInsets? padding;
 
+  /// 하단 네비게이션 바
+  final Widget? bottomNavigationBar;
+
   /// 스크롤 가능한 제약형 Scaffold를 생성합니다.
   const ConstrainedScrollableScaffold({
     super.key,
@@ -29,6 +32,7 @@ class ConstrainedScrollableScaffold extends ConsumerWidget {
     required this.child,
     this.floatingActionButton,
     this.padding,
+    this.bottomNavigationBar,
   });
 
   @override
@@ -60,6 +64,7 @@ class ConstrainedScrollableScaffold extends ConsumerWidget {
           ? SmoothRectWrapper(child: floatingActionButton as Widget)
           : null,
       floatingActionButtonAnimator: FloatingActionButtonAnimator.noAnimation,
+      bottomNavigationBar: bottomNavigationBar,
     );
   }
 }

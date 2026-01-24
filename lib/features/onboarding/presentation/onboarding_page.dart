@@ -65,7 +65,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
               left: AppSpacing.xs,
               right: AppSpacing.xs,
               top: AppSpacing.xs,
-              bottom: AppSpacing.lg,
+              bottom: AppSpacing.xl,
             ),
             child: OnboardingBottomButtons(
               controller: controller,
