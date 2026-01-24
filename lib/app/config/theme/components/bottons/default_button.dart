@@ -6,7 +6,7 @@ import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
-import 'package:wingle/common/extensions/context_colors.dart';
+import 'package:wingle/common/extensions/context_typography.dart';
 
 /// 디자인 시스템 기본 버튼
 class DefaultButton extends ConsumerWidget {
