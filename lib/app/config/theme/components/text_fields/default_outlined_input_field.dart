@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:wingle/app/config/theme/components/texts/text_scale_policy.dart';
+import 'package:wingle/app/config/theme/components/texts/text_scale_wrapper.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
@@ -25,6 +27,9 @@ class DefaultOutlinedInputField extends StatelessWidget {
   /// 값 변경 콜백
   final ValueChanged<String>? onChanged;
 
+  /// 텍스트 스케일링 정책
+  final TextScalePolicy policy;
+
   /// 생성자
   const DefaultOutlinedInputField({
     super.key,
@@ -34,6 +39,7 @@ class DefaultOutlinedInputField extends StatelessWidget {
     this.autofillHints,
     this.errorText,
     this.onChanged,
+    this.policy = TextScalePolicy.system,
   });
 
   @override
@@ -41,38 +47,41 @@ class DefaultOutlinedInputField extends StatelessWidget {
     final colors = context.colors;
     final typography = context.typography;
 
-    return TextFormField(
-      keyboardType: keyboardType,
-      obscureText: obscureText,
-      autofillHints: autofillHints,
-      onChanged: onChanged,
-      textAlignVertical: TextAlignVertical.center,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      decoration: InputDecoration(
-        constraints: const BoxConstraints(minHeight: AppPadding.textfield),
-        isDense: true,
-        hintText: hintText?.tr(),
-        hintStyle: typography.body.copyWith(color: colors.textInactive),
-        filled: true,
-        fillColor: colors.surface,
-        contentPadding: const EdgeInsets.all(AppPadding.textfield),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: AppRadius.iosStyleRadius,
-          borderSide: BorderSide(color: colors.primaryScale70, width: 1),
+    return TextScaleWrapper(
+      policy: policy,
+      child: TextFormField(
+        keyboardType: keyboardType,
+        obscureText: obscureText,
+        autofillHints: autofillHints,
+        onChanged: onChanged,
+        textAlignVertical: TextAlignVertical.center,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        decoration: InputDecoration(
+          constraints: const BoxConstraints(minHeight: AppPadding.textfield),
+          isDense: true,
+          hintText: hintText?.tr(),
+          hintStyle: typography.body.copyWith(color: colors.textInactive),
+          filled: true,
+          fillColor: colors.surface,
+          contentPadding: const EdgeInsets.all(AppPadding.textfield),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: AppRadius.iosStyleRadius,
+            borderSide: BorderSide(color: colors.primaryScale70, width: 1),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: AppRadius.iosStyleRadius,
+            borderSide: BorderSide(color: colors.primaryScale70, width: 2),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: AppRadius.iosStyleRadius,
+            borderSide: BorderSide(color: colors.error, width: 1),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: AppRadius.iosStyleRadius,
+            borderSide: BorderSide(color: colors.error, width: 2),
+          ),
+          errorText: errorText?.tr(),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: AppRadius.iosStyleRadius,
-          borderSide: BorderSide(color: colors.primaryScale70, width: 2),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: AppRadius.iosStyleRadius,
-          borderSide: BorderSide(color: colors.error, width: 1),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: AppRadius.iosStyleRadius,
-          borderSide: BorderSide(color: colors.error, width: 2),
-        ),
-        errorText: errorText?.tr(),
       ),
     );
   }

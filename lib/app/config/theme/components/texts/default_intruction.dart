@@ -20,7 +20,12 @@ class DefaultInstruction extends ConsumerWidget {
     final titleStyle = context.typography.title;
     return Padding(
       padding: .symmetric(vertical: AppPadding.vertical),
-      child: DefaultText(text, style: titleStyle, textAlign: textAlign),
+      child: DefaultText(
+        text,
+        style: titleStyle,
+        textAlign: textAlign,
+        policy: .cappedLarge,
+      ),
     );
   }
 }

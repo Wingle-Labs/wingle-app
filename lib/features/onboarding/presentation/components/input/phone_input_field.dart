@@ -1,7 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/components/text_fields/default_outlined_input_field.dart';
+import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
@@ -23,12 +23,14 @@ class PhoneInputField extends ConsumerWidget {
       spacing: AppSpacing.xs,
       children: [
         // ! Label
-        Text(
-          '아이디를 입력해주세요'.tr(),
+        DefaultText(
+          '아이디를 입력해주세요',
           style: typography.body.copyWith(color: colors.textInactive),
+          policy: .cappedMedium,
         ),
         // ! Input Field
         DefaultOutlinedInputField(
+          policy: .cappedMedium,
           keyboardType: .phone,
           autofillHints: const [AutofillHints.telephoneNumber],
           onChanged: ref.read(loginPageProvider.notifier).updatePhone,

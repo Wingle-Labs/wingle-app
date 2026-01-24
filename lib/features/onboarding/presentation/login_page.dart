@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/components/bottons/default_filled_button.dart';
 import 'package:wingle/app/config/theme/components/texts/default_intruction.dart';
-import 'package:wingle/app/config/theme/components/texts/text_scale_wrapper.dart';
+import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/components/wrappers/constrained_scrollable_scaffold.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
@@ -49,16 +49,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             child: Column(
               crossAxisAlignment: .start,
               children: [
-                TextScaleWrapper(
-                  policy: .cappedLarge,
-                  child: DefaultInstruction("로그인"),
-                ),
-                TextScaleWrapper(
-                  policy: .cappedLarge,
-                  child: Text(
-                    "여기서 소녀는 아래편으로 한 삼 마장쯤,\n소년은 우대로 한 십 리 가까운 길을 가야 한다.",
-                    style: typography.body,
-                  ),
+                DefaultInstruction("로그인"),
+                DefaultText(
+                  "여기서 소녀는 아래편으로 한 삼 마장쯤,\n소년은 우대로 한 십 리 가까운 길을 가야 한다.",
+                  style: typography.body,
+                  policy: .cappedMedium,
                 ),
               ],
             ),
@@ -74,15 +69,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               spacing: AppSpacing.xs,
               children: [
                 // ! 전화번호 입력
-                TextScaleWrapper(
-                  policy: .cappedLarge,
-                  child: PhoneInputField(),
-                ),
-
-                TextScaleWrapper(
-                  policy: .cappedLarge,
-                  child: PasswordInputField(),
-                ),
+                PhoneInputField(),
+                PasswordInputField(),
               ],
             ),
           ),
