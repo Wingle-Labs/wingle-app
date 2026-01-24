@@ -75,7 +75,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             ),
           ),
 
-          SizedBox(
+          Container(
+            padding: .symmetric(horizontal: AppPadding.scaffold),
             child: Row(
               mainAxisAlignment: .center,
               children: [
