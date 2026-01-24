@@ -3,6 +3,7 @@ import 'package:wingle/app/config/theme/color/app_colors.dart';
 import 'package:wingle/app/config/theme/color/dark_color_scheme.dart';
 import 'package:wingle/app/config/theme/color/light_color_scheme.dart';
 import 'package:wingle/app/config/theme/constants/color.dart';
+import 'package:wingle/app/config/theme/text/app_typography.dart';
 
 /// 어플리케이션 테마 정의
 class Themes {
@@ -10,7 +11,7 @@ class Themes {
   static final ThemeData light = ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
-    extensions: const [AppColors(LightColorScheme())],
+    extensions: [AppColors(LightColorScheme()), AppTypography.base],
     fontFamily: "Pretendard",
   );
 
@@ -18,7 +19,7 @@ class Themes {
   static final ThemeData dark = ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,
-    extensions: const [AppColors(DarkColorScheme())],
+    extensions: [AppColors(DarkColorScheme()), AppTypography.base],
     fontFamily: "Pretendard",
   );
 }

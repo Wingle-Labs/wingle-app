@@ -9,6 +9,9 @@ class AppFontSize {
   /// 보통 폰트 크기
   static const double body = 16;
 
+  /// 메인 폰트 크기
+  static const double main = 18;
+
   /// 페이지 서브 타이틀 크기
   static const double subtitle = 20;
 
