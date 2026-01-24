@@ -6,8 +6,15 @@ class LoginPageModel {
   /// 비밀번호
   final String password;
 
+  /// 비밀번호 표시 여부
+  final bool isPasswordVisible;
+
   /// 생성자
-  const LoginPageModel({this.phone = '', this.password = ''});
+  const LoginPageModel({
+    this.phone = '',
+    this.password = '',
+    this.isPasswordVisible = false,
+  });
 
   /// 휴대폰 번호가 유효한지 확인
   bool get isPhoneValid => RegExp(r'^010\d{8}$').hasMatch(phone);
@@ -24,10 +31,15 @@ class LoginPageModel {
   bool get canLogin => isPhoneValid && isPasswordValid;
 
   /// 복사
-  LoginPageModel copyWith({String? phone, String? password}) {
+  LoginPageModel copyWith({
+    String? phone,
+    String? password,
+    bool? isPasswordVisible,
+  }) {
     return LoginPageModel(
       phone: phone ?? this.phone,
       password: password ?? this.password,
+      isPasswordVisible: isPasswordVisible ?? this.isPasswordVisible,
     );
   }
 }

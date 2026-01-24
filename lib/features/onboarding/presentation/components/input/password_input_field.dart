@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wingle/app/config/theme/components/bottons/default_icon_button.dart';
 import 'package:wingle/app/config/theme/components/text_fields/default_outlined_input_field.dart';
 import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
@@ -38,6 +40,23 @@ class PasswordInputField extends ConsumerWidget {
           errorText: loginState.password.isEmpty || loginState.isPasswordValid
               ? null
               : '8자리 이상 입력해주세요',
+          // 이모지를 입력하지 못하게 제한
+          inputFormatters: [
+            FilteringTextInputFormatter.deny(
+              RegExp(r'[\u{1F300}-\u{1FAFF}]', unicode: true),
+            ),
+          ],
+          suffix: DefaultIconButton(
+            icon: loginState.isPasswordVisible
+                ? Icons.visibility
+                : Icons.visibility_off,
+            color: colors.primaryScale70,
+            onPressed: ref
+                .read(loginPageProvider.notifier)
+                .togglePasswordVisibility,
+            isEnabled: true,
+          ),
+          obscureText: !loginState.isPasswordVisible,
         ),
       ],
     );

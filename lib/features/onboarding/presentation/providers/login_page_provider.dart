@@ -21,6 +21,11 @@ class LoginPage extends _$LoginPage {
     state = state.copyWith(password: value);
   }
 
+  /// 비밀번호 표시 여부 토글
+  void togglePasswordVisibility() {
+    state = state.copyWith(isPasswordVisible: !state.isPasswordVisible);
+  }
+
   /// 상태 초기화
   void reset() {
     state = const LoginPageModel();
