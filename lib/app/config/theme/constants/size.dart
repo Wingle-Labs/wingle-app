@@ -45,6 +45,9 @@ class AppContainerSize {
   /// 버튼 최소 길이
   static const double buttonMinimun = 48;
 
+  /// 입력 필드 최소 높이
+  static const double inputFieldMinimun = 48;
+
   /// 중간 높이
   static const double regular = 56;
 
