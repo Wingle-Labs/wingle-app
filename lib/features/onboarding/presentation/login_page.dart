@@ -31,7 +31,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
     return ConstrainedScrollableScaffold(
       padding: .zero,
-      appBar: AppBar(backgroundColor: colorScheme.background),
+      appBar: AppBar(
+        backgroundColor: colorScheme.background,
+        surfaceTintColor: colorScheme.background,
+      ),
       floatingActionButton: Padding(
         padding: .symmetric(horizontal: AppPadding.btnHorizontal),
         child: DefaultFilledButton(
