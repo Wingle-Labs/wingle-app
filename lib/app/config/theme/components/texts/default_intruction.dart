@@ -1,9 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
-import 'package:wingle/app/config/theme/constants/size.dart';
-import 'package:wingle/app/config/theme/constants/weight.dart';
+import 'package:wingle/common/extensions/context_typography.dart';
 
 /// 기본 설명 텍스트
 class DefaultInstruction extends ConsumerWidget {
@@ -18,16 +17,10 @@ class DefaultInstruction extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final titleStyle = context.typography.title;
     return Padding(
       padding: .symmetric(vertical: AppPadding.vertical),
-      child: Text(
-        text.tr(),
-        style: TextStyle(
-          fontSize: AppFontSize.title,
-          fontWeight: AppFontWeight.bold,
-        ),
-        textAlign: textAlign,
-      ),
+      child: DefaultText(text, style: titleStyle, textAlign: textAlign),
     );
   }
 }

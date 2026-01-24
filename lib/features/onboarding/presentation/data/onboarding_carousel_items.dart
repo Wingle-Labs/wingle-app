@@ -1,7 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:wingle/app/config/theme/components/texts/default_intruction.dart';
+import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
-import 'package:wingle/app/config/theme/constants/size.dart';
+import 'package:wingle/app/config/theme/text/app_typography_token.dart';
 
 import '../models/onboarding_carousel_item.dart';
 
@@ -11,7 +12,7 @@ const onboardingCarouselItems = [
     content: Column(
       children: [
         DefaultInstruction("커넥트 이후 독점 대화 기능", textAlign: .center),
-        Text(
+        DefaultText(
           "개울가에 이르니, 며칠째 보이지 않던 소녀가 건너편 가에 앉아 물장난을 하고 있었다.",
           textAlign: .center,
         ),
@@ -45,13 +46,10 @@ const onboardingCarouselItems = [
       children: [
         Padding(
           padding: .only(top: AppPadding.vertical),
-          child: Text(
+          child: DefaultText(
             "조건보다 중요한 건 가치",
             textAlign: .center,
-            style: TextStyle(
-              fontSize: AppFontSize.body,
-              fontWeight: FontWeight.bold,
-            ),
+            style: AppTypographyToken.main18,
           ),
         ),
         DefaultInstruction("윙글과 함께 시작해보세요", textAlign: .center),
