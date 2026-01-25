@@ -11,7 +11,7 @@ import 'package:wingle/common/extensions/context_colors.dart';
 /// 내용이 많을 때는 자연스럽게 스크롤됩니다.
 class ConstrainedScrollableScaffold extends ConsumerWidget {
   /// 상단 AppBar
-  final AppBar? appBar;
+  final PreferredSizeWidget? appBar;
 
   /// 스크롤 영역 안에 배치될 Widget
   final Widget child;

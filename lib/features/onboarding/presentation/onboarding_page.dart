@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/components/bottons/default_text_button.dart';
 import 'package:wingle/app/config/theme/components/wrappers/constrained_scrollable_scaffold.dart';
+import 'package:wingle/app/config/theme/components/wrappers/default_app_bar.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
-import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/features/onboarding/presentation/components/wrapper/indicator_carousel.dart';
 import 'package:wingle/features/onboarding/presentation/components/wrapper/onboarding_bottom_buttons.dart';
 import 'package:wingle/features/onboarding/presentation/data/onboarding_carousel_items.dart';
@@ -29,24 +29,20 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
 
     return ConstrainedScrollableScaffold(
       padding: .zero,
-      appBar: AppBar(
-        backgroundColor: context.colors.background,
-        surfaceTintColor: context.colors.background,
-        actions: currentIndex < lastIndex
-            ? [
-                IntrinsicWidth(
-                  child: DefaultTextButton(
-                    label: "건너뛰기",
-                    onPressed: () {
-                      ref
-                          .read(onboardingCarouselProvider.notifier)
-                          .skipToLast(lastIndex);
-                    },
-                  ),
-                ),
-              ]
-            : null,
-        actionsPadding: .only(right: AppSpacing.xs),
+      appBar: DefaultAppBar(
+        isActionVisible: currentIndex < lastIndex,
+        actions: [
+          IntrinsicWidth(
+            child: DefaultTextButton(
+              label: "건너뛰기",
+              onPressed: () {
+                ref
+                    .read(onboardingCarouselProvider.notifier)
+                    .skipToLast(lastIndex);
+              },
+            ),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
