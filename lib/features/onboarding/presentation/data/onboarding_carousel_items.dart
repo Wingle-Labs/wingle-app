@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:wingle/app/config/theme/components/cards/guide_card.dart';
 import 'package:wingle/app/config/theme/components/texts/default_intruction.dart';
 import 'package:wingle/app/config/theme/components/texts/default_text.dart';
-import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/app/config/theme/text/app_typography_token.dart';
 
@@ -43,16 +42,14 @@ const onboardingCarouselItems = [
   OnboardingCarouselItem(
     content: Column(
       mainAxisAlignment: .center,
+      spacing: AppSpacing.sm,
       children: [
-        Padding(
-          padding: .only(top: AppPadding.vertical),
-          child: DefaultText(
-            "조건보다 중요한 건 가치",
-            textAlign: .center,
-            style: AppTypographyToken.main18,
-          ),
+        DefaultText(
+          "조건보다 중요한 건 가치",
+          textAlign: .center,
+          style: AppTypographyToken.main18,
         ),
-        DefaultInstruction("윙글과 함께 시작해보세요", textAlign: .center),
+        DefaultInstruction("윙글과 함께 시작해보세요", textAlign: .center, padding: .zero),
       ],
     ),
     image: AssetImage('assets/images/logo.png'),
