@@ -23,6 +23,9 @@ class DefaultTextButton extends StatelessWidget {
   /// 지정되지 않은 경우 기본값으로 primary 색상 사용
   final Color? foregroundColor;
 
+  /// - [textStyle]: 버튼 내 텍스트 스타일
+  final TextStyle? textStyle;
+
   /// const 생성자
   const DefaultTextButton({
     super.key,
@@ -32,6 +35,7 @@ class DefaultTextButton extends StatelessWidget {
     this.trailingIcon,
     this.isDisabled = false,
     this.foregroundColor,
+    this.textStyle,
   });
 
   @override
@@ -48,6 +52,7 @@ class DefaultTextButton extends StatelessWidget {
       leading: leadingIcon,
       trailing: trailingIcon,
       isDisabled: isDisabled,
+      textStyle: textStyle,
     );
   }
 }

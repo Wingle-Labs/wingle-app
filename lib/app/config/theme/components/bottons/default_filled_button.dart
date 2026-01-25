@@ -19,6 +19,9 @@ class DefaultFilledButton extends StatelessWidget {
   /// - [isDisabled]: 비활성화 상태 여부
   final bool isDisabled;
 
+  /// - [textStyle]: 글자 스타일
+  final TextStyle? textStyle;
+
   /// const 생성자
   const DefaultFilledButton({
     super.key,
@@ -27,6 +30,7 @@ class DefaultFilledButton extends StatelessWidget {
     this.leadingIcon,
     this.trailingIcon,
     this.isDisabled = false,
+    this.textStyle,
   });
 
   @override
@@ -44,6 +48,7 @@ class DefaultFilledButton extends StatelessWidget {
       leading: leadingIcon,
       trailing: trailingIcon,
       isDisabled: isDisabled,
+      textStyle: textStyle,
     );
   }
 }
