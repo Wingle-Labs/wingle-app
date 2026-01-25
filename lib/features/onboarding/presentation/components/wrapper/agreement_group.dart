@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wingle/app/config/theme/components/pickers/check_box.dart';
+import 'package:wingle/app/config/theme/components/bottons/default_checkbox.dart';
 import 'package:wingle/app/config/theme/components/wrappers/smooth_rect.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
 
@@ -37,10 +37,7 @@ class AgreementGroup extends ConsumerWidget {
         child: Row(
           mainAxisAlignment: .start,
           children: [
-            DefaultCheckBox(
-              value: value,
-              onChanged: onChanged,
-            ),
+            DefaultCheckbox(isChecked: value, onChanged: onChanged),
             Expanded(child: Text(isTranslated == true ? text.tr() : text)),
           ],
         ),
