@@ -37,6 +37,9 @@ class DefaultButton extends ConsumerWidget {
   /// 비활성화 상태 여부
   final bool isDisabled;
 
+  /// Font Style
+  final TextStyle? textStyle;
+
   /// const 생성자
   const DefaultButton({
     super.key,
@@ -49,6 +52,7 @@ class DefaultButton extends ConsumerWidget {
     this.leading,
     this.trailing,
     this.isDisabled = false,
+    this.textStyle,
   });
 
   @override
@@ -99,7 +103,7 @@ class DefaultButton extends ConsumerWidget {
                     policy: .cappedLarge,
                     child: Text(
                       label.tr(),
-                      style: context.typography.button.copyWith(
+                      style: (textStyle ?? context.typography.button).copyWith(
                         color: foregroundColor,
                       ),
                       textAlign: .center,
