@@ -23,6 +23,9 @@ abstract final class OnboardingRoutes {
   );
 
   // ! 회원가입 하위 루트
+  /// 약관 동의
+  static const agreement = RouteNode(parent: signup, name: 'agreement');
+
   /// 전화번호 입력
   static const phone = RouteNode(parent: signup, name: 'phone');
 

@@ -21,11 +21,11 @@ class SignupButton extends ConsumerWidget {
 
     return isInOnboarding
         ? DefaultFilledButton(
-            onPressed: () => context.pushNamed(OnboardingRoutes.signup.name),
+            onPressed: () => context.pushNamed(OnboardingRoutes.agreement.name),
             label: text,
           )
         : DefaultTextButton(
-            onPressed: () => context.pushNamed(OnboardingRoutes.signup.name),
+            onPressed: () => context.pushNamed(OnboardingRoutes.agreement.name),
             label: text,
           );
   }

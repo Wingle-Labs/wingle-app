@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wingle/features/auth/presentation/phone_auth.dart';
 import 'package:wingle/features/auth/presentation/phone_otp.dart';
 import 'package:wingle/features/onboarding/presentation/age_pick.page.dart';
+import 'package:wingle/features/onboarding/presentation/agreement_page.dart';
 import 'package:wingle/features/onboarding/presentation/login_page.dart';
 import 'package:wingle/features/onboarding/presentation/onboarding_page.dart';
 import 'package:wingle/features/onboarding/presentation/required_self_intro.dart';
@@ -52,6 +53,11 @@ final List<GoRoute> loginRoutes = [
 
 /// ! 회원가입 하위 라우트 목록
 final List<GoRoute> signUpRoutes = [
+  GoRoute(
+    name: OnboardingRoutes.agreement.name,
+    path: OnboardingRoutes.agreement.path,
+    builder: (context, state) => AgreementPage(),
+  ),
   GoRoute(
     name: OnboardingRoutes.phone.name,
     path: OnboardingRoutes.phone.path,
