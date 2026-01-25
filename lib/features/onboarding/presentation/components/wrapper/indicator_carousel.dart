@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:wingle/app/config/theme/components/states/indicator.dart';
-import 'package:wingle/app/config/theme/components/texts/text_scale_wrapper.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/features/onboarding/presentation/models/onboarding_carousel_item.dart';
@@ -43,13 +42,9 @@ class IndicatorCarousel extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: AppSpacing.sm,
-                    vertical: AppSpacing.xs,
                   ),
                   height: AppContainerSize.indicatorDescription,
-                  child: TextScaleWrapper(
-                    policy: .cappedMedium,
-                    child: Center(child: entry.content),
-                  ),
+                  child: entry.content,
                 ),
                 const SizedBox(height: AppSpacing.xxs),
                 SizedBox(
