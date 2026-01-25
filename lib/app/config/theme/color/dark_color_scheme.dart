@@ -95,7 +95,7 @@ class DarkColorScheme implements AppColorScheme {
   Color get border => Color(0xFF242424);
 
   @override
-  Color get divider => Color(0xFF1F1F1F);
+  Color get divider => Color(0xFF6A6A6A);
 
   @override
   Color get scrim => Color(0xFFFFFFFF).withValues(alpha: 0.10);

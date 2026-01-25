@@ -99,7 +99,7 @@ class LightColorScheme implements AppColorScheme {
   Color get border => Color(0xFFE2E2E2);
 
   @override
-  Color get divider => Color(0xFFECECEC);
+  Color get divider => Color(0xFF9E9E9E);
 
   @override
   Color get scrim => Color(0xFF000000).withValues(alpha: 0.45);
