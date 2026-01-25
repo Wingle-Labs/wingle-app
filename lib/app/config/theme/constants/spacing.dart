@@ -6,6 +6,9 @@ class AppSpacing {
   /// 가장 작은 간격
   static const double xxs = 8;
 
+  /// 텍스트 요소 간 세로 간격
+  static const double textVerticalInternal = 10;
+
   /// 매우 작은 간격
   static const double xs = 12;
 

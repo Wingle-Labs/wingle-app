@@ -51,7 +51,8 @@ class ConstrainedScrollableScaffold extends ConsumerWidget {
               ),
               child: IntrinsicHeight(
                 child: Padding(
-                  padding: padding ?? .all(AppPadding.scaffold),
+                  padding:
+                      padding ?? .symmetric(horizontal: AppPadding.scaffold),
                   child: child,
                 ),
               ),

@@ -23,4 +23,10 @@ class AppPadding {
 
   /// TextField와 suffix 간의 패딩
   static const double textfieldSuffix = 12;
+
+  /// 리스트 아이템 상단 패딩
+  static const double listTop = 52;
+
+  /// 리스트 아이템 하단 패딩
+  static const double listBottom = 32;
 }
