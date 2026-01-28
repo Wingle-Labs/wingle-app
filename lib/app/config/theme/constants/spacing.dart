@@ -26,4 +26,7 @@ class AppSpacing {
 
   /// Bottom 여백
   static const double bottom = 96;
+
+  /// Input Field와 상단 Label 간의 간격
+  static const double inputFieldLabelInternal = 4;
 }

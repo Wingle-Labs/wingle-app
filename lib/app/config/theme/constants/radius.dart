@@ -25,4 +25,7 @@ class AppRadius {
     cornerRadius: iosStyle,
     cornerSmoothing: iosSmoothing,
   );
+
+  /// Checkbox Radius
+  static const double checkboxRadius = 6;
 }

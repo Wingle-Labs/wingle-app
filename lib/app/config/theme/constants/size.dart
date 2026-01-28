@@ -74,10 +74,19 @@ class AppContainerSize {
 
   /// wrap
   static const double wrap = 300;
+
+  /// vertical divider
+  static const double verticalDividerHeight = 10;
 }
 
 /// 어플리케이션 내 선 두께 정의
 class AppLineWidth {
   /// 테두리 두께
   static const double outline = 1.2;
+
+  /// 입력 필드 테두리 두께
+  static const double inputFieldOutline = 1.4;
+
+  /// 입력 필드 커서 두께
+  static const double inputFieldCursor = 1.0;
 }
