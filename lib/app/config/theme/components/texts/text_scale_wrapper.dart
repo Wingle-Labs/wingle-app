@@ -20,24 +20,7 @@ class TextScaleWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
 
-    double scale = mediaQuery.textScaler.scale(1.0);
-
-    switch (policy) {
-      case TextScalePolicy.system:
-        break;
-      case TextScalePolicy.cappedSmall:
-        scale = scale.clamp(1.0, 1.1);
-        break;
-      case TextScalePolicy.cappedMedium:
-        scale = scale.clamp(1.0, 1.3);
-        break;
-      case TextScalePolicy.cappedLarge:
-        scale = scale.clamp(1.0, 1.6);
-        break;
-      case TextScalePolicy.fixed:
-        scale = 1.0;
-        break;
-    }
+    final scale = policy.getScaleFactor(mediaQuery.textScaler.scale(1.0));
 
     return MediaQuery(
       data: mediaQuery.copyWith(textScaler: TextScaler.linear(scale)),
