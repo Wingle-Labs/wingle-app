@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/components/bottons/default_filled_button.dart';
+import 'package:wingle/app/config/theme/components/dividers/default_vertical_divider.dart';
 import 'package:wingle/app/config/theme/components/texts/default_intruction.dart';
 import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/components/wrappers/constrained_scrollable_scaffold.dart';
@@ -80,7 +81,16 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               mainAxisAlignment: .center,
               children: [
                 Expanded(child: ChangePhoneNumberButton()),
+                // TODO: VerticalDivider 색 추후 변경
+                DefaultVerticalDivider(
+                  textScalePolicy: .cappedLarge,
+                  fontSize: context.typography.buttonSmall.fontSize,
+                ),
                 Expanded(child: ResetPasswordButton()),
+                DefaultVerticalDivider(
+                  textScalePolicy: .cappedLarge,
+                  fontSize: context.typography.buttonSmall.fontSize,
+                ),
                 Expanded(child: SignupButton(isInOnboarding: false)),
               ],
             ),
