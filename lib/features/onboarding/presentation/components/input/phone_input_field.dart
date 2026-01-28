@@ -21,7 +21,7 @@ class PhoneInputField extends ConsumerWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: AppSpacing.xs,
+      spacing: AppSpacing.inputFieldLabelInternal,
       children: [
         // ! Label
         DefaultText(
@@ -40,6 +40,8 @@ class PhoneInputField extends ConsumerWidget {
               ? null
               : '010으로 시작하는 11자리 숫자를 입력하세요',
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          onClear: () => ref.read(loginPageProvider.notifier).updatePhone(''),
+          showClearButton: ref.read(loginPageProvider).phone.isNotEmpty,
         ),
       ],
     );

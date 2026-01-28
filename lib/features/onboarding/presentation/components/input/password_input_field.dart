@@ -22,7 +22,7 @@ class PasswordInputField extends ConsumerWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: AppSpacing.xs,
+      spacing: AppSpacing.inputFieldLabelInternal,
       children: [
         // ! Label
         DefaultText(
@@ -46,16 +46,18 @@ class PasswordInputField extends ConsumerWidget {
               RegExp(r'[\u{1F300}-\u{1FAFF}]', unicode: true),
             ),
           ],
-          suffix: DefaultIconButton(
-            icon: loginState.isPasswordVisible
-                ? Icons.visibility
-                : Icons.visibility_off,
-            color: colors.primaryScale70,
-            onPressed: ref
-                .read(loginPageProvider.notifier)
-                .togglePasswordVisibility,
-            isEnabled: true,
-          ),
+          suffix: loginState.password.isNotEmpty
+              ? DefaultIconButton(
+                  icon: loginState.isPasswordVisible
+                      ? Icons.visibility
+                      : Icons.visibility_off,
+                  color: colors.primaryScale70,
+                  onPressed: ref
+                      .read(loginPageProvider.notifier)
+                      .togglePasswordVisibility,
+                  isEnabled: true,
+                )
+              : null,
           obscureText: !loginState.isPasswordVisible,
         ),
       ],

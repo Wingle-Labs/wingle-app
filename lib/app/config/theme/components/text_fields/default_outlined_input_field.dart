@@ -5,6 +5,8 @@ import 'package:wingle/app/config/theme/components/texts/text_scale_policy.dart'
 import 'package:wingle/app/config/theme/components/texts/text_scale_wrapper.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
+import 'package:wingle/app/config/theme/constants/size.dart';
+import 'package:wingle/app/config/theme/constants/weight.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
 
@@ -37,6 +39,12 @@ class DefaultOutlinedInputField extends StatelessWidget {
   /// Trailing 위젯
   final Widget? suffix;
 
+  /// Clear 버튼 클릭 시 Callback
+  final VoidCallback? onClear;
+
+  /// Clear 버튼 노출 여부
+  final bool showClearButton;
+
   /// 생성자
   const DefaultOutlinedInputField({
     super.key,
@@ -49,6 +57,8 @@ class DefaultOutlinedInputField extends StatelessWidget {
     this.policy = TextScalePolicy.system,
     this.inputFormatters,
     this.suffix,
+    this.onClear,
+    this.showClearButton = false,
   });
 
   @override
@@ -68,34 +78,27 @@ class DefaultOutlinedInputField extends StatelessWidget {
         autovalidateMode: AutovalidateMode.onUserInteraction,
         cursorColor: colors.primary,
         cursorErrorColor: colors.error,
+        cursorWidth: AppLineWidth.inputFieldCursor,
         decoration: InputDecoration(
-          constraints: const BoxConstraints(minHeight: AppPadding.textfield),
+          constraints: const BoxConstraints(
+            minHeight: AppContainerSize.inputFieldMinimun,
+          ),
           isDense: true,
           hintText: hintText?.tr(),
           hintStyle: typography.body.copyWith(color: colors.textInactive),
           filled: true,
-          fillColor: colors.surface,
+          fillColor: colors.background,
           contentPadding: const EdgeInsets.all(AppPadding.textfield),
           // 입력 가능 상태
-          enabledBorder: OutlineInputBorder(
-            borderRadius: AppRadius.iosStyleRadius,
-            borderSide: BorderSide(color: colors.primaryScale70, width: 1),
-          ),
+          enabledBorder: getBorder(colors.border),
           // 입력 중인 상태
-          focusedBorder: OutlineInputBorder(
-            borderRadius: AppRadius.iosStyleRadius,
-            borderSide: BorderSide(color: colors.primaryScale70, width: 2),
-          ),
+          focusedBorder: getBorder(colors.primary),
           // 에러 상태
-          errorBorder: OutlineInputBorder(
-            borderRadius: AppRadius.iosStyleRadius,
-            borderSide: BorderSide(color: colors.error, width: 1),
-          ),
+          errorBorder: getBorder(colors.error),
           // 에러 상태(입력 중)
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: AppRadius.iosStyleRadius,
-            borderSide: BorderSide(color: colors.error, width: 2),
-          ),
+          focusedErrorBorder: getBorder(colors.error),
+          // 비활성화 상태
+          disabledBorder: getBorder(colors.textDisabled),
           errorText: errorText?.tr(),
           suffixIcon: suffix != null
               ? Row(
@@ -105,8 +108,38 @@ class DefaultOutlinedInputField extends StatelessWidget {
                     const SizedBox(width: AppPadding.textfieldSuffix),
                   ],
                 )
+              : onClear != null && showClearButton
+              ? Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        Icons.clear,
+                        applyTextScaling: true,
+                        size: AppIconSize.large,
+                        color: colors.textTertiary,
+                        fontWeight: AppFontWeight.regular,
+                        semanticLabel: "Clear".tr(),
+                      ),
+                      onPressed: onClear,
+                    ),
+                    const SizedBox(width: AppPadding.textfieldSuffix),
+                  ],
+                )
               : null,
         ),
+      ),
+    );
+  }
+
+  /// 입력 필드를 감싸는 테두리 스타일 반환 함수
+  OutlineInputBorder getBorder(Color color) {
+    return OutlineInputBorder(
+      borderRadius: AppRadius.iosStyleRadius,
+      borderSide: BorderSide(
+        color: color,
+        width: AppLineWidth.inputFieldOutline,
+        strokeAlign: BorderSide.strokeAlignOutside,
       ),
     );
   }
