@@ -18,6 +18,9 @@ class DefaultText extends StatelessWidget {
   /// 텍스트 정렬
   final TextAlign textAlign;
 
+  /// 텍스트 색상
+  final Color? color;
+
   /// 생성자
   const DefaultText(
     this.text, {
@@ -25,6 +28,7 @@ class DefaultText extends StatelessWidget {
     this.policy = TextScalePolicy.system,
     this.style,
     this.textAlign = TextAlign.left,
+    this.color,
   });
 
   @override
@@ -32,7 +36,11 @@ class DefaultText extends StatelessWidget {
     final body = context.typography.body;
     return TextScaleWrapper(
       policy: policy,
-      child: Text(text.tr(), style: style ?? body, textAlign: textAlign),
+      child: Text(
+        text.tr(),
+        style: (style ?? body).copyWith(color: color),
+        textAlign: textAlign,
+      ),
     );
   }
 }
