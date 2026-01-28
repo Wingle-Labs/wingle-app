@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/components/bottons/default_filled_button.dart';
 import 'package:wingle/app/config/theme/components/bottons/default_text_button.dart';
+import 'package:wingle/common/extensions/context_typography.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// 회원가입 페이지로 이동하는 버튼
@@ -18,15 +19,18 @@ class SignupButton extends ConsumerWidget {
     final text = isInOnboarding
         ? 'onboarding.button.signUp'
         : 'onboarding.login.button.signUp';
+    final typography = context.typography;
 
     return isInOnboarding
         ? DefaultFilledButton(
             onPressed: () => context.pushNamed(OnboardingRoutes.agreement.name),
             label: text,
+            textStyle: typography.buttonSmall,
           )
         : DefaultTextButton(
             onPressed: () => context.pushNamed(OnboardingRoutes.agreement.name),
             label: text,
+            textStyle: typography.buttonSmall,
           );
   }
 }
