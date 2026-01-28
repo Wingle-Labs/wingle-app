@@ -46,18 +46,15 @@ class PasswordInputField extends ConsumerWidget {
               RegExp(r'[\u{1F300}-\u{1FAFF}]', unicode: true),
             ),
           ],
-          suffix: loginState.password.isNotEmpty
-              ? DefaultIconButton(
-                  icon: loginState.isPasswordVisible
-                      ? Icons.visibility
-                      : Icons.visibility_off,
-                  color: colors.primaryScale70,
-                  onPressed: ref
-                      .read(loginPageProvider.notifier)
-                      .togglePasswordVisibility,
-                  isEnabled: true,
-                )
-              : null,
+          suffix: DefaultIconButton(
+            icon: loginState.isPasswordVisible
+                ? Icons.visibility
+                : Icons.visibility_off,
+            onPressed: ref
+                .read(loginPageProvider.notifier)
+                .togglePasswordVisibility,
+            isEnabled: true,
+          ),
           obscureText: !loginState.isPasswordVisible,
         ),
       ],

@@ -100,6 +100,7 @@ class DefaultOutlinedInputField extends StatelessWidget {
           // 비활성화 상태
           disabledBorder: getBorder(colors.textDisabled),
           errorText: errorText?.tr(),
+          suffixIconColor: colors.textTertiary,
           suffixIcon: suffix != null
               ? Row(
                   mainAxisSize: MainAxisSize.min,
@@ -117,7 +118,6 @@ class DefaultOutlinedInputField extends StatelessWidget {
                         Icons.clear,
                         applyTextScaling: true,
                         size: AppIconSize.large,
-                        color: colors.textTertiary,
                         fontWeight: AppFontWeight.regular,
                         semanticLabel: "Clear".tr(),
                       ),

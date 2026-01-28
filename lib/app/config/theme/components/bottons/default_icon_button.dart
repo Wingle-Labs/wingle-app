@@ -42,11 +42,7 @@ class DefaultIconButton extends StatelessWidget {
     final colors = context.colors;
     return IconButton(
       onPressed: isEnabled ? onPressed : null,
-      icon: Icon(
-        icon,
-        size: AppIconSize.large,
-        applyTextScaling: applyTextScaling,
-      ),
+      icon: Icon(icon, size: size, applyTextScaling: applyTextScaling),
       color: color,
       splashColor: colors.overlayPressed,
       hoverColor: colors.overlayPressed,
