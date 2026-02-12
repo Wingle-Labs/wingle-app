@@ -75,3 +75,20 @@ class FirebaseEnvFile implements EnvFile {
   /// 싱글톤
   static final FirebaseEnvFile _instance = FirebaseEnvFile();
 }
+
+/// API 관련 Env 파일
+class ApiEnvFile implements EnvFile {
+  @override
+  String get path => 'lib/app/config/env/api.env';
+
+  @override
+  EnvKey<String> create(String key) {
+    return EnvKey<String>(path: path, name: key);
+  }
+
+  /// API Base URL
+  static EnvKey<String> baseUrl = _instance.create('API_BASE_URL');
+
+  /// 싱글톤
+  static final ApiEnvFile _instance = ApiEnvFile();
+}

@@ -30,6 +30,7 @@ dependencies:
   figma_squircle: ^0.6.3
   scroll_date_picker: ^3.8.0
   carousel_slider: ^5.1.1
+  http: ^1.6.0
   
 
 dev_dependencies:
