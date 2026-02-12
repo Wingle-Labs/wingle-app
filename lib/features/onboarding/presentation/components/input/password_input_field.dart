@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:iconify_flutter/icons/ic.dart';
+import 'package:iconify_flutter/icons/ph.dart';
 import 'package:wingle/app/config/theme/components/bottons/default_icon_button.dart';
 import 'package:wingle/app/config/theme/components/text_fields/default_outlined_input_field.dart';
 import 'package:wingle/app/config/theme/components/texts/default_text.dart';
@@ -48,8 +51,11 @@ class PasswordInputField extends ConsumerWidget {
           ],
           suffix: DefaultIconButton(
             icon: loginState.isPasswordVisible
-                ? Icons.visibility
-                : Icons.visibility_off,
+                ? Iconify(Ph.eye_closed_bold, color: colors.textInactive)
+                : Iconify(
+                    Ic.baseline_remove_red_eye,
+                    color: colors.textInactive,
+                  ),
             onPressed: ref
                 .read(loginPageProvider.notifier)
                 .togglePasswordVisibility,
