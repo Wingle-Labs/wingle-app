@@ -40,16 +40,18 @@ class DefaultListButton extends StatelessWidget {
     final typography = context.typography;
     final textScale = MediaQuery.textScalerOf(context).scale(1.0);
     final disabledColor = colors.textDisabled;
+    final surfaceDisabled = colors.surfaceDisabled;
     return TextScaleWrapper(
       policy: .cappedMedium,
       child: Theme(
         data: Theme.of(context).copyWith(
-          splashColor: colors.primaryScale90,
-          highlightColor: Colors.transparent,
           disabledColor: disabledColor,
           checkboxTheme: CheckboxThemeData(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppRadius.checkboxRadius),
+            ),
+            fillColor: WidgetStatePropertyAll(
+              isChecked ? colors.primary : surfaceDisabled,
             ),
           ),
         ),
@@ -76,7 +78,7 @@ class DefaultListButton extends StatelessWidget {
           secondary: hasArrow
               ? Icon(
                   Icons.arrow_forward_ios,
-                  color: isDisabled ? disabledColor : colors.primary,
+                  color: isDisabled ? disabledColor : colors.primaryScale70,
                   applyTextScaling: true,
                 )
               : null,

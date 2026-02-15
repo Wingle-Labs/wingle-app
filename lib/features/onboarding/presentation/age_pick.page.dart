@@ -7,7 +7,6 @@ import 'package:wingle/app/config/theme/components/pickers/date_picker.dart';
 import 'package:wingle/app/config/theme/components/texts/default_intruction.dart';
 import 'package:wingle/app/config/theme/components/wrappers/scrollable_scaffold.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
-import 'package:wingle/features/onboarding/presentation/components/wrapper/agreement_group.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// 나이 선택 페이지
@@ -39,19 +38,19 @@ class _AgePickPageState extends ConsumerState<AgePickPage> {
               Column(
                 mainAxisAlignment: .center,
                 children: [
-                  AgreementGroup(
-                    value: true,
-                    onChanged: (value) {},
-                    text: 'onboarding.age.checkbox.adult',
-                    isTranslated: true,
-                  ),
-                  Padding(padding: .only(bottom: AppSpacing.md)),
-                  AgreementGroup(
-                    value: false,
-                    onChanged: (value) {},
-                    text: 'onboarding.age.checkbox.block',
-                    isTranslated: true,
-                  ),
+                  // AgreementGroup(
+                  //   value: true,
+                  //   onChanged: (value) {},
+                  //   text: 'onboarding.age.checkbox.adult',
+                  //   isTranslated: true,
+                  // ),
+                  // Padding(padding: .only(bottom: AppSpacing.md)),
+                  // AgreementGroup(
+                  //   value: false,
+                  //   onChanged: (value) {},
+                  //   text: 'onboarding.age.checkbox.block',
+                  //   isTranslated: true,
+                  // ),
                 ],
               ),
             ],

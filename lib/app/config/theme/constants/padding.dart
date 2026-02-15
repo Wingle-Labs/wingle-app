@@ -32,4 +32,10 @@ class AppPadding {
 
   /// 리스트 버튼 패딩
   static const double listButton = 8;
+
+  /// 약관 동의 아이템 가로 패딩
+  static const double agreementHorizontal = 14;
+
+  /// 약관 동의 아이템 세로 패딩
+  static const double agreementVertical = 4;
 }

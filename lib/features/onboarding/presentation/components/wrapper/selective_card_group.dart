@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
-import 'package:wingle/features/onboarding/presentation/components/wrapper/agreement_group.dart';
 import 'package:wingle/features/onboarding/presentation/components/wrapper/self_introduce_card.dart';
 
 /// 선택형 자기소개 그룹
@@ -33,19 +32,19 @@ class SelectiveCardGroup extends ConsumerWidget {
       title: question,
       child: Column(
         spacing: AppSpacing.sm,
-        children: answers
-            .map(
-              (answer) => AgreementGroup(
-                value: answersState[answers.indexOf(answer)],
-                onChanged: (value) {
-                  onAnswersStateChange(
-                    answersState.map((state) => state).toList(),
-                  );
-                },
-                text: answer,
-              ),
-            )
-            .toList(),
+        // children: answers
+        //     .map(
+        //       (answer) => AgreementGroup(
+        //         value: answersState[answers.indexOf(answer)],
+        //         onChanged: (value) {
+        //           onAnswersStateChange(
+        //             answersState.map((state) => state).toList(),
+        //           );
+        //         },
+        //         text: answer,
+        //       ),
+        //     )
+        //     .toList(),
       ),
     );
   }

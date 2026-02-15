@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:wingle/app/config/theme/components/texts/text_scale_policy.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
+import 'package:wingle/app/config/theme/constants/size.dart';
+import 'package:wingle/app/config/theme/constants/weight.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 
 /// 앱 전역에서 사용하는 기본 체크박스 컴포넌트
@@ -16,6 +19,9 @@ class DefaultCheckbox extends StatelessWidget {
   /// semantic label
   final String? semanticLabel;
 
+  /// 텍스트 스케일 정책
+  final TextScalePolicy scalePolicy;
+
   /// 생성자
   const DefaultCheckbox({
     super.key,
@@ -23,26 +29,31 @@ class DefaultCheckbox extends StatelessWidget {
     this.onChanged,
     this.isDisabled = false,
     this.semanticLabel,
+    this.scalePolicy = TextScalePolicy.cappedMedium,
   });
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    return Transform.scale(
-      scale: 4,
-      child: Checkbox(
-        shape: RoundedRectangleBorder(
+    final textScale = MediaQuery.textScalerOf(context).scale(1.0);
+    final clampedScale = scalePolicy.getScaleFactor(textScale);
+    final size = AppIconSize.large * clampedScale;
+    return InkWell(
+      child: Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppRadius.checkboxRadius),
+          color: isChecked ? colors.primary : colors.surfaceDisabled,
         ),
-        activeColor: colors.primary,
-        value: isChecked,
-        onChanged: isDisabled
-            ? null
-            : (value) {
-                if (value == null) return;
-                onChanged?.call(value);
-              },
-        semanticLabel: semanticLabel,
+        child: Center(
+          child: Icon(
+            Icons.check,
+            color: colors.onPrimary,
+            size: size,
+            fontWeight: AppFontWeight.bold,
+          ),
+        ),
       ),
     );
   }
