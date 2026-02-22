@@ -9,7 +9,6 @@ class AppFontWeight {
   static const FontWeight medium = FontWeight.w400;
 
   /// semiBold
-  /// 버튼,
   static const FontWeight semiBold = FontWeight.w700;
 
   /// bold

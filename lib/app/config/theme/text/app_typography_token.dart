@@ -11,6 +11,7 @@ class AppTypographyToken {
     fontWeight: AppFontWeight.bold,
     height: 1.2,
     letterSpacing: -0.6,
+    fontFamily: "Pretendard",
   );
 
   // ! Title
@@ -20,6 +21,7 @@ class AppTypographyToken {
     fontWeight: AppFontWeight.bold,
     height: 1.2,
     letterSpacing: -0.6,
+    fontFamily: "Pretendard",
   );
 
   // ! Subtitle
@@ -29,6 +31,7 @@ class AppTypographyToken {
     fontWeight: AppFontWeight.regular,
     height: 1.4,
     letterSpacing: -0.6,
+    fontFamily: "Pretendard",
   );
 
   // ! btn
@@ -38,6 +41,7 @@ class AppTypographyToken {
     fontWeight: AppFontWeight.semiBold,
     height: 1.35,
     letterSpacing: -0.6,
+    fontFamily: "Pretendard",
   );
 
   /// 작은 버튼 텍스트
@@ -46,6 +50,7 @@ class AppTypographyToken {
     fontWeight: AppFontWeight.semiBold,
     height: 1.35,
     letterSpacing: -0.6,
+    fontFamily: "Pretendard",
   );
 
   // ! Caption
@@ -55,6 +60,7 @@ class AppTypographyToken {
     fontWeight: AppFontWeight.semiBold,
     height: 1.1,
     letterSpacing: -0.6,
+    fontFamily: "Pretendard",
   );
 
   // ! Main
@@ -64,6 +70,7 @@ class AppTypographyToken {
     fontWeight: AppFontWeight.semiBold,
     height: 1.35,
     letterSpacing: -0.6,
+    fontFamily: "Pretendard",
   );
 
   /// MainSub
@@ -72,6 +79,7 @@ class AppTypographyToken {
     fontWeight: AppFontWeight.semiBold,
     height: 1.4,
     letterSpacing: -0.6,
+    fontFamily: "Pretendard",
   );
 
   /// nBody
@@ -80,6 +88,7 @@ class AppTypographyToken {
     fontWeight: AppFontWeight.medium,
     height: 1.4,
     letterSpacing: -0.6,
+    fontFamily: "Pretendard",
   );
 
   // ! Chip
@@ -89,6 +98,7 @@ class AppTypographyToken {
     fontWeight: AppFontWeight.semiBold,
     height: 1.35,
     letterSpacing: -0.6,
+    fontFamily: "Pretendard",
   );
 
   /// Chip 텍스트
@@ -97,5 +107,6 @@ class AppTypographyToken {
     fontWeight: AppFontWeight.regular,
     height: 1.4,
     letterSpacing: -0.6,
+    fontFamily: "Pretendard",
   );
 }
