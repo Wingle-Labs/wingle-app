@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:widgetbook/widgetbook.dart';
 import 'package:wingle/app/config/theme/themes.dart';
+import 'package:wingle/widgetbook/foundations/color_page.dart';
 
 import 'widgetbook/foundations/typography_page.dart';
 
@@ -26,6 +27,28 @@ class WingleWidgetbook extends StatelessWidget {
                 WidgetbookUseCase(
                   name: 'All Styles',
                   builder: (context) => const TypographyPage(),
+                ),
+              ],
+            ),
+            WidgetbookComponent(
+              name: 'Colors',
+              useCases: [
+                WidgetbookUseCase(
+                  name: 'All Styles',
+                  builder: (context) {
+                    /// 테마 변경
+                    final theme = context.knobs.object.dropdown(
+                      label: 'Theme',
+                      options: ThemeMode.values,
+                      initialOption: ThemeMode.system,
+                    );
+                    return MaterialApp(
+                      themeMode: theme,
+                      theme: Themes.light,
+                      darkTheme: Themes.dark,
+                      home: const ColorPage(),
+                    );
+                  },
                 ),
               ],
             ),
