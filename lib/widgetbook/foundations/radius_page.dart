@@ -63,7 +63,7 @@ class RadiusPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppPadding.scaffold),
         children: [
           Wrap(
             spacing: AppSpacing.md,
