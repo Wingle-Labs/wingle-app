@@ -4,6 +4,7 @@ import 'package:wingle/app/config/theme/themes.dart';
 import 'package:wingle/widgetbook/foundations/color_page.dart';
 import 'package:wingle/widgetbook/foundations/padding_page.dart';
 import 'package:wingle/widgetbook/foundations/radius_page.dart';
+import 'package:wingle/widgetbook/foundations/size_page.dart';
 
 import 'widgetbook/foundations/typography_page.dart';
 
@@ -69,6 +70,15 @@ class WingleWidgetbook extends StatelessWidget {
                 WidgetbookUseCase(
                   name: 'All Styles',
                   builder: (context) => const RadiusPage(),
+                ),
+              ],
+            ),
+            WidgetbookComponent(
+              name: 'Size',
+              useCases: [
+                WidgetbookUseCase(
+                  name: 'All Styles',
+                  builder: (context) => const SizePage(),
                 ),
               ],
             ),
