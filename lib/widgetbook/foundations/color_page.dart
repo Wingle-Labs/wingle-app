@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:wingle/app/config/theme/constants/padding.dart';
+import 'package:wingle/app/config/theme/constants/radius.dart';
+import 'package:wingle/app/config/theme/constants/size.dart';
+import 'package:wingle/app/config/theme/constants/weight.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 
 /// 컬러 스타일을 확인할 수 있는 페이지
@@ -13,7 +17,7 @@ class ColorPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Color Foundation')),
       body: ListView(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(AppPadding.scaffold),
         children: [
           // Caption
           Text(
@@ -170,12 +174,15 @@ class ColorPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 32),
+        const SizedBox(height: AppPadding.card),
         Text(
           title,
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+            fontSize: AppFontSize.main,
+            fontWeight: AppFontWeight.bold,
+          ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: AppPadding.card),
         ...children,
       ],
     );
@@ -240,11 +247,11 @@ class _ColorTile extends StatelessWidget {
         """#${(isText ? onColor : color).toARGB32().toRadixString(16).padLeft(8, '0').toUpperCase()}""";
 
     return Container(
-      padding: const EdgeInsets.all(16),
-      margin: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.all(AppPadding.card),
+      margin: const EdgeInsets.symmetric(vertical: AppPadding.btnVertical),
       decoration: BoxDecoration(
         color: isText ? context.colors.surfaceElevated : color,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: AppRadius.iosStyleRadius,
       ),
       child: DefaultTextStyle(
         style: TextStyle(color: onColor),
