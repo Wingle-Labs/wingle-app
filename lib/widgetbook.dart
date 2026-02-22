@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:widgetbook/widgetbook.dart';
 import 'package:wingle/app/config/theme/themes.dart';
 import 'package:wingle/widgetbook/foundations/color_page.dart';
+import 'package:wingle/widgetbook/foundations/padding_page.dart';
 
 import 'widgetbook/foundations/typography_page.dart';
 
@@ -49,6 +50,16 @@ class WingleWidgetbook extends StatelessWidget {
                       home: const ColorPage(),
                     );
                   },
+                ),
+              ],
+            ),
+
+            WidgetbookComponent(
+              name: 'Padding',
+              useCases: [
+                WidgetbookUseCase(
+                  name: 'All Styles',
+                  builder: (context) => const PaddingPage(),
                 ),
               ],
             ),
