@@ -38,12 +38,12 @@ class DefaultFilledButton extends StatelessWidget {
     return DefaultButton(
       label: label,
       backgroundColor: isDisabled
-          ? context.colors.btnDisabled
-          : context.colors.btnDefault,
+          ? context.colors.componentPrimaryFilledButtonDisabled
+          : context.colors.componentPrimaryFilledButtonEnabled,
       pressedColor: context.colors.overlayPressed,
       foregroundColor: isDisabled
-          ? context.colors.textDisabled
-          : context.colors.onPrimary,
+          ? context.colors.textAssistive
+          : context.colors.onPrimaryNormal,
       onPressed: isDisabled ? null : onPressed,
       leading: leadingIcon,
       trailing: trailingIcon,

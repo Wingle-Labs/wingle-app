@@ -30,7 +30,7 @@ class PasswordInputField extends ConsumerWidget {
         // ! Label
         DefaultText(
           '비밀번호를 입력해주세요',
-          style: typography.body.copyWith(color: colors.textInactive),
+          style: typography.body.copyWith(color: colors.interactionInactive),
           policy: .cappedMedium,
         ),
         // ! Input Field
@@ -51,10 +51,10 @@ class PasswordInputField extends ConsumerWidget {
           ],
           suffix: DefaultIconButton(
             icon: loginState.isPasswordVisible
-                ? Iconify(Ph.eye_closed_bold, color: colors.textInactive)
+                ? Iconify(Ph.eye_closed_bold, color: colors.interactionInactive)
                 : Iconify(
                     Ic.baseline_remove_red_eye,
-                    color: colors.textInactive,
+                    color: colors.interactionInactive,
                   ),
             onPressed: ref
                 .read(loginPageProvider.notifier)

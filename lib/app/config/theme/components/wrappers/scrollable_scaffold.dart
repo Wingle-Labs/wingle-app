@@ -47,7 +47,7 @@ class _ScrollableScaffoldState extends ConsumerState<ScrollableScaffold> {
     final colorScheme = context.colors;
     return Scaffold(
       appBar: AppBar(title: Text(widget.title.tr())),
-      backgroundColor: colorScheme.background,
+      backgroundColor: colorScheme.backgroundNormal,
       body: SingleChildScrollView(
         padding: .all(AppPadding.scaffold),
         child: Column(

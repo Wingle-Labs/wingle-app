@@ -39,7 +39,7 @@ class ConstrainedScrollableScaffold extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: appBar,
-      backgroundColor: context.colors.background,
+      backgroundColor: context.colors.backgroundNormal,
       body: LayoutBuilder(
         builder: (context, constraints) {
           return SingleChildScrollView(

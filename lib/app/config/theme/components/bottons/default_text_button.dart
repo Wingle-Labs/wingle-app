@@ -42,12 +42,11 @@ class DefaultTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultButton(
       label: label,
-      backgroundColor: context.colors.background,
+      backgroundColor: context.colors.backgroundNormal,
       pressedColor: context.colors.overlayPressed,
-      // TODO: 텍스트 버튼의 전경 색상 전용 Color token 추가 예정
       foregroundColor: isDisabled
-          ? context.colors.textDisabledStrong
-          : foregroundColor ?? context.colors.primary,
+          ? context.colors.textAlternative
+          : foregroundColor ?? context.colors.primaryNormal,
       onPressed: isDisabled ? null : onPressed,
       leading: leadingIcon,
       trailing: trailingIcon,

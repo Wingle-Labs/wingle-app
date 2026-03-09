@@ -1,174 +1,244 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:flutter/material.dart';
 
 /// 애플리케이션 컬러 스키마.
 ///
 /// 디자이너가 제공한 컬러 스키마를 1:1로 정의하는 인터페이스.
 abstract interface class AppColorScheme {
-  // ! Primary Color: 주요 컬러
-  /// - [primary]: 강조된 UI에 사용하는 메인 색상
-  /// primary 버튼 배경 등
-  Color get primary;
+  // ! Static Light, Dark 테마에 상관없이 변하지 않는 고정색입니다.
+  /// - [staticWhite]: Theme와 관계없이 고정으로 흰색을 표시해야 할 때 사용합니다.
+  Color get staticWhite;
 
-  /// - [onPrimary]: 강조된 UI 요소 내부에 사용하는 색상
-  /// primary 버튼 내부 텍스트 / 아이콘
-  Color get onPrimary;
+  /// - [staticBlack]: Theme와 관계없이 고정으로 검은색을 표시해야 할 때 사용합니다.
+  Color get staticBlack;
 
-  /// -[secondary]: [primary] 색상의 시각적 강도를 낮춘 보조 강조 색상
-  /// 우선순위가 낮은 인터랙션 요소를 표현하기 위해 
-  Color get secondary;
+  // ! Primary Color: 가장 중요한 요소를 강조할 때 사용합니다.
+  /// - [primaryNormal]: 요소를 강조할 때 사용합니다.
+  Color get primaryNormal;
 
-  /// -[onSecondary]: [secondary] 위에 배치되는 전경 색상
-  /// 보조 인터랙션 요소 내부의 텍스트 및 아이콘에 사용
-  Color get onSecondary;
+  /// - [primaryStrong]: 이전 시스템에서 Hover에 해당하는 색을 마이그레이션할 때 사용합니다. 지금은 사용하지 않습니다.
+  @Deprecated('이전 시스템에서 Hover에 해당하는 색을 마이그레이션할 때 사용합니다. 지금은 사용하지 않습니다.')
+  Color get primaryStrong;
 
-  // ! 텍스트 관련 컬러: 계층과 용도에 따른 구분
-  /// - [textPrimary]: 텍스트 강조 레벨 1단계
-  /// Title, Body text 등 핵심 정보 텍스트
-  Color get textPrimary;
+  /// - [primaryHeavy]: 이전 시스템에서 Active에 해당하는 색을 마이그레이션할 때 사용합니다. 지금은 사용하지 않습니다.
+  @Deprecated('이전 시스템에서 Active에 해당하는 색을 마이그레이션할 때 사용합니다. 지금은 사용하지 않습니다.')
+  Color get primaryHeavy;
 
-  /// - [textSecondary]: 텍스트 강조 레벨 2단계
-  /// 설명 문구, 비선택 Chip 등 보조 정보 텍스트
-  Color get textSecondary;
+  // ! OnPrimary: Primary 색상 위에 배치되는 전경 색상
+  /// - [onPrimaryNormal]: Primary 색상 위에 배치되는 전경 색상
+  Color get onPrimaryNormal;
 
-  /// - [textTertiary]: 텍스트 강조 레벨 3단계
-  /// Hint, Placeholder, 메타 정보 텍스트
-  Color get textTertiary;
+  // ! Secondary: 강조가 덜 필요한 인터페이스 요소에 사용합니다.
+  /// - [secondaryNormal]: 요소를 강조할 때 사용합니다.
+  Color get secondaryNormal;
 
-  /// - [textDisabled]: 텍스트 강조 레벨 4단계
-  /// Disabled 설명 텍스트
-  /// 14px(Bold) 이상, 18px 이하에서 사용
-  Color get textDisabled;
+  /// - [secondaryStrong]: 이전 시스템에 Hover에 해당하는 색을 마이그레이션할 때 사용합니다. 지금은 사용하지 않습니다.
+  @Deprecated('이전 시스템에 Hover에 해당하는 색을 마이그레이션할 때 사용합니다. 지금은 사용하지 않습니다.')
+  Color get secondaryStrong;
 
-  /// - [textInactive]: 텍스트 강조 레벨 4단계
-  /// 비활성 라벨 텍스트
-  /// 14px(Bold) 이상, 18px 이하에서 사용
-  Color get textInactive;
+  /// - [secondaryHeavy]: 이전 시스템에 Active에 해당하는 색을 마이그레이션할 때 사용합니다. 지금은 사용하지 않습니다.
+  @Deprecated('이전 시스템에 Active에 해당하는 색을 마이그레이션할 때 사용합니다. 지금은 사용하지 않습니다.')
+  Color get secondaryHeavy;
 
-  /// - [textDisabledStrong]: 텍스트 강조 레벨 5단계
-  /// 완전 비활성화 텍스트, 시스템 메타 정보 텍스트
-  /// 명암비 2.6:1로 가시성이 떨어지는 색상
-  Color get textDisabledStrong;
+  // ! OnSecondary: Secondary 색상 위에 배치되는 전경 색상
+  /// - [onSecondaryNormal]: Secondary 색상 위에 배치되는 전경 색상
+  Color get onSecondaryNormal;
 
-  // ! Surface 관련 컬러: 컨테이너 및 레이어별 배경 색상
-  /// - [background]: 앱 전체의 바닥 레이어 / 움직이지 않는 레이어
-  /// 앱 전체 배경, 스크롤 영역 바탕, 최외곽 영역
-  Color get background;
+  // ! Background-Normal: 배경색으로 사용합니다.
+  /// - [backgroundNormal]: 기본적인 배경으로 사용합니다.
+  Color get backgroundNormal;
 
-  /// - [surface]: 실제 UI 요소가 올라가는 요소의 배경
-  /// 카드 배경, 리스트 아이템, 기본 영역 컨테이너
-  Color get surface;
+  /// - [backgroundAlternative]: 기본 배경에서 구분을 줘야할 때나 배경 중요도를 낮게 둬야 할 때 사용합니다.
+  Color get backgroundAlternative;
 
-  /// - [surfaceVariant]: Surface와 같은 위계에서 시각적 맥락만 분리된 요소의 배경
-  /// 설정 화면의 그룹 영역, 카드 내부의 서브 액션, 필터 영역, 보조 정보 블록
-  Color get surfaceVariant;
+  // ! Background-Elevated
+  /// - [backgroundElevatedNormal]: Modal과 같이 층위가 생기는 View의 배경으로 사용합니다.
+  Color get backgroundElevatedNormal;
 
-  /// - [surfaceElevated]: 시각적 깊이, 레이어 우선순위 표현 또는 사용자 포커스를 끌어야 하는 컨테이너의 배경
-  /// Modal, Bottom Sheet, Floating Card, Tooltip
-  Color get surfaceElevated;
+  /// - [backgroundElevatedAlternative]: 층위가 생기는 View에서 기본 배경과 구분을 줘야할 때 사용합니다.
+  Color get backgroundElevatedAlternative;
 
-  /// - [surfaceDisabled]: 비활성화된 UI 요소의 배경
-  /// 사용자가 현재 상호작용할 수 없는 상태임을 시각적으로 표현
-  Color get surfaceDisabled;
+  // TODO: 주석
+  // ! Overlay: TODO
+  /// - [overlayInactive]: TODO
+  Color get overlayInactive;
 
-  /// - [surfaceDisabledSubtle]: 비활성화된 UI 요소의 배경의 보조
-  Color get surfaceDisabledSubtle;
-
-  // ! Feedback 컬러
-  /// - [error]: 삭제 및 강력한 경고 요소
-  /// error 버튼 배경 색상
-  Color get error;
-
-  /// - [onError]: 삭제 및 강력한 경고 요소 텍스트 색상
-  /// error 버튼 텍스트 색상
-  Color get onError;
-
-  /// - [success]: 성공, 통과 요소
-  Color get success;
-
-  /// - [onSuccess]: 성공, 통과 요소 텍스트 색상
-  Color get onSuccess;
-
-  /// - [warning]: 가벼운 경고 요소
-  Color get warning;
-
-  /// - [onWarning]: 가벼운 경고 요소 텍스트 색상
-  Color get onWarning;
-
-  /// - [info]: 안내 색상
-  Color get info;
-
-  /// - [onInfo]: 안내 텍스트 색상
-  Color get onInfo;
-
-  /// - [cancel]: 취소, 주의 필요성 낮은 요소 색상
-  /// cancel 버튼 배경 색상
-  Color get cancel;
-
-  /// - [onCancel]: 취소, 주의 필요성 낮은 요소 텍스트 색상
-  /// cancel 버튼 텍스트 색상
-  Color get onCancel;
-
-  // ! 인터랙션 피드백 및 상태 표현용 오버레이 및 경계 색상
-  /// - [border]: 영역 구분용 경계선 색상
-  Color get border;
-
-  /// - [divider]: 컨텐츠 흐름 구분용 구분선 색상
-  Color get divider;
-
-  /// - [scrim]: Modal 열렸을 때 배경
-  /// Bottom Sheet 뒤 화면, Dialog Focus 분리
-  Color get scrim;
-
-  /// - [overlayPressed]: 누름 상태 오버레이 색상
-  /// Button, Chip, Card 등 Pressed 상태
+  /// - [overlayPressed]: TODO
   Color get overlayPressed;
 
-  /// - [overlayDisabled]: 비활성 상태 오버레이 색상
-  /// Button, Chip, Card 등 Diasabled 상태
+  /// - [overlayDisabled]: TODO
   Color get overlayDisabled;
 
-  /// - [overlayLoading]: 로딩 상태 오버레이 색상
+  /// - [overlayLoading]: TODO
   Color get overlayLoading;
 
-  // ! 상태 존재 버튼의 상태 표현 컬러
-  // ! Chip, Radio, Checkbox, ListButton 등
-  /// - [stateBtnSelected]: 상태 존재 버튼의 선택 상태 색상
-  Color get stateBtnSelected;
+  // ! Interaction: Blue 톤이 필요한 상호작용 요소에서 사용합니다.
+  /// - [interactionInactive]: 상호작용 요소에서 활성화 가능한 요소에 사용합니다.
+  Color get interactionInactive;
 
-  /// - [stateBtnUnselected]: 상태 존재 버튼의 비선택 상태 색상
-  Color get stateBtnUnselected;
+  /// - [interactionDisable]: 상호작용이 불가능한 요소의 배경으로 사용합니다.
+  Color get interactionDisable;
 
-  /// - [stateBtnDisabled]: 상태 존재 버튼의 비활성 상태 색상
-  Color get stateBtnDisabled;
+  // ! Scrim: 뒷 View를 어둡게 표시해야 할 때 사용합니다.
+  /// - [scrimNormal]: 일반적인 요소에서 배경을 구분해야 할 때 사용합니다.
+  Color get scrimNormal;
 
-  // ! 단순 버튼의 상태 표현 컬러
-  // ! Filled, Outlined, Text 버튼
-  /// - [btnDefault]: 단순 버튼의 활성 상태
-  Color get btnDefault;
+  /// - [scrimStrong]: 강하게 배경을 구분해야 할 때 사용합니다.
+  Color get scrimStrong;
 
-  /// - [btnDisabled]: 단순 버튼의 비활성 상태
-  Color get btnDisabled;
+  // ! Text: 일반적인 경우에서 사용합니다.
+  /// - [textStrong]: 제목 등에서 강조를 해야 할 대 사용합니다.
+  Color get textStrong;
 
-  // ! 프로필 카드 속 입력사항 Badge 표현 컬러
-  /// - [profileStatusBadgeDefault]: Badge의 활성 상태
-  Color get profileStatusBadgeDefault;
+  /// - [textNormal]: 일반적인 경우에 사용합니다.
+  Color get textNormal;
 
-  /// - [profileStatusBadgeDisabled]: Badge의 비활성 상태
-  Color get profileStatusBadgeDisabled;
+  /// - [textNeutral]: Alternative보다 가시성을 높게 잡아야 할 때 사용합니다.
+  Color get textNeutral;
 
-  // ! 디자인에서 제공하는 톤 스케일: Primary 색상 계열의 다양한 명도 단계
-  /// - [primaryScale90]: 90% 명도 톤
-  Color get primaryScale90;
+  /// - [textAlternative]: 부가적인 정보를 표시해야 할 때 사용합니다.
+  Color get textAlternative;
 
-  /// - [primaryScale70]: 70% 명도 톤
-  Color get primaryScale70;
+  /// - [textAssistive]: 흐리지만 사용자가 알아야 하는 내용을 표시할 때 사용합니다.
+  Color get textAssistive;
 
-  /// - [primaryScale50]: 50% 명도 톤
-  Color get primaryScale50;
+  /// - [textDisable]: 비활성화된 요소를 표시할 때 사용합니다.
+  Color get textDisable;
 
-  /// - [primaryScale30]: 30% 명도 톤
-  Color get primaryScale30;
+  // ! Stroke-Structural: 구조적으로 경계를 지어주는 용도의 stroke
+  /// - [strokeStructuralBorder]: 콘텐츠 영역이나 컴포넌트의 경계를 명확히 구분해야 할 때 사용합니다.
+  Color get strokeStructuralBorder;
 
-  /// - [primaryScale10]: 10% 명도 톤
-  Color get primaryScale10;
+  /// - [strokeStructuralDivider]: 동일한 콘텐츠를 구분해야 할 때 사용합니다.
+  Color get strokeStructuralDivider;
+
+  // ! Stroke-Normal: 선을 써야 할 때 사용합니다.
+  /// - [strokeNormal]: 콘텐츠를 확실히 구분해야 할 때 사용합니다.
+  Color get strokeNormal;
+
+  /// - [strokeNeutral]: 정보 표시 효율화를 위해 가시성을 보다 낮게 표시해야 할 때 사용합니다.
+  Color get strokeNeutral;
+
+  /// - [strokeAlternative]: 보다 옅은 색으로 표시하고자 할 때 사용합니다.
+  Color get strokeAlternative;
+
+  // ! Stroke-Solid: 선을 써야 할 때 사용합니다.
+  /// - [strokeSolidNormal]: 색 중첩을 피해야 할 때 사용합니다.
+  Color get strokeSolidNormal;
+
+  /// - [strokeSolidNeutral]: Normal보다 낮은 가시성을 표시해야 하는 상황에서 색 중첩을 피해야 할 때 사용합니다.
+  Color get strokeSolidNeutral;
+
+  /// - [strokeSolidAlternative]: 보다 옅은 색으로 표시해야 하는 상황에서 색 중첩을 피해야 할 때 사용합니다.
+  Color get strokeSolidAlternative;
+
+  // ! Status: 상태를 나타낼 때 사용합니다.
+  /// - [statusPositive]: 긍정적인 상태를 안내할 때 사용합니다.
+  Color get statusPositive;
+
+  /// - [statusCautionary]: 주의를 나타낼 때 사용합니다.
+  Color get statusCautionary;
+
+  /// - [statusNegative]: 경고를 강조해야 할 때 사용합니다.
+  Color get statusNegative;
+
+  // ! Elevation-Shadow: 그림자로 요소를 확실히 구분해 표시해야 할 때 사용합니다.
+  /// - [elevationShadowNormal]: 적용한 UI가 조금 더 도드라져 보이게 할 목적으로 사용합니다.
+  Color get elevationShadowNormal;
+
+  /// - [elevationShadowEmphasize]: 적용한 UI가 도드라져 보이게 할 목적으로 사용합니다.
+  Color get elevationShadowEmphasize;
+
+  /// - [elevationShadowStrong]: 적용한 UI가 확실하게 도드라져 보이게 할 목적으로 사용합니다.
+  Color get elevationShadowStrong;
+
+  /// - [elevationShadowHeavy]: 적용 시 다른 어떤 것들보다 도드라져 보이게 하고 싶을 때 사용합니다.
+  Color get elevationShadowHeavy;
+
+  // ! Component-Fill: 요소에서 배경이 필요할 때 사용합니다.
+  /// - [componentFillNormal]: 일반적인 요소에서 배경을 구분해야 할 때 사용합니다.
+  Color get componentFillNormal;
+
+  /// - [componentFillStrong]: 작은 요소에서 배경을 확실히 구분해야 할 때 사용합니다.
+  Color get componentFillStrong;
+
+  /// - [componentFillAlternative]: 보다 옅게 배경을 구분해야 할 때 사용합니다.
+  Color get componentFillAlternative;
+
+  // TODO: 주석 채우기
+  // ! Component-Primary-FilledButton: TODO
+  /// - [componentPrimaryFilledButtonEnabled]: TODO
+  Color get componentPrimaryFilledButtonEnabled;
+
+  /// - [componentPrimaryFilledButtonInactive]: TODO
+  Color get componentPrimaryFilledButtonInactive;
+
+  /// - [componentPrimaryFilledButtonDisabled]: TODO
+  Color get componentPrimaryFilledButtonDisabled;
+
+  // ! Component-Secondary-FilledButton: TODO
+  /// - [componentSecondaryFilledButtonEnabled]: TODO
+  Color get componentSecondaryFilledButtonEnabled;
+
+  /// - [componentSecondaryFilledButtonInactive]: TODO
+  Color get componentSecondaryFilledButtonInactive;
+
+  /// - [componentSecondaryFilledButtonDisabled]: TODO
+  Color get componentSecondaryFilledButtonDisabled;
+
+  // ! Component-Primary-OutlinedButton: TODO
+  /// - [componentPrimaryOutlinedButtonEnabled]: TODO
+  Color get componentPrimaryOutlinedButtonEnabled;
+
+  /// - [componentPrimaryOutlinedButtonInactive]: TODO
+  Color get componentPrimaryOutlinedButtonInactive;
+
+  /// - [componentPrimaryOutlinedButtonDisabled]: TODO
+  Color get componentPrimaryOutlinedButtonDisabled;
+
+  // ! Component-Secondary-OutlinedButton: TODO
+  /// - [componentSecondaryOutlinedButtonEnabled]: TODO
+  Color get componentSecondaryOutlinedButtonEnabled;
+
+  /// - [componentSecondaryOutlinedButtonInactive]: TODO
+  Color get componentSecondaryOutlinedButtonInactive;
+
+  /// - [componentSecondaryOutlinedButtonDisabled]: TODO
+  Color get componentSecondaryOutlinedButtonDisabled;
+
+  // ! Component-Assistive-OutlinedButton: TODO
+  /// - [componentAssistiveOutlinedButtonEnabled]: TODO
+  Color get componentAssistiveOutlinedButtonEnabled;
+
+  /// - [componentAssistiveOutlinedButtonDisabled]: TODO
+  Color get componentAssistiveOutlinedButtonDisabled;
+
+  // ! Component-Primary-TextButton: TODO
+  /// - [componentPrimaryTextButtonEnabled]: TODO
+  Color get componentPrimaryTextButtonEnabled;
+
+  /// - [componentPrimaryTextButtonDisabled]: TODO
+  Color get componentPrimaryTextButtonDisabled;
+
+  // ! Component-Secondary-TextButton: TODO
+  /// - [componentSecondaryTextButtonEnabled]: TODO
+  Color get componentSecondaryTextButtonEnabled;
+
+  /// - [componentSecondaryTextButtonDisabled]: TODO
+  Color get componentSecondaryTextButtonDisabled;
+
+  // ! Component-Assistive-TextButton: TODO
+  /// - [componentAssistiveTextButtonEnabled]: TODO
+  Color get componentAssistiveTextButtonEnabled;
+
+  /// - [componentAssistiveTextButtonDisabled]: TODO
+  Color get componentAssistiveTextButtonDisabled;
+
+  // ! Component-FloatingActionButton: TODO
+  /// - [componentFloatingActionButtonNormal]: TODO
+  Color get componentFloatingActionButtonNormal;
+
+  /// - [componentFloatingActionButtonStrong]: TODO
+  Color get componentFloatingActionButtonStrong;
 }

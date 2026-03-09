@@ -27,8 +27,8 @@ class DefaultAppBar extends PreferredSize {
   Widget build(BuildContext context) {
     final colorScheme = context.colors;
     return AppBar(
-      backgroundColor: colorScheme.background,
-      surfaceTintColor: colorScheme.background,
+      backgroundColor: colorScheme.backgroundNormal,
+      surfaceTintColor: colorScheme.backgroundNormal,
       actions: isActionVisible ? actions : null,
       title: child,
       actionsPadding: actionsPadding,

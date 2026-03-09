@@ -34,20 +34,20 @@ class DefaultOutlinedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultButton(
       label: label,
-      backgroundColor: context.colors.background,
+      backgroundColor: context.colors.backgroundNormal,
       pressedColor: context.colors.overlayPressed,
       // TODO: 테두리 버튼의 전경 색상 전용 Color token 추가 예정
       foregroundColor: isDisabled
-          ? context.colors.textDisabledStrong
-          : context.colors.primary,
+          ? context.colors.interactionInactive
+          : context.colors.primaryNormal,
       onPressed: isDisabled ? null : onPressed,
       leading: leadingIcon,
       trailing: trailingIcon,
       isDisabled: isDisabled,
       borderSide: BorderSide(
         color: isDisabled
-            ? context.colors.textDisabledStrong
-            : context.colors.btnDefault,
+            ? context.colors.interactionInactive
+            : context.colors.primaryNormal,
         width: AppLineWidth.outline,
       ),
     );

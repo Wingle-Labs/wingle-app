@@ -76,8 +76,8 @@ class DefaultOutlinedInputField extends StatelessWidget {
         onChanged: onChanged,
         textAlignVertical: TextAlignVertical.center,
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        cursorColor: colors.primary,
-        cursorErrorColor: colors.error,
+        cursorColor: colors.primaryNormal,
+        cursorErrorColor: colors.statusNegative,
         cursorWidth: AppLineWidth.inputFieldCursor,
         decoration: InputDecoration(
           constraints: const BoxConstraints(
@@ -85,22 +85,24 @@ class DefaultOutlinedInputField extends StatelessWidget {
           ),
           isDense: true,
           hintText: hintText?.tr(),
-          hintStyle: typography.body.copyWith(color: colors.textInactive),
+          hintStyle: typography.body.copyWith(
+            color: colors.interactionInactive,
+          ),
           filled: true,
-          fillColor: colors.background,
+          fillColor: colors.backgroundNormal,
           contentPadding: const EdgeInsets.all(AppPadding.textfield),
           // 입력 가능 상태
-          enabledBorder: getBorder(colors.border),
+          enabledBorder: getBorder(colors.strokeStructuralBorder),
           // 입력 중인 상태
-          focusedBorder: getBorder(colors.primary),
+          focusedBorder: getBorder(colors.primaryNormal),
           // 에러 상태
-          errorBorder: getBorder(colors.error),
+          errorBorder: getBorder(colors.statusNegative),
           // 에러 상태(입력 중)
-          focusedErrorBorder: getBorder(colors.error),
+          focusedErrorBorder: getBorder(colors.statusNegative),
           // 비활성화 상태
-          disabledBorder: getBorder(colors.textDisabled),
+          disabledBorder: getBorder(colors.strokeStructuralBorder),
           errorText: errorText?.tr(),
-          suffixIconColor: colors.textTertiary,
+          suffixIconColor: colors.interactionInactive,
           suffixIcon: suffix != null
               ? Row(
                   mainAxisSize: MainAxisSize.min,

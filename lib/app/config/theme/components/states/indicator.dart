@@ -33,8 +33,8 @@ class Indicator extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: currentIndex == index
-                  ? colorScheme.primary
-                  : colorScheme.textDisabledStrong,
+                  ? colorScheme.primaryNormal
+                  : colorScheme.interactionDisable,
             ),
           );
         }).toList(),

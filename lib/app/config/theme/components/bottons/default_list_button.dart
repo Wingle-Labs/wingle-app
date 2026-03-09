@@ -39,8 +39,8 @@ class DefaultListButton extends StatelessWidget {
     final colors = context.colors;
     final typography = context.typography;
     final textScale = MediaQuery.textScalerOf(context).scale(1.0);
-    final disabledColor = colors.textDisabled;
-    final surfaceDisabled = colors.surfaceDisabled;
+    final disabledColor = colors.textAlternative;
+    final surfaceDisabled = colors.interactionDisable;
     return TextScaleWrapper(
       policy: .cappedMedium,
       child: Theme(
@@ -51,7 +51,7 @@ class DefaultListButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(AppRadius.checkboxRadius),
             ),
             fillColor: WidgetStatePropertyAll(
-              isChecked ? colors.primary : surfaceDisabled,
+              isChecked ? colors.primaryNormal : surfaceDisabled,
             ),
           ),
         ),
@@ -65,7 +65,7 @@ class DefaultListButton extends StatelessWidget {
           ),
           controlAffinity: ListTileControlAffinity.leading,
           shape: RoundedRectangleBorder(borderRadius: AppRadius.iosStyleRadius),
-          activeColor: colors.primary,
+          activeColor: colors.primaryNormal,
           enabled: !isDisabled,
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           splashRadius: 0,
@@ -78,14 +78,16 @@ class DefaultListButton extends StatelessWidget {
           secondary: hasArrow
               ? Icon(
                   Icons.arrow_forward_ios,
-                  color: isDisabled ? disabledColor : colors.primaryScale70,
+                  color: isDisabled
+                      ? disabledColor
+                      : colors.componentSecondaryTextButtonEnabled,
                   applyTextScaling: true,
                 )
               : null,
           title: DefaultText(
             label,
             style: typography.button,
-            color: isDisabled ? disabledColor : colors.primary,
+            color: isDisabled ? disabledColor : colors.primaryNormal,
           ),
         ),
       ),

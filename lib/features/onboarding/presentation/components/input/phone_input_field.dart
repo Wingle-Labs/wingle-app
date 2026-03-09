@@ -26,7 +26,7 @@ class PhoneInputField extends ConsumerWidget {
         // ! Label
         DefaultText(
           '아이디를 입력해주세요',
-          style: typography.body.copyWith(color: colors.textInactive),
+          style: typography.body.copyWith(color: colors.interactionInactive),
           policy: .cappedMedium,
         ),
         // ! Input Field

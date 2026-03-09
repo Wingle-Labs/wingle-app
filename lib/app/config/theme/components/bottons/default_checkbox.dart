@@ -44,12 +44,12 @@ class DefaultCheckbox extends StatelessWidget {
         height: size,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppRadius.checkboxRadius),
-          color: isChecked ? colors.primary : colors.surfaceDisabled,
+          color: isChecked ? colors.primaryNormal : colors.interactionDisable,
         ),
         child: Center(
           child: Icon(
             Icons.check,
-            color: colors.onPrimary,
+            color: colors.onPrimaryNormal,
             size: size,
             fontWeight: AppFontWeight.bold,
           ),

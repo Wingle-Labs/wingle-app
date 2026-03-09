@@ -32,7 +32,7 @@ class DefaultVerticalDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final defaultColor = context.colors.divider;
+    final defaultColor = context.colors.strokeStructuralDivider;
     final textScale = MediaQuery.textScalerOf(context).scale(1.0);
     final cappedTextScale = textScalePolicy.getScaleFactor(textScale);
 

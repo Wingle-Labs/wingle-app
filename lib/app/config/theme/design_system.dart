@@ -30,12 +30,12 @@ class DesignSystem extends ConsumerWidget {
       body: [
         Container(
           height: 100,
-          color: colorScheme.primary,
+          color: colorScheme.primaryNormal,
           child: Center(
             child: Text(
               "Primary Color",
               style: TextStyle(
-                color: colorScheme.onPrimary,
+                color: colorScheme.onPrimaryNormal,
                 fontSize: AppFontSize.subtitle,
                 fontWeight: AppFontWeight.semiBold,
               ),
