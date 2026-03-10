@@ -161,7 +161,7 @@ class LightColorScheme implements AppColorScheme {
 
   /// - [strokeStructuralDivider]: 동일한 콘텐츠를 구분해야 할 때 사용합니다.
   @override
-  Color get strokeStructuralDivider => AppColorPalette.gray20.color;
+  Color get strokeStructuralDivider => AppColorPalette.gray70.color;
 
   // ! Stroke-Normal: 선을 써야 할 때 사용합니다.
   /// - [strokeNormal]: 콘텐츠를 확실히 구분해야 할 때 사용합니다.
