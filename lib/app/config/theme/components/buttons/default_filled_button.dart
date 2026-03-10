@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:wingle/app/config/theme/components/bottons/default_button.dart';
-import 'package:wingle/app/config/theme/constants/size.dart';
+import 'package:wingle/app/config/theme/components/buttons/default_button.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 
-/// 앱 전역에서 사용되는 테두리 버튼 컴포넌트
-class DefaultOutlinedButton extends StatelessWidget {
+/// 앱 전역에서 사용되는 채워진 버튼 컴포넌트
+class DefaultFilledButton extends StatelessWidget {
   /// - [label]: 버튼에 표시될 텍스트
   final String label;
 
@@ -20,36 +19,36 @@ class DefaultOutlinedButton extends StatelessWidget {
   /// - [isDisabled]: 비활성화 상태 여부
   final bool isDisabled;
 
+  /// - [textStyle]: 글자 스타일
+  final TextStyle? textStyle;
+
   /// const 생성자
-  const DefaultOutlinedButton({
+  const DefaultFilledButton({
     super.key,
     required this.label,
     this.onPressed,
     this.leadingIcon,
     this.trailingIcon,
     this.isDisabled = false,
+    this.textStyle,
   });
 
   @override
   Widget build(BuildContext context) {
     return DefaultButton(
       label: label,
-      backgroundColor: context.colors.backgroundNormal,
+      backgroundColor: isDisabled
+          ? context.colors.componentPrimaryFilledButtonDisabled
+          : context.colors.componentPrimaryFilledButtonEnabled,
       pressedColor: context.colors.overlayPressed,
-      // TODO: 테두리 버튼의 전경 색상 전용 Color token 추가 예정
       foregroundColor: isDisabled
-          ? context.colors.interactionInactive
-          : context.colors.primaryNormal,
+          ? context.colors.textAssistive
+          : context.colors.onPrimaryNormal,
       onPressed: isDisabled ? null : onPressed,
       leading: leadingIcon,
       trailing: trailingIcon,
       isDisabled: isDisabled,
-      borderSide: BorderSide(
-        color: isDisabled
-            ? context.colors.interactionInactive
-            : context.colors.primaryNormal,
-        width: AppLineWidth.outline,
-      ),
+      textStyle: textStyle,
     );
   }
 }

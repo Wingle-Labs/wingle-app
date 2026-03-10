@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wingle/app/config/theme/components/bottons/default_filled_button.dart';
-import 'package:wingle/app/config/theme/components/bottons/default_outlined_button.dart';
-import 'package:wingle/app/config/theme/components/bottons/default_text_button.dart';
+import 'package:wingle/app/config/theme/components/buttons/default_filled_button.dart';
+import 'package:wingle/app/config/theme/components/buttons/default_outlined_button.dart';
+import 'package:wingle/app/config/theme/components/buttons/default_text_button.dart';
 import 'package:wingle/app/config/theme/components/wrappers/scrollable_scaffold.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/weight.dart';

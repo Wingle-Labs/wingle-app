@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wingle/app/config/theme/components/bottons/default_text_button.dart';
+import 'package:wingle/app/config/theme/components/buttons/default_text_button.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 

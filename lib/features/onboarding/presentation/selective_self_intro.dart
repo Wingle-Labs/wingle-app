@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wingle/app/config/theme/components/bottons/default_floating_button.dart';
+import 'package:wingle/app/config/theme/components/buttons/default_floating_button.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
 import 'package:wingle/common/constants/route_constants.dart';
 import 'package:wingle/features/onboarding/presentation/components/wrapper/selective_tab_view.dart';

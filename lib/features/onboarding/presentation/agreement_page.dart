@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wingle/app/config/theme/components/bottons/default_checkbox.dart';
-import 'package:wingle/app/config/theme/components/bottons/default_filled_button.dart';
-import 'package:wingle/app/config/theme/components/bottons/default_list_button.dart';
+import 'package:wingle/app/config/theme/components/buttons/default_checkbox.dart';
+import 'package:wingle/app/config/theme/components/buttons/default_filled_button.dart';
+import 'package:wingle/app/config/theme/components/buttons/default_list_button.dart';
 import 'package:wingle/app/config/theme/components/cards/guide_card.dart';
 import 'package:wingle/app/config/theme/components/wrappers/constrained_scrollable_scaffold.dart';
 import 'package:wingle/app/config/theme/components/wrappers/default_app_bar.dart';

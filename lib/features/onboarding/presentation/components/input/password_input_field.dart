@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/ic.dart';
 import 'package:iconify_flutter/icons/ph.dart';
-import 'package:wingle/app/config/theme/components/bottons/default_icon_button.dart';
+import 'package:wingle/app/config/theme/components/buttons/default_icon_button.dart';
 import 'package:wingle/app/config/theme/components/text_fields/default_outlined_input_field.dart';
 import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
