@@ -3,6 +3,9 @@ class AppFontSize {
   /// 캡션 크기
   static const double caption = 12;
 
+  /// 서브 폰트 크기
+  static const double sub = 14;
+
   /// 버튼 텍스트 크기
   static const double button = 16;
 
@@ -16,7 +19,7 @@ class AppFontSize {
   static const double subtitle = 20;
 
   /// 페이지 메인 타이틀 크기
-  static const double title = 24;
+  static const double title = 22;
 
   /// 앱 스플래시 텍스트 크기
   static const double headline = 40;

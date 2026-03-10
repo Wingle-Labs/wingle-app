@@ -85,9 +85,7 @@ class DefaultOutlinedInputField extends StatelessWidget {
           ),
           isDense: true,
           hintText: hintText?.tr(),
-          hintStyle: typography.body.copyWith(
-            color: colors.interactionInactive,
-          ),
+          hintStyle: typography.body.copyWith(color: colors.textAssistive),
           filled: true,
           fillColor: colors.backgroundNormal,
           contentPadding: const EdgeInsets.all(AppPadding.textfield),

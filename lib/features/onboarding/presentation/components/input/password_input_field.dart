@@ -51,10 +51,10 @@ class PasswordInputField extends ConsumerWidget {
           ],
           suffix: DefaultIconButton(
             icon: loginState.isPasswordVisible
-                ? Iconify(Ph.eye_closed_bold, color: colors.interactionInactive)
+                ? Iconify(Ph.eye_closed_bold, color: colors.textAssistive)
                 : Iconify(
                     Ic.baseline_remove_red_eye,
-                    color: colors.interactionInactive,
+                    color: colors.textAssistive,
                   ),
             onPressed: ref
                 .read(loginPageProvider.notifier)

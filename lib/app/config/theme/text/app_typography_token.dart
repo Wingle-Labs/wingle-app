@@ -16,10 +16,10 @@ class AppTypographyToken {
 
   // ! Title
   /// 24
-  static const TextStyle title24 = TextStyle(
+  static const TextStyle title22 = TextStyle(
     fontSize: AppFontSize.title,
     fontWeight: AppFontWeight.bold,
-    height: 1.2,
+    height: 1.4,
     letterSpacing: -0.6,
     fontFamily: "Pretendard",
   );
@@ -83,8 +83,17 @@ class AppTypographyToken {
   );
 
   /// nBody
-  static const TextStyle nBody14 = TextStyle(
+  static const TextStyle nBody16 = TextStyle(
     fontSize: AppFontSize.body,
+    fontWeight: AppFontWeight.medium,
+    height: 1.4,
+    letterSpacing: -0.6,
+    fontFamily: "Pretendard",
+  );
+
+  /// nBodySub
+  static const TextStyle nBodySub14 = TextStyle(
+    fontSize: AppFontSize.sub,
     fontWeight: AppFontWeight.medium,
     height: 1.4,
     letterSpacing: -0.6,

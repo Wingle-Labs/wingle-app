@@ -47,7 +47,7 @@ const onboardingCarouselItems = [
         DefaultText(
           "조건보다 중요한 건 가치",
           textAlign: .center,
-          style: AppTypographyToken.main18,
+          style: AppTypographyToken.nBody16,
         ),
         DefaultInstruction("윙글과 함께 시작해보세요", textAlign: .center, padding: .zero),
       ],

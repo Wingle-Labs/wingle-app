@@ -26,6 +26,9 @@ class AppTypography extends ThemeExtension<AppTypography> {
   /// Body
   final TextStyle body;
 
+  /// Body Sub
+  final TextStyle bodySub;
+
   // ! Caption
   /// Caption
   final TextStyle caption;
@@ -51,6 +54,7 @@ class AppTypography extends ThemeExtension<AppTypography> {
     required this.main,
     required this.mainSub,
     required this.body,
+    required this.bodySub,
     required this.caption,
     required this.button,
     required this.buttonSmall,
@@ -61,11 +65,12 @@ class AppTypography extends ThemeExtension<AppTypography> {
   /// 기본 텍스트 스타일
   static const AppTypography base = AppTypography(
     display: AppTypographyToken.display,
-    title: AppTypographyToken.title24,
+    title: AppTypographyToken.title22,
     subtitle: AppTypographyToken.subTitle20,
     main: AppTypographyToken.main18,
     mainSub: AppTypographyToken.main16,
-    body: AppTypographyToken.nBody14,
+    body: AppTypographyToken.nBody16,
+    bodySub: AppTypographyToken.nBodySub14,
     caption: AppTypographyToken.caption12,
     button: AppTypographyToken.btn16,
     buttonSmall: AppTypographyToken.btn12,
@@ -82,6 +87,7 @@ class AppTypography extends ThemeExtension<AppTypography> {
     TextStyle? main,
     TextStyle? mainSub,
     TextStyle? body,
+    TextStyle? bodySub,
     TextStyle? caption,
     TextStyle? button,
     TextStyle? buttonSmall,
@@ -95,6 +101,7 @@ class AppTypography extends ThemeExtension<AppTypography> {
       main: main ?? this.main,
       mainSub: mainSub ?? this.mainSub,
       body: body ?? this.body,
+      bodySub: bodySub ?? this.bodySub,
       caption: caption ?? this.caption,
       button: button ?? this.button,
       buttonSmall: buttonSmall ?? this.buttonSmall,
@@ -115,6 +122,7 @@ class AppTypography extends ThemeExtension<AppTypography> {
       main: TextStyle.lerp(main, other.main, t)!,
       mainSub: TextStyle.lerp(mainSub, other.mainSub, t)!,
       body: TextStyle.lerp(body, other.body, t)!,
+      bodySub: TextStyle.lerp(bodySub, other.bodySub, t)!,
       caption: TextStyle.lerp(caption, other.caption, t)!,
       button: TextStyle.lerp(button, other.button, t)!,
       buttonSmall: TextStyle.lerp(buttonSmall, other.buttonSmall, t)!,

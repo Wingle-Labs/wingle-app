@@ -52,7 +52,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 DefaultInstruction("로그인"),
                 DefaultText(
                   "여기서 소녀는 아래편으로 한 삼 마장쯤,\n소년은 우대로 한 십 리 가까운 길을 가야 한다.",
-                  style: typography.body,
+                  style: typography.bodySub,
                   policy: .cappedMedium,
                 ),
               ],
