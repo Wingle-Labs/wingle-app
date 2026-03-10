@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
@@ -21,9 +22,10 @@ class Indicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = context.colors;
-    return SizedBox(
-      height: AppContainerSize.indicatorContainer,
+    return Container(
+      padding: .all(AppPadding.indicator),
       child: Row(
+        mainAxisSize: .min,
         mainAxisAlignment: MainAxisAlignment.center,
         spacing: AppSpacing.xxs,
         children: List.generate(length, (index) {

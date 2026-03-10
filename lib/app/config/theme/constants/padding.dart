@@ -38,4 +38,7 @@ class AppPadding {
 
   /// 약관 동의 아이템 세로 패딩
   static const double agreementVertical = 4;
+
+  /// 인디케이터
+  static const double indicator = 8;
 }
