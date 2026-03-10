@@ -366,4 +366,14 @@ class LightColorScheme implements AppColorScheme {
   /// - [componentFloatingActionButtonStrong]: TODO
   @override
   Color get componentFloatingActionButtonStrong => throw UnimplementedError();
+
+  // ! Component-Checkbox: TODO
+
+  /// - [componentCheckboxIconEnabled]: TODO
+  @override
+  Color get componentCheckboxIconEnabled => AppColorPalette.neutral4.color;
+
+  /// - [componentCheckboxIconDisabled]: TODO
+  @override
+  Color get componentCheckboxIconDisabled => AppColorPalette.neutral2.color;
 }

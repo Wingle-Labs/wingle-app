@@ -241,4 +241,12 @@ abstract interface class AppColorScheme {
 
   /// - [componentFloatingActionButtonStrong]: TODO
   Color get componentFloatingActionButtonStrong;
+
+  // ! Component-Checkbox: TODO
+
+  /// - [componentCheckboxIconEnabled]: TODO
+  Color get componentCheckboxIconEnabled;
+
+  /// - [componentCheckboxIconDisabled]: TODO
+  Color get componentCheckboxIconDisabled;
 }

@@ -81,7 +81,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               mainAxisAlignment: .center,
               children: [
                 Expanded(child: ChangePhoneNumberButton()),
-                // TODO: VerticalDivider 색 추후 변경
                 DefaultVerticalDivider(
                   textScalePolicy: .cappedLarge,
                   fontSize: context.typography.buttonSmall.fontSize,

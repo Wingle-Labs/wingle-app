@@ -49,7 +49,9 @@ class DefaultCheckbox extends StatelessWidget {
         child: Center(
           child: Icon(
             Icons.check,
-            color: colors.onPrimaryNormal,
+            color: isChecked
+                ? colors.componentCheckboxIconEnabled
+                : colors.componentCheckboxIconDisabled,
             size: size,
             fontWeight: AppFontWeight.bold,
           ),

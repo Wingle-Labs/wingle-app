@@ -365,4 +365,14 @@ class DarkColorScheme implements AppColorScheme {
   /// - [componentFloatingActionButtonStrong]: TODO
   @override
   Color get componentFloatingActionButtonStrong => throw UnimplementedError();
+
+  // ! Component-Checkbox: TODO
+
+  /// - [componentCheckboxIconEnabled]: TODO
+  @override
+  Color get componentCheckboxIconEnabled => throw UnimplementedError();
+
+  /// - [componentCheckboxIconDisabled]: TODO
+  @override
+  Color get componentCheckboxIconDisabled => throw UnimplementedError();
 }
