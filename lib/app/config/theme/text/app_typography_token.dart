@@ -36,7 +36,7 @@ class AppTypographyToken {
 
   // ! btn
   /// 버튼 텍스트
-  static const TextStyle btn14 = TextStyle(
+  static const TextStyle btn16 = TextStyle(
     fontSize: AppFontSize.button,
     fontWeight: AppFontWeight.semiBold,
     height: 1.35,

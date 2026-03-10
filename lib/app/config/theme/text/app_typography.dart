@@ -67,7 +67,7 @@ class AppTypography extends ThemeExtension<AppTypography> {
     mainSub: AppTypographyToken.main16,
     body: AppTypographyToken.nBody14,
     caption: AppTypographyToken.caption12,
-    button: AppTypographyToken.btn14,
+    button: AppTypographyToken.btn16,
     buttonSmall: AppTypographyToken.btn12,
     chip: AppTypographyToken.chip,
     chipButton: AppTypographyToken.chipBtn,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_text_button.dart';
-import 'package:wingle/app/config/theme/components/wrappers/constrained_scrollable_scaffold.dart';
+import 'package:wingle/app/config/theme/components/states/indicator.dart';
 import 'package:wingle/app/config/theme/components/wrappers/default_app_bar.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
@@ -28,8 +28,8 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
         .controller;
     final lastIndex = onboardingCarouselItems.length - 1;
 
-    return ConstrainedScrollableScaffold(
-      padding: .zero,
+    return Scaffold(
+      backgroundColor: context.colors.backgroundNormal,
       appBar: DefaultAppBar(
         isActionVisible: currentIndex < lastIndex,
         actions: [
@@ -46,31 +46,38 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
           ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          IndicatorCarousel(
-            items: onboardingCarouselItems,
-            controller: controller,
-            currentIndex: currentIndex,
-            onIndexChanged: (index) {
-              ref.read(onboardingCarouselProvider.notifier).update(index);
-            },
-          ),
-          Spacer(),
-          Container(
-            padding: const EdgeInsets.only(
-              left: AppSpacing.xs,
-              right: AppSpacing.xs,
-              top: AppSpacing.xs,
-              bottom: AppSpacing.xl,
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Indicator(
+              currentIndex: currentIndex,
+              length: onboardingCarouselItems.length,
             ),
-            child: OnboardingBottomButtons(
-              controller: controller,
-              isLastPage: currentIndex == lastIndex,
+            Expanded(
+              child: Center(
+                child: IndicatorCarousel(
+                  items: onboardingCarouselItems,
+                  controller: controller,
+                  onIndexChanged: (index) {
+                    ref.read(onboardingCarouselProvider.notifier).update(index);
+                  },
+                ),
+              ),
             ),
-          ),
-        ],
+            Container(
+              padding: const EdgeInsets.only(
+                left: AppSpacing.xs,
+                right: AppSpacing.xs,
+                top: AppSpacing.xs,
+              ),
+              child: OnboardingBottomButtons(
+                controller: controller,
+                isLastPage: currentIndex == lastIndex,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

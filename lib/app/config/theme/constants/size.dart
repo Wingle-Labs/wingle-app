@@ -4,7 +4,7 @@ class AppFontSize {
   static const double caption = 12;
 
   /// 버튼 텍스트 크기
-  static const double button = 14;
+  static const double button = 16;
 
   /// 보통 폰트 크기
   static const double body = 16;
@@ -43,7 +43,7 @@ class AppContainerSize {
   static const double small = 40;
 
   /// 버튼 최소 길이
-  static const double buttonMinimun = 48;
+  static const double buttonMinimun = 54;
 
   /// 입력 필드 최소 높이
   static const double inputFieldMinimun = 48;
@@ -66,11 +66,11 @@ class AppContainerSize {
   /// Indicator Image Widget 높이
   static const double indicatorImage = 190;
 
-  /// Carousel Image Container 높이
-  static const double carouselImageContainer = 273;
+  /// Carousel Contaier 길이
+  static const double carouselContainer = 343;
 
   /// Carousel Image 길이
-  static const double carouselImageContainerWidth = 180;
+  static const double carouselImageContainer = 180;
 
   /// wrap
   static const double wrap = 300;

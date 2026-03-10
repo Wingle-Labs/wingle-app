@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:wingle/app/config/theme/components/states/indicator.dart';
+import 'package:wingle/app/config/theme/components/texts/text_scale_wrapper.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/features/onboarding/presentation/models/onboarding_carousel_item.dart';
@@ -13,9 +13,6 @@ class IndicatorCarousel extends StatelessWidget {
   /// Carousel의 컨트롤러
   final CarouselSliderController controller;
 
-  /// 현재 인덱스
-  final int currentIndex;
-
   /// 인덱스 변경시 호출되는 콜백
   final ValueChanged<int> onIndexChanged;
 
@@ -24,7 +21,6 @@ class IndicatorCarousel extends StatelessWidget {
     super.key,
     required this.items,
     required this.controller,
-    required this.currentIndex,
     required this.onIndexChanged,
   });
 
@@ -33,33 +29,35 @@ class IndicatorCarousel extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Indicator(currentIndex: currentIndex, length: items.length),
         CarouselSlider(
           carouselController: controller,
           items: items.map((entry) {
-            return Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.sm,
-                  ),
-                  height: AppContainerSize.indicatorDescription,
-                  child: entry.content,
-                ),
-                const SizedBox(height: AppSpacing.xxs),
-                SizedBox(
-                  height: AppContainerSize.carouselImageContainer,
-                  width: AppContainerSize.carouselImageContainer,
-                  child: Center(
-                    child: Image(
-                      image: entry.image,
-                      width: AppContainerSize.carouselImageContainerWidth,
-                      height: AppContainerSize.carouselImageContainerWidth,
-                      fit: BoxFit.contain,
+            return SizedBox(
+              width: AppContainerSize.carouselContainer,
+              child: Column(
+                children: [
+                  SizedBox(
+                    child: Center(
+                      child: Image(
+                        image: entry.image,
+                        width: AppContainerSize.carouselImageContainer,
+                        height: AppContainerSize.carouselImageContainer,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  TextScaleWrapper(
+                    policy: .fixed,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.sm,
+                      ),
+                      height: AppContainerSize.indicatorDescription,
+                      child: entry.content,
+                    ),
+                  ),
+                ],
+              ),
             );
           }).toList(),
           options: CarouselOptions(

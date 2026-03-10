@@ -82,7 +82,7 @@ class SizePage extends StatelessWidget {
       ),
       MapEntry(
         'carouselImageContainerWidth',
-        AppContainerSize.carouselImageContainerWidth,
+        AppContainerSize.carouselImageContainer,
       ),
       MapEntry('wrap', AppContainerSize.wrap),
       MapEntry('verticalDividerHeight', AppContainerSize.verticalDividerHeight),

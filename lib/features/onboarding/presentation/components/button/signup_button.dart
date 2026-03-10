@@ -25,12 +25,12 @@ class SignupButton extends ConsumerWidget {
         ? DefaultFilledButton(
             onPressed: () => context.pushNamed(OnboardingRoutes.agreement.name),
             label: text,
-            textStyle: typography.buttonSmall,
+            textStyle: typography.button,
           )
         : DefaultTextButton(
             onPressed: () => context.pushNamed(OnboardingRoutes.agreement.name),
             label: text,
-            textStyle: typography.buttonSmall,
+            textStyle: typography.button,
           );
   }
 }
