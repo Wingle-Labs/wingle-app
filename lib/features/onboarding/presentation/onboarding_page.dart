@@ -4,6 +4,7 @@ import 'package:wingle/app/config/theme/components/buttons/default_text_button.d
 import 'package:wingle/app/config/theme/components/wrappers/constrained_scrollable_scaffold.dart';
 import 'package:wingle/app/config/theme/components/wrappers/default_app_bar.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
+import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/features/onboarding/presentation/components/wrapper/indicator_carousel.dart';
 import 'package:wingle/features/onboarding/presentation/components/wrapper/onboarding_bottom_buttons.dart';
 import 'package:wingle/features/onboarding/presentation/data/onboarding_carousel_items.dart';
@@ -40,6 +41,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                     .read(onboardingCarouselProvider.notifier)
                     .skipToLast(lastIndex);
               },
+              foregroundColor: context.colors.textAlternative,
             ),
           ),
         ],
