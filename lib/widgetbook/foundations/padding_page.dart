@@ -47,18 +47,12 @@ class PaddingPage extends StatelessWidget {
         padding: EdgeInsets.only(bottom: AppPadding.listBottom),
       ),
       _PaddingExample(
-        name: 'listButton',
-        padding: EdgeInsets.all(AppPadding.listButton),
+        name: 'agreementItemLeft',
+        padding: EdgeInsets.all(AppPadding.agreementItemLeft),
       ),
       _PaddingExample(
-        name: 'agreementHorizontal',
-        padding: EdgeInsets.symmetric(
-          horizontal: AppPadding.agreementHorizontal,
-        ),
-      ),
-      _PaddingExample(
-        name: 'agreementVertical',
-        padding: EdgeInsets.symmetric(vertical: AppPadding.agreementVertical),
+        name: 'agreementItemRight',
+        padding: EdgeInsets.all(AppPadding.agreementItemRight),
       ),
     ];
     return Scaffold(

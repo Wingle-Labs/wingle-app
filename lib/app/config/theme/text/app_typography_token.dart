@@ -35,9 +35,18 @@ class AppTypographyToken {
   );
 
   // ! btn
-  /// 버튼 텍스트
+  /// 큰 버튼 텍스트
   static const TextStyle btn16 = TextStyle(
     fontSize: AppFontSize.button,
+    fontWeight: AppFontWeight.semiBold,
+    height: 1.35,
+    letterSpacing: -0.6,
+    fontFamily: "Pretendard",
+  );
+
+  /// 작은 버튼 텍스트
+  static const TextStyle btn14 = TextStyle(
+    fontSize: AppFontSize.sub,
     fontWeight: AppFontWeight.semiBold,
     height: 1.35,
     letterSpacing: -0.6,

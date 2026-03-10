@@ -8,8 +8,8 @@ abstract class TermRepository {
   /// 약관 목록을 조회한다.
   ///
   /// 반환값:
-  /// - [AgreementItem] 리스트
+  /// - [AgreementItemModel] 리스트
   /// 예외:
   /// - 네트워크 실패 시 예외 발생
-  Future<List<AgreementItem>> fetchTerms();
+  Future<List<AgreementItemModel>> fetchTerms();
 }

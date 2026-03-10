@@ -25,7 +25,7 @@ class TermRepositoryImpl implements TermRepository {
       _baseUrl = baseUrl;
 
   @override
-  Future<List<AgreementItem>> fetchTerms() async {
+  Future<List<AgreementItemModel>> fetchTerms() async {
     final response = await _client.get(
       Uri.parse('$_baseUrl${ApiEndpoints.terms}'),
     );

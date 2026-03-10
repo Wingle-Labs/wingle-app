@@ -35,7 +35,10 @@ class AppTypography extends ThemeExtension<AppTypography> {
 
   // ! Action
   /// Button
-  final TextStyle button;
+  final TextStyle buttonLarge;
+  
+  /// Button
+  final TextStyle buttonMedium;
 
   /// Button Small
   final TextStyle buttonSmall;
@@ -56,7 +59,8 @@ class AppTypography extends ThemeExtension<AppTypography> {
     required this.body,
     required this.bodySub,
     required this.caption,
-    required this.button,
+    required this.buttonLarge,
+    required this.buttonMedium,
     required this.buttonSmall,
     required this.chip,
     required this.chipButton,
@@ -72,7 +76,8 @@ class AppTypography extends ThemeExtension<AppTypography> {
     body: AppTypographyToken.nBody16,
     bodySub: AppTypographyToken.nBodySub14,
     caption: AppTypographyToken.caption12,
-    button: AppTypographyToken.btn16,
+    buttonLarge: AppTypographyToken.btn16,
+    buttonMedium: AppTypographyToken.btn14,
     buttonSmall: AppTypographyToken.btn12,
     chip: AppTypographyToken.chip,
     chipButton: AppTypographyToken.chipBtn,
@@ -89,7 +94,8 @@ class AppTypography extends ThemeExtension<AppTypography> {
     TextStyle? body,
     TextStyle? bodySub,
     TextStyle? caption,
-    TextStyle? button,
+    TextStyle? buttonLarge,
+    TextStyle? buttonMedium,
     TextStyle? buttonSmall,
     TextStyle? chip,
     TextStyle? chipButton,
@@ -103,7 +109,8 @@ class AppTypography extends ThemeExtension<AppTypography> {
       body: body ?? this.body,
       bodySub: bodySub ?? this.bodySub,
       caption: caption ?? this.caption,
-      button: button ?? this.button,
+      buttonLarge: buttonLarge ?? this.buttonLarge,
+      buttonMedium: buttonMedium ?? this.buttonMedium,
       buttonSmall: buttonSmall ?? this.buttonSmall,
       chip: chip ?? this.chip,
       chipButton: chipButton ?? this.chipButton,
@@ -124,7 +131,8 @@ class AppTypography extends ThemeExtension<AppTypography> {
       body: TextStyle.lerp(body, other.body, t)!,
       bodySub: TextStyle.lerp(bodySub, other.bodySub, t)!,
       caption: TextStyle.lerp(caption, other.caption, t)!,
-      button: TextStyle.lerp(button, other.button, t)!,
+      buttonLarge: TextStyle.lerp(buttonLarge, other.buttonLarge, t)!,
+      buttonMedium: TextStyle.lerp(buttonMedium, other.buttonMedium, t)!,
       buttonSmall: TextStyle.lerp(buttonSmall, other.buttonSmall, t)!,
       chip: TextStyle.lerp(chip, other.chip, t)!,
       chipButton: TextStyle.lerp(chipButton, other.chipButton, t)!,

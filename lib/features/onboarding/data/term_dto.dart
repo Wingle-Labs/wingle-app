@@ -16,7 +16,7 @@ class TermDto {
   final bool isRequire;
 
   /// 약관 버전.
-  final double version;
+  final String version;
 
   /// 생성자
   const TermDto({
@@ -35,7 +35,7 @@ class TermDto {
       title: json['title'] as String,
       content: json['content'] as String,
       isRequire: json['isRequire'] as bool,
-      version: (json['version'] as num).toDouble(),
+      version: json['version'] as String,
     );
   }
 }

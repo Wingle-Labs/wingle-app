@@ -64,11 +64,7 @@ class DefaultButton extends ConsumerWidget {
         side: borderSide,
       ),
       child: InkWell(
-        onTap: isDisabled
-            ? null
-            : () {
-                onPressed?.call();
-              },
+        onTap: isDisabled ? null : onPressed?.call,
         canRequestFocus: !isDisabled,
         borderRadius: AppRadius.iosStyleRadius,
         overlayColor: .resolveWith<Color?>((states) {
@@ -103,9 +99,8 @@ class DefaultButton extends ConsumerWidget {
                     policy: .cappedLarge,
                     child: Text(
                       label.tr(),
-                      style: (textStyle ?? context.typography.button).copyWith(
-                        color: foregroundColor,
-                      ),
+                      style: (textStyle ?? context.typography.buttonLarge)
+                          .copyWith(color: foregroundColor),
                       textAlign: .center,
                     ),
                   ),

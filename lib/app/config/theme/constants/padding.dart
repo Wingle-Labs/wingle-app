@@ -30,14 +30,11 @@ class AppPadding {
   /// 리스트 아이템 하단 패딩
   static const double listBottom = 32;
 
-  /// 리스트 버튼 패딩
-  static const double listButton = 8;
+  /// 리스트 버튼 왼쪽 패딩
+  static const double agreementItemLeft = 14;
 
-  /// 약관 동의 아이템 가로 패딩
-  static const double agreementHorizontal = 14;
-
-  /// 약관 동의 아이템 세로 패딩
-  static const double agreementVertical = 4;
+  /// 리스트 버튼 오른쪽 패딩
+  static const double agreementItemRight = 2;
 
   /// 인디케이터
   static const double indicator = 8;

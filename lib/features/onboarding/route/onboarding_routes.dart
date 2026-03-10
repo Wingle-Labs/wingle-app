@@ -35,6 +35,9 @@ abstract final class OnboardingRoutes {
   /// 나이 입력
   static const age = RouteNode(parent: signup, name: 'age');
 
+  /// 패스 인증
+  static const pass = RouteNode(parent: signup, name: 'pass');
+
   /// 필수 자기소개 입력
   static const requiredSelfIntro = RouteNode(
     parent: signup,

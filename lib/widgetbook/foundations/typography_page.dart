@@ -44,7 +44,7 @@ class TypographyPage extends StatelessWidget {
             _TypographySection(name: 'main', style: typography.main),
             _TypographySection(name: 'mainSub', style: typography.mainSub),
             _TypographySection(name: 'body', style: typography.body),
-            _TypographySection(name: 'button', style: typography.button),
+            _TypographySection(name: 'button', style: typography.buttonLarge),
             _TypographySection(
               name: 'buttonSmall',
               style: typography.buttonSmall,

@@ -11,30 +11,31 @@ class MockTermRepository implements TermRepository {
   const MockTermRepository();
 
   @override
-  Future<List<AgreementItem>> fetchTerms() async {
-    return const [
-      AgreementItem(
+  Future<List<AgreementItemModel>> fetchTerms() async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    return [
+      AgreementItemModel(
         id: 1,
         title: '개인정보 처리방침',
-        markdown: '# 개인정보처리방침\n\n## 1조 ...',
+        content: '# 개인정보처리방침\n\n## 1조 ...',
         isRequired: true,
-        version: 1.3,
+        version: '1.3',
         isChecked: false,
       ),
-      AgreementItem(
+      AgreementItemModel(
         id: 2,
         title: '서비스 이용약관',
-        markdown: '# 서비스 이용약관\n\n## 1조 ...',
+        content: '# 서비스 이용약관\n\n## 1조 ...',
         isRequired: true,
-        version: 1.0,
+        version: '1.0',
         isChecked: false,
       ),
-      AgreementItem(
+      AgreementItemModel(
         id: 3,
         title: '광고성 정보 수신 동의',
-        markdown: '# 광고성 정보 수신 동의\n\n## 1조 ...',
+        content: '# 광고성 정보 수신 동의\n\n## 1조 ...',
         isRequired: false,
-        version: 1.0,
+        version: '1.0',
         isChecked: false,
       ),
     ];
