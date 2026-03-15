@@ -1,8 +1,12 @@
+import 'package:easy_localization/easy_localization.dart'
+    show StringTranslateExtension;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wingle/app/config/theme/constants/color.dart';
+import 'package:wingle/app/config/theme/components/states/animation_progress_indicator.dart';
+import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
-import 'package:wingle/app/config/theme/constants/size.dart';
+import 'package:wingle/common/extensions/context_colors.dart';
+import 'package:wingle/common/extensions/context_typography.dart';
 
 /// 로딩 상태를 표시하는 텍스트 버튼
 class LoadingTextButton extends ConsumerWidget {
@@ -21,14 +25,13 @@ class LoadingTextButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final color = context.colors;
+    final typography = context.typography;
     return LayoutBuilder(
       builder: (context, constraints) {
         // 텍스트의 width를 미리 계산하기 위한 TextPainter
         final textPainter = TextPainter(
-          text: TextSpan(
-            text: label,
-            style: TextStyle(fontSize: AppFontSize.body),
-          ),
+          text: TextSpan(text: label.tr(), style: typography.buttonLarge),
           maxLines: 1,
           textDirection: TextDirection.ltr,
         )..layout();
@@ -45,17 +48,13 @@ class LoadingTextButton extends ConsumerWidget {
                 ? SizedBox(
                     width: textPainter.size.height * 0.8,
                     height: textPainter.size.height * 0.8,
-                    child: const CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: AppColor.darkButtonText,
-                    ),
+                    child: AnimationProgressIndicator(),
                   )
-                : Text(
+                : DefaultText(
                     label,
-                    style: TextStyle(
-                      color: AppColor.darkButtonText,
-                      fontSize: AppFontSize.body,
-                    ),
+                    style: typography.buttonLarge,
+                    color: color.onPrimaryNormal,
+                    policy: .cappedLarge,
                   ),
           ),
         );

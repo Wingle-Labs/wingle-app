@@ -1,9 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/components/buttons/loadding_text_button.dart';
-import 'package:wingle/app/config/theme/constants/color.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
+import 'package:wingle/common/extensions/context_colors.dart';
 
 /// 기본 플로팅 버튼
 class DefaultFloatingButton extends ConsumerWidget {
@@ -30,15 +29,16 @@ class DefaultFloatingButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final color = context.colors;
     return FloatingActionButton.extended(
       elevation: 0,
       backgroundColor: disabled == true
-          ? AppColor.disabledDark
-          : AppColor.lightPrimary,
+          ? color.interactionDisable
+          : color.primaryNormal,
       extendedPadding: .zero,
       onPressed: disabled == true ? null : onPressed,
       shape: RoundedRectangleBorder(borderRadius: AppRadius.iosStyleRadius),
-      label: LoadingTextButton(label: label.tr(), isLoading: isLoading),
+      label: LoadingTextButton(label: label, isLoading: isLoading),
       autofocus: true,
     );
   }
