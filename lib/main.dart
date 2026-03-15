@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:wingle/app/config/app_localization_wrapper.dart';
 import 'package:wingle/app/config/firebase_options.dart';
+import 'package:wingle/app/providers/device_uuid_provider.dart';
 import 'package:wingle/common/constants/env_constants.dart';
 import 'package:wingle/common/utils/env_util.dart';
 import 'package:wingle/common/utils/hive_util.dart';
@@ -28,5 +29,17 @@ void main() async {
   await EnvUtil.loadAll(EnvConstants.envs);
   await HiveUtil.initialize(SecureKeyManager.instance.cipher);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(ProviderScope(child: AppLocalizationWrapper(child: const App())));
+
+  /// Riverpod bootstrap
+  final container = ProviderContainer();
+
+  /// 기기 UUID 초기화
+  await container.read(deviceUuidProvider.notifier).initialize();
+
+  runApp(
+    UncontrolledProviderScope(
+      container: container,
+      child: AppLocalizationWrapper(child: const App()),
+    ),
+  );
 }
