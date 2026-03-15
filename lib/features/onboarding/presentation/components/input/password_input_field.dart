@@ -30,7 +30,7 @@ class PasswordInputField extends ConsumerWidget {
         // ! Label
         DefaultText(
           '비밀번호를 입력해주세요',
-          style: typography.body.copyWith(color: colors.interactionInactive),
+          style: typography.body.copyWith(color: colors.textAlternative),
           policy: .cappedMedium,
         ),
         // ! Input Field
