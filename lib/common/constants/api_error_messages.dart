@@ -8,4 +8,7 @@ class ApiErrorMessages {
 
   /// 약관 조회 실패 메시지.
   static const String fetchTermsFailed = '약관 정보를 불러오는 데 실패했습니다.';
+
+  /// 약관 동의 등록 실패 메시지
+  static const String submitTermsFailed = '약관 동의 처리에 실패했습니다.';
 }

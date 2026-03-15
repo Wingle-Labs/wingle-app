@@ -6,6 +6,7 @@ import 'package:wingle/features/onboarding/presentation/age_pick.page.dart';
 import 'package:wingle/features/onboarding/presentation/agreement_page.dart';
 import 'package:wingle/features/onboarding/presentation/login_page.dart';
 import 'package:wingle/features/onboarding/presentation/onboarding_page.dart';
+import 'package:wingle/features/onboarding/presentation/pass_page.dart';
 import 'package:wingle/features/onboarding/presentation/required_self_intro.dart';
 import 'package:wingle/features/onboarding/presentation/selective_self_intro.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
@@ -67,6 +68,11 @@ final List<GoRoute> signUpRoutes = [
     path: OnboardingRoutes.otp.path,
     name: OnboardingRoutes.otp.name,
     builder: (context, state) => PhoneOtpPage(),
+  ),
+  GoRoute(
+    name: OnboardingRoutes.pass.name,
+    path: OnboardingRoutes.pass.path,
+    builder: (context, state) => PassPage(),
   ),
   GoRoute(
     name: OnboardingRoutes.age.name,

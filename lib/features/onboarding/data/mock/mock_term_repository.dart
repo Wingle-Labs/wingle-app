@@ -40,4 +40,13 @@ class MockTermRepository implements TermRepository {
       ),
     ];
   }
+
+  @override
+  Future<bool> submitAgreements({
+    required String uuid,
+    required List<AgreementItemModel> agreements,
+  }) async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    return true;
+  }
 }

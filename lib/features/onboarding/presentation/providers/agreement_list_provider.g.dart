@@ -15,7 +15,7 @@ const agreementListProvider = AgreementListProvider._();
 
 /// Riverpod Notifier
 final class AgreementListProvider
-    extends $NotifierProvider<AgreementList, AgreementListState> {
+    extends $AsyncNotifierProvider<AgreementList, AgreementListState> {
   /// Riverpod Notifier
   const AgreementListProvider._()
     : super(
@@ -23,7 +23,7 @@ final class AgreementListProvider
         argument: null,
         retry: null,
         name: r'agreementListProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -34,32 +34,25 @@ final class AgreementListProvider
   @$internal
   @override
   AgreementList create() => AgreementList();
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(AgreementListState value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<AgreementListState>(value),
-    );
-  }
 }
 
-String _$agreementListHash() => r'49e02b0a330d197bd925b2393aabca45315afac4';
+String _$agreementListHash() => r'968ceab7f9af871419f3b7b34c27e62a3cd798ef';
 
 /// Riverpod Notifier
 
-abstract class _$AgreementList extends $Notifier<AgreementListState> {
-  AgreementListState build();
+abstract class _$AgreementList extends $AsyncNotifier<AgreementListState> {
+  FutureOr<AgreementListState> build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<AgreementListState, AgreementListState>;
+    final ref =
+        this.ref as $Ref<AsyncValue<AgreementListState>, AgreementListState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AgreementListState, AgreementListState>,
-              AgreementListState,
+              AnyNotifier<AsyncValue<AgreementListState>, AgreementListState>,
+              AsyncValue<AgreementListState>,
               Object?,
               Object?
             >;

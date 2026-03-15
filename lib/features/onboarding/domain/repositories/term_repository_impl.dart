@@ -45,4 +45,36 @@ class TermRepositoryImpl implements TermRepository {
 
     return dtos.map(TermMapper.toAgreementItem).toList();
   }
+
+  @override
+  Future<bool> submitAgreements({
+    required String uuid,
+    required List<AgreementItemModel> agreements,
+  }) async {
+    final uri = Uri.parse('$_baseUrl/api/v1/auth/signup/terms');
+
+    final body = {
+      "UUID": uuid,
+      "agreements": agreements.map((e) {
+        return {
+          "Id": e.id,
+          "version": e.version,
+          "isRequired": e.isRequired,
+          "agreed": e.isChecked,
+        };
+      }).toList(),
+    };
+
+    final response = await _client.post(
+      uri,
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode(body),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception(ApiErrorMessages.submitTermsFailed);
+    }
+
+    return true;
+  }
 }

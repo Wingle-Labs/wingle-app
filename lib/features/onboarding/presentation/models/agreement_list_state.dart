@@ -5,8 +5,11 @@ class AgreementListState {
   /// 약관 동의 항목 리스트
   final List<AgreementItemModel> items;
 
+  /// 제출 중인지 여부
+  final bool isSubmitting;
+
   /// 생성자
-  const AgreementListState({required this.items});
+  const AgreementListState({required this.items, this.isSubmitting = false});
 
   /// 모든 항목이 체크되어 있는지 확인
   bool get isAllChecked => items.every((e) => e.isChecked);
@@ -16,7 +19,13 @@ class AgreementListState {
       items.where((e) => e.isRequired).every((e) => e.isChecked);
 
   /// 복사 메서드
-  AgreementListState copyWith({List<AgreementItemModel>? items}) {
-    return AgreementListState(items: items ?? this.items);
+  AgreementListState copyWith({
+    List<AgreementItemModel>? items,
+    bool? isSubmitting,
+  }) {
+    return AgreementListState(
+      items: items ?? this.items,
+      isSubmitting: isSubmitting ?? this.isSubmitting,
+    );
   }
 }

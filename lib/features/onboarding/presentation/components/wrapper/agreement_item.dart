@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_checkbox.dart';
+import 'package:wingle/app/config/theme/components/buttons/default_floating_button.dart';
+import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/components/texts/text_scale_wrapper.dart';
+import 'package:wingle/app/config/theme/components/wrappers/default_app_bar.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
@@ -50,7 +54,7 @@ class AgreementItem extends StatelessWidget {
           isDisabled: isDisabled,
           onChanged: onChanged,
         ),
-        title: Text(title, style: typography.buttonMedium),
+        title: DefaultText(title, style: typography.buttonMedium),
         trailing: content != null
             ? IconButton(
                 padding: .zero,
@@ -58,7 +62,24 @@ class AgreementItem extends StatelessWidget {
                   Icons.arrow_forward_ios,
                   color: isDisabled ? disabledColor : colors.textNeutral,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  if (content == null) return;
+
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => _AgreementDetailPage(
+                        title: title,
+                        content: content!,
+                        onAgree: () {
+                          Navigator.of(context).pop();
+                          if (!isDisabled) {
+                            onChanged?.call(true);
+                          }
+                        },
+                      ),
+                    ),
+                  );
+                },
               )
             : null,
         onTap: () {
@@ -66,6 +87,39 @@ class AgreementItem extends StatelessWidget {
           onChanged?.call(!isChecked);
         },
         shape: RoundedRectangleBorder(borderRadius: AppRadius.iosStyleRadius),
+      ),
+    );
+  }
+}
+
+class _AgreementDetailPage extends StatelessWidget {
+  final String title;
+  final String content;
+  final VoidCallback onAgree;
+
+  const _AgreementDetailPage({
+    required this.title,
+    required this.content,
+    required this.onAgree,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final typography = context.typography;
+    final color = context.colors;
+    return Scaffold(
+      backgroundColor: color.backgroundNormal,
+      appBar: DefaultAppBar(child: DefaultText(title, style: typography.title)),
+      floatingActionButton: DefaultFloatingButton(
+        label: "동의하기",
+        onPressed: onAgree,
+      ),
+      floatingActionButtonLocation: .centerDocked,
+      body: SafeArea(
+        child: Markdown(
+          data: content,
+          padding: const EdgeInsets.all(AppPadding.scaffold),
+        ),
       ),
     );
   }

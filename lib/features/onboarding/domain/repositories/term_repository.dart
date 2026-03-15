@@ -12,4 +12,18 @@ abstract class TermRepository {
   /// 예외:
   /// - 네트워크 실패 시 예외 발생
   Future<List<AgreementItemModel>> fetchTerms();
+
+  /// 사용자가 동의한 약관 목록을 서버로 전송한다.
+  ///
+  /// 파라미터:
+  /// - [uuid] : 회원가입 세션 또는 디바이스 식별 UUID
+  /// - [agreements] : 사용자가 체크한 약관 목록
+  ///
+  /// 반환값:
+  /// - 성공 시 true
+  /// - 실패 시 예외 발생 또는 false
+  Future<bool> submitAgreements({
+    required String uuid,
+    required List<AgreementItemModel> agreements,
+  });
 }
