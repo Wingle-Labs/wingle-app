@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:wingle/features/onboarding/domain/model/pass_start_response.dart';
 import 'package:wingle/features/onboarding/domain/model/pass_verification_result.dart';
@@ -11,22 +10,7 @@ class MockPassRepository implements PassRepository {
   Future<PassStartResponse> startVerification() async {
     await Future.delayed(const Duration(milliseconds: 500));
 
-    return PassStartResponse(
-      verificationUrl: Uri.dataFromString(
-        '''
-<html>
-<body>
-<h2>Mock PASS 인증</h2>
-<button onclick="window.location.href='https://mock/pass-success'">
-인증 성공
-</button>
-</body>
-</html>
-''',
-        mimeType: 'text/html',
-        encoding: utf8,
-      ).toString(),
-    );
+    return const PassStartResponse(verificationUrl: "https://google.com");
   }
 
   @override
