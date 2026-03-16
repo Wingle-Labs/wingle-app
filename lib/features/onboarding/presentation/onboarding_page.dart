@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_text_button.dart';
 import 'package:wingle/app/config/theme/components/states/indicator.dart';
 import 'package:wingle/app/config/theme/components/wrappers/default_app_bar.dart';
+import 'package:wingle/app/config/theme/components/wrappers/default_scaffold.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/features/onboarding/presentation/components/wrapper/indicator_carousel.dart';
@@ -28,8 +29,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
         .controller;
     final lastIndex = onboardingCarouselItems.length - 1;
 
-    return Scaffold(
-      backgroundColor: context.colors.backgroundNormal,
+    return DefaultScaffold(
       appBar: DefaultAppBar(
         isActionVisible: currentIndex < lastIndex,
         actions: [

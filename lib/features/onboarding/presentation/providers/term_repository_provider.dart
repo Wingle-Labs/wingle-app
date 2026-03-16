@@ -1,10 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
-import 'package:wingle/common/constants/env_constants.dart';
-import 'package:wingle/common/utils/env_util.dart';
 import 'package:wingle/features/onboarding/data/mock/mock_term_repository.dart';
-import 'package:wingle/features/onboarding/domain/repositories/term_repository.dart';
-import 'package:wingle/features/onboarding/domain/repositories/term_repository_impl.dart';
+import 'package:wingle/features/onboarding/domain/repository/term_repository.dart';
 
 /// [TermRepository] 구현체를 제공하는 Provider.
 ///

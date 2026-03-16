@@ -7,6 +7,7 @@ import 'package:wingle/features/onboarding/presentation/agreement_page.dart';
 import 'package:wingle/features/onboarding/presentation/login_page.dart';
 import 'package:wingle/features/onboarding/presentation/onboarding_page.dart';
 import 'package:wingle/features/onboarding/presentation/pass_page.dart';
+import 'package:wingle/features/onboarding/presentation/pass_webview_page.dart';
 import 'package:wingle/features/onboarding/presentation/required_self_intro.dart';
 import 'package:wingle/features/onboarding/presentation/selective_self_intro.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
@@ -73,6 +74,11 @@ final List<GoRoute> signUpRoutes = [
     name: OnboardingRoutes.pass.name,
     path: OnboardingRoutes.pass.path,
     builder: (context, state) => PassPage(),
+  ),
+  GoRoute(
+    name: OnboardingRoutes.passWebView.name,
+    path: OnboardingRoutes.passWebView.path,
+    builder: (context, state) => PassWebViewPage(url: state.extra as String),
   ),
   GoRoute(
     name: OnboardingRoutes.age.name,

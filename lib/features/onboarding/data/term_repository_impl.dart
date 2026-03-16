@@ -5,7 +5,7 @@ import 'package:wingle/common/constants/api_error_messages.dart';
 import 'package:wingle/common/constants/api_paths.dart';
 import 'package:wingle/features/onboarding/data/term_dto.dart';
 import 'package:wingle/features/onboarding/data/term_mapper.dart';
-import 'package:wingle/features/onboarding/domain/repositories/term_repository.dart';
+import 'package:wingle/features/onboarding/domain/repository/term_repository.dart';
 import 'package:wingle/features/onboarding/presentation/models/agreement_item.dart';
 
 /// [TermRepository]의 HTTP 기반 구현체.

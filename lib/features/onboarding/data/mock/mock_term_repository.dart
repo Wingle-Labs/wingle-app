@@ -1,4 +1,4 @@
-import 'package:wingle/features/onboarding/domain/repositories/term_repository.dart';
+import 'package:wingle/features/onboarding/domain/repository/term_repository.dart';
 import 'package:wingle/features/onboarding/presentation/models/agreement_item.dart';
 
 /// 약관 Repository의 Mock 구현체.
