@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/components/buttons/loadding_text_button.dart';
+import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 
@@ -30,16 +31,22 @@ class DefaultFloatingButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final color = context.colors;
-    return FloatingActionButton.extended(
-      elevation: 0,
-      backgroundColor: disabled == true
-          ? color.interactionDisable
-          : color.primaryNormal,
-      extendedPadding: .zero,
-      onPressed: disabled == true ? null : onPressed,
-      shape: RoundedRectangleBorder(borderRadius: AppRadius.iosStyleRadius),
-      label: LoadingTextButton(label: label, isLoading: isLoading),
-      autofocus: true,
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: AppPadding.scaffold),
+      child: FloatingActionButton.extended(
+        elevation: 0,
+        backgroundColor: disabled == true
+            ? color.interactionDisable
+            : color.primaryNormal,
+        splashColor: color.overlayPressed,
+        extendedPadding: .zero,
+        onPressed: disabled == true ? null : onPressed,
+        shape: RoundedRectangleBorder(borderRadius: AppRadius.iosStyleRadius),
+        label: LoadingTextButton(label: label, isLoading: isLoading),
+        autofocus: true,
+        enableFeedback: true,
+      ),
     );
   }
 }
