@@ -9,7 +9,6 @@ import 'package:wingle/app/config/theme/components/wrappers/default_scaffold.dar
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
-import 'package:wingle/features/onboarding/presentation/providers/pass_provider.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// PASS 인증 안내 페이지
@@ -48,26 +47,7 @@ class PassPage extends ConsumerWidget {
       ),
       floatingActionButton: DefaultFloatingButton(
         label: "본인 인증 시작하기",
-        onPressed: () async {
-          final notifier = ref.read(passVerificationProvider.notifier);
-
-          final verificationUrl = await notifier.startVerification();
-
-          if (!context.mounted) return;
-
-          final result = await context.pushNamed(
-            OnboardingRoutes.passWebView.name,
-            extra: verificationUrl,
-          );
-
-          if (result == true) {
-            await notifier.completeVerification();
-
-            if (!context.mounted) return;
-
-            context.pushNamed('/onboarding/profile');
-          }
-        },
+        onPressed: () => context.pushNamed(OnboardingRoutes.passWebView.name),
       ),
     );
   }

@@ -61,7 +61,8 @@ const passVerificationProvider = PassVerificationProvider._();
 
 /// PASS 인증 Provider
 final class PassVerificationProvider
-    extends $AsyncNotifierProvider<PassVerification, PassVerificationResult?> {
+    extends
+        $AsyncNotifierProvider<PassVerification, PortoneConfirmResponseDto?> {
   /// PASS 인증 Provider
   const PassVerificationProvider._()
     : super(
@@ -82,13 +83,13 @@ final class PassVerificationProvider
   PassVerification create() => PassVerification();
 }
 
-String _$passVerificationHash() => r'36281ee19bb7b20924c5b71d114debd5c308e70a';
+String _$passVerificationHash() => r'f2d886059ef8ba6cd07f1d052edd39c453ad4a00';
 
 /// PASS 인증 Provider
 
 abstract class _$PassVerification
-    extends $AsyncNotifier<PassVerificationResult?> {
-  FutureOr<PassVerificationResult?> build();
+    extends $AsyncNotifier<PortoneConfirmResponseDto?> {
+  FutureOr<PortoneConfirmResponseDto?> build();
   @$mustCallSuper
   @override
   void runBuild() {
@@ -96,17 +97,17 @@ abstract class _$PassVerification
     final ref =
         this.ref
             as $Ref<
-              AsyncValue<PassVerificationResult?>,
-              PassVerificationResult?
+              AsyncValue<PortoneConfirmResponseDto?>,
+              PortoneConfirmResponseDto?
             >;
     final element =
         ref.element
             as $ClassProviderElement<
               AnyNotifier<
-                AsyncValue<PassVerificationResult?>,
-                PassVerificationResult?
+                AsyncValue<PortoneConfirmResponseDto?>,
+                PortoneConfirmResponseDto?
               >,
-              AsyncValue<PassVerificationResult?>,
+              AsyncValue<PortoneConfirmResponseDto?>,
               Object?,
               Object?
             >;

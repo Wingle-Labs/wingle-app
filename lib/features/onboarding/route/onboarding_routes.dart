@@ -41,6 +41,9 @@ abstract final class OnboardingRoutes {
   /// 패스 인증 웹뷰
   static const passWebView = RouteNode(parent: signup, name: 'pass-webview');
 
+  /// 패스 인증 결과 페이지
+  static const passResult = RouteNode(parent: signup, name: 'pass-result');
+
   /// 필수 자기소개 입력
   static const requiredSelfIntro = RouteNode(
     parent: signup,
