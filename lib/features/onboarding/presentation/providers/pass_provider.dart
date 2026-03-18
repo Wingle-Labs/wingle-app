@@ -10,6 +10,9 @@ part 'pass_provider.g.dart';
 /// PASS 인증 Repository Provider
 @riverpod
 PassRepository passRepository(Ref ref) {
+  // TODO: PassRepositoryImpl 구현 시 분기 추가
+  // final isMock = EnvUtil.get(PortoneEnvFile.setting) == 'MOCK';
+
   return MockPassRepository();
 }
 
