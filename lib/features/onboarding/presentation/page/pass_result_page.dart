@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_floating_button.dart';
+import 'package:wingle/app/config/theme/components/states/default_bottom_sheet.dart';
 import 'package:wingle/app/config/theme/components/texts/default_intruction.dart';
 import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/components/wrappers/scrollable_scaffold.dart';
@@ -28,7 +30,7 @@ class _OnboardingPasswordPageState
   Widget build(BuildContext context) {
     return ScrollableScaffold(
       canPop: false,
-      onPop: () {},
+      onPop: showOnPop,
       spacing: 0,
       body: [
         DefaultInstruction("비밀번호 설정", textAlign: .left),
@@ -43,6 +45,30 @@ class _OnboardingPasswordPageState
         PasswordInputField(),
       ],
       floatingActionButton: DefaultFloatingButton(label: "회원가입 완료"),
+    );
+  }
+
+  void showOnPop() {
+    DefaultBottomSheet.show(
+      context,
+      isHandleContained: true,
+      body: Column(
+        crossAxisAlignment: .start,
+        children: [
+          DefaultInstruction("이전 단계로 이동하시겠어요?"),
+          DefaultText("이전 단계로 이동하면 본인 인증을 다시 진행해야 해요"),
+          SizedBox(height: AppSpacing.sm),
+        ],
+      ),
+      onMain: () {
+        context.pop();
+      },
+      mainLabel: "가입 계속하기",
+      onSub: () {
+        context.pop();
+        context.pop();
+      },
+      subLabel: "이전 단계로 이동",
     );
   }
 }
