@@ -51,6 +51,9 @@ class DefaultOutlinedInputField extends StatelessWidget {
   /// 초기 값
   final String? initialValue;
 
+  /// Validator
+  final String? Function(String?)? validator;
+
   /// 생성자
   const DefaultOutlinedInputField({
     super.key,
@@ -67,6 +70,7 @@ class DefaultOutlinedInputField extends StatelessWidget {
     this.showClearButton = false,
     this.isDisabled = false,
     this.initialValue,
+    this.validator,
   });
 
   @override
@@ -138,6 +142,7 @@ class DefaultOutlinedInputField extends StatelessWidget {
                 )
               : null,
         ),
+        validator: validator,
       ),
     );
   }

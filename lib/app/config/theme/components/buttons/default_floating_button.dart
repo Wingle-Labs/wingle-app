@@ -36,12 +36,12 @@ class DefaultFloatingButton extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: AppPadding.scaffold),
       child: FloatingActionButton.extended(
         elevation: 0,
-        backgroundColor: disabled == true
+        backgroundColor: (disabled == true || isLoading == true)
             ? color.interactionDisable
             : color.primaryNormal,
         splashColor: color.overlayPressed,
         extendedPadding: .zero,
-        onPressed: disabled == true ? null : onPressed,
+        onPressed: disabled == true || isLoading == true ? null : onPressed,
         shape: RoundedRectangleBorder(borderRadius: AppRadius.iosStyleRadius),
         label: LoadingTextButton(label: label, isLoading: isLoading),
         autofocus: true,

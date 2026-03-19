@@ -14,6 +14,7 @@ import 'package:wingle/features/onboarding/presentation/components/button/reset_
 import 'package:wingle/features/onboarding/presentation/components/button/signup_button.dart';
 import 'package:wingle/features/onboarding/presentation/components/input/password_input_field.dart';
 import 'package:wingle/features/onboarding/presentation/components/input/phone_input_field.dart';
+import 'package:wingle/features/onboarding/presentation/providers/login_page_provider.dart';
 
 /// 로그인 페이지
 class LoginPage extends ConsumerStatefulWidget {
@@ -28,6 +29,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final typography = context.typography;
+    final state = ref.watch(loginPageProvider);
+    final notifier = ref.watch(loginPageProvider.notifier);
 
     return ConstrainedScrollableScaffold(
       padding: .zero,
@@ -70,7 +73,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               children: [
                 // ! 전화번호 입력
                 PhoneInputField(),
-                PasswordInputField(),
+                PasswordInputField(
+                  value: state.password,
+                  isVisible: state.isPasswordVisible,
+                  isValid: state.isPasswordValid,
+                  onChanged: notifier.updatePassword,
+                  onToggleVisibility: () => notifier.togglePasswordVisibility(),
+                ),
               ],
             ),
           ),
