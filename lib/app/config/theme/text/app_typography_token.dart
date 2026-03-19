@@ -28,8 +28,8 @@ class AppTypographyToken {
   /// 서브 제목
   static const TextStyle subTitle20 = TextStyle(
     fontSize: AppFontSize.subtitle,
-    fontWeight: AppFontWeight.regular,
-    height: 1.4,
+    fontWeight: AppFontWeight.semiBold,
+    height: 1.35,
     letterSpacing: -0.6,
     fontFamily: "Pretendard",
   );
@@ -124,6 +124,16 @@ class AppTypographyToken {
     fontSize: AppFontSize.body,
     fontWeight: AppFontWeight.regular,
     height: 1.4,
+    letterSpacing: -0.6,
+    fontFamily: "Pretendard",
+  );
+
+  // ! Tag
+  /// Tag 텍스트
+  static const TextStyle tag = TextStyle(
+    fontSize: AppFontSize.tag,
+    fontWeight: AppFontWeight.medium,
+    height: 1.5,
     letterSpacing: -0.6,
     fontFamily: "Pretendard",
   );

@@ -23,6 +23,9 @@ class AppFontSize {
 
   /// 앱 스플래시 텍스트 크기
   static const double headline = 40;
+
+  /// 태그 텍스트 크기
+  static const double tag = 10;
 }
 
 /// 어플리케이션의 공통 아이콘 크기 정의
@@ -80,6 +83,15 @@ class AppContainerSize {
 
   /// vertical divider
   static const double verticalDividerHeight = 10;
+
+  /// Bottom Sheet handle 길이
+  static const double bottomSheetHandleWidth = 42;
+
+  /// Tag 최소 너비
+  static const double tagMinWidth = 44;
+
+  /// Tag 최소 높이
+  static const double tagMinHeight = 20;
 }
 
 /// 어플리케이션 내 선 두께 정의
@@ -92,4 +104,7 @@ class AppLineWidth {
 
   /// 입력 필드 커서 두께
   static const double inputFieldCursor = 1.0;
+
+  /// Bottom Sheet handle 두께
+  static const double bottomSheetHandleHeight = 4;
 }

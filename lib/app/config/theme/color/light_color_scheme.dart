@@ -376,4 +376,14 @@ class LightColorScheme implements AppColorScheme {
   /// - [componentCheckboxIconDisabled]: TODO
   @override
   Color get componentCheckboxIconDisabled => AppColorPalette.neutral2.color;
+
+  // ! Component-BottomSheet: TODO
+  /// - [componentBottomSheetHandle]: TODO
+  @override
+  Color get componentBottomSheetHandle => AppColorPalette.gray40.color;
+
+  // ! Compoent-InfoCard: TODO
+  /// - [componentInfoCardBackground]: TODO
+  @override
+  Color get componentInfoCardBackground => AppColorPalette.gray10.color;
 }

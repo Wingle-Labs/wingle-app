@@ -36,7 +36,7 @@ class AppTypography extends ThemeExtension<AppTypography> {
   // ! Action
   /// Button
   final TextStyle buttonLarge;
-  
+
   /// Button
   final TextStyle buttonMedium;
 
@@ -48,6 +48,10 @@ class AppTypography extends ThemeExtension<AppTypography> {
 
   /// Chip Button
   final TextStyle chipButton;
+
+  // ! Tag
+  /// Tag
+  final TextStyle tag;
 
   /// Constructor
   const AppTypography({
@@ -64,6 +68,7 @@ class AppTypography extends ThemeExtension<AppTypography> {
     required this.buttonSmall,
     required this.chip,
     required this.chipButton,
+    required this.tag,
   });
 
   /// 기본 텍스트 스타일
@@ -81,6 +86,7 @@ class AppTypography extends ThemeExtension<AppTypography> {
     buttonSmall: AppTypographyToken.btn12,
     chip: AppTypographyToken.chip,
     chipButton: AppTypographyToken.chipBtn,
+    tag: AppTypographyToken.tag,
   );
 
   /// 텍스트 스타일 복사
@@ -99,6 +105,7 @@ class AppTypography extends ThemeExtension<AppTypography> {
     TextStyle? buttonSmall,
     TextStyle? chip,
     TextStyle? chipButton,
+    TextStyle? tag,
   }) {
     return AppTypography(
       display: display ?? this.display,
@@ -114,6 +121,7 @@ class AppTypography extends ThemeExtension<AppTypography> {
       buttonSmall: buttonSmall ?? this.buttonSmall,
       chip: chip ?? this.chip,
       chipButton: chipButton ?? this.chipButton,
+      tag: tag ?? this.tag,
     );
   }
 
@@ -136,6 +144,7 @@ class AppTypography extends ThemeExtension<AppTypography> {
       buttonSmall: TextStyle.lerp(buttonSmall, other.buttonSmall, t)!,
       chip: TextStyle.lerp(chip, other.chip, t)!,
       chipButton: TextStyle.lerp(chipButton, other.chipButton, t)!,
+      tag: TextStyle.lerp(tag, other.tag, t)!,
     );
   }
 }

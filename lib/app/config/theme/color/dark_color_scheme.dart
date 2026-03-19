@@ -375,4 +375,14 @@ class DarkColorScheme implements AppColorScheme {
   /// - [componentCheckboxIconDisabled]: TODO
   @override
   Color get componentCheckboxIconDisabled => throw UnimplementedError();
+
+  // ! Component-BottomSheet: TODO
+  /// - [componentBottomSheetHandle]: TODO
+  @override
+  Color get componentBottomSheetHandle => throw UnimplementedError();
+
+  // ! Compoent-InfoCard: TODO
+  /// - [componentInfoCardBackground]: TODO
+  @override
+  Color get componentInfoCardBackground => throw UnimplementedError();
 }

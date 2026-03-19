@@ -38,4 +38,19 @@ class AppPadding {
 
   /// 인디케이터
   static const double indicator = 8;
+
+  /// Bottom Sheet 내부 패딩
+  static const double bottomSheet = 16;
+
+  /// 태그 세로 패딩
+  static const double tagVertical = 2;
+
+  /// 태그 가로 패딩
+  static const double tagHorizontal = 4;
+
+  /// 정보 카드 패딩
+  static const double infoCard = 20;
+
+  /// 작은 패딩
+  static const double xxs = 4;
 }

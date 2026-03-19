@@ -12,6 +12,7 @@ part 'pass_provider.g.dart';
 PassRepository passRepository(Ref ref) {
   // TODO: PassRepositoryImpl 구현 시 분기 추가
   // final isMock = EnvUtil.get(PortoneEnvFile.setting) == 'MOCK';
+  // return isMock ? MockPassRepository() : PassRepositoryImpl();
 
   return MockPassRepository();
 }
@@ -38,7 +39,7 @@ class PassVerification extends _$PassVerification {
   }
 
   /// PASS 인증 완료
-  Future<void> completeVerification(String impUid) async {
+  Future<PortoneConfirmResponseDto> completeVerification(String impUid) async {
     final repo = ref.read(passRepositoryProvider);
 
     state = const AsyncLoading();
@@ -46,5 +47,7 @@ class PassVerification extends _$PassVerification {
     final result = await repo.fetchVerificationResult(impUid);
 
     state = AsyncData(result);
+
+    return result;
   }
 }

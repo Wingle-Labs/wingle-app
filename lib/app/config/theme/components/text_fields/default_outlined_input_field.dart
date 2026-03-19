@@ -45,6 +45,12 @@ class DefaultOutlinedInputField extends StatelessWidget {
   /// Clear 버튼 노출 여부
   final bool showClearButton;
 
+  /// 비활성화 여부
+  final bool isDisabled;
+
+  /// 초기 값
+  final String? initialValue;
+
   /// 생성자
   const DefaultOutlinedInputField({
     super.key,
@@ -59,6 +65,8 @@ class DefaultOutlinedInputField extends StatelessWidget {
     this.suffix,
     this.onClear,
     this.showClearButton = false,
+    this.isDisabled = false,
+    this.initialValue,
   });
 
   @override
@@ -70,10 +78,12 @@ class DefaultOutlinedInputField extends StatelessWidget {
       policy: policy,
       child: TextFormField(
         inputFormatters: inputFormatters,
+        initialValue: initialValue,
         keyboardType: keyboardType,
         obscureText: obscureText,
         autofillHints: autofillHints,
         onChanged: onChanged,
+        enabled: !isDisabled,
         textAlignVertical: TextAlignVertical.center,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         cursorColor: colors.primaryNormal,

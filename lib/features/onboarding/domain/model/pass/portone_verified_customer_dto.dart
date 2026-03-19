@@ -54,4 +54,14 @@ class PortoneVerifiedCustomerDto {
       di: json['di'],
     );
   }
+
+  /// 유효한 데이터인지 확인
+  bool get isValid {
+    return name.isNotEmpty &&
+        phoneNumber != null &&
+        birthDate != null &&
+        gender != null &&
+        isForeigner != null &&
+        ci != null;
+  }
 }

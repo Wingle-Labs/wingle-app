@@ -56,13 +56,23 @@ class _PassWebViewPageState extends ConsumerState<PassWebViewPage> {
           return;
         }
 
-        final notifier = ref.read(passVerificationProvider.notifier);
+        final response = await ref
+            .read(passVerificationProvider.notifier)
+            .completeVerification(impUid);
 
-        await notifier.completeVerification(impUid);
+        final user = response.identityVerification.verifiedCustomer;
 
         if (!context.mounted) return;
-
-        context.pushReplacementNamed(OnboardingRoutes.passResult.name);
+        if (!user.isValid) {
+          DefaultToast.show(context, "인증에 실패했습니다.");
+          context.pop();
+          return;
+        } else {
+          context.pushReplacementNamed(
+            OnboardingRoutes.onboardingPassword.name,
+            extra: user,
+          );
+        }
       },
     );
   }

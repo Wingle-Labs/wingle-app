@@ -249,4 +249,12 @@ abstract interface class AppColorScheme {
 
   /// - [componentCheckboxIconDisabled]: TODO
   Color get componentCheckboxIconDisabled;
+
+  // ! Component-BottomSheet: TODO
+  /// - [componentBottomSheetHandle]: TODO
+  Color get componentBottomSheetHandle;
+
+  // ! Compoent-InfoCard: TODO
+  /// - [componentInfoCardBackground]: TODO
+  Color get componentInfoCardBackground;
 }
