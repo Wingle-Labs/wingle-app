@@ -30,7 +30,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   Widget build(BuildContext context) {
     final typography = context.typography;
     final state = ref.watch(loginPageProvider);
-    final notifier = ref.watch(loginPageProvider.notifier);
+    final notifier = ref.read(loginPageProvider.notifier);
 
     return ConstrainedScrollableScaffold(
       padding: .zero,
@@ -38,6 +38,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       floatingActionButton: Padding(
         padding: .symmetric(horizontal: AppPadding.btnHorizontal),
         child: DefaultFilledButton(
+          isDisabled: !state.canLogin,
           onPressed: () {},
           label: "onboarding.login.button.done",
         ),
@@ -72,8 +73,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               spacing: AppSpacing.xs,
               children: [
                 // ! 전화번호 입력
-                PhoneInputField(),
+                PhoneInputField(
+                  controller: notifier.phoneController,
+                  onChanged: notifier.updatePhone,
+                  errorText: state.phoneErrorText,
+                  onClear: notifier.clearPhone,
+                  showClearButton: state.phone.isNotEmpty,
+                ),
                 PasswordInputField(
+                  controller: notifier.passwordController,
                   value: state.password,
                   isVisible: state.isPasswordVisible,
                   isValid: state.isPasswordValid,

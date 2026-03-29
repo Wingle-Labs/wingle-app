@@ -4,7 +4,7 @@ import 'package:wingle/app/config/theme/components/buttons/default_text_button.d
 import 'package:wingle/app/config/theme/components/states/indicator.dart';
 import 'package:wingle/app/config/theme/components/wrappers/default_app_bar.dart';
 import 'package:wingle/app/config/theme/components/wrappers/default_scaffold.dart';
-import 'package:wingle/app/config/theme/constants/spacing.dart';
+import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/features/onboarding/presentation/components/wrapper/indicator_carousel.dart';
 import 'package:wingle/features/onboarding/presentation/components/wrapper/onboarding_bottom_buttons.dart';
@@ -30,6 +30,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
     final lastIndex = onboardingCarouselItems.length - 1;
 
     return DefaultScaffold(
+      padding: .zero,
       appBar: DefaultAppBar(
         isActionVisible: currentIndex < lastIndex,
         actions: [
@@ -67,9 +68,10 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
             ),
             Container(
               padding: const EdgeInsets.only(
-                left: AppSpacing.xs,
-                right: AppSpacing.xs,
-                top: AppSpacing.xs,
+                left: AppPadding.scaffold,
+                right: AppPadding.scaffold,
+                top: AppPadding.scaffold,
+                bottom: AppPadding.horizontal,
               ),
               child: OnboardingBottomButtons(
                 controller: controller,

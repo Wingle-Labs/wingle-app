@@ -1,23 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/components/text_fields/default_outlined_input_field.dart';
 import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
-import 'package:wingle/features/onboarding/presentation/providers/login_page_provider.dart';
 
 /// 연락처(아이디) 입력 필드
-class PhoneInputField extends ConsumerWidget {
+class PhoneInputField extends StatelessWidget {
+  /// 값 변경 콜백
+  final ValueChanged<String> onChanged;
+
+  /// 입력 컨트롤러
+  final TextEditingController? controller;
+
+  /// 검증 메시지
+  final String? errorText;
+
+  /// 클리어 버튼 표시 여부
+  final bool showClearButton;
+
+  /// 클리어 버튼 콜백
+  final VoidCallback? onClear;
+
   /// 생성자
-  const PhoneInputField({super.key});
+  const PhoneInputField({
+    super.key,
+    required this.onChanged,
+    this.controller,
+    this.errorText,
+    this.showClearButton = false,
+    this.onClear,
+  });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final colors = context.colors;
     final typography = context.typography;
-    final loginState = ref.watch(loginPageProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,17 +50,16 @@ class PhoneInputField extends ConsumerWidget {
         ),
         // ! Input Field
         DefaultOutlinedInputField(
+          controller: controller,
           policy: .cappedMedium,
           keyboardType: .phone,
           autofillHints: const [AutofillHints.telephoneNumber],
-          onChanged: ref.read(loginPageProvider.notifier).updatePhone,
+          onChanged: onChanged,
           hintText: '연락처',
-          errorText: loginState.phone.isEmpty || loginState.isPhoneValid
-              ? null
-              : '010으로 시작하는 11자리 숫자를 입력하세요',
+          errorText: errorText,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          onClear: () => ref.read(loginPageProvider.notifier).updatePhone(''),
-          showClearButton: loginState.phone.isNotEmpty,
+          onClear: onClear,
+          showClearButton: showClearButton,
         ),
       ],
     );

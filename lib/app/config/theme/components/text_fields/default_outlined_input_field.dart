@@ -11,7 +11,7 @@ import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
 
 /// Label + 아웃라인 입력 필드
-class DefaultOutlinedInputField extends StatelessWidget {
+class DefaultOutlinedInputField extends StatefulWidget {
   /// 힌트 텍스트
   final String? hintText;
 
@@ -29,6 +29,9 @@ class DefaultOutlinedInputField extends StatelessWidget {
 
   /// 값 변경 콜백
   final ValueChanged<String>? onChanged;
+
+  /// 입력 컨트롤러
+  final TextEditingController? controller;
 
   /// 텍스트 스케일링 정책
   final TextScalePolicy policy;
@@ -63,6 +66,7 @@ class DefaultOutlinedInputField extends StatelessWidget {
     this.autofillHints,
     this.errorText,
     this.onChanged,
+    this.controller,
     this.policy = TextScalePolicy.system,
     this.inputFormatters,
     this.suffix,
@@ -71,7 +75,47 @@ class DefaultOutlinedInputField extends StatelessWidget {
     this.isDisabled = false,
     this.initialValue,
     this.validator,
-  });
+  }) : assert(
+         controller == null || initialValue == null,
+         'controller와 initialValue는 동시에 사용할 수 없습니다.',
+       );
+
+  @override
+  State<DefaultOutlinedInputField> createState() =>
+      _DefaultOutlinedInputFieldState();
+}
+
+class _DefaultOutlinedInputFieldState extends State<DefaultOutlinedInputField> {
+  final FocusNode _focusNode = FocusNode();
+  bool _shouldShowValidation = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(_handleFocusChange);
+  }
+
+  @override
+  void dispose() {
+    _focusNode
+      ..removeListener(_handleFocusChange)
+      ..dispose();
+    super.dispose();
+  }
+
+  void _handleFocusChange() {
+    if (!_focusNode.hasFocus) {
+      _showValidation();
+    }
+  }
+
+  void _showValidation() {
+    if (_shouldShowValidation) return;
+
+    setState(() {
+      _shouldShowValidation = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,17 +123,28 @@ class DefaultOutlinedInputField extends StatelessWidget {
     final typography = context.typography;
 
     return TextScaleWrapper(
-      policy: policy,
+      policy: widget.policy,
       child: TextFormField(
-        inputFormatters: inputFormatters,
-        initialValue: initialValue,
-        keyboardType: keyboardType,
-        obscureText: obscureText,
-        autofillHints: autofillHints,
-        onChanged: onChanged,
-        enabled: !isDisabled,
+        focusNode: _focusNode,
+        controller: widget.controller,
+        inputFormatters: widget.inputFormatters,
+        initialValue: widget.controller == null ? widget.initialValue : null,
+        keyboardType: widget.keyboardType,
+        obscureText: widget.obscureText,
+        autofillHints: widget.autofillHints,
+        onChanged: widget.onChanged,
+        onEditingComplete: () {
+          _showValidation();
+          _focusNode.unfocus();
+        },
+        onTapOutside: (_) {
+          _focusNode.unfocus();
+        },
+        enabled: !widget.isDisabled,
         textAlignVertical: TextAlignVertical.center,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
+        autovalidateMode: _shouldShowValidation
+            ? AutovalidateMode.always
+            : AutovalidateMode.disabled,
         cursorColor: colors.primaryNormal,
         cursorErrorColor: colors.statusNegative,
         cursorWidth: AppLineWidth.inputFieldCursor,
@@ -98,7 +153,7 @@ class DefaultOutlinedInputField extends StatelessWidget {
             minHeight: AppContainerSize.inputFieldMinimun,
           ),
           isDense: true,
-          hintText: hintText?.tr(),
+          hintText: widget.hintText?.tr(),
           hintStyle: typography.body.copyWith(color: colors.textAssistive),
           filled: true,
           fillColor: colors.backgroundNormal,
@@ -113,17 +168,17 @@ class DefaultOutlinedInputField extends StatelessWidget {
           focusedErrorBorder: getBorder(colors.statusNegative),
           // 비활성화 상태
           disabledBorder: getBorder(colors.strokeStructuralBorder),
-          errorText: errorText?.tr(),
+          errorText: _shouldShowValidation ? widget.errorText?.tr() : null,
           suffixIconColor: colors.interactionInactive,
-          suffixIcon: suffix != null
+          suffixIcon: widget.suffix != null
               ? Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    suffix as Widget,
+                    widget.suffix as Widget,
                     const SizedBox(width: AppPadding.textfieldSuffix),
                   ],
                 )
-              : onClear != null && showClearButton
+              : widget.onClear != null && widget.showClearButton
               ? Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -135,14 +190,17 @@ class DefaultOutlinedInputField extends StatelessWidget {
                         fontWeight: AppFontWeight.regular,
                         semanticLabel: "Clear".tr(),
                       ),
-                      onPressed: onClear,
+                      onPressed: widget.onClear,
                     ),
                     const SizedBox(width: AppPadding.textfieldSuffix),
                   ],
                 )
               : null,
         ),
-        validator: validator,
+        validator: widget.validator == null
+            ? null
+            : (value) =>
+                  _shouldShowValidation ? widget.validator?.call(value) : null,
       ),
     );
   }

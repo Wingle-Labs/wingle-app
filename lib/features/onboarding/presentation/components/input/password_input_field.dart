@@ -24,6 +24,9 @@ class PasswordInputField extends StatelessWidget {
   /// 비밀번호 변경 콜백
   final ValueChanged<String> onChanged;
 
+  /// 입력 컨트롤러
+  final TextEditingController? controller;
+
   /// 비밀번호 표시 토글 콜백
   final VoidCallback onToggleVisibility;
 
@@ -38,6 +41,7 @@ class PasswordInputField extends StatelessWidget {
     required this.isValid,
     required this.onChanged,
     required this.onToggleVisibility,
+    this.controller,
     this.isConfirm = false,
   });
 
@@ -56,6 +60,7 @@ class PasswordInputField extends StatelessWidget {
           policy: .cappedMedium,
         ),
         DefaultOutlinedInputField(
+          controller: controller,
           policy: .cappedMedium,
           keyboardType: TextInputType.visiblePassword,
           autofillHints: const [AutofillHints.password],
