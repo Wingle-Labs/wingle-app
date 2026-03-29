@@ -29,7 +29,10 @@ class _PassWebViewPageState extends ConsumerState<PassWebViewPage> {
     final typography = context.typography;
     return IamportCertification(
       appBar: DefaultAppBar(
-        child: DefaultText("PASS 본인 인증", style: typography.title),
+        child: DefaultText(
+          'onboarding.pass.webview.title',
+          style: typography.title,
+        ),
       ),
       /* 웹뷰 로딩 컴포넌트 */
       initialChild: DefaultScaffold(
@@ -51,7 +54,10 @@ class _PassWebViewPageState extends ConsumerState<PassWebViewPage> {
 
         if (impUid == null) {
           // 실패 처리
-          DefaultToast.show(context, result['error_msg'] ?? "에러가 발생했습니다.");
+          DefaultToast.show(
+            context,
+            result['error_msg'] ?? 'onboarding.pass.webview.error.default',
+          );
           context.pop();
           return;
         }
@@ -64,7 +70,10 @@ class _PassWebViewPageState extends ConsumerState<PassWebViewPage> {
 
         if (!context.mounted) return;
         if (!user.isValid) {
-          DefaultToast.show(context, "인증에 실패했습니다.");
+          DefaultToast.show(
+            context,
+            'onboarding.pass.webview.error.verificationFailed',
+          );
           context.pop();
           return;
         } else {

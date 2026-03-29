@@ -54,7 +54,11 @@ class AgreementItem extends StatelessWidget {
           isDisabled: isDisabled,
           onChanged: onChanged,
         ),
-        title: DefaultText(title, style: typography.buttonMedium),
+        title: DefaultText(
+          title,
+          style: typography.buttonMedium,
+          isTranslationKey: title.contains('.'),
+        ),
         trailing: content != null
             ? IconButton(
                 padding: .zero,
@@ -109,9 +113,15 @@ class _AgreementDetailPage extends StatelessWidget {
     final color = context.colors;
     return Scaffold(
       backgroundColor: color.backgroundNormal,
-      appBar: DefaultAppBar(child: DefaultText(title, style: typography.title)),
+      appBar: DefaultAppBar(
+        child: DefaultText(
+          title,
+          style: typography.title,
+          isTranslationKey: title.contains('.'),
+        ),
+      ),
       floatingActionButton: DefaultFloatingButton(
-        label: "동의하기",
+        label: 'onboarding.agreement.button.agree',
         onPressed: onAgree,
       ),
       floatingActionButtonLocation: .centerDocked,

@@ -47,14 +47,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             if (!context.mounted) return;
 
             if (isSuccess) {
-              DefaultToast.show(context, '로그인되었습니다.');
+              DefaultToast.show(context, 'onboarding.login.toast.success');
               context.go(AppRoute.home.path);
               return;
             }
 
             final message =
                 ref.read(loginPageProvider).errorMessage ??
-                '로그인에 실패했습니다. 잠시 후 다시 시도해주세요.';
+                'common.error.api.loginFailed';
             DefaultToast.show(context, message);
           },
           label: "onboarding.login.button.done",
@@ -70,9 +70,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             child: Column(
               crossAxisAlignment: .start,
               children: [
-                DefaultInstruction("로그인"),
+                DefaultInstruction('onboarding.login.title'),
                 DefaultText(
-                  "여기서 소녀는 아래편으로 한 삼 마장쯤,\n소년은 우대로 한 십 리 가까운 길을 가야 한다.",
+                  'onboarding.login.instruction',
                   style: typography.bodySub,
                   policy: .cappedMedium,
                 ),

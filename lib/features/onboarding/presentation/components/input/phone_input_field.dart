@@ -44,7 +44,7 @@ class PhoneInputField extends StatelessWidget {
       children: [
         // ! Label
         DefaultText(
-          '아이디를 입력해주세요',
+          'onboarding.login.field.phone.label',
           style: typography.body.copyWith(color: colors.textAlternative),
           policy: .cappedMedium,
         ),
@@ -55,7 +55,7 @@ class PhoneInputField extends StatelessWidget {
           keyboardType: .phone,
           autofillHints: const [AutofillHints.telephoneNumber],
           onChanged: onChanged,
-          hintText: '연락처',
+          hintText: 'onboarding.login.field.phone.hint',
           errorText: errorText,
           inputFormatters: AuthConstrants.phoneFormatter,
           onClear: onClear,

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/features/onboarding/presentation/components/wrapper/agreement_item.dart';
@@ -18,11 +19,12 @@ class AgreementGroup extends ConsumerWidget {
       error: (_, _) => const SizedBox.shrink(),
       data: (model) {
         final items = model.items;
+        final requiredSuffix = 'onboarding.agreement.group.requiredSuffix'.tr();
 
         return Column(
           children: [
             AgreementItem(
-              title: "전체 동의",
+              title: 'onboarding.agreement.group.all',
               content: null,
               isChecked: model.isAllChecked,
               isDisabled: false,
@@ -32,7 +34,9 @@ class AgreementGroup extends ConsumerWidget {
               final item = items[index];
 
               return AgreementItem(
-                title: item.isRequired ? '${item.title} (필수)' : item.title,
+                title: item.isRequired
+                    ? '${item.title} $requiredSuffix'
+                    : item.title,
                 content: item.content,
                 isChecked: item.isChecked,
                 onChanged: (value) => notifier.toggleItem(index, value),

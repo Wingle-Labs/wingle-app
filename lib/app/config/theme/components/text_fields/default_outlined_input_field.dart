@@ -188,7 +188,7 @@ class _DefaultOutlinedInputFieldState extends State<DefaultOutlinedInputField> {
                         applyTextScaling: true,
                         size: AppIconSize.large,
                         fontWeight: AppFontWeight.regular,
-                        semanticLabel: "Clear".tr(),
+                        semanticLabel: 'common.action.clear'.tr(),
                       ),
                       onPressed: widget.onClear,
                     ),
@@ -199,8 +199,10 @@ class _DefaultOutlinedInputFieldState extends State<DefaultOutlinedInputField> {
         ),
         validator: widget.validator == null
             ? null
-            : (value) =>
-                  _shouldShowValidation ? widget.validator?.call(value) : null,
+            : (value) {
+                if (!_shouldShowValidation) return null;
+                return widget.validator?.call(value)?.tr();
+              },
       ),
     );
   }

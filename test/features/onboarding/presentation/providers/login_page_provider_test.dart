@@ -101,7 +101,7 @@ void main() {
       final state = container.read(loginPageProvider);
 
       expect(result, isFalse);
-      expect(state.errorMessage, '전화번호 또는 비밀번호를 확인해주세요.');
+      expect(state.errorMessage, 'common.error.api.invalidLoginCredentials');
     });
   });
 }

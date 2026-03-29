@@ -6,6 +6,7 @@ import 'package:wingle/app/config/theme/components/buttons/default_floating_butt
 import 'package:wingle/app/config/theme/constants/radius.dart';
 import 'package:wingle/common/constants/route_constants.dart';
 import 'package:wingle/features/onboarding/presentation/components/wrapper/selective_tab_view.dart';
+import 'package:wingle/features/onboarding/presentation/data/selective_self_intro_mock_data.dart';
 
 /// 선택형 자기소개 페이지
 class SelectiveSelfIntro extends ConsumerStatefulWidget {
@@ -17,22 +18,24 @@ class SelectiveSelfIntro extends ConsumerStatefulWidget {
 }
 
 class _SelectiveSelfIntroState extends ConsumerState<SelectiveSelfIntro> {
-  // TODO: Repository 패턴 구현
-  final questionTypes = ['연애', '결혼', '성격', '커리어', '생활'];
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
+      length: selectiveSelfIntroTabKeys.length,
       child: Scaffold(
         appBar: AppBar(
           title: Text('onboarding.selectiveSelfIntro.title'.tr()),
           bottom: TabBar(
-            tabs: questionTypes.map((type) => Text(type)).toList(),
+            tabs: selectiveSelfIntroTabKeys
+                .map((type) => Text(type.tr()))
+                .toList(),
             splashBorderRadius: AppRadius.iosStyleRadius,
           ),
         ),
         body: TabBarView(
-          children: questionTypes.map((type) => SelectiveTabView()).toList(),
+          children: selectiveSelfIntroTabKeys
+              .map((type) => SelectiveTabView())
+              .toList(),
         ),
         floatingActionButton: DefaultFloatingButton(
           label: 'onboarding.selectiveSelfIntro.button.next',

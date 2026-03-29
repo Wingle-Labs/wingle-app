@@ -39,8 +39,8 @@ class _OnboardingPasswordPageState
       onPop: showOnPop,
       spacing: 0,
       body: [
-        DefaultInstruction("비밀번호 설정", textAlign: .left),
-        DefaultText("영문, 숫자, 특수 기호를 포함한 8~32자리로 설정해주세요.", policy: .cappedLarge),
+        DefaultInstruction('onboarding.password.title', textAlign: .left),
+        DefaultText('onboarding.password.instruction', policy: .cappedLarge),
         SizedBox(height: AppSpacing.xl),
         PhoneNumberReadOnlyField(
           phoneNumber: widget.user.phoneNumber.toString(),
@@ -64,16 +64,16 @@ class _OnboardingPasswordPageState
         ),
       ],
       floatingActionButton: DefaultFloatingButton(
-        label: "회원가입 완료",
+        label: 'onboarding.password.button.complete',
         onPressed: () async {
           final result = await notifier.submit();
 
           if (!context.mounted) return;
           if (result) {
-            DefaultToast.show(context, "회원가입이 완료되었습니다.");
+            DefaultToast.show(context, 'onboarding.password.toast.success');
             context.goNamed(OnboardingRoutes.login.name);
           } else {
-            DefaultToast.show(context, "서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+            DefaultToast.show(context, 'onboarding.password.toast.failure');
           }
         },
         isLoading: state.isLoading,
@@ -88,20 +88,20 @@ class _OnboardingPasswordPageState
       body: Column(
         crossAxisAlignment: .start,
         children: [
-          DefaultInstruction("이전 단계로 이동하시겠어요?"),
-          DefaultText("이전 단계로 이동하면 본인 인증을 다시 진행해야 해요"),
+          DefaultInstruction('onboarding.password.bottomSheet.title'),
+          DefaultText('onboarding.password.bottomSheet.description'),
           SizedBox(height: AppSpacing.sm),
         ],
       ),
       onMain: () {
         context.pop();
       },
-      mainLabel: "가입 계속하기",
+      mainLabel: 'onboarding.password.bottomSheet.mainLabel',
       onSub: () {
         context.pop();
         context.pop();
       },
-      subLabel: "이전 단계로 이동",
+      subLabel: 'onboarding.password.bottomSheet.subLabel',
     );
   }
 }

@@ -25,14 +25,14 @@ class PhoneNumberReadOnlyField extends ConsumerWidget {
       children: [
         // ! Label
         DefaultText(
-          '입력된 전화번호',
+          'onboarding.password.field.phone.label',
           style: typography.body.copyWith(color: colors.textAlternative),
           policy: .cappedMedium,
         ),
         // ! Input Field
         DefaultOutlinedInputField(
           policy: .cappedMedium,
-          hintText: '전화번호',
+          hintText: 'onboarding.password.field.phone.hint',
           initialValue: phoneNumber,
           isDisabled: true,
         ),

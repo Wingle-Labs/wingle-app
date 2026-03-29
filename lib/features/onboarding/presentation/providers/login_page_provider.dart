@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:wingle/common/constants/api_error_messages.dart';
 import 'package:wingle/common/constants/hive_constants.dart';
 import 'package:wingle/common/utils/hive_util.dart';
 import 'package:wingle/features/auth/domain/exceptions/auth_exception.dart';
@@ -103,7 +104,7 @@ class LoginPage extends _$LoginPage {
       if (!ref.mounted) return false;
       state = state.copyWith(
         isLoading: false,
-        errorMessage: '로그인에 실패했습니다. 잠시 후 다시 시도해주세요.',
+        errorMessage: ApiErrorMessages.loginFailed,
       );
       return false;
     }

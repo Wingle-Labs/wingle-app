@@ -43,12 +43,12 @@ class LoginPageModel {
     if (phone.isEmpty) return null;
     if (isPhoneValid) return null;
     if (!phoneNumber.startsWith010) {
-      return '010으로 시작하는 번호를 입력하세요';
+      return 'common.validation.phone.startsWith010';
     }
     if (!phoneNumber.hasExactLength) {
-      return '010을 포함해 총 11자리로 입력하세요';
+      return 'common.validation.phone.length';
     }
-    return '010으로 시작하는 11자리 숫자를 입력하세요';
+    return 'common.validation.phone.invalid';
   }
 
   /// 비밀번호가 유효한지 확인

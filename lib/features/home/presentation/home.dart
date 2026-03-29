@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/components/wrappers/scrollable_scaffold.dart';
 
 /// 홈 화면
@@ -16,7 +17,7 @@ class _HomeState extends ConsumerState<Home> {
   Widget build(BuildContext context) {
     return ScrollableScaffold(
       title: 'home.title',
-      body: <Widget>[Center(child: Text('Home'))],
+      body: <Widget>[Center(child: DefaultText('home.placeholder'))],
     );
   }
 }

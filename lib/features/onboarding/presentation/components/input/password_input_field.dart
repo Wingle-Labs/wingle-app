@@ -56,7 +56,9 @@ class PasswordInputField extends StatelessWidget {
       spacing: AppSpacing.inputFieldLabelInternal,
       children: [
         DefaultText(
-          "비밀번호를 ${isConfirm ? '다시 ' : ''}입력해주세요",
+          isConfirm
+              ? 'onboarding.password.field.confirm.label'
+              : 'onboarding.login.field.password.label',
           style: typography.body.copyWith(color: colors.textAlternative),
           policy: .cappedMedium,
         ),
@@ -66,7 +68,9 @@ class PasswordInputField extends StatelessWidget {
           keyboardType: TextInputType.visiblePassword,
           autofillHints: const [AutofillHints.password],
           onChanged: onChanged,
-          hintText: "비밀번호 ${isConfirm ? '재' : ''}입력",
+          hintText: isConfirm
+              ? 'onboarding.password.field.confirm.hint'
+              : 'onboarding.login.field.password.hint',
           inputFormatters: [
             FilteringTextInputFormatter.deny(
               RegExp(r'[\u{1F300}-\u{1FAFF}]', unicode: true),
@@ -85,14 +89,14 @@ class PasswordInputField extends StatelessWidget {
           obscureText: !isVisible,
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return '비밀번호를 입력해주세요';
+              return 'common.validation.password.required';
             }
             final password = Password(value);
             if (!password.isValid) {
               return password.errorText;
             }
             if (isConfirm && !isValid) {
-              return '비밀번호가 일치하지 않습니다';
+              return 'common.validation.password.mismatch';
             }
             return null;
           },

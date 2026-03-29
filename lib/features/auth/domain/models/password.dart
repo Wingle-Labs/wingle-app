@@ -41,16 +41,16 @@ class Password {
   String? get errorText {
     if (value.isEmpty) return null;
     if (!hasValidLength) {
-      return '8자 이상 32자 이하로 입력해주세요';
+      return 'common.validation.password.length';
     }
     if (containsWhitespace) {
-      return '공백을 포함할 수 없습니다';
+      return 'common.validation.password.whitespace';
     }
     if (!containsOnlyAllowedCharacters) {
-      return '허용된 특수문자 !@#\$%^*+=- 만 사용할 수 있습니다';
+      return 'common.validation.password.allowedSpecialCharacters';
     }
     if (!containsLetter || !containsNumber || !containsSpecialCharacter) {
-      return '영문, 숫자, 특수문자를 모두 포함해야 합니다';
+      return 'common.validation.password.composition';
     }
     return null;
   }

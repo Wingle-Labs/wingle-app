@@ -21,6 +21,9 @@ class DefaultText extends StatelessWidget {
   /// 텍스트 색상
   final Color? color;
 
+  /// 번역 키 여부
+  final bool isTranslationKey;
+
   /// 생성자
   const DefaultText(
     this.text, {
@@ -29,6 +32,7 @@ class DefaultText extends StatelessWidget {
     this.style,
     this.textAlign = TextAlign.left,
     this.color,
+    this.isTranslationKey = true,
   });
 
   @override
@@ -37,7 +41,7 @@ class DefaultText extends StatelessWidget {
     return TextScaleWrapper(
       policy: policy,
       child: Text(
-        text.tr(),
+        isTranslationKey ? text.tr() : text,
         style: (style ?? body).copyWith(color: color),
         textAlign: textAlign,
       ),

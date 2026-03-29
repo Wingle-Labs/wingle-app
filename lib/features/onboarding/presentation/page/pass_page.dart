@@ -30,12 +30,12 @@ class PassPage extends ConsumerWidget {
           children: [
             Spacer(),
             DefaultInstruction(
-              '회원가입을 하려면\n본인 인증이 필요해요',
+              'onboarding.pass.title',
               textAlign: .center,
               padding: .zero,
             ),
             DefaultText(
-              'PASS로 간편하게 인증하기',
+              'onboarding.pass.subtitle',
               style: typography.bodySub,
               color: color.textAlternative,
               policy: .cappedLarge,
@@ -46,7 +46,7 @@ class PassPage extends ConsumerWidget {
         ),
       ),
       floatingActionButton: DefaultFloatingButton(
-        label: "본인 인증 시작하기",
+        label: 'onboarding.pass.button.start',
         onPressed: () => context.pushNamed(OnboardingRoutes.passWebView.name),
       ),
     );

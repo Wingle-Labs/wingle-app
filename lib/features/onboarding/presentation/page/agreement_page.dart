@@ -30,7 +30,7 @@ class AgreementPage extends ConsumerWidget {
       floatingActionButton: Padding(
         padding: .symmetric(horizontal: AppPadding.btnHorizontal),
         child: DefaultFilledButton(
-          label: "다음",
+          label: 'onboarding.agreement.button.next',
           isDisabled: asyncModel.maybeWhen(
             data: (model) => !model.isRequiredChecked || model.isSubmitting,
             orElse: () => true,
@@ -59,19 +59,26 @@ class AgreementPage extends ConsumerWidget {
         crossAxisAlignment: .start,
         children: [
           GuideCard(
-            title: "약관동의 안내",
-            message: "얼마 전에 소녀 앞에서 한 번 실수를 했을 뿐,\n여태 큰길 가듯이 건너던 징검다리",
+            title: 'onboarding.agreement.guide.title',
+            message: 'onboarding.agreement.guide.message',
           ),
 
           asyncModel.when(
             loading: () => const Expanded(
               child: Center(child: AnimationProgressIndicator()),
             ),
-            error: (e, _) =>
-                Expanded(child: Center(child: DefaultText("약관을 불러오지 못했습니다"))),
+            error: (e, _) => Expanded(
+              child: Center(
+                child: DefaultText('onboarding.agreement.state.loadFailed'),
+              ),
+            ),
             data: (model) {
               if (model.items.isEmpty) {
-                return Expanded(child: Center(child: DefaultText("약관이 없습니다")));
+                return Expanded(
+                  child: Center(
+                    child: DefaultText('onboarding.agreement.state.empty'),
+                  ),
+                );
               }
 
               return Container(

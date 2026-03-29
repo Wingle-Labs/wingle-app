@@ -36,7 +36,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
         actions: [
           IntrinsicWidth(
             child: DefaultTextButton(
-              label: "건너뛰기",
+              label: 'onboarding.button.skip',
               onPressed: () {
                 ref
                     .read(onboardingCarouselProvider.notifier)
