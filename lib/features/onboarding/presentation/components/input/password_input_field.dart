@@ -9,6 +9,7 @@ import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
+import 'package:wingle/features/auth/domain/models/password.dart';
 
 /// 재사용 가능한 비밀번호 입력 필드
 class PasswordInputField extends StatelessWidget {
@@ -86,16 +87,9 @@ class PasswordInputField extends StatelessWidget {
             if (value == null || value.isEmpty) {
               return '비밀번호를 입력해주세요';
             }
-            if (value.length < 8) {
-              return '8자리 이상 입력해주세요';
-            }
-            if (value.contains(' ')) {
-              return '공백을 포함할 수 없습니다';
-            }
-            if (!RegExp(
-              r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$',
-            ).hasMatch(value)) {
-              return '영문 소문자, 대문자, 숫자, 특수문자를 모두 포함해야 합니다';
+            final password = Password(value);
+            if (!password.isValid) {
+              return password.errorText;
             }
             if (isConfirm && !isValid) {
               return '비밀번호가 일치하지 않습니다';

@@ -15,7 +15,7 @@ class RequestPhoneCode {
   /// 휴대폰 번호 인증
   Future<bool> call(String phone) {
     if (!validatePhoneNumber(phone)) return Future.value(false);
-    return repository.requestCode(phone);
+    return repository.requestCode(PhoneNumber(phone).apiValue);
   }
 
   /// 휴대폰 번호 검증

@@ -37,4 +37,11 @@ void main() {
     final phoneNumber = PhoneNumber('01012345678');
     expect(phoneNumber.isValid, true);
   });
+
+  test('[PhoneNumber.isValid]: 하이픈이 포함된 한국형 전화번호도 유효하다', () {
+    final phoneNumber = PhoneNumber('010-1234-5678');
+    expect(phoneNumber.isValid, true);
+    expect(phoneNumber.digitsOnly, '01012345678');
+    expect(phoneNumber.apiValue, '010-1234-5678');
+  });
 }

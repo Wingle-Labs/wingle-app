@@ -40,7 +40,7 @@ class _OnboardingPasswordPageState
       spacing: 0,
       body: [
         DefaultInstruction("비밀번호 설정", textAlign: .left),
-        DefaultText("영문 소문자, 대문자, 특수 기호를 포함하여 설정해주세요.", policy: .cappedLarge),
+        DefaultText("영문, 숫자, 특수 기호를 포함한 8~32자리로 설정해주세요.", policy: .cappedLarge),
         SizedBox(height: AppSpacing.xl),
         PhoneNumberReadOnlyField(
           phoneNumber: widget.user.phoneNumber.toString(),

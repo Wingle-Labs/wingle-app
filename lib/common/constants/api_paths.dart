@@ -31,4 +31,13 @@ class ApiEndpoints {
   ///
   /// GET /terms/{id}
   static String termDetail(int id) => '/terms/$id';
+
+  // ! -------------------------------------------------------------------------
+  // ! Auth Domain
+  // ! -------------------------------------------------------------------------
+
+  /// ID/PW 로그인
+  ///
+  /// POST /api/v1/auth/login
+  static const String authLogin = '/api/v1/auth/login';
 }

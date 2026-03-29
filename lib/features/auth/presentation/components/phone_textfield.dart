@@ -39,7 +39,7 @@ class _PhoneTextFieldState extends ConsumerState<PhoneTextField> {
               child: Text("onboarding.phone.button.change".tr()),
             )
           : const SizedBox(),
-      maxLength: AuthConstrants.phoneMaxLength,
+      maxLength: AuthConstrants.phoneTextMaxLength,
       bottomPadding: 0,
     );
   }

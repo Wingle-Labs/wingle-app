@@ -1,7 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:wingle/common/constants/env_constants.dart';
-import 'package:wingle/common/utils/env_util.dart';
+import 'package:wingle/common/utils/repository_selector.dart';
 import 'package:wingle/features/onboarding/data/mock/mock_pass_repository.dart';
+import 'package:wingle/features/onboarding/data/pass_repository_impl.dart';
 import 'package:wingle/features/onboarding/domain/model/pass/portone_confirm_response_dto.dart';
 import 'package:wingle/features/onboarding/domain/repository/pass_repository.dart';
 
@@ -10,11 +10,13 @@ part 'pass_provider.g.dart';
 /// PASS 인증 Repository Provider
 @riverpod
 PassRepository passRepository(Ref ref) {
-  // TODO: PassRepositoryImpl 구현 시 분기 추가
-  // final isMock = EnvUtil.get(PortoneEnvFile.setting) == 'MOCK';
-  // return isMock ? MockPassRepository() : PassRepositoryImpl();
+  const isApiReady = false;
 
-  return MockPassRepository();
+  if (RepositorySelector.shouldUseMock(isApiReady: isApiReady)) {
+    return MockPassRepository();
+  }
+
+  return PassRepositoryImpl();
 }
 
 /// PASS 인증 Provider
@@ -28,10 +30,11 @@ class PassVerification extends _$PassVerification {
   /// PASS result 전처리
   String? preprocessResult(Map<String, String> result) {
     final impUid = result['imp_uid'];
-    final isMock = EnvUtil.get(PortoneEnvFile.setting) == 'MOCK';
+    const isApiReady = false;
+    final isMock = RepositorySelector.shouldUseMock(isApiReady: isApiReady);
 
     if (isMock) {
-      return 'MCOK_UID';
+      return 'MOCK_UID';
     } else if (impUid == null || impUid == "null") {
       return null;
     }

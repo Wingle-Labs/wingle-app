@@ -1,3 +1,5 @@
+import 'package:wingle/features/auth/domain/models/password.dart';
+
 /// 로그인 페이지 입력 모델
 class OnboardingPasswordInputModel {
   /// UUID
@@ -29,12 +31,7 @@ class OnboardingPasswordInputModel {
   });
 
   /// 비밀번호가 유효한지 확인
-  bool get isPasswordValid {
-    if (password.length < 8) {
-      return false;
-    }
-    return true;
-  }
+  bool get isPasswordValid => Password(password).isValid;
 
   /// 재입력된 비밀번호가 원본과 동일한 지 확인
   bool get isPasswordEqual => confirmPassword == password;

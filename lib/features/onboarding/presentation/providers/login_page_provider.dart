@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:wingle/common/constants/hive_constants.dart';
+import 'package:wingle/common/utils/hive_util.dart';
+import 'package:wingle/features/auth/domain/exceptions/auth_exception.dart';
+import 'package:wingle/features/auth/presentation/providers/login_repository_provider.dart';
 import 'package:wingle/features/onboarding/presentation/models/login_page_model.dart';
 
 part 'login_page_provider.g.dart';
@@ -35,6 +39,9 @@ class LoginPage extends _$LoginPage {
 
   /// 연락처(아이디) 업데이트
   void updatePhone(String value) {
+    if (state.errorMessage != null) {
+      state = state.copyWith(errorMessage: null);
+    }
     _replaceText(phoneController, value);
   }
 
@@ -45,12 +52,61 @@ class LoginPage extends _$LoginPage {
 
   /// 비밀번호 업데이트
   void updatePassword(String value) {
+    if (state.errorMessage != null) {
+      state = state.copyWith(errorMessage: null);
+    }
     _replaceText(passwordController, value);
   }
 
   /// 비밀번호 표시 여부 토글
   void togglePasswordVisibility() {
     state = state.copyWith(isPasswordVisible: !state.isPasswordVisible);
+  }
+
+  /// 로그인 요청
+  Future<bool> submit() async {
+    if (!state.canLogin) return false;
+
+    state = state.copyWith(isLoading: true, errorMessage: null);
+
+    try {
+      final repository = ref.read(loginRepositoryProvider);
+      final result = await repository.login(
+        phoneNumber: state.phoneNumber,
+        password: state.passwordValue,
+      );
+
+      if (!ref.mounted) return false;
+
+      await HiveUtil.write(
+        key: HiveLoginBox.userId,
+        value: state.phoneNumber.apiValue,
+      );
+      await HiveUtil.write(
+        key: HiveLoginBox.accessToken,
+        value: result.accessToken,
+      );
+      await HiveUtil.write(
+        key: HiveLoginBox.refreshToken,
+        value: result.refreshToken,
+      );
+
+      if (!ref.mounted) return false;
+
+      state = state.copyWith(isLoading: false, errorMessage: null);
+      return true;
+    } on AuthException catch (e) {
+      if (!ref.mounted) return false;
+      state = state.copyWith(isLoading: false, errorMessage: e.message);
+      return false;
+    } catch (_) {
+      if (!ref.mounted) return false;
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: '로그인에 실패했습니다. 잠시 후 다시 시도해주세요.',
+      );
+      return false;
+    }
   }
 
   /// 상태 초기화
@@ -63,13 +119,13 @@ class LoginPage extends _$LoginPage {
   void _syncPhone() {
     final value = phoneController.text;
     if (state.phone == value) return;
-    state = state.copyWith(phone: value);
+    state = state.copyWith(phone: value, errorMessage: null);
   }
 
   void _syncPassword() {
     final value = passwordController.text;
     if (state.password == value) return;
-    state = state.copyWith(password: value);
+    state = state.copyWith(password: value, errorMessage: null);
   }
 
   void _replaceText(TextEditingController controller, String value) {

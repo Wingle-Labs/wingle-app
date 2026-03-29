@@ -95,6 +95,9 @@ class ApiEnvFile implements EnvFile {
   /// API Base URL
   static EnvKey<String> baseUrl = _instance.create('API_BASE_URL');
 
+  /// Repository source selector
+  static EnvKey<String> source = _instance.create('API_SOURCE');
+
   /// 싱글톤
   static final ApiEnvFile _instance = ApiEnvFile();
 }

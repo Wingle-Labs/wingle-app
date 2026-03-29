@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:wingle/app/config/theme/components/text_fields/default_outlined_input_field.dart';
 import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
+import 'package:wingle/features/auth/common/constrants/auth_constrants.dart';
 
 /// 연락처(아이디) 입력 필드
 class PhoneInputField extends StatelessWidget {
@@ -57,7 +57,7 @@ class PhoneInputField extends StatelessWidget {
           onChanged: onChanged,
           hintText: '연락처',
           errorText: errorText,
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          inputFormatters: AuthConstrants.phoneFormatter,
           onClear: onClear,
           showClearButton: showClearButton,
         ),

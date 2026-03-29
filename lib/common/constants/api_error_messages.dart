@@ -11,4 +11,10 @@ class ApiErrorMessages {
 
   /// 약관 동의 등록 실패 메시지
   static const String submitTermsFailed = '약관 동의 처리에 실패했습니다.';
+
+  /// 로그인 실패 메시지
+  static const String loginFailed = '로그인에 실패했습니다. 잠시 후 다시 시도해주세요.';
+
+  /// 로그인 인증 실패 메시지
+  static const String invalidLoginCredentials = '전화번호 또는 비밀번호를 확인해주세요.';
 }

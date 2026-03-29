@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_filled_button.dart';
 import 'package:wingle/app/config/theme/components/dividers/default_vertical_divider.dart';
+import 'package:wingle/app/config/theme/components/states/default_toast.dart';
 import 'package:wingle/app/config/theme/components/texts/default_intruction.dart';
 import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/components/wrappers/constrained_scrollable_scaffold.dart';
 import 'package:wingle/app/config/theme/components/wrappers/default_app_bar.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
+import 'package:wingle/common/constants/route_constants.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
 import 'package:wingle/features/onboarding/presentation/components/button/change_phone_number_button.dart';
 import 'package:wingle/features/onboarding/presentation/components/button/reset_password_button.dart';
@@ -39,7 +42,21 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         padding: .symmetric(horizontal: AppPadding.btnHorizontal),
         child: DefaultFilledButton(
           isDisabled: !state.canLogin,
-          onPressed: () {},
+          onPressed: () async {
+            final isSuccess = await notifier.submit();
+            if (!context.mounted) return;
+
+            if (isSuccess) {
+              DefaultToast.show(context, '로그인되었습니다.');
+              context.go(AppRoute.home.path);
+              return;
+            }
+
+            final message =
+                ref.read(loginPageProvider).errorMessage ??
+                '로그인에 실패했습니다. 잠시 후 다시 시도해주세요.';
+            DefaultToast.show(context, message);
+          },
           label: "onboarding.login.button.done",
         ),
       ),
