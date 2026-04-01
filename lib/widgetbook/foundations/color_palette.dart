@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wingle/app/config/theme/color/color_palette.dart'
     as theme_palette;
-import 'package:wingle/app/config/theme/color/enum_title.dart';
+import 'package:wingle/app/config/theme/color/registry/enum_title.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';

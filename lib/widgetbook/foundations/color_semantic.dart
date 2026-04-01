@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:wingle/app/config/theme/color/app_color_scheme.dart';
-import 'package:wingle/app/config/theme/color/color_token_specs.dart';
-import 'package:wingle/app/config/theme/color/dark_color_scheme.dart';
-import 'package:wingle/app/config/theme/color/light_color_scheme.dart';
+import 'package:wingle/app/config/theme/color/contracts/app_color_scheme.dart';
+import 'package:wingle/app/config/theme/color/implementations/dark/dark_color_scheme.dart';
+import 'package:wingle/app/config/theme/color/implementations/light/light_color_scheme.dart';
+import 'package:wingle/app/config/theme/color/registry/color_token_specs.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
@@ -20,8 +20,8 @@ class ColorSemanticPage extends StatelessWidget {
       padding: const EdgeInsets.all(AppPadding.scaffold),
       children: [
         const Text(
-          'lib/app/config/theme/color/light_color_scheme.dart와 '
-          'dark_color_scheme.dart의 실제 시맨틱 컬러를 표시합니다.',
+          'lib/app/config/theme/color/implementations/light/light_color_scheme.dart와 '
+          'implementations/dark/dark_color_scheme.dart의 실제 시맨틱 컬러를 표시합니다.',
         ),
         const SizedBox(height: AppSpacing.md),
         ...AppColorSemanticSection.values.map(

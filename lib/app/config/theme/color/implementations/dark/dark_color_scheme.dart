@@ -1,15 +1,14 @@
-// ignore_for_file: lines_longer_than_80_chars
-
 import 'package:flutter/material.dart';
-import 'package:wingle/app/config/theme/color/app_color_scheme.dart';
 import 'package:wingle/app/config/theme/color/color_palette.dart';
+import 'package:wingle/app/config/theme/color/contracts/app_color_scheme.dart';
 
-/// Light Mode에서 사용되는 컬러 스키마.
+// TODO: 다크모드 스키마는 아직 정의되어 있지 않음. (정의 전까지 LightColorScheme 값으로 대체)
+/// Dark Mode에서 사용되는 컬러 스키마.
 ///
-/// 디자이너가 제공한 라이트 모드 컬러 스키마를 1:1로 정의하는 인터페이스.
-class LightColorScheme implements AppColorScheme {
+/// 디자이너가 제공한 다크 모드 컬러 스키마를 1:1로 정의하는 인터페이스.
+class DarkColorScheme implements AppColorScheme {
   /// 싱글톤 인스턴스
-  const LightColorScheme();
+  const DarkColorScheme();
 
   // ! Static Light, Dark 테마에 상관없이 변하지 않는 고정색입니다.
   /// - [staticWhite]: Theme와 관계없이 고정으로 흰색을 표시해야 할 때 사용합니다.
@@ -39,19 +38,21 @@ class LightColorScheme implements AppColorScheme {
   // ! OnPrimary: Primary 색상 위에 배치되는 전경 색상
   /// - [onPrimaryNormal]: Primary 색상 위에 배치되는 전경 색상
   @override
-  Color get onPrimaryNormal => AppColorPalette.neutral4.color;
+  Color get onPrimaryNormal => throw UnimplementedError();
 
   // ! Secondary: 강조가 덜 필요한 인터페이스 요소에 사용합니다.
   /// - [secondaryNormal]: 요소를 강조할 때 사용합니다.
   @override
   Color get secondaryNormal => AppColorPalette.asheBrown30.color;
 
-  /// - [secondaryStrong]: 이전 시스템에 Hover에 해당하는 색을 마이그레이션할 때 사용합니다. 지금은 사용하지 않습니다.
+  /// - [secondaryStrong]: 이전 시스템에 Hover에 해당하는 색을
+  ///   마이그레이션할 때 사용합니다. 지금은 사용하지 않습니다.
   @override
   @Deprecated('이전 시스템에 Hover에 해당하는 색을 마이그레이션할 때 사용합니다. 지금은 사용하지 않습니다.')
   Color get secondaryStrong => AppColorPalette.asheBrown50.color;
 
-  /// - [secondaryHeavy]: 이전 시스템에 Active에 해당하는 색을 마이그레이션할 때 사용합니다. 지금은 사용하지 않습니다.
+  /// - [secondaryHeavy]: 이전 시스템에 Active에 해당하는 색을
+  ///   마이그레이션할 때 사용합니다. 지금은 사용하지 않습니다.
   @override
   @Deprecated('이전 시스템에 Active에 해당하는 색을 마이그레이션할 때 사용합니다. 지금은 사용하지 않습니다.')
   Color get secondaryHeavy => AppColorPalette.asheBrown60.color;
@@ -155,13 +156,13 @@ class LightColorScheme implements AppColorScheme {
   Color get textDisable => AppColorPalette.neutral10.color;
 
   // ! Stroke-Structural: 구조적으로 경계를 지어주는 용도의 stroke
-  /// - [strokeStructuralBorder]: 콘텐츠 영역이나 컴포넌트의 경계를 명확히 구분해야 할 때 사용합니다.
+  /// - [strokeStructuralBorder]: TODO: 주석
   @override
   Color get strokeStructuralBorder => AppColorPalette.gray30.color;
 
-  /// - [strokeStructuralDivider]: 동일한 콘텐츠를 구분해야 할 때 사용합니다.
+  /// - [strokeStructuralDivider]: TODO: 주석
   @override
-  Color get strokeStructuralDivider => AppColorPalette.gray70.color;
+  Color get strokeStructuralDivider => AppColorPalette.gray20.color;
 
   // ! Stroke-Normal: 선을 써야 할 때 사용합니다.
   /// - [strokeNormal]: 콘텐츠를 확실히 구분해야 할 때 사용합니다.
@@ -318,12 +319,12 @@ class LightColorScheme implements AppColorScheme {
   /// - [componentAssistiveOutlinedButtonEnabled]: TODO
   @override
   Color get componentAssistiveOutlinedButtonEnabled =>
-      AppColorPalette.warmNeutral20.color;
+      AppColorPalette.gray70.color;
 
   /// - [componentAssistiveOutlinedButtonDisabled]: TODO
   @override
   Color get componentAssistiveOutlinedButtonDisabled =>
-      AppColorPalette.warmNeutral5.color;
+      AppColorPalette.gray30.color;
 
   // ! Component-Primary-TextButton: TODO
   /// - [componentPrimaryTextButtonEnabled]: TODO
@@ -371,19 +372,19 @@ class LightColorScheme implements AppColorScheme {
 
   /// - [componentCheckboxIconEnabled]: TODO
   @override
-  Color get componentCheckboxIconEnabled => AppColorPalette.neutral4.color;
+  Color get componentCheckboxIconEnabled => throw UnimplementedError();
 
   /// - [componentCheckboxIconDisabled]: TODO
   @override
-  Color get componentCheckboxIconDisabled => AppColorPalette.neutral2.color;
+  Color get componentCheckboxIconDisabled => throw UnimplementedError();
 
   // ! Component-BottomSheet: TODO
   /// - [componentBottomSheetHandle]: TODO
   @override
-  Color get componentBottomSheetHandle => AppColorPalette.gray40.color;
+  Color get componentBottomSheetHandle => throw UnimplementedError();
 
   // ! Compoent-InfoCard: TODO
   /// - [componentInfoCardBackground]: TODO
   @override
-  Color get componentInfoCardBackground => AppColorPalette.gray10.color;
+  Color get componentInfoCardBackground => throw UnimplementedError();
 }

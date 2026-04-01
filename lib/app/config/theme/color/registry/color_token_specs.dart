@@ -2,8 +2,8 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:flutter/material.dart';
-import 'package:wingle/app/config/theme/color/app_color_scheme.dart';
-import 'package:wingle/app/config/theme/color/enum_title.dart';
+import 'package:wingle/app/config/theme/color/contracts/app_color_scheme.dart';
+import 'package:wingle/app/config/theme/color/registry/enum_title.dart';
 
 typedef AppColorTokenResolver = Color Function(AppColorScheme scheme);
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wingle/app/config/theme/color/app_colors.dart';
-import 'package:wingle/app/config/theme/color/dark_color_scheme.dart';
-import 'package:wingle/app/config/theme/color/light_color_scheme.dart';
+import 'package:wingle/app/config/theme/color/implementations/dark/dark_color_scheme.dart';
+import 'package:wingle/app/config/theme/color/implementations/light/light_color_scheme.dart';
 import 'package:wingle/app/config/theme/constants/color.dart';
 import 'package:wingle/app/config/theme/text/app_typography.dart';
 
