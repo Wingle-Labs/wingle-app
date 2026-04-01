@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wingle/app/config/theme/color/color_palette.dart'
     as theme_palette;
+import 'package:wingle/app/config/theme/color/enum_title.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
@@ -12,23 +13,6 @@ class ColorPalettePage extends StatelessWidget {
   /// 생성자
   const ColorPalettePage({super.key});
 
-  static const _groupLabels = <theme_palette.AppPaletteGroup, String>{
-    theme_palette.AppPaletteGroup.common: 'Common',
-    theme_palette.AppPaletteGroup.neutral: 'Neutral',
-    theme_palette.AppPaletteGroup.warmNeutral: 'Warm Neutral',
-    theme_palette.AppPaletteGroup.gray: 'Gray',
-    theme_palette.AppPaletteGroup.brown: 'Brown',
-    theme_palette.AppPaletteGroup.asheBrown: 'Ashe Brown',
-    theme_palette.AppPaletteGroup.red: 'Red',
-    theme_palette.AppPaletteGroup.orange: 'Orange',
-    theme_palette.AppPaletteGroup.yellow: 'Yellow',
-    theme_palette.AppPaletteGroup.green: 'Green',
-    theme_palette.AppPaletteGroup.blue: 'Blue',
-    theme_palette.AppPaletteGroup.purple: 'Purple',
-    theme_palette.AppPaletteGroup.pink: 'Pink',
-    theme_palette.AppPaletteGroup.opacities: 'Opacities',
-  };
-
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -38,23 +22,26 @@ class ColorPalettePage extends StatelessWidget {
           'lib/app/config/theme/color/color_palette.dart에 정의된 실제 팔레트 토큰입니다.',
         ),
         const SizedBox(height: AppSpacing.md),
-        ...theme_palette.AppPaletteGroup.values
-            .where((group) => group != theme_palette.AppPaletteGroup.opacities)
-            .map(_buildPaletteSection),
-        _OpacitySection(opacities: theme_palette.AppColorPalette.opacities),
+        ...theme_palette.AppPaletteGroup.values.map(_buildPaletteSection),
       ],
     );
   }
 
   Widget _buildPaletteSection(theme_palette.AppPaletteGroup group) {
-    final tokens = theme_palette.AppColorPalette.groupBy(group);
+    if (group == theme_palette.AppPaletteGroup.opacities) {
+      return _OpacitySection(
+        title: group.title,
+        opacities: theme_palette.AppColorPalette.opacities,
+      );
+    }
 
+    final tokens = theme_palette.AppColorPalette.groupBy(group);
     if (tokens.isEmpty) {
       return const SizedBox.shrink();
     }
 
     return _PaletteSection(
-      title: _groupLabels[group] ?? group.name,
+      title: group.title,
       children: tokens
           .map(
             (token) => _ColorTokenCard(
@@ -167,14 +154,15 @@ class _ColorTokenCard extends StatelessWidget {
 }
 
 class _OpacitySection extends StatelessWidget {
+  final String title;
   final List<double> opacities;
 
-  const _OpacitySection({required this.opacities});
+  const _OpacitySection({required this.title, required this.opacities});
 
   @override
   Widget build(BuildContext context) {
     return _PaletteSection(
-      title: 'Opacities',
+      title: title,
       children: opacities
           .map(
             (opacity) => _ColorTokenCard(
