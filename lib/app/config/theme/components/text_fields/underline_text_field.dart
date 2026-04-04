@@ -96,6 +96,7 @@ class _UnderlineFieldState extends ConsumerState<UnderlineField> {
               fontSize: AppFontSize.body,
               color: theme.hintColor,
             ),
+            helperText: widget.helper?.tr(),
             alignLabelWithHint: true,
             fillColor: theme.primaryColor,
             enabledBorder: UnderlineInputBorder(
@@ -118,7 +119,7 @@ class _UnderlineFieldState extends ConsumerState<UnderlineField> {
           focusNode: widget.focusNode,
         ),
         Padding(
-          padding: const EdgeInsets.only(top: AppSpacing.xs),
+          padding: const EdgeInsets.only(top: AppSpacing.xxs),
           child: widget.suffix,
         ),
         SizedBox(height: widget.bottomPadding),

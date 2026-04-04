@@ -17,5 +17,7 @@ linter:
     - slash_for_doc_comments
 
 analyzer:
+  errors:
+    depend_on_referenced_packages: ignore
   plugins:
     - custom_lint

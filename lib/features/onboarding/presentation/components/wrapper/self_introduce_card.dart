@@ -1,7 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/components/cards/default_card.dart';
+import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 
@@ -26,11 +26,7 @@ class SelfIntroduceCard extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: .start,
         children: [
-          Text(
-            title,
-            style: TextStyle(fontSize: AppFontSize.subtitle),
-            locale: context.locale,
-          ),
+          DefaultText(title, style: TextStyle(fontSize: AppFontSize.subtitle)),
           Padding(padding: .only(bottom: AppSpacing.md)),
           child,
         ],

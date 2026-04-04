@@ -33,8 +33,15 @@ void main() {
     expect(phoneNumber.isValid, false);
   });
 
-  test('[PhoneNumber.isValid]: 국번호가 2로 시작되지 않는 전화번호', () {
+  test('[PhoneNumber.isValid]: 010으로 시작하고 11자리면 유효하다', () {
     final phoneNumber = PhoneNumber('01012345678');
-    expect(phoneNumber.isValid, false);
+    expect(phoneNumber.isValid, true);
+  });
+
+  test('[PhoneNumber.isValid]: 하이픈이 포함된 한국형 전화번호도 유효하다', () {
+    final phoneNumber = PhoneNumber('010-1234-5678');
+    expect(phoneNumber.isValid, true);
+    expect(phoneNumber.digitsOnly, '01012345678');
+    expect(phoneNumber.apiValue, '010-1234-5678');
   });
 }

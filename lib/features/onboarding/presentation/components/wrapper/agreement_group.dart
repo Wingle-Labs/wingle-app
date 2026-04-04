@@ -1,50 +1,51 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wingle/app/config/theme/components/pickers/check_box.dart';
-import 'package:wingle/app/config/theme/components/wrappers/smooth_rect.dart';
-import 'package:wingle/app/config/theme/constants/radius.dart';
+import 'package:wingle/features/onboarding/presentation/components/wrapper/agreement_item.dart';
+import 'package:wingle/features/onboarding/presentation/providers/agreement_list_provider.dart';
 
 /// 동의 체크박스 및 텍스트
 class AgreementGroup extends ConsumerWidget {
-  /// 텍스트
-  final String text;
-
-  /// 값
-  final bool value;
-
-  /// 변경 이벤트
-  final ValueChanged<bool?> onChanged;
-
-  /// 번역 여부
-  final bool? isTranslated;
-
   /// 생성자
-  const AgreementGroup({
-    super.key,
-    required this.value,
-    required this.onChanged,
-    required this.text,
-    this.isTranslated,
-  });
+  const AgreementGroup({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return SmoothRectWrapper(
-      child: InkWell(
-        onTap: () => onChanged(!value),
-        borderRadius: AppRadius.iosStyleRadius,
-        child: Row(
-          mainAxisAlignment: .start,
+    final asyncModel = ref.watch(agreementListProvider);
+    final notifier = ref.read(agreementListProvider.notifier);
+
+    return asyncModel.when(
+      loading: () => const SizedBox.shrink(),
+      error: (_, _) => const SizedBox.shrink(),
+      data: (model) {
+        final items = model.items;
+        final requiredSuffix = 'onboarding.agreement.group.requiredSuffix'.tr();
+
+        return Column(
           children: [
-            DefaultCheckBox(
-              value: value,
-              onChanged: onChanged,
+            AgreementItem(
+              title: 'onboarding.agreement.group.all',
+              content: null,
+              isChecked: model.isAllChecked,
+              isDisabled: false,
+              onChanged: notifier.toggleAll,
             ),
-            Expanded(child: Text(isTranslated == true ? text.tr() : text)),
+            ...List.generate(items.length, (index) {
+              final item = items[index];
+
+              return AgreementItem(
+                title: item.isRequired
+                    ? '${item.title} $requiredSuffix'
+                    : item.title,
+                content: item.content,
+                isChecked: item.isChecked,
+                onChanged: (value) => notifier.toggleItem(index, value),
+                isDisabled: model.isSubmitting,
+              );
+            }),
           ],
-        ),
-      ),
+        );
+      },
     );
   }
 }

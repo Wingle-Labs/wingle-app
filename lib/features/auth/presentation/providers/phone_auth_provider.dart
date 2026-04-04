@@ -33,7 +33,7 @@ class PhoneAuth extends _$PhoneAuth {
     final request = ref.read(requestPhoneCodeProvider);
     state = state.copyWith(isSent: false, isSending: true);
 
-    final result = await request.call(state.phoneNumber.value);
+    final result = await request.call(state.phoneNumber.apiValue);
     state = state.copyWith(isSending: false);
     if (result) {
       state = state.copyWith(isSent: true);

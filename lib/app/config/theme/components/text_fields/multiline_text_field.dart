@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/components/wrappers/smooth_rect.dart';
@@ -52,9 +53,9 @@ class MultilineTextField extends ConsumerWidget {
         onChanged: onChanged,
         controller: controller,
         decoration: InputDecoration(
-          hintText: hint,
+          hintText: hint?.tr(),
           hintStyle: TextStyle(color: theme.hintColor),
-          helperText: helper,
+          helperText: helper?.tr(),
           helperStyle: TextStyle(color: theme.hintColor),
           focusColor: AppColor.lightPrimary,
           enabledBorder: OutlineInputBorder(

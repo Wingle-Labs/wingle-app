@@ -1,9 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wingle/app/config/theme/components/bottons/default_filled_button.dart';
-import 'package:wingle/app/config/theme/components/bottons/default_outlined_button.dart';
-import 'package:wingle/app/config/theme/components/bottons/default_text_button.dart';
+import 'package:wingle/app/config/theme/components/buttons/default_filled_button.dart';
+import 'package:wingle/app/config/theme/components/buttons/default_outlined_button.dart';
+import 'package:wingle/app/config/theme/components/buttons/default_text_button.dart';
 import 'package:wingle/app/config/theme/components/wrappers/scrollable_scaffold.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/weight.dart';
@@ -26,16 +27,16 @@ class DesignSystem extends ConsumerWidget {
     final colorScheme = context.colors;
     final baseLength = 48.0;
     return ScrollableScaffold(
-      title: "디자인 시스템",
+      title: 'designSystem.title',
       body: [
         Container(
           height: 100,
-          color: colorScheme.primary,
+          color: colorScheme.primaryNormal,
           child: Center(
             child: Text(
-              "Primary Color",
+              'designSystem.sample.primaryColor'.tr(),
               style: TextStyle(
-                color: colorScheme.onPrimary,
+                color: colorScheme.onPrimaryNormal,
                 fontSize: AppFontSize.subtitle,
                 fontWeight: AppFontWeight.semiBold,
               ),
@@ -43,39 +44,48 @@ class DesignSystem extends ConsumerWidget {
           ),
         ),
 
-        DefaultFilledButton(label: "활성화 상태: 채워진 버튼"),
-
-        DefaultFilledButton(label: "비활성화 상태: 채워진 버튼", isDisabled: true),
+        DefaultFilledButton(label: 'designSystem.button.filled.enabled'),
 
         DefaultFilledButton(
-          label: "활성화 상태: 채워진 버튼 with leading",
+          label: 'designSystem.button.filled.disabled',
+          isDisabled: true,
+        ),
+
+        DefaultFilledButton(
+          label: 'designSystem.button.filled.leadingEnabled',
           leadingIcon: Icons.add,
         ),
 
         DefaultFilledButton(
-          label: "비활성화 상태: 채워진 버튼 with leading",
+          label: 'designSystem.button.filled.leadingDisabled',
           leadingIcon: Icons.add,
           isDisabled: true,
         ),
 
         DefaultFilledButton(
-          label: "활성화 상태: 채워진 버튼 with trailing",
+          label: 'designSystem.button.filled.trailingEnabled',
           trailingIcon: Icons.add,
         ),
 
         DefaultFilledButton(
-          label: "비활성화 상태: 채워진 버튼 with trailing",
+          label: 'designSystem.button.filled.trailingDisabled',
           trailingIcon: Icons.add,
           isDisabled: true,
         ),
 
-        DefaultOutlinedButton(label: "활성화 상태: 테두리 버튼"),
+        DefaultOutlinedButton(label: 'designSystem.button.outlined.enabled'),
 
-        DefaultOutlinedButton(label: "비활성화 상태: 테두리 버튼", isDisabled: true),
+        DefaultOutlinedButton(
+          label: 'designSystem.button.outlined.disabled',
+          isDisabled: true,
+        ),
 
-        DefaultTextButton(label: "활성화 상태: 텍스트 버튼"),
+        DefaultTextButton(label: 'designSystem.button.text.enabled'),
 
-        DefaultTextButton(label: "비활성화 상태: 텍스트 버튼", isDisabled: true),
+        DefaultTextButton(
+          label: 'designSystem.button.text.disabled',
+          isDisabled: true,
+        ),
 
         // Container(
         //   // height: baseLength,

@@ -25,4 +25,13 @@ class AppRadius {
     cornerRadius: iosStyle,
     cornerSmoothing: iosSmoothing,
   );
+
+  /// Checkbox Radius
+  static const double checkboxRadius = 6;
+
+  /// BottomSheet Top Radius
+  static const double bottomSheetTopRadius = 26;
+
+  /// Tag Radius
+  static const double tagRadius = 6;
 }

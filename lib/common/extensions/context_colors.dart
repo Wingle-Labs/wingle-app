@@ -1,7 +1,7 @@
 // common/extensions/context_colors.dart
 import 'package:flutter/material.dart';
-import 'package:wingle/app/config/theme/color/app_color_scheme.dart';
 import 'package:wingle/app/config/theme/color/app_colors.dart';
+import 'package:wingle/app/config/theme/color/contracts/app_color_scheme.dart';
 
 /// 컨텍스트에서 컬러 스키마를 가져오는 확장.
 extension AppColorContext on BuildContext {

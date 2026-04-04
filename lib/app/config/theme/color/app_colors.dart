@@ -1,7 +1,6 @@
 // app/config/theme/color/app_colors.dart
 import 'package:flutter/material.dart';
-
-import 'app_color_scheme.dart';
+import 'package:wingle/app/config/theme/color/contracts/app_color_scheme.dart';
 
 /// 애플리케이션 컬러.
 ///

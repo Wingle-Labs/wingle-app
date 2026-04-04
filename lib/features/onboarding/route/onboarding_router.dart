@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wingle/features/auth/presentation/phone_auth.dart';
 import 'package:wingle/features/auth/presentation/phone_otp.dart';
-import 'package:wingle/features/onboarding/presentation/age_pick.page.dart';
-import 'package:wingle/features/onboarding/presentation/login_page.dart';
-import 'package:wingle/features/onboarding/presentation/onboarding_page.dart';
-import 'package:wingle/features/onboarding/presentation/required_self_intro.dart';
-import 'package:wingle/features/onboarding/presentation/selective_self_intro.dart';
+import 'package:wingle/features/onboarding/presentation/page/age_pick.page.dart';
+import 'package:wingle/features/onboarding/presentation/page/agreement_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/login_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/onboarding_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/pass_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/onboarding_password_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/pass_webview_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/required_self_intro.dart';
+import 'package:wingle/features/onboarding/presentation/page/selective_self_intro.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// ! 온보딩 라우트
@@ -53,6 +57,11 @@ final List<GoRoute> loginRoutes = [
 /// ! 회원가입 하위 라우트 목록
 final List<GoRoute> signUpRoutes = [
   GoRoute(
+    name: OnboardingRoutes.agreement.name,
+    path: OnboardingRoutes.agreement.path,
+    builder: (context, state) => AgreementPage(),
+  ),
+  GoRoute(
     name: OnboardingRoutes.phone.name,
     path: OnboardingRoutes.phone.path,
     builder: (context, state) => PhoneAuthPage(),
@@ -61,6 +70,22 @@ final List<GoRoute> signUpRoutes = [
     path: OnboardingRoutes.otp.path,
     name: OnboardingRoutes.otp.name,
     builder: (context, state) => PhoneOtpPage(),
+  ),
+  GoRoute(
+    name: OnboardingRoutes.pass.name,
+    path: OnboardingRoutes.pass.path,
+    builder: (context, state) => PassPage(),
+  ),
+  GoRoute(
+    name: OnboardingRoutes.passWebView.name,
+    path: OnboardingRoutes.passWebView.path,
+    builder: (context, state) => PassWebViewPage(),
+  ),
+  GoRoute(
+    name: OnboardingRoutes.onboardingPassword.name,
+    path: OnboardingRoutes.onboardingPassword.path,
+    builder: (context, state) =>
+        OnboardingPasswordPage(phoneNumber: state.extra as String),
   ),
   GoRoute(
     name: OnboardingRoutes.age.name,

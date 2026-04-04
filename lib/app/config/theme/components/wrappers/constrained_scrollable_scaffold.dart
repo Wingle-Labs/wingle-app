@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/components/wrappers/smooth_rect.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
+import 'package:wingle/common/extensions/context_colors.dart';
 
 /// 콘텐츠의 최소 높이를 화면 높이로 보장하면서
 /// 화면을 초과하는 경우에는 스크롤로 수용하는 Scaffold.
@@ -10,7 +11,7 @@ import 'package:wingle/app/config/theme/constants/padding.dart';
 /// 내용이 많을 때는 자연스럽게 스크롤됩니다.
 class ConstrainedScrollableScaffold extends ConsumerWidget {
   /// 상단 AppBar
-  final AppBar? appBar;
+  final PreferredSizeWidget? appBar;
 
   /// 스크롤 영역 안에 배치될 Widget
   final Widget child;
@@ -18,18 +19,27 @@ class ConstrainedScrollableScaffold extends ConsumerWidget {
   /// 하단 FloatingActionButton
   final Widget? floatingActionButton;
 
+  /// 페이지 내부 패딩
+  final EdgeInsets? padding;
+
+  /// 하단 네비게이션 바
+  final Widget? bottomNavigationBar;
+
   /// 스크롤 가능한 제약형 Scaffold를 생성합니다.
   const ConstrainedScrollableScaffold({
     super.key,
     this.appBar,
     required this.child,
     this.floatingActionButton,
+    this.padding,
+    this.bottomNavigationBar,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: appBar,
+      backgroundColor: context.colors.backgroundNormal,
       body: LayoutBuilder(
         builder: (context, constraints) {
           return SingleChildScrollView(
@@ -41,7 +51,8 @@ class ConstrainedScrollableScaffold extends ConsumerWidget {
               ),
               child: IntrinsicHeight(
                 child: Padding(
-                  padding: const EdgeInsets.all(AppPadding.scaffold),
+                  padding:
+                      padding ?? .symmetric(horizontal: AppPadding.scaffold),
                   child: child,
                 ),
               ),
@@ -54,6 +65,7 @@ class ConstrainedScrollableScaffold extends ConsumerWidget {
           ? SmoothRectWrapper(child: floatingActionButton as Widget)
           : null,
       floatingActionButtonAnimator: FloatingActionButtonAnimator.noAnimation,
+      bottomNavigationBar: bottomNavigationBar,
     );
   }
 }

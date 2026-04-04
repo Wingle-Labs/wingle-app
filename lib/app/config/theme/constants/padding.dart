@@ -19,5 +19,38 @@ class AppPadding {
   static const double card = 20;
 
   /// TextField 내부 패딩
-  static const double textfield = 12;
+  static const double textfield = 16;
+
+  /// TextField와 suffix 간의 패딩
+  static const double textfieldSuffix = 12;
+
+  /// 리스트 아이템 상단 패딩
+  static const double listTop = 32;
+
+  /// 리스트 아이템 하단 패딩
+  static const double listBottom = 32;
+
+  /// 리스트 버튼 왼쪽 패딩
+  static const double agreementItemLeft = 14;
+
+  /// 리스트 버튼 오른쪽 패딩
+  static const double agreementItemRight = 2;
+
+  /// 인디케이터
+  static const double indicator = 8;
+
+  /// Bottom Sheet 내부 패딩
+  static const double bottomSheet = 16;
+
+  /// 태그 세로 패딩
+  static const double tagVertical = 2;
+
+  /// 태그 가로 패딩
+  static const double tagHorizontal = 4;
+
+  /// 정보 카드 패딩
+  static const double infoCard = 20;
+
+  /// 작은 패딩
+  static const double xxs = 4;
 }

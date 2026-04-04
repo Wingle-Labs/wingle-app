@@ -23,6 +23,9 @@ abstract final class OnboardingRoutes {
   );
 
   // ! 회원가입 하위 루트
+  /// 약관 동의
+  static const agreement = RouteNode(parent: signup, name: 'agreement');
+
   /// 전화번호 입력
   static const phone = RouteNode(parent: signup, name: 'phone');
 
@@ -31,6 +34,18 @@ abstract final class OnboardingRoutes {
 
   /// 나이 입력
   static const age = RouteNode(parent: signup, name: 'age');
+
+  /// 패스 인증
+  static const pass = RouteNode(parent: signup, name: 'pass');
+
+  /// 패스 인증 웹뷰
+  static const passWebView = RouteNode(parent: signup, name: 'pass-webview');
+
+  /// 패스 인증 결과 페이지
+  static const onboardingPassword = RouteNode(
+    parent: signup,
+    name: 'onboarding-password',
+  );
 
   /// 필수 자기소개 입력
   static const requiredSelfIntro = RouteNode(

@@ -3,8 +3,14 @@ class EnvConstants {
   /// Firebase 환경 변수 파일
   static final firebase = FirebaseEnvFile();
 
+  /// API 환경 변수 파일
+  static final api = ApiEnvFile();
+
+  /// Portone 환경 변수 파일
+  static final portone = PortoneEnvFile();
+
   /// 기타 환경 변수 파일들
-  static final envs = <EnvFile>[firebase];
+  static final envs = <EnvFile>[firebase, api, portone];
 }
 
 /// 환경 변수 인터페이스
@@ -74,4 +80,49 @@ class FirebaseEnvFile implements EnvFile {
 
   /// 싱글톤
   static final FirebaseEnvFile _instance = FirebaseEnvFile();
+}
+
+/// API 관련 Env 파일
+class ApiEnvFile implements EnvFile {
+  @override
+  String get path => 'lib/app/config/env/api.env';
+
+  @override
+  EnvKey<String> create(String key) {
+    return EnvKey<String>(path: path, name: key);
+  }
+
+  /// API Base URL
+  static EnvKey<String> baseUrl = _instance.create('API_BASE_URL');
+
+  /// Repository source selector
+  static EnvKey<String> source = _instance.create('API_SOURCE');
+
+  /// 싱글톤
+  static final ApiEnvFile _instance = ApiEnvFile();
+}
+
+/// Portone 관련 Env 파일
+class PortoneEnvFile implements EnvFile {
+  @override
+  String get path => 'lib/app/config/env/portone.env';
+
+  @override
+  EnvKey<String> create(String key) {
+    return EnvKey<String>(path: path, name: key);
+  }
+
+  static final PortoneEnvFile _instance = PortoneEnvFile();
+
+  /// 가맹점 ID
+  static EnvKey<String> userCode = _instance.create('PORTONE_USER_CODE');
+
+  /// 결제 PG
+  static EnvKey<String> pg = _instance.create('PORTONE_PG');
+
+  /// 결제 리다이렉트 URL
+  static EnvKey<String> redirectUrl = _instance.create('PORTONE_REDIRECT_URL');
+
+  /// MOCK 여부
+  static EnvKey<String> setting = _instance.create('PORTONE_SETTIN');
 }
