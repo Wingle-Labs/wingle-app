@@ -4,9 +4,9 @@ import 'package:http/http.dart' as http;
 import 'package:wingle/common/constants/api_error_messages.dart';
 import 'package:wingle/common/constants/api_paths.dart';
 import 'package:wingle/common/utils/api_request_headers.dart';
+import 'package:wingle/features/onboarding/domain/constants/file_upload_constants.dart';
 import 'package:wingle/features/onboarding/domain/model/file/file_models.dart';
 import 'package:wingle/features/onboarding/domain/repository/file_repository.dart';
-import 'package:wingle/features/onboarding/domain/constants/file_upload_constants.dart';
 
 /// 파일 Repository HTTP 구현
 class FileRepositoryImpl implements FileRepository {

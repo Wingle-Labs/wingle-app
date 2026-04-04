@@ -108,6 +108,7 @@ class _TypographySection extends StatelessWidget {
                 style: const TextStyle(fontSize: AppFontSize.caption),
               ),
               Text(
+                // ignore: lines_longer_than_80_chars
                 'height: ${style.height} | letterSpacing: ${style.letterSpacing}',
                 style: const TextStyle(fontSize: AppFontSize.caption),
               ),

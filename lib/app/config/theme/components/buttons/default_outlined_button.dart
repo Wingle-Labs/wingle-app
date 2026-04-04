@@ -36,7 +36,6 @@ class DefaultOutlinedButton extends StatelessWidget {
       label: label,
       backgroundColor: context.colors.backgroundNormal,
       pressedColor: context.colors.overlayPressed,
-      // TODO: 테두리 버튼의 전경 색상 전용 Color token 추가 예정
       foregroundColor: isDisabled
           ? context.colors.interactionInactive
           : context.colors.primaryNormal,

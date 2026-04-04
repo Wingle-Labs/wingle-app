@@ -6,8 +6,8 @@ import 'package:wingle/features/onboarding/presentation/page/age_pick.page.dart'
 import 'package:wingle/features/onboarding/presentation/page/agreement_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/login_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/onboarding_page.dart';
-import 'package:wingle/features/onboarding/presentation/page/pass_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/onboarding_password_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/pass_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/pass_webview_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/required_self_intro.dart';
 import 'package:wingle/features/onboarding/presentation/page/selective_self_intro.dart';

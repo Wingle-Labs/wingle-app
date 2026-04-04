@@ -1,5 +1,5 @@
-import 'package:wingle/features/onboarding/domain/model/file/file_models.dart';
 import 'package:wingle/features/onboarding/domain/constants/file_upload_constants.dart';
+import 'package:wingle/features/onboarding/domain/model/file/file_models.dart';
 
 /// 파일 관련 Repository 인터페이스.
 abstract class FileRepository {
