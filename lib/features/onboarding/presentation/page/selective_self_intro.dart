@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_floating_button.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
-import 'package:wingle/common/constants/route_constants.dart';
+import 'package:wingle/features/home/route/home_routes.dart';
 import 'package:wingle/features/onboarding/presentation/components/wrapper/selective_tab_view.dart';
 import 'package:wingle/features/onboarding/presentation/data/selective_self_intro_mock_data.dart';
 
@@ -39,7 +39,7 @@ class _SelectiveSelfIntroState extends ConsumerState<SelectiveSelfIntro> {
         ),
         floatingActionButton: DefaultFloatingButton(
           label: 'onboarding.selectiveSelfIntro.button.next',
-          onPressed: () => context.go(AppRoute.home.path),
+          onPressed: () => context.goNamed(HomeRoutes.root.name),
         ),
         floatingActionButtonLocation: .centerFloat,
       ),

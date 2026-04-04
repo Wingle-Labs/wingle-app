@@ -12,6 +12,9 @@ abstract final class OnboardingRoutes {
   /// 회원가입
   static const signup = RouteNode(parent: root, name: 'signup');
 
+  /// 기본 프로필 정보 등록
+  static const basicProfile = RouteNode(parent: root, name: 'basic-profile');
+
   // ! 로그인 하위 루트
   /// 비밀번호 재설정
   static const resetPassword = RouteNode(parent: login, name: 'reset-password');

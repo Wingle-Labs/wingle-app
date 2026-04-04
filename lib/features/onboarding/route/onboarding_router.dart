@@ -4,6 +4,7 @@ import 'package:wingle/features/auth/presentation/phone_auth.dart';
 import 'package:wingle/features/auth/presentation/phone_otp.dart';
 import 'package:wingle/features/onboarding/presentation/page/age_pick.page.dart';
 import 'package:wingle/features/onboarding/presentation/page/agreement_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/basic_profile_nickname_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/login_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/onboarding_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/onboarding_password_page.dart';
@@ -23,20 +24,19 @@ final GoRoute onboardingRoute = GoRoute(
 
 /// ! 온보딩 하위 라우트 목록
 final List<GoRoute> onboardingRoutes = [
+  // 기본 프로필 정보 등록
+  GoRoute(
+    name: OnboardingRoutes.basicProfile.name,
+    path: OnboardingRoutes.basicProfile.path,
+    builder: (context, state) => const BasicProfileNicknamePage(),
+  ),
+
   // 로그인
   GoRoute(
     name: OnboardingRoutes.login.name,
     path: OnboardingRoutes.login.path,
     builder: (context, state) => LoginPage(),
     routes: loginRoutes,
-  ),
-
-  // 회원가입
-  GoRoute(
-    name: OnboardingRoutes.signup.name,
-    path: OnboardingRoutes.signup.path,
-    builder: (context, state) => Placeholder(),
-    routes: signUpRoutes,
   ),
 ];
 

@@ -20,7 +20,7 @@ class RouteNode {
   String get fullPath {
     final RouteNode? before = parent;
     if (before != null) {
-      return '${before.fullPath}$path';
+      return '${before.fullPath}/$path';
     }
     return path;
   }

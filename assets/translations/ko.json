@@ -14,7 +14,9 @@
         "fetchTermsFailed": "약관 정보를 불러오는 데 실패했습니다.",
         "submitTermsFailed": "약관 동의 처리에 실패했습니다.",
         "loginFailed": "로그인에 실패했습니다. 잠시 후 다시 시도해주세요.",
-        "invalidLoginCredentials": "전화번호 또는 비밀번호를 확인해주세요."
+        "invalidLoginCredentials": "전화번호 또는 비밀번호를 확인해주세요.",
+        "fetchRandomNicknameFailed": "랜덤 닉네임을 불러오지 못했어요. 다시 시도해주세요.",
+        "submitBasicProfileFailed": "기본 프로필 정보를 등록하지 못했어요. 다시 시도해주세요."
       }
     },
     "validation": {
@@ -107,6 +109,15 @@
       },
       "toast": {
         "success": "로그인되었습니다."
+      }
+    },
+    "basicProfile": {
+      "nickname": {
+        "title": "앞으로 사용할\n닉네임을 정해볼까요?",
+        "subtitle": "프로필에서 보여지는 이름이에요\n마이페이지에서 언제든 변경이 가능해요",
+        "button": {
+          "change": "닉네임 변경"
+        }
       }
     },
     "agreement": {

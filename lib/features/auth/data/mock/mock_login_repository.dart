@@ -18,7 +18,7 @@ class MockLoginRepository implements LoginRepository {
 
   /// 기본 프로필 진행 상태
   static const LoginProfileStatus defaultProfileStatus =
-      LoginProfileStatus.firstApprovalApproved;
+      LoginProfileStatus.beforeBasicProfile;
 
   /// 로그인 시 반환할 프로필 진행 상태
   final LoginProfileStatus profileStatus;

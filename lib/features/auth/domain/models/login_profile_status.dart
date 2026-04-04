@@ -117,6 +117,10 @@ enum LoginProfileStatus {
   /// 첫 승인 완료 상태인지 확인한다.
   bool get isApproved => this == LoginProfileStatus.firstApprovalApproved;
 
+  /// 기본 프로필 정보 등록 전 상태인지 확인한다.
+  bool get isBeforeBasicProfile =>
+      this == LoginProfileStatus.beforeBasicProfile;
+
   /// 첫 승인 대기 상태인지 확인한다.
   bool get isPendingApproval => this == LoginProfileStatus.firstApprovalPending;
 

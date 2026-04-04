@@ -10,15 +10,16 @@ import 'package:wingle/app/config/theme/components/wrappers/constrained_scrollab
 import 'package:wingle/app/config/theme/components/wrappers/default_app_bar.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
-import 'package:wingle/common/constants/route_constants.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
+import 'package:wingle/features/home/route/home_routes.dart';
 import 'package:wingle/features/onboarding/presentation/components/button/change_phone_number_button.dart';
 import 'package:wingle/features/onboarding/presentation/components/button/reset_password_button.dart';
 import 'package:wingle/features/onboarding/presentation/components/button/signup_button.dart';
 import 'package:wingle/features/onboarding/presentation/components/input/password_input_field.dart';
 import 'package:wingle/features/onboarding/presentation/components/input/phone_input_field.dart';
 import 'package:wingle/features/onboarding/presentation/providers/login_page_provider.dart';
+import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// 로그인 페이지
 class LoginPage extends ConsumerStatefulWidget {
@@ -52,7 +53,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               final nextPath = _nextPathForStatus(
                 ref.read(loginPageProvider).profileStatus,
               );
-              context.go(nextPath);
+              context.goNamed(nextPath);
               return;
             }
 
@@ -139,9 +140,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   String _nextPathForStatus(LoginProfileStatus? profileStatus) {
     if (profileStatus?.isApproved ?? true) {
-      return AppRoute.home.path;
+      return HomeRoutes.root.name;
     }
 
-    return AppRoute.onboarding.path;
+    if (profileStatus?.isBeforeBasicProfile ?? false) {
+      return OnboardingRoutes.basicProfile.name;
+    }
+
+    return HomeRoutes.root.name;
   }
 }

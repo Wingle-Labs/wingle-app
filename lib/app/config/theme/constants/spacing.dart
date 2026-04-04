@@ -29,4 +29,7 @@ class AppSpacing {
 
   /// Input Field와 상단 Label 간의 간격
   static const double inputFieldLabelInternal = 4;
+
+  /// Instruction과 텍스트 간의 간격
+  static const double instructionInternal = 4;
 }

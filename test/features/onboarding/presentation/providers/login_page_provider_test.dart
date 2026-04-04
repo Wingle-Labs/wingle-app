@@ -87,7 +87,7 @@ void main() {
       expect(HiveUtil.read(HiveLoginBox.refreshToken), 'mock-refresh-token');
       expect(
         HiveUtil.read(HiveLoginBox.profileStatus),
-        LoginProfileStatus.firstApprovalApproved.apiValue,
+        LoginProfileStatus.beforeBasicProfile.apiValue,
       );
     });
 

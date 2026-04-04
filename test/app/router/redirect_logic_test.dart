@@ -43,6 +43,18 @@ void main() {
     );
   });
 
+  test('기본 프로필 정보 등록 전 사용자는 home에서 basicProfile로 이동한다', () async {
+    await HiveUtil.write(
+      key: HiveLoginBox.profileStatus,
+      value: LoginProfileStatus.beforeBasicProfile.apiValue,
+    );
+
+    expect(
+      appRedirectLogic(true, AppRoute.home.path),
+      AppRoute.basicProfile.path,
+    );
+  });
+
   test('프로필 진행 중 사용자는 home에서 onboarding으로 이동한다', () async {
     await HiveUtil.write(
       key: HiveLoginBox.profileStatus,

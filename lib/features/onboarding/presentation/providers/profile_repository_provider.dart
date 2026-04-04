@@ -9,7 +9,7 @@ import 'package:wingle/features/onboarding/domain/repository/profile_repository.
 
 /// [ProfileRepository] 구현체를 제공하는 Provider.
 final profileRepositoryProvider = Provider<ProfileRepository>((ref) {
-  const isApiReady = true;
+  const isApiReady = false;
 
   if (RepositorySelector.shouldUseMock(isApiReady: isApiReady)) {
     return MockProfileRepository();

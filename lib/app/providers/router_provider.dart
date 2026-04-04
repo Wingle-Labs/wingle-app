@@ -3,6 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 // import 'package:wingle/app/config/theme/design_system.dart';
 import 'package:wingle/app/router/app_router.dart';
+import 'package:wingle/app/router/redirect_logic.dart';
+import 'package:wingle/common/constants/hive_constants.dart';
+import 'package:wingle/common/utils/hive_util.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 part 'router_provider.g.dart';
@@ -18,7 +21,10 @@ GoRouter router(Ref ref) {
     // initialLocation: designSystemRoute.path,
     initialLocation: OnboardingRoutes.root.path,
     redirect: (context, state) {
-      return null;
+      print('redirect: ${_isLoggedIn()} ${state.uri.path}');
+      final result = appRedirectLogic(_isLoggedIn(), state.uri.path);
+      print('redirect result: $result');
+      return "$result";
     },
     routes: AppRouter.routes,
     // TODO: 에러 페이지 구현
@@ -26,4 +32,13 @@ GoRouter router(Ref ref) {
     //   return Home();
     // },
   );
+}
+
+bool _isLoggedIn() {
+  try {
+    final accessToken = HiveUtil.read(HiveLoginBox.accessToken);
+    return accessToken != null && accessToken.trim().isNotEmpty;
+  } catch (_) {
+    return false;
+  }
 }
