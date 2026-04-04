@@ -42,5 +42,6 @@
         "*.kmz": "default"
     },
     "dart.warnWhenEditingFilesOutsideWorkspace": false,
-    "editor.wordWrap": "on", // * snippet ON
+    "editor.wordWrap": "on",
+    "chatgpt.openOnStartup": false, // * snippet ON
 }

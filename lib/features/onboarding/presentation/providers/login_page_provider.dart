@@ -91,20 +91,33 @@ class LoginPage extends _$LoginPage {
         key: HiveLoginBox.refreshToken,
         value: result.refreshToken,
       );
+      await HiveUtil.write(
+        key: HiveLoginBox.profileStatus,
+        value: result.profileStatus.apiValue,
+      );
 
       if (!ref.mounted) return false;
 
-      state = state.copyWith(isLoading: false, errorMessage: null);
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: null,
+        profileStatus: result.profileStatus,
+      );
       return true;
     } on AuthException catch (e) {
       if (!ref.mounted) return false;
-      state = state.copyWith(isLoading: false, errorMessage: e.message);
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: e.message,
+        profileStatus: null,
+      );
       return false;
     } catch (_) {
       if (!ref.mounted) return false;
       state = state.copyWith(
         isLoading: false,
         errorMessage: ApiErrorMessages.loginFailed,
+        profileStatus: null,
       );
       return false;
     }

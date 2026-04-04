@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:wingle/common/constants/api_error_messages.dart';
 import 'package:wingle/features/auth/domain/exceptions/auth_exception.dart';
+import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 import 'package:wingle/features/auth/domain/models/login_result.dart';
 import 'package:wingle/features/auth/domain/models/password.dart';
 import 'package:wingle/features/auth/domain/models/phone_number.dart';
@@ -15,6 +16,16 @@ class MockLoginRepository implements LoginRepository {
   /// 테스트용 비밀번호
   static const String mockPassword = '!abc1010';
 
+  /// 기본 프로필 진행 상태
+  static const LoginProfileStatus defaultProfileStatus =
+      LoginProfileStatus.firstApprovalApproved;
+
+  /// 로그인 시 반환할 프로필 진행 상태
+  final LoginProfileStatus profileStatus;
+
+  /// 생성자
+  const MockLoginRepository({this.profileStatus = defaultProfileStatus});
+
   @override
   Future<LoginResult> login({
     required PhoneNumber phoneNumber,
@@ -27,9 +38,10 @@ class MockLoginRepository implements LoginRepository {
       throw const AuthException(ApiErrorMessages.invalidLoginCredentials);
     }
 
-    return const LoginResult(
+    return LoginResult(
       accessToken: 'mock-access-token',
       refreshToken: 'mock-refresh-token',
+      profileStatus: profileStatus,
     );
   }
 }

@@ -12,6 +12,7 @@ import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/constants/route_constants.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
+import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 import 'package:wingle/features/onboarding/presentation/components/button/change_phone_number_button.dart';
 import 'package:wingle/features/onboarding/presentation/components/button/reset_password_button.dart';
 import 'package:wingle/features/onboarding/presentation/components/button/signup_button.dart';
@@ -48,7 +49,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
             if (isSuccess) {
               DefaultToast.show(context, 'onboarding.login.toast.success');
-              context.go(AppRoute.home.path);
+              final nextPath = _nextPathForStatus(
+                ref.read(loginPageProvider).profileStatus,
+              );
+              context.go(nextPath);
               return;
             }
 
@@ -131,5 +135,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         ],
       ),
     );
+  }
+
+  String _nextPathForStatus(LoginProfileStatus? profileStatus) {
+    if (profileStatus?.isApproved ?? true) {
+      return AppRoute.home.path;
+    }
+
+    return AppRoute.onboarding.path;
   }
 }

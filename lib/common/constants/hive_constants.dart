@@ -56,6 +56,9 @@ class HiveLoginBox implements HiveBox {
   /// 리프레시 토큰
   static final refreshToken = _instance.create('refresh_token');
 
+  /// 로그인 시 프로필 진행 상태
+  static final profileStatus = _instance.create('profile_status');
+
   /// 내부 싱글턴 인스턴스 (HiveKey가 Box에 접근하기 위함)
   static final HiveLoginBox _instance = HiveLoginBox();
 }
