@@ -1,16 +1,40 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:widgetbook/widgetbook.dart';
+import 'package:wingle/app/config/app_localization_wrapper.dart';
 import 'package:wingle/app/config/theme/themes.dart';
+import 'package:wingle/app/providers/device_uuid_provider.dart';
+import 'package:wingle/common/constants/env_constants.dart';
+import 'package:wingle/common/utils/env_util.dart';
+import 'package:wingle/common/utils/hive_util.dart';
+import 'package:wingle/common/utils/secure_key_manager.dart';
 import 'package:wingle/widgetbook/foundations/color_page.dart';
 import 'package:wingle/widgetbook/foundations/padding_page.dart';
 import 'package:wingle/widgetbook/foundations/radius_page.dart';
 import 'package:wingle/widgetbook/foundations/size_page.dart';
 import 'package:wingle/widgetbook/foundations/spacing_page.dart';
+import 'package:wingle/widgetbook/foundations/typography_page.dart';
+import 'package:wingle/widgetbook/screens/widgetbook_screen_folders.dart';
 
-import 'widgetbook/foundations/typography_page.dart';
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  await SecureKeyManager.instance.initialize();
+  await Hive.initFlutter();
+  await EnvUtil.loadAll(EnvConstants.envs);
+  await HiveUtil.initialize(SecureKeyManager.instance.cipher);
 
-void main() {
-  runApp(const WingleWidgetbook());
+  final container = ProviderContainer();
+  await container.read(deviceUuidProvider.notifier).initialize();
+
+  runApp(
+    UncontrolledProviderScope(
+      container: container,
+      child: AppLocalizationWrapper(child: const WingleWidgetbook()),
+    ),
+  );
 }
 
 /// Widgetbook 앱
@@ -94,6 +118,7 @@ class WingleWidgetbook extends StatelessWidget {
             ),
           ],
         ),
+        buildScreenFolder(),
       ],
       lightTheme: Themes.light,
       darkTheme: Themes.dark,
