@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_floating_button.dart';
 import 'package:wingle/app/config/theme/components/cards/default_card.dart';
 import 'package:wingle/app/config/theme/components/pickers/date_picker.dart';
-import 'package:wingle/app/config/theme/components/texts/default_intruction.dart';
+import 'package:wingle/app/config/theme/components/texts/default_page_header.dart';
 import 'package:wingle/app/config/theme/components/wrappers/scrollable_scaffold.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
@@ -24,7 +24,7 @@ class _AgePickPageState extends ConsumerState<AgePickPage> {
     return ScrollableScaffold(
       title: 'onboarding.age.title',
       body: <Widget>[
-        DefaultInstruction('onboarding.age.instruction'),
+        const DefaultPageHeader(title: 'onboarding.age.instruction'),
         DefaultCard(
           child: Column(
             children: [

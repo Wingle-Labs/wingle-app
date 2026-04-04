@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_filled_button.dart';
 import 'package:wingle/app/config/theme/components/dividers/default_vertical_divider.dart';
 import 'package:wingle/app/config/theme/components/states/default_toast.dart';
-import 'package:wingle/app/config/theme/components/texts/default_intruction.dart';
-import 'package:wingle/app/config/theme/components/texts/default_text.dart';
+import 'package:wingle/app/config/theme/components/texts/default_page_header.dart';
+import 'package:wingle/app/config/theme/components/texts/text_scale_policy.dart';
 import 'package:wingle/app/config/theme/components/wrappers/constrained_scrollable_scaffold.dart';
 import 'package:wingle/app/config/theme/components/wrappers/default_app_bar.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
@@ -68,21 +68,17 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       child: Column(
         crossAxisAlignment: .start,
         children: [
-          // ! 로그인 안내
-          Container(
-            padding: .symmetric(horizontal: AppPadding.scaffold),
-            margin: .only(top: AppPadding.vertical, bottom: AppPadding.card),
-            child: Column(
-              crossAxisAlignment: .start,
-              children: [
-                DefaultInstruction('onboarding.login.title'),
-                DefaultText(
-                  'onboarding.login.instruction',
-                  style: typography.bodySub,
-                  policy: .cappedMedium,
-                ),
-              ],
+          DefaultPageHeader(
+            title: 'onboarding.login.title',
+            subtitle: 'onboarding.login.instruction',
+            padding: .only(
+              top: AppPadding.vertical,
+              bottom: AppPadding.card,
+              left: AppPadding.scaffold,
+              right: AppPadding.scaffold,
             ),
+            subtitleStyle: typography.bodySub,
+            subtitlePolicy: TextScalePolicy.cappedMedium,
           ),
 
           // ! 로그인 정보 입력

@@ -21,10 +21,7 @@ GoRouter router(Ref ref) {
     // initialLocation: designSystemRoute.path,
     initialLocation: OnboardingRoutes.root.path,
     redirect: (context, state) {
-      print('redirect: ${_isLoggedIn()} ${state.uri.path}');
-      final result = appRedirectLogic(_isLoggedIn(), state.uri.path);
-      print('redirect result: $result');
-      return "$result";
+      return appRedirectLogic(_isLoggedIn(), state.uri.path);
     },
     routes: AppRouter.routes,
     // TODO: 에러 페이지 구현

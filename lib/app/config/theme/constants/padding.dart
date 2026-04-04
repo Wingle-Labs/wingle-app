@@ -53,4 +53,7 @@ class AppPadding {
 
   /// 작은 패딩
   static const double xxs = 4;
+
+  /// 페이지 헤더 외부 패딩
+  static const double pageHeaderExternal = 20;
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:wingle/app/config/theme/components/cards/guide_card.dart';
-import 'package:wingle/app/config/theme/components/texts/default_intruction.dart';
-import 'package:wingle/app/config/theme/components/texts/default_text.dart';
+import 'package:wingle/app/config/theme/components/texts/default_page_header.dart';
+import 'package:wingle/app/config/theme/components/texts/text_scale_policy.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/app/config/theme/text/app_typography_token.dart';
 
@@ -40,21 +40,15 @@ const onboardingCarouselItems = [
     image: AssetImage('assets/images/onboarding/secure.png'),
   ),
   OnboardingCarouselItem(
-    content: Column(
-      mainAxisAlignment: .center,
+    content: DefaultPageHeader(
+      title: 'onboarding.carousel.value.title',
+      subtitle: 'onboarding.carousel.value.message',
+      titleTextAlign: .center,
+      subtitleTextAlign: .center,
+      titleStyle: AppTypographyToken.nBody16,
+      titlePolicy: TextScalePolicy.system,
+      padding: .zero,
       spacing: AppSpacing.sm,
-      children: [
-        DefaultText(
-          'onboarding.carousel.value.title',
-          textAlign: .center,
-          style: AppTypographyToken.nBody16,
-        ),
-        DefaultInstruction(
-          'onboarding.carousel.value.message',
-          textAlign: .center,
-          padding: .zero,
-        ),
-      ],
     ),
     image: AssetImage('assets/images/logo.png'),
   ),

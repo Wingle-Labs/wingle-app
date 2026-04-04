@@ -7,6 +7,7 @@ import 'package:wingle/common/constants/hive_constants.dart';
 import 'package:wingle/common/constants/route_constants.dart';
 import 'package:wingle/common/utils/hive_util.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
+import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 void main() {
   late Directory tempDir;
@@ -51,7 +52,7 @@ void main() {
 
     expect(
       appRedirectLogic(true, AppRoute.home.path),
-      AppRoute.basicProfile.path,
+      OnboardingRoutes.basicProfile.fullPath,
     );
   });
 

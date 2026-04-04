@@ -22,9 +22,7 @@ class BasicProfileNicknameNotifier extends Notifier<BasicProfileNicknameModel> {
     state = state.copyWith(isLoading: true, errorMessage: null);
 
     try {
-      print("loadNickname");
       final repository = ref.read(profileRepositoryProvider);
-      print("repository: $repository");
       final nickname = await repository.fetchRandomNickname();
 
       if (!ref.mounted) return;
@@ -35,7 +33,6 @@ class BasicProfileNicknameNotifier extends Notifier<BasicProfileNicknameModel> {
         errorMessage: null,
       );
     } catch (_) {
-      print("catch block");
       if (!ref.mounted) return;
 
       state = state.copyWith(

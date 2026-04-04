@@ -38,7 +38,6 @@ LoginProfileStatus? _readLoginProfileStatus() {
   try {
     final rawValue = HiveUtil.read(HiveLoginBox.profileStatus);
     if (rawValue == null) return null;
-    print('rawValue: $rawValue');
     return LoginProfileStatus.fromApiValue(rawValue);
   } catch (_) {
     return null;

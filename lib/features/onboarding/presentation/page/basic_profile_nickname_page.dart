@@ -5,10 +5,11 @@ import 'package:wingle/app/config/theme/components/buttons/default_floating_butt
 import 'package:wingle/app/config/theme/components/buttons/default_text_button.dart';
 import 'package:wingle/app/config/theme/components/cards/default_card.dart';
 import 'package:wingle/app/config/theme/components/states/animation_progress_indicator.dart';
-import 'package:wingle/app/config/theme/components/texts/default_intruction.dart';
+import 'package:wingle/app/config/theme/components/texts/default_page_header.dart';
 import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/components/wrappers/constrained_scrollable_scaffold.dart';
 import 'package:wingle/app/config/theme/components/wrappers/default_app_bar.dart';
+import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
@@ -43,6 +44,8 @@ class _BasicProfileNicknamePageState
     final notifier = ref.read(basicProfileNicknameProvider.notifier);
 
     return ConstrainedScrollableScaffold(
+      textScalePolicy: .cappedLarge,
+      padding: .zero,
       appBar: const DefaultAppBar(),
       floatingActionButton: DefaultFloatingButton(
         label: 'common.button.next',
@@ -55,49 +58,57 @@ class _BasicProfileNicknamePageState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: AppSpacing.lg),
-          DefaultInstruction(
-            'onboarding.basicProfile.nickname.title',
-            padding: EdgeInsets.zero,
+          DefaultPageHeader(
+            title: 'onboarding.basicProfile.nickname.title',
+            subtitle: 'onboarding.basicProfile.nickname.subtitle',
+            padding: .only(
+              top: AppPadding.vertical,
+              left: AppPadding.scaffold,
+              right: AppPadding.scaffold,
+              bottom: AppPadding.pageHeaderExternal,
+            ),
+            subtitleStyle: typography.bodySub,
+            subtitleColor: colors.textAlternative,
           ),
-          const SizedBox(height: AppSpacing.instructionInternal),
-          DefaultText(
-            'onboarding.basicProfile.nickname.subtitle',
-            style: typography.bodySub,
-            color: colors.textAlternative,
-            policy: .cappedLarge,
-          ),
-          const SizedBox(height: AppSpacing.xl),
-          DefaultCard(
-            child: state.shouldShowLoading
-                ? const Center(child: AnimationProgressIndicator())
-                : Align(
-                    alignment: Alignment.centerLeft,
-                    child: DefaultText(
-                      state.nickname.isNotEmpty
-                          ? state.nickname
-                          : state.errorMessage ?? '',
-                      style: typography.body.copyWith(
-                        color: colors.textNeutral,
-                      ),
-                      isTranslationKey: state.nickname.isEmpty,
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: AppPadding.scaffold,
+              vertical: AppPadding.card,
+            ),
+            child: Column(
+              children: [
+                DefaultCard(
+                  child: state.shouldShowLoading
+                      ? const Center(child: AnimationProgressIndicator())
+                      : Align(
+                          alignment: Alignment.centerLeft,
+                          child: DefaultText(
+                            state.nickname.isNotEmpty
+                                ? state.nickname
+                                : state.errorMessage ?? '',
+                            style: typography.body.copyWith(
+                              color: colors.textNeutral,
+                            ),
+                            isTranslationKey: state.nickname.isEmpty,
+                          ),
+                        ),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: IntrinsicWidth(
+                    child: DefaultTextButton(
+                      label: 'onboarding.basicProfile.nickname.button.change',
+                      leadingIcon: Icons.autorenew_rounded,
+                      onPressed: state.isLoading
+                          ? null
+                          : () => notifier.refreshNickname(),
+                      isDisabled: state.isLoading,
+                      foregroundColor: colors.textNeutral,
+                      textStyle: typography.buttonSmall,
                     ),
                   ),
-          ),
-          const SizedBox(height: AppSpacing.xxs),
-          Align(
-            alignment: Alignment.centerRight,
-            child: IntrinsicWidth(
-              child: DefaultTextButton(
-                label: 'onboarding.basicProfile.nickname.button.change',
-                leadingIcon: Icons.autorenew_rounded,
-                onPressed: state.isLoading
-                    ? null
-                    : () => notifier.refreshNickname(),
-                isDisabled: state.isLoading,
-                foregroundColor: colors.textNeutral,
-                textStyle: typography.buttonSmall,
-              ),
+                ),
+              ],
             ),
           ),
           if (state.errorMessage != null && state.nickname.isNotEmpty) ...[
