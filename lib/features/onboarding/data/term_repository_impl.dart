@@ -51,23 +51,23 @@ class TermRepositoryImpl implements TermRepository {
     required String uuid,
     required List<AgreementItemModel> agreements,
   }) async {
-    final uri = Uri.parse('$_baseUrl/api/v1/auth/signup/terms');
+    final uri = Uri.parse('$_baseUrl${ApiEndpoints.terms}');
 
     final body = {
-      "UUID": uuid,
-      "agreements": agreements.map((e) {
+      'UUID': uuid,
+      'agreements': agreements.map((e) {
         return {
-          "Id": e.id,
-          "version": e.version,
-          "isRequired": e.isRequired,
-          "agreed": e.isChecked,
+          'Id': e.id,
+          'version': e.version,
+          'isRequired': e.isRequired,
+          'agreed': e.isChecked,
         };
       }).toList(),
     };
 
     final response = await _client.post(
       uri,
-      headers: {"Content-Type": "application/json"},
+      headers: {'Content-Type': 'application/json'},
       body: jsonEncode(body),
     );
 

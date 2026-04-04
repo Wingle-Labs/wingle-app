@@ -62,25 +62,34 @@ class _PassWebViewPageState extends ConsumerState<PassWebViewPage> {
           return;
         }
 
-        final response = await ref
-            .read(passVerificationProvider.notifier)
-            .completeVerification(impUid);
+        try {
+          final response = await ref
+              .read(passVerificationProvider.notifier)
+              .completeVerification(impUid);
 
-        final user = response.identityVerification.verifiedCustomer;
+          final user = response.identityVerification.verifiedCustomer;
 
-        if (!context.mounted) return;
-        if (!user.isValid) {
+          if (!context.mounted) return;
+          if (!user.isValid) {
+            DefaultToast.show(
+              context,
+              'onboarding.pass.webview.error.verificationFailed',
+            );
+            context.pop();
+            return;
+          }
+
+          context.pushReplacementNamed(
+            OnboardingRoutes.onboardingPassword.name,
+            extra: user.phoneNumber!,
+          );
+        } catch (_) {
+          if (!context.mounted) return;
           DefaultToast.show(
             context,
             'onboarding.pass.webview.error.verificationFailed',
           );
           context.pop();
-          return;
-        } else {
-          context.pushReplacementNamed(
-            OnboardingRoutes.onboardingPassword.name,
-            extra: user,
-          );
         }
       },
     );

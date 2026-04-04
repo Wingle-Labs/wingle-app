@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wingle/app/providers/device_uuid_provider.dart';
 import 'package:wingle/features/onboarding/presentation/models/onboarding_password_input_model.dart';
+import 'package:wingle/features/onboarding/presentation/providers/signup_repository_provider.dart';
 
 part 'onboarding_password_input_page_provider.g.dart';
 
@@ -42,17 +43,29 @@ class OnboardingPasswordInputPage extends _$OnboardingPasswordInputPage {
 
   /// 회원가입 진행
   Future<bool> submit() async {
-    // TODO: 회원가입 로직 구현
+    if (!state.canSignUp) return false;
+
     updateIsLoading(true);
-    await Future.delayed(const Duration(seconds: 1));
-    final result = await Future<bool>.value(true);
-    updateIsLoading(false);
-    return result;
+
+    try {
+      final repository = ref.read(signupRepositoryProvider);
+      await repository.submitPassword(
+        uuid: state.uuid,
+        password: state.password,
+      );
+      return true;
+    } catch (_) {
+      return false;
+    } finally {
+      if (ref.mounted) {
+        updateIsLoading(false);
+      }
+    }
   }
 
   /// 상태 초기화
   void reset() {
-    final uuid = ref.watch(deviceUuidProvider);
+    final uuid = ref.read(deviceUuidProvider);
     state = OnboardingPasswordInputModel(uuid: uuid);
   }
 }

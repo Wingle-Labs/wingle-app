@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wingle/features/auth/presentation/phone_auth.dart';
 import 'package:wingle/features/auth/presentation/phone_otp.dart';
-import 'package:wingle/features/onboarding/domain/model/pass/portone_verified_customer_dto.dart';
 import 'package:wingle/features/onboarding/presentation/page/age_pick.page.dart';
 import 'package:wingle/features/onboarding/presentation/page/agreement_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/login_page.dart';
@@ -86,7 +85,7 @@ final List<GoRoute> signUpRoutes = [
     name: OnboardingRoutes.onboardingPassword.name,
     path: OnboardingRoutes.onboardingPassword.path,
     builder: (context, state) =>
-        OnboardingPasswordPage(user: state.extra as PortoneVerifiedCustomerDto),
+        OnboardingPasswordPage(phoneNumber: state.extra as String),
   ),
   GoRoute(
     name: OnboardingRoutes.age.name,

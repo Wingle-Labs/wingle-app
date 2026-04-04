@@ -8,7 +8,6 @@ import 'package:wingle/app/config/theme/components/texts/default_intruction.dart
 import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/components/wrappers/scrollable_scaffold.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
-import 'package:wingle/features/onboarding/domain/model/pass/portone_verified_customer_dto.dart';
 import 'package:wingle/features/onboarding/presentation/components/input/password_input_field.dart';
 import 'package:wingle/features/onboarding/presentation/components/input/phone_number_read_only_field.dart';
 import 'package:wingle/features/onboarding/presentation/providers/onboarding_password_input_page_provider.dart';
@@ -16,11 +15,11 @@ import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// Onboarding에서 Password를 입력하는 페이지
 class OnboardingPasswordPage extends ConsumerStatefulWidget {
-  /// 인증된 유저 정보 객체
-  final PortoneVerifiedCustomerDto user;
+  /// 인증된 유저 전화번호
+  final String phoneNumber;
 
   /// 생성자
-  const OnboardingPasswordPage({super.key, required this.user});
+  const OnboardingPasswordPage({super.key, required this.phoneNumber});
 
   @override
   ConsumerState<OnboardingPasswordPage> createState() =>
@@ -42,9 +41,7 @@ class _OnboardingPasswordPageState
         DefaultInstruction('onboarding.password.title', textAlign: .left),
         DefaultText('onboarding.password.instruction', policy: .cappedLarge),
         SizedBox(height: AppSpacing.xl),
-        PhoneNumberReadOnlyField(
-          phoneNumber: widget.user.phoneNumber.toString(),
-        ),
+        PhoneNumberReadOnlyField(phoneNumber: widget.phoneNumber),
         SizedBox(height: AppSpacing.lg),
         PasswordInputField(
           value: state.password,
