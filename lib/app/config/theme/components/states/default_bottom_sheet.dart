@@ -9,7 +9,7 @@ import 'package:wingle/common/extensions/context_colors.dart';
 /// 기본 하단 시트
 class DefaultBottomSheet {
   /// 하단 시트를 표시합니다.
-  static void show(
+  static Future<T?> show<T>(
     BuildContext context, {
     required Widget body,
     required VoidCallback onMain,
@@ -20,7 +20,7 @@ class DefaultBottomSheet {
   }) {
     final color = context.colors;
 
-    showModalBottomSheet(
+    return showModalBottomSheet<T>(
       useSafeArea: true,
       context: context,
       isDismissible: false,

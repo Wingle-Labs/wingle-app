@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -5,14 +7,17 @@ import 'package:wingle/app/config/theme/components/buttons/default_floating_butt
 import 'package:wingle/app/config/theme/components/buttons/default_text_button.dart';
 import 'package:wingle/app/config/theme/components/cards/default_card.dart';
 import 'package:wingle/app/config/theme/components/states/animation_progress_indicator.dart';
+import 'package:wingle/app/config/theme/components/states/default_bottom_sheet.dart';
 import 'package:wingle/app/config/theme/components/texts/default_page_header.dart';
 import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/components/wrappers/constrained_scrollable_scaffold.dart';
 import 'package:wingle/app/config/theme/components/wrappers/default_app_bar.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
+import 'package:wingle/common/constants/hive_constants.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
+import 'package:wingle/common/utils/hive_util.dart';
 import 'package:wingle/features/onboarding/presentation/providers/basic_profile_nickname_provider.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
@@ -28,6 +33,8 @@ class BasicProfileNicknamePage extends ConsumerStatefulWidget {
 
 class _BasicProfileNicknamePageState
     extends ConsumerState<BasicProfileNicknamePage> {
+  bool _isLogoutSheetShowing = false;
+
   @override
   void initState() {
     super.initState();
@@ -44,9 +51,16 @@ class _BasicProfileNicknamePageState
     final notifier = ref.read(basicProfileNicknameProvider.notifier);
 
     return ConstrainedScrollableScaffold(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        unawaited(_showLogoutConfirmation());
+      },
       textScalePolicy: .cappedLarge,
       padding: .zero,
-      appBar: const DefaultAppBar(),
+      appBar: DefaultAppBar(
+        child: DefaultText('프로필 입력', style: typography.main),
+      ),
       floatingActionButton: DefaultFloatingButton(
         label: 'common.button.next',
         isLoading: state.shouldShowLoading,
@@ -122,5 +136,45 @@ class _BasicProfileNicknamePageState
         ],
       ),
     );
+  }
+
+  Future<void> _showLogoutConfirmation() async {
+    if (_isLogoutSheetShowing) return;
+    _isLogoutSheetShowing = true;
+
+    try {
+      final colors = context.colors;
+      final typography = context.typography;
+
+      await DefaultBottomSheet.show<void>(
+        context,
+        isHandleContained: true,
+        body: DefaultPageHeader(
+          title: 'onboarding.basicProfile.nickname.bottomSheet.title',
+          subtitle: 'onboarding.basicProfile.nickname.bottomSheet.description',
+          padding: EdgeInsets.zero,
+          subtitleStyle: typography.bodySub,
+          subtitleColor: colors.textAlternative,
+        ),
+        onMain: () {
+          context.pop();
+        },
+        mainLabel: 'onboarding.basicProfile.nickname.bottomSheet.mainLabel',
+        onSub: () {
+          context.pop();
+          unawaited(_logoutAndGoToLogin());
+        },
+        subLabel: 'onboarding.basicProfile.nickname.bottomSheet.subLabel',
+      );
+    } finally {
+      _isLogoutSheetShowing = false;
+    }
+  }
+
+  Future<void> _logoutAndGoToLogin() async {
+    await HiveUtil.clearBox(HiveConstants.userLoginInfo);
+    if (!mounted) return;
+
+    context.goNamed(OnboardingRoutes.login.name);
   }
 }

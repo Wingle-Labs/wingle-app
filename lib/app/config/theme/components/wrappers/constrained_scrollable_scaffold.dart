@@ -30,6 +30,12 @@ class ConstrainedScrollableScaffold extends ConsumerWidget {
   /// 텍스트 크기 정책
   final TextScalePolicy textScalePolicy;
 
+  /// PopScope canPop 여부
+  final bool canPop;
+
+  /// PopScope onPopInvokedWithResult 콜백
+  final void Function(bool, Object?)? onPopInvokedWithResult;
+
   /// 스크롤 가능한 제약형 Scaffold를 생성합니다.
   const ConstrainedScrollableScaffold({
     super.key,
@@ -39,41 +45,49 @@ class ConstrainedScrollableScaffold extends ConsumerWidget {
     this.padding,
     this.bottomNavigationBar,
     this.textScalePolicy = TextScalePolicy.system,
+    this.canPop = true,
+    this.onPopInvokedWithResult,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return TextScaleWrapper(
       policy: textScalePolicy,
-      child: Scaffold(
-        appBar: appBar,
-        backgroundColor: context.colors.backgroundNormal,
-        body: LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  // 컨텐츠의 최소 높이를 화면 높이로 맞춘다.
-                  // 내용이 적을 경우에도 하단이 떠 보이지 않게 한다.
-                  minHeight: constraints.maxHeight,
-                ),
-                child: IntrinsicHeight(
-                  child: Padding(
-                    padding:
-                        padding ?? .symmetric(horizontal: AppPadding.scaffold),
-                    child: child,
+      child: PopScope(
+        canPop: canPop,
+        onPopInvokedWithResult: onPopInvokedWithResult,
+        child: Scaffold(
+          appBar: appBar,
+          backgroundColor: context.colors.backgroundNormal,
+          body: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    // 컨텐츠의 최소 높이를 화면 높이로 맞춘다.
+                    // 내용이 적을 경우에도 하단이 떠 보이지 않게 한다.
+                    minHeight: constraints.maxHeight,
+                  ),
+                  child: IntrinsicHeight(
+                    child: Padding(
+                      padding:
+                          padding ??
+                          .symmetric(horizontal: AppPadding.scaffold),
+                      child: child,
+                    ),
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
+          floatingActionButtonLocation: .centerFloat,
+          floatingActionButton: floatingActionButton != null
+              ? SmoothRectWrapper(child: floatingActionButton as Widget)
+              : null,
+          floatingActionButtonAnimator:
+              FloatingActionButtonAnimator.noAnimation,
+          bottomNavigationBar: bottomNavigationBar,
         ),
-        floatingActionButtonLocation: .centerFloat,
-        floatingActionButton: floatingActionButton != null
-            ? SmoothRectWrapper(child: floatingActionButton as Widget)
-            : null,
-        floatingActionButtonAnimator: FloatingActionButtonAnimator.noAnimation,
-        bottomNavigationBar: bottomNavigationBar,
       ),
     );
   }

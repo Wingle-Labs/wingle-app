@@ -117,6 +117,12 @@
         "subtitle": "프로필에서 보여지는 이름이에요\n마이페이지에서 언제든 변경이 가능해요",
         "button": {
           "change": "닉네임 변경"
+        },
+        "bottomSheet": {
+          "title": "로그아웃할까요?",
+          "description": "로그아웃하면 다시 로그인 화면으로 돌아가요.",
+          "mainLabel": "계속하기",
+          "subLabel": "로그아웃"
         }
       }
     },

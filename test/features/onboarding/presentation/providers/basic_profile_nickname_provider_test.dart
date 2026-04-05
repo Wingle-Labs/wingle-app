@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wingle/common/constants/api_error_messages.dart';
+import 'package:wingle/features/onboarding/data/mock/mock_profile_repository.dart';
 import 'package:wingle/features/onboarding/domain/model/profile/residence_code.dart';
 import 'package:wingle/features/onboarding/domain/repository/profile_repository.dart';
 import 'package:wingle/features/onboarding/presentation/providers/basic_profile_nickname_provider.dart';
@@ -101,7 +102,7 @@ void main() {
       final container = ProviderContainer(
         overrides: [
           profileRepositoryProvider.overrideWithValue(
-            _QueueProfileRepository(['달콤한 사탕 멜론']),
+            _QueueProfileRepository([MockProfileRepository.mockNickname]),
           ),
         ],
       );
@@ -119,7 +120,7 @@ void main() {
 
       final state = container.read(basicProfileNicknameProvider);
 
-      expect(state.nickname, '달콤한 사탕 멜론');
+      expect(state.nickname, MockProfileRepository.mockNickname);
       expect(state.isLoading, isFalse);
       expect(state.errorMessage, isNull);
     });

@@ -23,7 +23,7 @@ void main() {
       final repository = MockProfileRepository();
 
       await repository.submitBasicProfile(
-        nickname: '달콤한 사탕 멜론',
+        nickname: MockProfileRepository.mockNickname,
         residence: const ResidenceCode(
           level1: '370',
           level2: '37080',
@@ -52,7 +52,7 @@ void main() {
         expect(request.method, 'GET');
         expect(request.url.path, '/api/v1/signup/nickname/random');
         return http.Response.bytes(
-          utf8.encode('{"nickname":"달콤한 사탕 멜론"}'),
+          utf8.encode('{"nickname":"${MockProfileRepository.mockNickname}"}'),
           200,
           headers: {'content-type': 'application/json; charset=utf-8'},
         );
@@ -65,7 +65,7 @@ void main() {
 
       final nickname = await repository.fetchRandomNickname();
 
-      expect(nickname, '달콤한 사탕 멜론');
+      expect(nickname, MockProfileRepository.mockNickname);
     });
 
     test('기본 프로필 정보를 등록한다', () async {
@@ -84,7 +84,7 @@ void main() {
       );
 
       await repository.submitBasicProfile(
-        nickname: '달콤한 사탕 멜론',
+        nickname: MockProfileRepository.mockNickname,
         residence: const ResidenceCode(
           level1: '370',
           level2: '37080',
@@ -95,7 +95,7 @@ void main() {
       );
 
       expect(body, {
-        'nickname': '달콤한 사탕 멜론',
+        'nickname': MockProfileRepository.mockNickname,
         'residence': {'level1': '370', 'level2': '37080', 'level3': '37080412'},
         'height': 170,
         'bodyType': '보통',

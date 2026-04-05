@@ -8,6 +8,7 @@ import 'package:http/testing.dart';
 import 'package:wingle/common/constants/hive_constants.dart';
 import 'package:wingle/common/utils/hive_util.dart';
 import 'package:wingle/features/onboarding/data/file_repository_impl.dart';
+import 'package:wingle/features/onboarding/data/mock/mock_profile_repository.dart';
 import 'package:wingle/features/onboarding/data/profile_repository_impl.dart';
 import 'package:wingle/features/onboarding/data/question_repository_impl.dart';
 import 'package:wingle/features/onboarding/data/signup_repository_impl.dart';
@@ -62,7 +63,7 @@ void main() {
       expect(request.method, 'GET');
       expect(request.url.path, '/api/v1/signup/nickname/random');
       return http.Response.bytes(
-        utf8.encode('{"nickname":"달콤한 사탕 멜론"}'),
+        utf8.encode('{"nickname":"${MockProfileRepository.mockNickname}"}'),
         200,
         headers: {'content-type': 'application/json; charset=utf-8'},
       );
@@ -72,7 +73,7 @@ void main() {
 
     final nickname = await repository.fetchRandomNickname();
 
-    expect(nickname, '달콤한 사탕 멜론');
+    expect(nickname, MockProfileRepository.mockNickname);
   });
 
   test('ProfileRepositoryImpl은 인증 헤더를 붙여 기본 프로필을 등록한다', () async {
@@ -89,7 +90,7 @@ void main() {
     final repository = ProfileRepositoryImpl(client: client, baseUrl: baseUrl);
 
     await repository.submitBasicProfile(
-      nickname: '달콤한 사탕 멜론',
+      nickname: MockProfileRepository.mockNickname,
       residence: const ResidenceCode(
         level1: '370',
         level2: '37080',
@@ -100,7 +101,7 @@ void main() {
     );
 
     expect(body, {
-      'nickname': '달콤한 사탕 멜론',
+      'nickname': MockProfileRepository.mockNickname,
       'residence': {'level1': '370', 'level2': '37080', 'level3': '37080412'},
       'height': 170,
       'bodyType': '보통',
