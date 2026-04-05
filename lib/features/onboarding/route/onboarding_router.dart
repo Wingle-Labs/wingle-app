@@ -24,13 +24,6 @@ final GoRoute onboardingRoute = GoRoute(
 
 /// ! 온보딩 하위 라우트 목록
 final List<GoRoute> onboardingRoutes = [
-  // 기본 프로필 정보 등록
-  GoRoute(
-    name: OnboardingRoutes.basicProfile.name,
-    path: OnboardingRoutes.basicProfile.path,
-    builder: (context, state) => const BasicProfileNicknamePage(),
-  ),
-
   // 로그인
   GoRoute(
     name: OnboardingRoutes.login.name,
@@ -38,10 +31,23 @@ final List<GoRoute> onboardingRoutes = [
     builder: (context, state) => LoginPage(),
     routes: loginRoutes,
   ),
+
+  // 회원가입
+  GoRoute(
+    name: OnboardingRoutes.agreement.name,
+    path: OnboardingRoutes.agreement.path,
+    builder: (context, state) => AgreementPage(),
+  ),
 ];
 
 /// ! 로그인 하위 라우트 목록
 final List<GoRoute> loginRoutes = [
+  // 기본 프로필 정보 등록
+  GoRoute(
+    name: OnboardingRoutes.basicProfile.name,
+    path: OnboardingRoutes.basicProfile.path,
+    builder: (context, state) => const BasicProfileNicknamePage(),
+  ),
   GoRoute(
     name: OnboardingRoutes.resetPassword.name,
     path: OnboardingRoutes.resetPassword.path,

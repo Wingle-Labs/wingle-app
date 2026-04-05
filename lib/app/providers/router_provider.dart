@@ -6,7 +6,7 @@ import 'package:wingle/app/router/app_router.dart';
 import 'package:wingle/app/router/redirect_logic.dart';
 import 'package:wingle/common/constants/hive_constants.dart';
 import 'package:wingle/common/utils/hive_util.dart';
-import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
+import 'package:wingle/features/home/route/home_routes.dart';
 
 part 'router_provider.g.dart';
 
@@ -19,7 +19,7 @@ GoRouter router(Ref ref) {
   return GoRouter(
     navigatorKey: rootNavigatorKey,
     // initialLocation: designSystemRoute.path,
-    initialLocation: OnboardingRoutes.root.path,
+    initialLocation: HomeRoutes.root.path,
     redirect: (context, state) {
       return appRedirectLogic(_isLoggedIn(), state.uri.path);
     },
