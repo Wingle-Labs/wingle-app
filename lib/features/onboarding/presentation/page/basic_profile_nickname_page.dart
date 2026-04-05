@@ -11,7 +11,7 @@ import 'package:wingle/app/config/theme/components/states/default_bottom_sheet.d
 import 'package:wingle/app/config/theme/components/texts/default_page_header.dart';
 import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/components/wrappers/constrained_scrollable_scaffold.dart';
-import 'package:wingle/app/config/theme/components/wrappers/default_app_bar.dart';
+import 'package:wingle/app/config/theme/components/wrappers/profile_input_app_bar.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/constants/hive_constants.dart';
@@ -58,15 +58,13 @@ class _BasicProfileNicknamePageState
       },
       textScalePolicy: .cappedLarge,
       padding: .zero,
-      appBar: DefaultAppBar(
-        child: DefaultText('프로필 입력', style: typography.main),
-      ),
+      appBar: const ProfileInputAppBar(),
       floatingActionButton: DefaultFloatingButton(
         label: 'common.button.next',
         isLoading: state.shouldShowLoading,
         disabled: !state.canContinue,
         onPressed: () {
-          context.pushNamed(OnboardingRoutes.age.name);
+          context.pushNamed(OnboardingRoutes.basicProfileResidence.name);
         },
       ),
       child: Column(

@@ -9,7 +9,9 @@ import 'package:wingle/features/auth/presentation/phone_otp.dart';
 import 'package:wingle/features/home/route/home_router.dart';
 import 'package:wingle/features/onboarding/presentation/page/age_pick.page.dart';
 import 'package:wingle/features/onboarding/presentation/page/agreement_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/basic_profile_height_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_nickname_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/basic_profile_residence_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/login_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/onboarding_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/onboarding_password_page.dart';
@@ -90,6 +92,16 @@ class _WidgetbookPreviewAppState extends State<WidgetbookPreviewApp> {
           path: OnboardingRoutes.basicProfile.fullPath,
           name: OnboardingRoutes.basicProfile.name,
           builder: (context, state) => const BasicProfileNicknamePage(),
+        ),
+        GoRoute(
+          path: OnboardingRoutes.basicProfileResidence.fullPath,
+          name: OnboardingRoutes.basicProfileResidence.name,
+          builder: (context, state) => const BasicProfileResidencePage(),
+        ),
+        GoRoute(
+          path: OnboardingRoutes.basicProfileHeight.fullPath,
+          name: OnboardingRoutes.basicProfileHeight.name,
+          builder: (context, state) => const BasicProfileHeightPage(),
         ),
         GoRoute(
           path: OnboardingRoutes.login.fullPath,

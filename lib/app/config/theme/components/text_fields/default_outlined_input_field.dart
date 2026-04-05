@@ -39,6 +39,9 @@ class DefaultOutlinedInputField extends StatefulWidget {
   /// 입력 포맷터
   final List<TextInputFormatter>? inputFormatters;
 
+  /// Leading 위젯
+  final Widget? prefix;
+
   /// Trailing 위젯
   final Widget? suffix;
 
@@ -50,6 +53,12 @@ class DefaultOutlinedInputField extends StatefulWidget {
 
   /// 비활성화 여부
   final bool isDisabled;
+
+  /// 읽기 전용 여부
+  final bool readOnly;
+
+  /// 탭 콜백
+  final VoidCallback? onTap;
 
   /// 초기 값
   final String? initialValue;
@@ -69,10 +78,13 @@ class DefaultOutlinedInputField extends StatefulWidget {
     this.controller,
     this.policy = TextScalePolicy.system,
     this.inputFormatters,
+    this.prefix,
     this.suffix,
     this.onClear,
     this.showClearButton = false,
     this.isDisabled = false,
+    this.readOnly = false,
+    this.onTap,
     this.initialValue,
     this.validator,
   }) : assert(
@@ -132,7 +144,9 @@ class _DefaultOutlinedInputFieldState extends State<DefaultOutlinedInputField> {
         keyboardType: widget.keyboardType,
         obscureText: widget.obscureText,
         autofillHints: widget.autofillHints,
+        readOnly: widget.readOnly,
         onChanged: widget.onChanged,
+        onTap: widget.onTap,
         onEditingComplete: () {
           _showValidation();
           _focusNode.unfocus();
@@ -158,6 +172,20 @@ class _DefaultOutlinedInputFieldState extends State<DefaultOutlinedInputField> {
           filled: true,
           fillColor: colors.backgroundNormal,
           contentPadding: const EdgeInsets.all(AppPadding.textfield),
+          prefixIconColor: colors.interactionInactive,
+          prefixIcon: widget.prefix != null
+              ? Padding(
+                  padding: const EdgeInsets.only(
+                    left: AppPadding.textfield,
+                    right: AppPadding.textfieldSuffix,
+                  ),
+                  child: widget.prefix,
+                )
+              : null,
+          prefixIconConstraints: const BoxConstraints(
+            minWidth: 0,
+            minHeight: 0,
+          ),
           // 입력 가능 상태
           enabledBorder: getBorder(colors.strokeStructuralBorder),
           // 입력 중인 상태

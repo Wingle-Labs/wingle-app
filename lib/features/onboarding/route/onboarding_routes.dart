@@ -16,6 +16,18 @@ abstract final class OnboardingRoutes {
   /// 기본 프로필 정보 등록
   static const basicProfile = RouteNode(parent: login, name: 'basic-profile');
 
+  /// 거주지 입력
+  static const basicProfileResidence = RouteNode(
+    parent: login,
+    name: 'basic-profile-residence',
+  );
+
+  /// 키 입력
+  static const basicProfileHeight = RouteNode(
+    parent: login,
+    name: 'basic-profile-height',
+  );
+
   /// 비밀번호 재설정
   static const resetPassword = RouteNode(parent: login, name: 'reset-password');
 

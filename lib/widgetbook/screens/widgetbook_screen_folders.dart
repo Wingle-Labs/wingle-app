@@ -63,6 +63,14 @@ WidgetbookFolder _buildOnboardingFolder() {
         initialLocation: OnboardingRoutes.basicProfile.fullPath,
       ),
       _screenComponent(
+        name: 'Basic Profile Residence',
+        initialLocation: OnboardingRoutes.basicProfileResidence.fullPath,
+      ),
+      _screenComponent(
+        name: 'Basic Profile Height',
+        initialLocation: OnboardingRoutes.basicProfileHeight.fullPath,
+      ),
+      _screenComponent(
         name: 'Pass',
         initialLocation: OnboardingRoutes.pass.fullPath,
       ),

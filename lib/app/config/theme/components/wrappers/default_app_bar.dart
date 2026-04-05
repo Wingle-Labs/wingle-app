@@ -7,6 +7,9 @@ class DefaultAppBar extends PreferredSize {
   /// 액션 버튼 표시 여부
   final bool isActionVisible;
 
+  /// 타이틀 가운데 정렬 여부
+  final bool? centerTitle;
+
   /// 액션 버튼
   final List<Widget>? actions;
 
@@ -19,6 +22,7 @@ class DefaultAppBar extends PreferredSize {
     super.preferredSize = const Size.fromHeight(kToolbarHeight),
     super.child = const SizedBox.shrink(),
     this.isActionVisible = true,
+    this.centerTitle,
     this.actions,
     this.actionsPadding = const EdgeInsets.only(right: AppSpacing.xs),
   });
@@ -29,6 +33,7 @@ class DefaultAppBar extends PreferredSize {
     return AppBar(
       backgroundColor: colorScheme.backgroundNormal,
       surfaceTintColor: colorScheme.backgroundNormal,
+      centerTitle: centerTitle,
       actions: isActionVisible ? actions : null,
       title: child,
       actionsPadding: actionsPadding,
