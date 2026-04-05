@@ -1,14 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/design_system.dart';
 import 'package:wingle/app/config/theme/themes.dart';
+import 'package:wingle/app/providers/current_user_gender_provider.dart';
 import 'package:wingle/features/auth/domain/models/phone_number.dart';
 import 'package:wingle/features/auth/presentation/phone_auth.dart';
 import 'package:wingle/features/auth/presentation/phone_otp.dart';
 import 'package:wingle/features/home/route/home_router.dart';
 import 'package:wingle/features/onboarding/presentation/page/age_pick.page.dart';
 import 'package:wingle/features/onboarding/presentation/page/agreement_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/basic_profile_body_shape_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/basic_profile_company_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_height_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_nickname_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_residence_page.dart';
@@ -33,12 +37,16 @@ class WidgetbookPreviewApp extends StatefulWidget {
   /// 프리뷰 텍스트 배율
   final double textScaleFactor;
 
+  /// 프리뷰에서 사용할 성별
+  final String? userGender;
+
   /// 생성자
   const WidgetbookPreviewApp({
     super.key,
     required this.initialLocation,
     this.themeMode = ThemeMode.system,
     this.textScaleFactor = 1,
+    this.userGender,
   });
 
   @override
@@ -50,7 +58,7 @@ class _WidgetbookPreviewAppState extends State<WidgetbookPreviewApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    final app = MaterialApp.router(
       debugShowCheckedModeBanner: false,
       theme: Themes.light,
       darkTheme: Themes.dark,
@@ -68,6 +76,17 @@ class _WidgetbookPreviewAppState extends State<WidgetbookPreviewApp> {
         );
       },
       routerConfig: _router,
+    );
+
+    if (widget.userGender == null) {
+      return app;
+    }
+
+    return ProviderScope(
+      overrides: [
+        currentUserGenderProvider.overrideWithValue(widget.userGender),
+      ],
+      child: app,
     );
   }
 
@@ -102,6 +121,16 @@ class _WidgetbookPreviewAppState extends State<WidgetbookPreviewApp> {
           path: OnboardingRoutes.basicProfileHeight.fullPath,
           name: OnboardingRoutes.basicProfileHeight.name,
           builder: (context, state) => const BasicProfileHeightPage(),
+        ),
+        GoRoute(
+          path: OnboardingRoutes.basicProfileBodyShape.fullPath,
+          name: OnboardingRoutes.basicProfileBodyShape.name,
+          builder: (context, state) => const BasicProfileBodyShapePage(),
+        ),
+        GoRoute(
+          path: OnboardingRoutes.basicProfileCompany.fullPath,
+          name: OnboardingRoutes.basicProfileCompany.name,
+          builder: (context, state) => const BasicProfileCompanyPage(),
         ),
         GoRoute(
           path: OnboardingRoutes.login.fullPath,

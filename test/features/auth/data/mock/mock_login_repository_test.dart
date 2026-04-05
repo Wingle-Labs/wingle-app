@@ -18,6 +18,7 @@ void main() {
       expect(result.accessToken, 'mock-access-token');
       expect(result.refreshToken, 'mock-refresh-token');
       expect(result.profileStatus, status);
+      expect(result.gender, 'male');
     }
   });
 

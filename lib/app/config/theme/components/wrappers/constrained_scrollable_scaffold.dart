@@ -68,13 +68,10 @@ class ConstrainedScrollableScaffold extends ConsumerWidget {
                     // 내용이 적을 경우에도 하단이 떠 보이지 않게 한다.
                     minHeight: constraints.maxHeight,
                   ),
-                  child: IntrinsicHeight(
-                    child: Padding(
-                      padding:
-                          padding ??
-                          .symmetric(horizontal: AppPadding.scaffold),
-                      child: child,
-                    ),
+                  child: Padding(
+                    padding:
+                        padding ?? .symmetric(horizontal: AppPadding.scaffold),
+                    child: child,
                   ),
                 ),
               );

@@ -137,6 +137,13 @@
       },
       "height": {
         "title": "키를 입력해볼까요?"
+      },
+      "bodyShape": {
+        "title": "Choose the option that best matches you."
+      },
+      "company": {
+        "title": "Let's enter your company.",
+        "placeholder": "Company input will be connected soon."
       }
     },
     "agreement": {

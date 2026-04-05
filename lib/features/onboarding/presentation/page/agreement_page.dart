@@ -10,6 +10,7 @@ import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/components/wrappers/constrained_scrollable_scaffold.dart';
 import 'package:wingle/app/config/theme/components/wrappers/default_app_bar.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
+import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/constants/api_error_messages.dart';
 import 'package:wingle/features/onboarding/presentation/components/wrapper/agreement_group.dart';
 import 'package:wingle/features/onboarding/presentation/providers/agreement_list_provider.dart';
@@ -57,6 +58,7 @@ class AgreementPage extends ConsumerWidget {
       ),
       child: Column(
         crossAxisAlignment: .start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           GuideCard(
             title: 'onboarding.agreement.guide.title',
@@ -64,17 +66,29 @@ class AgreementPage extends ConsumerWidget {
           ),
 
           asyncModel.when(
-            loading: () => const Expanded(
+            loading: () => const Padding(
+              padding: EdgeInsets.only(
+                top: AppPadding.listTop,
+                bottom: AppSpacing.bottom,
+              ),
               child: Center(child: AnimationProgressIndicator()),
             ),
-            error: (e, _) => Expanded(
+            error: (e, _) => const Padding(
+              padding: EdgeInsets.only(
+                top: AppPadding.listTop,
+                bottom: AppSpacing.bottom,
+              ),
               child: Center(
                 child: DefaultText('onboarding.agreement.state.loadFailed'),
               ),
             ),
             data: (model) {
               if (model.items.isEmpty) {
-                return Expanded(
+                return const Padding(
+                  padding: EdgeInsets.only(
+                    top: AppPadding.listTop,
+                    bottom: AppSpacing.bottom,
+                  ),
                   child: Center(
                     child: DefaultText('onboarding.agreement.state.empty'),
                   ),

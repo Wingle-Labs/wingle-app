@@ -59,6 +59,9 @@ class HiveLoginBox implements HiveBox {
   /// 로그인 시 프로필 진행 상태
   static final profileStatus = _instance.create('profile_status');
 
+  /// 로그인 시 성별
+  static final gender = _instance.create('gender');
+
   /// 내부 싱글턴 인스턴스 (HiveKey가 Box에 접근하기 위함)
   static final HiveLoginBox _instance = HiveLoginBox();
 }

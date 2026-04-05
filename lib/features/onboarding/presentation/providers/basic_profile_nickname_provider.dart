@@ -5,10 +5,9 @@ import 'package:wingle/features/onboarding/presentation/providers/profile_reposi
 
 /// 기본 프로필 랜덤 닉네임 상태를 관리하는 Provider.
 final basicProfileNicknameProvider =
-    NotifierProvider.autoDispose<
-      BasicProfileNicknameNotifier,
-      BasicProfileNicknameModel
-    >(BasicProfileNicknameNotifier.new);
+    NotifierProvider<BasicProfileNicknameNotifier, BasicProfileNicknameModel>(
+      BasicProfileNicknameNotifier.new,
+    );
 
 /// 기본 프로필 랜덤 닉네임 상태 관리 Notifier.
 class BasicProfileNicknameNotifier extends Notifier<BasicProfileNicknameModel> {
@@ -44,4 +43,9 @@ class BasicProfileNicknameNotifier extends Notifier<BasicProfileNicknameModel> {
 
   /// 닉네임 변경 요청을 다시 수행한다.
   Future<void> refreshNickname() => loadNickname();
+
+  /// 닉네임 상태를 초기화한다.
+  void reset() {
+    state = const BasicProfileNicknameModel(isLoading: true);
+  }
 }

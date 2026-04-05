@@ -71,6 +71,15 @@ WidgetbookFolder _buildOnboardingFolder() {
         initialLocation: OnboardingRoutes.basicProfileHeight.fullPath,
       ),
       _screenComponent(
+        name: 'Basic Profile Body Shape',
+        initialLocation: OnboardingRoutes.basicProfileBodyShape.fullPath,
+        showGenderKnob: true,
+      ),
+      _screenComponent(
+        name: 'Basic Profile Company',
+        initialLocation: OnboardingRoutes.basicProfileCompany.fullPath,
+      ),
+      _screenComponent(
         name: 'Pass',
         initialLocation: OnboardingRoutes.pass.fullPath,
       ),
@@ -101,6 +110,7 @@ WidgetbookFolder _buildOnboardingFolder() {
 WidgetbookComponent _screenComponent({
   required String name,
   required String initialLocation,
+  bool showGenderKnob = false,
 }) {
   return WidgetbookComponent(
     name: name,
@@ -125,11 +135,19 @@ WidgetbookComponent _screenComponent({
             max: 1.6,
             precision: 2,
           );
+          final userGender = showGenderKnob
+              ? context.knobs.object.dropdown<String>(
+                  label: '성별',
+                  options: const ['male', 'female'],
+                  initialOption: 'male',
+                )
+              : null;
 
           return WidgetbookPreviewApp(
             initialLocation: initialLocation,
             themeMode: themeMode,
             textScaleFactor: textScaleFactor,
+            userGender: userGender,
           );
         },
       ),

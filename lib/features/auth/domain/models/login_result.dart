@@ -11,10 +11,14 @@ class LoginResult {
   /// 로그인 시점의 프로필 진행 상태
   final LoginProfileStatus profileStatus;
 
+  /// 로그인 시점의 성별
+  final String? gender;
+
   /// 생성자
   const LoginResult({
     required this.accessToken,
     required this.refreshToken,
     required this.profileStatus,
+    this.gender,
   });
 }

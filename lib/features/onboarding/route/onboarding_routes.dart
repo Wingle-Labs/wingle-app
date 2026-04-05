@@ -28,6 +28,18 @@ abstract final class OnboardingRoutes {
     name: 'basic-profile-height',
   );
 
+  /// 체형 입력
+  static const basicProfileBodyShape = RouteNode(
+    parent: login,
+    name: 'basic-profile-body-shape',
+  );
+
+  /// 회사 입력
+  static const basicProfileCompany = RouteNode(
+    parent: login,
+    name: 'basic-profile-company',
+  );
+
   /// 비밀번호 재설정
   static const resetPassword = RouteNode(parent: login, name: 'reset-password');
 

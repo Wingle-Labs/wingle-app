@@ -121,6 +121,9 @@ enum LoginProfileStatus {
   bool get isBeforeBasicProfile =>
       this == LoginProfileStatus.beforeBasicProfile;
 
+  /// 회사 정보 등록 전 상태인지 확인한다.
+  bool get isBeforeCompanyInfo => this == LoginProfileStatus.beforeCompanyInfo;
+
   /// 첫 승인 대기 상태인지 확인한다.
   bool get isPendingApproval => this == LoginProfileStatus.firstApprovalPending;
 

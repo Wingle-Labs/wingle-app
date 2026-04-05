@@ -8,4 +8,10 @@ abstract final class BasicProfileInputConstants {
 
   /// 키 입력 단계
   static const int heightStep = 2;
+
+  /// 체형 입력 단계
+  static const int bodyShapeStep = 3;
+
+  /// 회사 입력 단계
+  static const int companyStep = 4;
 }

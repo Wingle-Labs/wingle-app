@@ -6,6 +6,7 @@ import 'package:wingle/common/utils/hive_util.dart';
 import 'package:wingle/features/auth/domain/exceptions/auth_exception.dart';
 import 'package:wingle/features/auth/presentation/providers/login_repository_provider.dart';
 import 'package:wingle/features/onboarding/presentation/models/login_page_model.dart';
+import 'package:wingle/features/onboarding/presentation/providers/basic_profile_provider.dart';
 
 part 'login_page_provider.g.dart';
 
@@ -95,8 +96,15 @@ class LoginPage extends _$LoginPage {
         key: HiveLoginBox.profileStatus,
         value: result.profileStatus.apiValue,
       );
+      if (result.gender != null) {
+        await HiveUtil.write(key: HiveLoginBox.gender, value: result.gender!);
+      } else {
+        await HiveUtil.delete(HiveLoginBox.gender);
+      }
 
       if (!ref.mounted) return false;
+
+      ref.read(basicProfileProvider.notifier).reset();
 
       state = state.copyWith(
         isLoading: false,

@@ -12,11 +12,15 @@ class LoginResponseDto {
   /// 프로필 진행 상태
   final LoginProfileStatus profileStatus;
 
+  /// 성별
+  final String? gender;
+
   /// 생성자
   const LoginResponseDto({
     required this.accessToken,
     required this.refreshToken,
     required this.profileStatus,
+    this.gender,
   });
 
   /// JSON 파싱
@@ -27,6 +31,7 @@ class LoginResponseDto {
       profileStatus: LoginProfileStatus.fromApiValue(
         json['profileStatus']?.toString() ?? json['profile_status']?.toString(),
       ),
+      gender: json['gender']?.toString().toLowerCase(),
     );
   }
 
@@ -36,6 +41,7 @@ class LoginResponseDto {
       accessToken: accessToken,
       refreshToken: refreshToken,
       profileStatus: profileStatus,
+      gender: gender,
     );
   }
 }

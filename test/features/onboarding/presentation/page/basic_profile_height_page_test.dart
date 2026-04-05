@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:wingle/app/config/theme/themes.dart';
 import 'package:wingle/common/constants/localization_constants.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_height_page.dart';
-import 'package:wingle/features/onboarding/presentation/providers/basic_profile_height_provider.dart';
+import 'package:wingle/features/onboarding/presentation/providers/basic_profile_provider.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -36,10 +36,10 @@ void main() {
       await tester.pump();
     }
 
-    container.read(basicProfileHeightProvider.notifier).update('175');
+    container.read(basicProfileProvider.notifier).updateHeight('175');
 
     await pumpPage();
-    expect(container.read(basicProfileHeightProvider), '175');
+    expect(container.read(basicProfileProvider).height, '175');
 
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pump();

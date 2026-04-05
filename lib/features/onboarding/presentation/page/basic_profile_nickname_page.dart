@@ -18,7 +18,7 @@ import 'package:wingle/common/constants/hive_constants.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
 import 'package:wingle/common/utils/hive_util.dart';
-import 'package:wingle/features/onboarding/presentation/providers/basic_profile_nickname_provider.dart';
+import 'package:wingle/features/onboarding/presentation/providers/basic_profile_provider.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// 기본 프로필 정보 등록의 첫 단계인 랜덤 닉네임 발급 페이지
@@ -39,7 +39,7 @@ class _BasicProfileNicknamePageState
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(basicProfileNicknameProvider.notifier).loadNickname();
+      ref.read(basicProfileProvider.notifier).loadNickname();
     });
   }
 
@@ -47,8 +47,8 @@ class _BasicProfileNicknamePageState
   Widget build(BuildContext context) {
     final colors = context.colors;
     final typography = context.typography;
-    final state = ref.watch(basicProfileNicknameProvider);
-    final notifier = ref.read(basicProfileNicknameProvider.notifier);
+    final state = ref.watch(basicProfileProvider);
+    final notifier = ref.read(basicProfileProvider.notifier);
 
     return ConstrainedScrollableScaffold(
       canPop: false,
@@ -61,8 +61,8 @@ class _BasicProfileNicknamePageState
       appBar: const ProfileInputAppBar(),
       floatingActionButton: DefaultFloatingButton(
         label: 'common.button.next',
-        isLoading: state.shouldShowLoading,
-        disabled: !state.canContinue,
+        isLoading: state.shouldShowNicknameLoading,
+        disabled: !state.canContinueNickname,
         onPressed: () {
           context.pushNamed(OnboardingRoutes.basicProfileResidence.name);
         },
@@ -90,14 +90,14 @@ class _BasicProfileNicknamePageState
             child: Column(
               children: [
                 DefaultCard(
-                  child: state.shouldShowLoading
+                  child: state.shouldShowNicknameLoading
                       ? const Center(child: AnimationProgressIndicator())
                       : Align(
                           alignment: Alignment.centerLeft,
                           child: DefaultText(
                             state.nickname.isNotEmpty
                                 ? state.nickname
-                                : state.errorMessage ?? '',
+                                : state.nicknameErrorMessage ?? '',
                             style: typography.body.copyWith(
                               color: colors.textNeutral,
                             ),
@@ -111,10 +111,10 @@ class _BasicProfileNicknamePageState
                     child: DefaultTextButton(
                       label: 'onboarding.basicProfile.nickname.button.change',
                       leadingIcon: Icons.autorenew_rounded,
-                      onPressed: state.isLoading
+                      onPressed: state.isNicknameLoading
                           ? null
                           : () => notifier.refreshNickname(),
-                      isDisabled: state.isLoading,
+                      isDisabled: state.isNicknameLoading,
                       foregroundColor: colors.textNeutral,
                       textStyle: typography.buttonSmall,
                     ),
@@ -123,14 +123,15 @@ class _BasicProfileNicknamePageState
               ],
             ),
           ),
-          if (state.errorMessage != null && state.nickname.isNotEmpty) ...[
+          if (state.nicknameErrorMessage != null &&
+              state.nickname.isNotEmpty) ...[
             const SizedBox(height: AppSpacing.xs),
             DefaultText(
-              state.errorMessage!,
+              state.nicknameErrorMessage!,
               style: typography.caption.copyWith(color: colors.textAssistive),
             ),
           ],
-          const Spacer(),
+          const SizedBox(height: AppSpacing.bottom),
         ],
       ),
     );

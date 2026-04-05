@@ -85,6 +85,7 @@ void main() {
       expect(HiveUtil.read(HiveLoginBox.userId), '010-1234-5678');
       expect(HiveUtil.read(HiveLoginBox.accessToken), 'mock-access-token');
       expect(HiveUtil.read(HiveLoginBox.refreshToken), 'mock-refresh-token');
+      expect(HiveUtil.read(HiveLoginBox.gender), 'male');
       expect(
         HiveUtil.read(HiveLoginBox.profileStatus),
         LoginProfileStatus.beforeBasicProfile.apiValue,

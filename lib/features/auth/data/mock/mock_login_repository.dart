@@ -23,8 +23,14 @@ class MockLoginRepository implements LoginRepository {
   /// 로그인 시 반환할 프로필 진행 상태
   final LoginProfileStatus profileStatus;
 
+  /// 로그인 시 반환할 성별
+  final String? gender;
+
   /// 생성자
-  const MockLoginRepository({this.profileStatus = defaultProfileStatus});
+  const MockLoginRepository({
+    this.profileStatus = defaultProfileStatus,
+    this.gender = 'male',
+  });
 
   @override
   Future<LoginResult> login({
@@ -42,6 +48,7 @@ class MockLoginRepository implements LoginRepository {
       accessToken: 'mock-access-token',
       refreshToken: 'mock-refresh-token',
       profileStatus: profileStatus,
+      gender: gender,
     );
   }
 }

@@ -56,6 +56,18 @@ void main() {
     );
   });
 
+  test('회사 정보 등록 전 사용자는 home에서 company로 이동한다', () async {
+    await HiveUtil.write(
+      key: HiveLoginBox.profileStatus,
+      value: LoginProfileStatus.beforeCompanyInfo.apiValue,
+    );
+
+    expect(
+      appRedirectLogic(true, AppRoute.home.path),
+      OnboardingRoutes.basicProfileCompany.fullPath,
+    );
+  });
+
   test('프로필 진행 중 사용자는 home에서 onboarding으로 이동한다', () async {
     await HiveUtil.write(
       key: HiveLoginBox.profileStatus,

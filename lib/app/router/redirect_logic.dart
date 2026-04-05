@@ -27,6 +27,14 @@ String? appRedirectLogic(bool loggedIn, String currentPath) {
     return null;
   }
 
+  /// 로그인을 했는데 회사 정보 등록 전 상태고 Onboarding이 아닌 경로일 때 회사 정보로 리디렉션
+  if (profileStatus.isBeforeCompanyInfo) {
+    if (!currentPath.contains(OnboardingRoutes.root.path)) {
+      return OnboardingRoutes.basicProfileCompany.fullPath;
+    }
+    return null;
+  }
+
   /// 로그인을 했는데 Approved 상태이면 Home으로 리디렉션
   if (profileStatus.isApproved) {
     if (isInOnboarding) return HomeRoutes.root.path;

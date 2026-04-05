@@ -8,14 +8,17 @@ void main() {
       'accessToken': 'access-token',
       'refreshToken': 'refresh-token',
       'profileStatus': 'FIRST_APPROVAL_PENDING',
+      'gender': 'female',
     });
 
     expect(dto.accessToken, 'access-token');
     expect(dto.refreshToken, 'refresh-token');
     expect(dto.profileStatus, LoginProfileStatus.firstApprovalPending);
+    expect(dto.gender, 'female');
 
     final result = dto.toDomain();
     expect(result.profileStatus, LoginProfileStatus.firstApprovalPending);
+    expect(result.gender, 'female');
   });
 
   test('LoginResponseDto는 profileStatus가 없으면 승인 완료로 처리한다', () {
@@ -29,5 +32,6 @@ void main() {
       dto.toDomain().profileStatus,
       LoginProfileStatus.firstApprovalApproved,
     );
+    expect(dto.gender, isNull);
   });
 }

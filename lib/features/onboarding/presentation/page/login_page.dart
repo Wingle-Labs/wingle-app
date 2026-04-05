@@ -143,6 +143,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       return OnboardingRoutes.basicProfile.name;
     }
 
+    if (profileStatus?.isBeforeCompanyInfo ?? false) {
+      return OnboardingRoutes.basicProfileCompany.name;
+    }
+
     return HomeRoutes.root.name;
   }
 }

@@ -6,7 +6,7 @@ import 'package:wingle/common/constants/api_error_messages.dart';
 import 'package:wingle/features/onboarding/data/mock/mock_profile_repository.dart';
 import 'package:wingle/features/onboarding/domain/model/profile/residence_code.dart';
 import 'package:wingle/features/onboarding/domain/repository/profile_repository.dart';
-import 'package:wingle/features/onboarding/presentation/providers/basic_profile_nickname_provider.dart';
+import 'package:wingle/features/onboarding/presentation/providers/basic_profile_provider.dart';
 import 'package:wingle/features/onboarding/presentation/providers/profile_repository_provider.dart';
 
 class _QueueProfileRepository implements ProfileRepository {
@@ -108,21 +108,18 @@ void main() {
       );
       addTearDown(container.dispose);
 
-      final subscription = container.listen(
-        basicProfileNicknameProvider,
-        (_, _) {},
-      );
+      final subscription = container.listen(basicProfileProvider, (_, _) {});
       addTearDown(subscription.close);
 
-      final notifier = container.read(basicProfileNicknameProvider.notifier);
+      final notifier = container.read(basicProfileProvider.notifier);
 
       await notifier.loadNickname();
 
-      final state = container.read(basicProfileNicknameProvider);
+      final state = container.read(basicProfileProvider);
 
       expect(state.nickname, MockProfileRepository.mockNickname);
-      expect(state.isLoading, isFalse);
-      expect(state.errorMessage, isNull);
+      expect(state.isNicknameLoading, isFalse);
+      expect(state.nicknameErrorMessage, isNull);
     });
 
     test('닉네임 변경 요청 시 새로운 닉네임을 다시 불러온다', () async {
@@ -135,21 +132,18 @@ void main() {
       );
       addTearDown(container.dispose);
 
-      final subscription = container.listen(
-        basicProfileNicknameProvider,
-        (_, _) {},
-      );
+      final subscription = container.listen(basicProfileProvider, (_, _) {});
       addTearDown(subscription.close);
 
-      final notifier = container.read(basicProfileNicknameProvider.notifier);
+      final notifier = container.read(basicProfileProvider.notifier);
 
       await notifier.loadNickname();
       await notifier.refreshNickname();
 
-      final state = container.read(basicProfileNicknameProvider);
+      final state = container.read(basicProfileProvider);
 
       expect(state.nickname, '두 번째 닉네임');
-      expect(state.isLoading, isFalse);
+      expect(state.isNicknameLoading, isFalse);
     });
 
     test('닉네임 조회 실패 시 에러 키를 보관한다', () async {
@@ -162,21 +156,21 @@ void main() {
       );
       addTearDown(container.dispose);
 
-      final subscription = container.listen(
-        basicProfileNicknameProvider,
-        (_, _) {},
-      );
+      final subscription = container.listen(basicProfileProvider, (_, _) {});
       addTearDown(subscription.close);
 
-      final notifier = container.read(basicProfileNicknameProvider.notifier);
+      final notifier = container.read(basicProfileProvider.notifier);
 
       await notifier.loadNickname();
 
-      final state = container.read(basicProfileNicknameProvider);
+      final state = container.read(basicProfileProvider);
 
       expect(state.nickname, isEmpty);
-      expect(state.isLoading, isFalse);
-      expect(state.errorMessage, ApiErrorMessages.fetchRandomNicknameFailed);
+      expect(state.isNicknameLoading, isFalse);
+      expect(
+        state.nicknameErrorMessage,
+        ApiErrorMessages.fetchRandomNicknameFailed,
+      );
     });
   });
 }

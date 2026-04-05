@@ -110,7 +110,7 @@ class BasicProfileInputScaffold extends StatelessWidget {
             ),
             child: child,
           ),
-          const Spacer(),
+          const SizedBox(height: AppSpacing.bottom),
         ],
       ),
     );

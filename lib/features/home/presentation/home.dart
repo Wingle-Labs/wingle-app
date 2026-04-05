@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_filled_button.dart';
@@ -27,9 +29,7 @@ class _HomeState extends ConsumerState<Home> {
             DefaultFilledButton(
               label: "로그아웃",
               onPressed: () {
-                HiveUtil.delete(HiveLoginBox.userId);
-                HiveUtil.delete(HiveLoginBox.accessToken);
-                HiveUtil.delete(HiveLoginBox.refreshToken);
+                unawaited(HiveUtil.clearBox(HiveConstants.userLoginInfo));
               },
             ),
           ],

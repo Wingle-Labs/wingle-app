@@ -30,6 +30,12 @@ class AppFontSize {
 
 /// 어플리케이션의 공통 아이콘 크기 정의
 class AppIconSize {
+  /// 라디오 버튼 외부 원 크기
+  static const double radioOuter = 20;
+
+  /// 라디오 버튼 내부 원 크기
+  static const double radioInner = 10;
+
   /// 작은 아이콘 크기
   static const double small = 16;
 
@@ -92,6 +98,9 @@ class AppContainerSize {
 
   /// Tag 최소 높이
   static const double tagMinHeight = 20;
+
+  /// Card 최소 높이
+  static const double cardMinHeight = 48;
 }
 
 /// 어플리케이션 내 선 두께 정의
@@ -107,4 +116,7 @@ class AppLineWidth {
 
   /// Bottom Sheet handle 두께
   static const double bottomSheetHandleHeight = 4;
+
+  /// Radio button border 두께
+  static const double radioButtonBorder = 2.4;
 }

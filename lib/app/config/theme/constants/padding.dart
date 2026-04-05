@@ -56,4 +56,7 @@ class AppPadding {
 
   /// 페이지 헤더 외부 패딩
   static const double pageHeaderExternal = 20;
+
+  /// 카드 가로 패딩
+  static const double cardHorizontal = 14;
 }

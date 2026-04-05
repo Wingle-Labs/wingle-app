@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wingle/features/onboarding/presentation/components/input/profile_input_search_field.dart';
 import 'package:wingle/features/onboarding/presentation/components/wrapper/basic_profile_input_scaffold.dart';
 import 'package:wingle/features/onboarding/presentation/constants/basic_profile_input_constants.dart';
+import 'package:wingle/features/onboarding/presentation/providers/basic_profile_provider.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// 기본 프로필 입력의 첫 단계인 거주지 입력 페이지.
@@ -18,9 +19,15 @@ class BasicProfileResidencePage extends ConsumerStatefulWidget {
 
 class _BasicProfileResidencePageState
     extends ConsumerState<BasicProfileResidencePage> {
-  final TextEditingController _controller = TextEditingController();
+  late final TextEditingController _controller;
 
-  String _query = '';
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(
+      text: ref.read(basicProfileProvider).residenceQuery,
+    );
+  }
 
   @override
   void dispose() {
@@ -30,30 +37,29 @@ class _BasicProfileResidencePageState
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(basicProfileProvider);
+    final notifier = ref.read(basicProfileProvider.notifier);
+
     return BasicProfileInputScaffold(
       currentStep: BasicProfileInputConstants.residenceStep,
       totalSteps: BasicProfileInputConstants.totalSteps,
       title: 'onboarding.basicProfile.residence.title',
       subtitle: 'onboarding.basicProfile.residence.subtitle',
       buttonLabel: 'common.button.next',
-      disabled: _query.trim().isEmpty,
+      disabled: !state.canContinueResidence,
       onPressed: () {
         context.pushNamed(OnboardingRoutes.basicProfileHeight.name);
       },
       child: ProfileInputSearchField(
         controller: _controller,
         hintText: 'onboarding.basicProfile.residence.field.hint',
-        showClearButton: _query.isNotEmpty,
+        showClearButton: state.residenceQuery.isNotEmpty,
         onClear: () {
           _controller.clear();
-          setState(() {
-            _query = '';
-          });
+          notifier.clearResidence();
         },
         onChanged: (value) {
-          setState(() {
-            _query = value;
-          });
+          notifier.updateResidenceQuery(value);
         },
       ),
     );

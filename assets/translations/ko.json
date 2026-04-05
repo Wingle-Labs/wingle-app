@@ -137,6 +137,13 @@
       },
       "height": {
         "title": "키를 입력해볼까요?"
+      },
+      "bodyShape": {
+        "title": "본인의 느낌에 가장 가까운 항목을 선택해주세요."
+      },
+      "company": {
+        "title": "재직 중인 회사를 입력해볼까요?",
+        "placeholder": "회사 입력은 곧 연결될 예정이에요."
       }
     },
     "agreement": {

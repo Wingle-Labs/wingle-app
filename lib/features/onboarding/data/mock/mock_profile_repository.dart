@@ -21,7 +21,7 @@ class MockProfileRepository implements ProfileRepository {
     required int height,
     required String bodyType,
   }) async {
-    await Future<void>.delayed(const Duration(milliseconds: 10));
+    await Future<void>.delayed(const Duration(milliseconds: 500));
   }
 
   @override
@@ -29,7 +29,7 @@ class MockProfileRepository implements ProfileRepository {
     required String mbti,
     required String selfIntroduction,
   }) async {
-    await Future<void>.delayed(const Duration(milliseconds: 10));
+    await Future<void>.delayed(const Duration(milliseconds: 500));
   }
 
   @override
@@ -37,12 +37,12 @@ class MockProfileRepository implements ProfileRepository {
     required String? university,
     required String educationLevel,
   }) async {
-    await Future<void>.delayed(const Duration(milliseconds: 10));
+    await Future<void>.delayed(const Duration(milliseconds: 500));
   }
 
   @override
   Future<void> verifyEducationEmail({required String email}) async {
-    await Future<void>.delayed(const Duration(milliseconds: 10));
+    await Future<void>.delayed(const Duration(milliseconds: 500));
   }
 
   @override
@@ -50,11 +50,11 @@ class MockProfileRepository implements ProfileRepository {
     required String company,
     required String occupation,
   }) async {
-    await Future<void>.delayed(const Duration(milliseconds: 10));
+    await Future<void>.delayed(const Duration(milliseconds: 500));
   }
 
   @override
   Future<void> verifyJobEmail({required String email}) async {
-    await Future<void>.delayed(const Duration(milliseconds: 10));
+    await Future<void>.delayed(const Duration(milliseconds: 500));
   }
 }
