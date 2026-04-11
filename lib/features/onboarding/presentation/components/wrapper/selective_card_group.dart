@@ -31,7 +31,7 @@ class SelectiveCardGroup extends ConsumerWidget {
     return SelfIntroduceCard(
       title: question,
       child: Column(
-        spacing: AppSpacing.sm,
+        spacing: AppSpacing.s16,
         // children: answers
         //     .map(
         //       (answer) => AgreementGroup(

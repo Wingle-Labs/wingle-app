@@ -96,9 +96,9 @@ class _BasicProfileHeightInputState extends State<BasicProfileHeightInput> {
                   : TextInputAction.next,
             ),
           ),
-          if (index < _digitCount - 1) const SizedBox(width: AppSpacing.xs),
+          if (index < _digitCount - 1) const SizedBox(width: AppSpacing.s12),
         ],
-        const SizedBox(width: AppSpacing.sm),
+        const SizedBox(width: AppSpacing.s16),
         DefaultText(
           'CM',
           style: typography.title.copyWith(
@@ -206,9 +206,7 @@ class _DigitBox extends StatelessWidget {
         style: textStyle,
         keyboardType: TextInputType.number,
         textInputAction: textInputAction,
-        inputFormatters: [
-          FilteringTextInputFormatter.digitsOnly,
-        ],
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         decoration: InputDecoration(
           filled: true,
           fillColor: colors.backgroundNormal,

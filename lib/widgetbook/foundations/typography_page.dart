@@ -102,7 +102,7 @@ class _TypographySection extends StatelessWidget {
                   fontWeight: AppFontWeight.bold,
                 ),
               ),
-              const SizedBox(height: AppSpacing.xxs),
+              const SizedBox(height: AppSpacing.s8),
               Text(
                 'size: ${style.fontSize} | weight: ${style.fontWeight}',
                 style: const TextStyle(fontSize: AppFontSize.caption),
@@ -118,7 +118,7 @@ class _TypographySection extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: AppSpacing.xs),
+          const SizedBox(height: AppSpacing.s12),
           Text(
             'The quick brown fox jumps over the lazy dog.',
             style: style,

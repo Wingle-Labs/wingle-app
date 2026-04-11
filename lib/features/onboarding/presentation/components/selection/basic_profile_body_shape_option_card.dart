@@ -55,7 +55,7 @@ class BasicProfileBodyShapeOptionCard extends StatelessWidget {
           child: Row(
             children: [
               _BodyShapeRadio(selected: selected),
-              const SizedBox(width: AppSpacing.sm),
+              const SizedBox(width: AppSpacing.s16),
               Expanded(
                 child: DefaultText(
                   label,

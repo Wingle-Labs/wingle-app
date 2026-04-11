@@ -42,9 +42,9 @@ class _OnboardingPasswordPageState
           title: 'onboarding.password.title',
           subtitle: 'onboarding.password.instruction',
         ),
-        SizedBox(height: AppSpacing.xl),
+        SizedBox(height: AppSpacing.s48),
         PhoneNumberReadOnlyField(phoneNumber: widget.phoneNumber),
-        SizedBox(height: AppSpacing.lg),
+        SizedBox(height: AppSpacing.s32),
         PasswordInputField(
           value: state.password,
           isVisible: state.isPasswordVisible,
@@ -52,7 +52,7 @@ class _OnboardingPasswordPageState
           onChanged: notifier.updatePassword,
           onToggleVisibility: notifier.togglePasswordVisibility,
         ),
-        SizedBox(height: AppSpacing.md),
+        SizedBox(height: AppSpacing.s24),
         PasswordInputField(
           value: state.confirmPassword,
           isVisible: state.isConfirmPasswordVisible,
@@ -92,7 +92,7 @@ class _OnboardingPasswordPageState
             padding: EdgeInsets.zero,
           ),
           DefaultText('onboarding.password.bottomSheet.description'),
-          SizedBox(height: AppSpacing.sm),
+          SizedBox(height: AppSpacing.s16),
         ],
       ),
       onMain: () {

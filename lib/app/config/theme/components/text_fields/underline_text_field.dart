@@ -119,7 +119,7 @@ class _UnderlineFieldState extends ConsumerState<UnderlineField> {
           focusNode: widget.focusNode,
         ),
         Padding(
-          padding: const EdgeInsets.only(top: AppSpacing.xxs),
+          padding: const EdgeInsets.only(top: AppSpacing.s8),
           child: widget.suffix,
         ),
         SizedBox(height: widget.bottomPadding),

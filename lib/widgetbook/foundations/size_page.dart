@@ -15,7 +15,7 @@ class SizePage extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Icon(Icons.star, size: size),
-        const SizedBox(height: AppSpacing.md),
+        const SizedBox(height: AppSpacing.s24),
         Text('$name\n${size.toStringAsFixed(0)}', textAlign: TextAlign.center),
       ],
     );
@@ -51,7 +51,7 @@ class SizePage extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         box,
-        const SizedBox(height: AppSpacing.md),
+        const SizedBox(height: AppSpacing.s24),
         Text('$name\n${size.toStringAsFixed(0)}', textAlign: TextAlign.center),
       ],
     );
@@ -108,15 +108,15 @@ class SizePage extends StatelessWidget {
                 fontWeight: AppFontWeight.bold,
               ),
             ),
-            const SizedBox(height: AppSpacing.md),
+            const SizedBox(height: AppSpacing.s24),
             Wrap(
-              spacing: AppSpacing.md,
-              runSpacing: AppSpacing.md,
+              spacing: AppSpacing.s24,
+              runSpacing: AppSpacing.s24,
               children: iconSizes
                   .map((e) => _buildIconSizeItem(e.key, e.value))
                   .toList(),
             ),
-            const SizedBox(height: AppSpacing.lg),
+            const SizedBox(height: AppSpacing.s32),
             const Text(
               'AppContainerSize',
               style: TextStyle(
@@ -124,10 +124,10 @@ class SizePage extends StatelessWidget {
                 fontWeight: AppFontWeight.bold,
               ),
             ),
-            const SizedBox(height: AppSpacing.md),
+            const SizedBox(height: AppSpacing.s24),
             Wrap(
-              spacing: AppSpacing.md,
-              runSpacing: AppSpacing.md,
+              spacing: AppSpacing.s24,
+              runSpacing: AppSpacing.s24,
               children: containerSizes.map((e) {
                 String type;
                 if (e.key.toLowerCase().contains('height') ||
@@ -143,7 +143,7 @@ class SizePage extends StatelessWidget {
               }).toList(),
             ),
 
-            const SizedBox(height: AppSpacing.lg),
+            const SizedBox(height: AppSpacing.s32),
             const Text(
               'AppLineWidth',
               style: TextStyle(
@@ -151,12 +151,12 @@ class SizePage extends StatelessWidget {
                 fontWeight: AppFontWeight.bold,
               ),
             ),
-            const SizedBox(height: AppSpacing.md),
+            const SizedBox(height: AppSpacing.s24),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: lineSizes.map((entry) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.s24),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

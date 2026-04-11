@@ -125,7 +125,7 @@ class _BasicProfileNicknamePageState
           ),
           if (state.nicknameErrorMessage != null &&
               state.nickname.isNotEmpty) ...[
-            const SizedBox(height: AppSpacing.xs),
+            const SizedBox(height: AppSpacing.s12),
             DefaultText(
               state.nicknameErrorMessage!,
               style: typography.caption.copyWith(color: colors.textAssistive),

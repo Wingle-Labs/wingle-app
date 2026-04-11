@@ -34,7 +34,7 @@ class _AgePickPageState extends ConsumerState<AgePickPage> {
                 minimumDate: .now().subtract(const Duration(days: 365 * 100)),
                 onDateTimeChanged: (date) {},
               ),
-              Padding(padding: .only(bottom: AppSpacing.lg)),
+              Padding(padding: .only(bottom: AppSpacing.s32)),
               Column(
                 mainAxisAlignment: .center,
                 children: [
@@ -44,7 +44,7 @@ class _AgePickPageState extends ConsumerState<AgePickPage> {
                   //   text: 'onboarding.age.checkbox.adult',
                   //   isTranslated: true,
                   // ),
-                  // Padding(padding: .only(bottom: AppSpacing.md)),
+                  // Padding(padding: .only(bottom: AppSpacing.s24)),
                   // AgreementGroup(
                   //   value: false,
                   //   onChanged: (value) {},

@@ -50,7 +50,7 @@ class IndicatorCarousel extends StatelessWidget {
                     policy: .fixed,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.sm,
+                        horizontal: AppSpacing.s16,
                       ),
                       height: AppContainerSize.indicatorDescription,
                       child: entry.content,
@@ -64,7 +64,7 @@ class IndicatorCarousel extends StatelessWidget {
             height:
                 AppContainerSize.indicatorDescription +
                 AppContainerSize.carouselImageContainer +
-                AppSpacing.xxs,
+                AppSpacing.s8,
             viewportFraction: 1,
             enableInfiniteScroll: false,
             onPageChanged: (index, _) => onIndexChanged(index),

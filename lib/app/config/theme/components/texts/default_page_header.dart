@@ -55,7 +55,7 @@ class DefaultPageHeader extends StatelessWidget {
     required this.title,
     this.subtitle,
     this.padding = const EdgeInsets.symmetric(vertical: AppPadding.vertical),
-    this.spacing = AppSpacing.xs,
+    this.spacing = AppSpacing.s12,
     this.titleTextAlign = TextAlign.left,
     this.subtitleTextAlign,
     this.titleStyle,

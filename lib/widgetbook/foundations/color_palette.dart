@@ -21,7 +21,7 @@ class ColorPalettePage extends StatelessWidget {
         const Text(
           'lib/app/config/theme/color/color_palette.dart에 정의된 실제 팔레트 토큰입니다.',
         ),
-        const SizedBox(height: AppSpacing.md),
+        const SizedBox(height: AppSpacing.s24),
         ...theme_palette.AppPaletteGroup.values.map(_buildPaletteSection),
       ],
     );
@@ -80,10 +80,10 @@ class _PaletteSection extends StatelessWidget {
               fontWeight: AppFontWeight.bold,
             ),
           ),
-          const SizedBox(height: AppSpacing.sm),
+          const SizedBox(height: AppSpacing.s16),
           Wrap(
-            spacing: AppSpacing.sm,
-            runSpacing: AppSpacing.sm,
+            spacing: AppSpacing.s16,
+            runSpacing: AppSpacing.s16,
             children: children,
           ),
         ],

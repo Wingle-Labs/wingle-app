@@ -88,7 +88,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               horizontal: AppPadding.scaffold,
             ),
             child: Column(
-              spacing: AppSpacing.xs,
+              spacing: AppSpacing.s12,
               children: [
                 // ! 전화번호 입력
                 PhoneInputField(

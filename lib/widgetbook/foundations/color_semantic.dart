@@ -23,7 +23,7 @@ class ColorSemanticPage extends StatelessWidget {
           'lib/app/config/theme/color/implementations/light/light_color_scheme.dart와 '
           'implementations/dark/dark_color_scheme.dart의 실제 시맨틱 컬러를 표시합니다.',
         ),
-        const SizedBox(height: AppSpacing.md),
+        const SizedBox(height: AppSpacing.s24),
         ...AppColorSemanticSection.values.map(
           (section) => _SemanticSection(
             title: section.title,
@@ -57,7 +57,7 @@ class _SemanticSection extends StatelessWidget {
               fontWeight: AppFontWeight.bold,
             ),
           ),
-          const SizedBox(height: AppSpacing.sm),
+          const SizedBox(height: AppSpacing.s16),
           ...items.map(
             (item) => _SemanticColorRow(
               name: item.title,
@@ -96,7 +96,7 @@ class _SemanticColorRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: AppSpacing.sm),
+      margin: const EdgeInsets.only(bottom: AppSpacing.s16),
       padding: const EdgeInsets.all(AppPadding.card),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
@@ -107,13 +107,13 @@ class _SemanticColorRow extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(name, style: const TextStyle(fontWeight: AppFontWeight.bold)),
-          const SizedBox(height: AppSpacing.sm),
+          const SizedBox(height: AppSpacing.s16),
           Row(
             children: [
               Expanded(
                 child: _SchemePreview(label: 'Light', resolved: light),
               ),
-              const SizedBox(width: AppSpacing.sm),
+              const SizedBox(width: AppSpacing.s16),
               Expanded(
                 child: _SchemePreview(label: 'Dark', resolved: dark),
               ),

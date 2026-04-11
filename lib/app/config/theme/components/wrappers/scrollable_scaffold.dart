@@ -72,7 +72,7 @@ class _ScrollableScaffoldState extends ConsumerState<ScrollableScaffold> {
           padding: .all(AppPadding.scaffold),
           child: Column(
             crossAxisAlignment: widget.crossAxisAlignment,
-            spacing: widget.spacing ?? AppSpacing.md,
+            spacing: widget.spacing ?? AppSpacing.s24,
             children: [
               ...widget.body,
               widget.addBottomSpacing ?? true

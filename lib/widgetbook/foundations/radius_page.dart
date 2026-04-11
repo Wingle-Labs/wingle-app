@@ -27,7 +27,7 @@ class RadiusPage extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: AppSpacing.sm),
+        const SizedBox(height: AppSpacing.s16),
         Text(label),
       ],
     );
@@ -53,7 +53,7 @@ class RadiusPage extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: AppSpacing.sm),
+        const SizedBox(height: AppSpacing.s16),
         Text(label),
       ],
     );
@@ -66,8 +66,8 @@ class RadiusPage extends StatelessWidget {
         padding: const EdgeInsets.all(AppPadding.scaffold),
         children: [
           Wrap(
-            spacing: AppSpacing.md,
-            runSpacing: AppSpacing.md,
+            spacing: AppSpacing.s24,
+            runSpacing: AppSpacing.s24,
             children: [
               _buildRadiusBox('xs', BorderRadius.circular(AppRadius.xs)),
               _buildRadiusBox('sm', BorderRadius.circular(AppRadius.sm)),

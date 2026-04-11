@@ -33,7 +33,7 @@ class ProfileInputStepIndicator extends StatelessWidget {
     required this.currentStep,
     required this.totalSteps,
     this.height = AppContainerSize.indicator,
-    this.spacing = AppSpacing.xs,
+    this.spacing = AppSpacing.s12,
     this.padding = const EdgeInsets.symmetric(horizontal: AppPadding.scaffold),
     this.activeColor,
     this.inactiveColor,

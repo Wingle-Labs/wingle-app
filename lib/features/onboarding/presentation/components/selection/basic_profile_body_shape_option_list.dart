@@ -26,8 +26,8 @@ class BasicProfileBodyShapeOptionList extends StatelessWidget {
     required this.options,
     required this.selectedCode,
     required this.onSelected,
-    this.padding = const EdgeInsets.only(top: AppSpacing.md),
-    this.spacing = AppSpacing.sm,
+    this.padding = const EdgeInsets.only(top: AppSpacing.s24),
+    this.spacing = AppSpacing.s8,
   });
 
   @override

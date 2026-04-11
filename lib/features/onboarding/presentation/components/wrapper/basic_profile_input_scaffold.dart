@@ -86,7 +86,7 @@ class BasicProfileInputScaffold extends StatelessWidget {
             currentStep: currentStep,
             totalSteps: totalSteps,
             padding: const EdgeInsets.only(
-              top: AppSpacing.lg,
+              top: AppSpacing.s32,
               left: AppPadding.scaffold,
               right: AppPadding.scaffold,
             ),
@@ -98,7 +98,7 @@ class BasicProfileInputScaffold extends StatelessWidget {
             subtitleStyle: context.typography.bodySub,
             subtitleColor: context.colors.textAlternative,
             padding: const EdgeInsets.only(
-              top: AppSpacing.lg,
+              top: AppSpacing.s32,
               left: AppPadding.scaffold,
               right: AppPadding.scaffold,
               bottom: AppPadding.pageHeaderExternal,

@@ -27,7 +27,7 @@ class Indicator extends StatelessWidget {
       child: Row(
         mainAxisSize: .min,
         mainAxisAlignment: MainAxisAlignment.center,
-        spacing: AppSpacing.xxs,
+        spacing: AppSpacing.s8,
         children: List.generate(length, (index) {
           return Container(
             width: AppContainerSize.indicator,

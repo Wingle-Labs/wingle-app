@@ -24,7 +24,7 @@ class DefaultAppBar extends PreferredSize {
     this.isActionVisible = true,
     this.centerTitle,
     this.actions,
-    this.actionsPadding = const EdgeInsets.only(right: AppSpacing.xs),
+    this.actionsPadding = const EdgeInsets.only(right: AppSpacing.s12),
   });
 
   @override
