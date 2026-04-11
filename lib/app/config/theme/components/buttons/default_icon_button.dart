@@ -28,7 +28,7 @@ class DefaultIconButton extends StatelessWidget {
     super.key,
     required this.icon,
     this.onPressed,
-    this.size = AppIconSize.large,
+    this.size = AppIconSize.lg,
     this.color,
     this.borderSide,
     this.isEnabled = true,

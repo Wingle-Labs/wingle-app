@@ -37,7 +37,7 @@ class DefaultCheckbox extends StatelessWidget {
     final colors = context.colors;
     final textScale = MediaQuery.textScalerOf(context).scale(1.0);
     final clampedScale = scalePolicy.getScaleFactor(textScale);
-    final size = AppIconSize.large * clampedScale;
+    final size = AppIconSize.md * clampedScale;
     return InkWell(
       onTap: isDisabled ? null : () => onChanged?.call(!isChecked),
       child: Container(

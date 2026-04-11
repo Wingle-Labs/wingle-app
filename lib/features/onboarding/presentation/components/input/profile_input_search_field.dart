@@ -76,7 +76,7 @@ class ProfileInputSearchField extends StatelessWidget {
       prefix: Icon(
         Icons.search_rounded,
         applyTextScaling: true,
-        size: AppIconSize.large,
+        size: AppIconSize.md,
         color: colors.textNeutral,
       ),
     );

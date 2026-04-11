@@ -30,20 +30,23 @@ class AppFontSize {
 
 /// 어플리케이션의 공통 아이콘 크기 정의
 class AppIconSize {
-  /// 라디오 버튼 외부 원 크기
-  static const double radioOuter = 20;
+  /// 가장 작은 아이콘 크기
+  static const double xs = 16;
+
+  /// 작은 아이콘 크기
+  static const double sm = 20;
+
+  /// 중간 아이콘 크기
+  static const double md = 24;
+
+  /// 큰 아이콘 크기
+  static const double lg = 28;
+
+  /// 매우 큰 아이콘 크기
+  static const double xl = 32;
 
   /// 라디오 버튼 내부 원 크기
   static const double radioInner = 10;
-
-  /// 작은 아이콘 크기
-  static const double small = 16;
-
-  /// 중간 아이콘 크기
-  static const double regular = 20;
-
-  /// 큰 아이콘 크기
-  static const double large = 24;
 }
 
 /// 어플리케이션의 공통 높이 정의

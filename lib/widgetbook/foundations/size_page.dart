@@ -60,9 +60,9 @@ class SizePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final iconSizes = <MapEntry<String, double>>[
-      MapEntry('small', AppIconSize.small),
-      MapEntry('regular', AppIconSize.regular),
-      MapEntry('large', AppIconSize.large),
+      MapEntry('small', AppIconSize.xs),
+      MapEntry('regular', AppIconSize.sm),
+      MapEntry('large', AppIconSize.md),
     ];
 
     final containerSizes = <MapEntry<String, double>>[

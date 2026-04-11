@@ -214,7 +214,7 @@ class _DefaultOutlinedInputFieldState extends State<DefaultOutlinedInputField> {
                       icon: Icon(
                         Icons.clear,
                         applyTextScaling: true,
-                        size: AppIconSize.large,
+                        size: AppIconSize.md,
                         fontWeight: AppFontWeight.regular,
                         semanticLabel: 'common.action.clear'.tr(),
                       ),

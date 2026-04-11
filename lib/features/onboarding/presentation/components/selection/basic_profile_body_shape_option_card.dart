@@ -85,8 +85,8 @@ class _BodyShapeRadio extends StatelessWidget {
     final colors = context.colors;
 
     return SizedBox(
-      width: AppIconSize.radioOuter,
-      height: AppIconSize.radioOuter,
+      width: AppIconSize.sm,
+      height: AppIconSize.sm,
       child: DecoratedBox(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
