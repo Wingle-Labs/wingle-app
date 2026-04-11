@@ -567,7 +567,8 @@ final class AppColorPalette {
   // ! Opacity
   // ! =========================================================
   static const opacity0 = 0.0;
-  static const opacity5 = 0.05;
+  static const opacity4 = 0.04;
+  static const opacity6 = 0.06;
   static const opacity8 = 0.08;
   static const opacity12 = 0.12;
   static const opacity16 = 0.16;
@@ -702,7 +703,8 @@ final class AppColorPalette {
   /// 투명도 값들
   static const List<double> opacities = [
     opacity0,
-    opacity5,
+    opacity4,
+    opacity6,
     opacity8,
     opacity12,
     opacity16,
