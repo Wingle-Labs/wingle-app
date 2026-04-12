@@ -154,54 +154,56 @@ class _WidgetbookPreviewAppState extends State<WidgetbookPreviewApp> {
           name: OnboardingRoutes.signup.name,
           builder: (context, state) =>
               const WidgetbookPlaceholderPage(title: '회원가입 루트'),
-        ),
-        GoRoute(
-          path: OnboardingRoutes.agreement.fullPath,
-          name: OnboardingRoutes.agreement.name,
-          builder: (context, state) => const AgreementPage(),
-        ),
-        GoRoute(
-          path: OnboardingRoutes.phone.fullPath,
-          name: OnboardingRoutes.phone.name,
-          builder: (context, state) => const PhoneAuthPage(),
-        ),
-        GoRoute(
-          path: OnboardingRoutes.otp.fullPath,
-          name: OnboardingRoutes.otp.name,
-          builder: (context, state) => const PhoneOtpPage(),
-        ),
-        GoRoute(
-          path: OnboardingRoutes.pass.fullPath,
-          name: OnboardingRoutes.pass.name,
-          builder: (context, state) => const PassPage(),
-        ),
-        GoRoute(
-          path: OnboardingRoutes.passWebView.fullPath,
-          name: OnboardingRoutes.passWebView.name,
-          builder: (context, state) => const PassWebViewPage(),
-        ),
-        GoRoute(
-          path: OnboardingRoutes.onboardingPassword.fullPath,
-          name: OnboardingRoutes.onboardingPassword.name,
-          builder: (context, state) => OnboardingPasswordPage(
-            phoneNumber:
-                (state.extra as String?) ?? PhoneNumber('01012345678').apiValue,
-          ),
-        ),
-        GoRoute(
-          path: OnboardingRoutes.age.fullPath,
-          name: OnboardingRoutes.age.name,
-          builder: (context, state) => const AgePickPage(),
-        ),
-        GoRoute(
-          path: OnboardingRoutes.requiredSelfIntro.fullPath,
-          name: OnboardingRoutes.requiredSelfIntro.name,
-          builder: (context, state) => const RequiredSelfIntroPage(),
-        ),
-        GoRoute(
-          path: OnboardingRoutes.selectiveSelfIntro.fullPath,
-          name: OnboardingRoutes.selectiveSelfIntro.name,
-          builder: (context, state) => const SelectiveSelfIntro(),
+          routes: [
+            GoRoute(
+              path: OnboardingRoutes.agreement.path,
+              name: OnboardingRoutes.agreement.name,
+              builder: (context, state) => const AgreementPage(),
+            ),
+            GoRoute(
+              path: OnboardingRoutes.phone.path,
+              name: OnboardingRoutes.phone.name,
+              builder: (context, state) => const PhoneAuthPage(),
+            ),
+            GoRoute(
+              path: OnboardingRoutes.otp.path,
+              name: OnboardingRoutes.otp.name,
+              builder: (context, state) => const PhoneOtpPage(),
+            ),
+            GoRoute(
+              path: OnboardingRoutes.pass.path,
+              name: OnboardingRoutes.pass.name,
+              builder: (context, state) => const PassPage(),
+            ),
+            GoRoute(
+              path: OnboardingRoutes.passWebView.path,
+              name: OnboardingRoutes.passWebView.name,
+              builder: (context, state) => const PassWebViewPage(),
+            ),
+            GoRoute(
+              path: OnboardingRoutes.onboardingPassword.path,
+              name: OnboardingRoutes.onboardingPassword.name,
+              builder: (context, state) => OnboardingPasswordPage(
+                phoneNumber: (state.extra as String?) ??
+                    PhoneNumber('01012345678').apiValue,
+              ),
+            ),
+            GoRoute(
+              path: OnboardingRoutes.age.path,
+              name: OnboardingRoutes.age.name,
+              builder: (context, state) => const AgePickPage(),
+            ),
+            GoRoute(
+              path: OnboardingRoutes.requiredSelfIntro.path,
+              name: OnboardingRoutes.requiredSelfIntro.name,
+              builder: (context, state) => const RequiredSelfIntroPage(),
+            ),
+            GoRoute(
+              path: OnboardingRoutes.selectiveSelfIntro.path,
+              name: OnboardingRoutes.selectiveSelfIntro.name,
+              builder: (context, state) => const SelectiveSelfIntro(),
+            ),
+          ],
         ),
       ],
     );

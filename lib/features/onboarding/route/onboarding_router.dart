@@ -38,9 +38,10 @@ final List<GoRoute> onboardingRoutes = [
 
   // 회원가입
   GoRoute(
-    name: OnboardingRoutes.agreement.name,
-    path: OnboardingRoutes.agreement.path,
-    builder: (context, state) => AgreementPage(),
+    name: OnboardingRoutes.signup.name,
+    path: OnboardingRoutes.signup.path,
+    builder: (context, state) => Placeholder(),
+    routes: signUpRoutes,
   ),
 ];
 

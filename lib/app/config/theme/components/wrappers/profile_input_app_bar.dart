@@ -27,7 +27,6 @@ class ProfileInputAppBar extends StatelessWidget
     final typography = context.typography;
 
     return DefaultAppBar(
-      centerTitle: true,
       child: DefaultText(
         title,
         style: typography.main,
