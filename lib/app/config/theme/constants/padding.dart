@@ -59,4 +59,7 @@ class AppPadding {
 
   /// 카드 가로 패딩
   static const double cardHorizontal = 14;
+
+  /// 액션 버튼 마진
+  static const double actionMargin = 4;
 }

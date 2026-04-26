@@ -109,16 +109,12 @@ class _AgreementDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final typography = context.typography;
     final color = context.colors;
     return Scaffold(
       backgroundColor: color.backgroundNormal,
       appBar: DefaultAppBar(
-        child: DefaultText(
-          title,
-          style: typography.title,
-          isTranslationKey: title.contains('.'),
-        ),
+        title: title,
+        isTitleTranslationKey: title.contains('.'),
       ),
       floatingActionButton: DefaultFloatingButton(
         label: 'onboarding.agreement.button.agree',

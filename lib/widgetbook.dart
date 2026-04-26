@@ -10,6 +10,7 @@ import 'package:wingle/common/constants/env_constants.dart';
 import 'package:wingle/common/utils/env_util.dart';
 import 'package:wingle/common/utils/hive_util.dart';
 import 'package:wingle/common/utils/secure_key_manager.dart';
+import 'package:wingle/widgetbook/components/widgetbook_component_folder.dart';
 import 'package:wingle/widgetbook/foundations/color_page.dart';
 import 'package:wingle/widgetbook/foundations/padding_page.dart';
 import 'package:wingle/widgetbook/foundations/radius_page.dart';
@@ -118,6 +119,7 @@ class WingleWidgetbook extends StatelessWidget {
             ),
           ],
         ),
+        buildComponentFolder(),
         buildScreenFolder(),
       ],
       lightTheme: Themes.light,
