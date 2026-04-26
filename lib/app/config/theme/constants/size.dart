@@ -30,6 +30,9 @@ class AppFontSize {
 
 /// 어플리케이션의 공통 아이콘 크기 정의
 class AppIconSize {
+  /// xxs 아이콘 크기
+  static const double xxs = 14;
+
   /// 가장 작은 아이콘 크기
   static const double xs = 16;
 
@@ -47,6 +50,186 @@ class AppIconSize {
 
   /// 라디오 버튼 내부 원 크기
   static const double radioInner = 10;
+
+  /// 모든 아이콘 크기
+  static const List<double> values = [xxs, xs, sm, md, lg, xl];
+}
+
+/// 어플리케이션의 공통 아이콘 터치 영역 정의
+class AppIconTouchSize {
+  /// xxs 터치 영역
+  static const double xxs = 20;
+
+  /// xs 터치 영역
+  static const double xs = 26;
+
+  /// sm 터치 영역
+  static const double sm = 32;
+
+  /// 기본 터치 영역
+  static const double md = 44;
+
+  /// 강조 터치 영역
+  static const double lg = 64;
+
+  /// xl 터치 영역
+  static const double xl = 72;
+
+  /// 접근성을 위한 최소 터치 영역
+  static const double minimum = 48;
+
+  /// 모든 터치 영역
+  static const List<double> values = [xxs, xs, sm, md, lg, xl, minimum];
+}
+
+/// 아이콘 제작 가이드용 픽셀 그리드 정의
+class AppIconPixelGrid {
+  /// xxs 아이콘 픽셀 그리드
+  static const double xxs = 18;
+
+  /// xs 아이콘 픽셀 그리드
+  static const double xs = 20;
+
+  /// sm 아이콘 픽셀 그리드
+  static const double sm = 26;
+
+  /// md 아이콘 픽셀 그리드
+  static const double md = 32;
+
+  /// lg 아이콘 픽셀 그리드
+  static const double lg = 40;
+
+  /// xl 아이콘 픽셀 그리드
+  static const double xl = 44;
+
+  /// 모든 픽셀 그리드
+  static const List<double> values = [xxs, xs, sm, md, lg, xl];
+}
+
+/// 아이콘 제작 가이드용 원형 지름 정의
+class AppIconCircleDiameter {
+  /// xxs 아이콘 원형 지름
+  static const double xxs = 15;
+
+  /// xs 아이콘 원형 지름
+  static const double xs = 18;
+
+  /// sm 아이콘 원형 지름
+  static const double sm = 22;
+
+  /// md 아이콘 원형 지름
+  static const double md = 26;
+
+  /// lg 아이콘 원형 지름
+  static const double lg = 32;
+
+  /// xl 아이콘 원형 지름
+  static const double xl = 36;
+
+  /// 모든 원형 지름
+  static const List<double> values = [xxs, xs, sm, md, lg, xl];
+}
+
+/// 아이콘 제작 가이드용 정사각형 크기 정의
+class AppIconSquareSize {
+  /// xxs 아이콘 정사각형 크기
+  static const double xxs = 14;
+
+  /// xs 아이콘 정사각형 크기
+  static const double xs = 16;
+
+  /// sm 아이콘 정사각형 크기
+  static const double sm = 20;
+
+  /// md 아이콘 정사각형 크기
+  static const double md = 24;
+
+  /// lg 아이콘 정사각형 크기
+  static const double lg = 28;
+
+  /// xl 아이콘 정사각형 크기
+  static const double xl = 32;
+
+  /// 모든 정사각형 크기
+  static const List<double> values = [xxs, xs, sm, md, lg, xl];
+}
+
+/// 아이콘 제작 가이드용 가로 직사각형 크기 정의
+class AppIconHorizontalRectSize {
+  /// xxs 아이콘 가로 직사각형 너비
+  static const double xxsWidth = 16;
+
+  /// xxs 아이콘 가로 직사각형 높이
+  static const double xxsHeight = 12;
+
+  /// xs 아이콘 가로 직사각형 너비
+  static const double xsWidth = 18;
+
+  /// xs 아이콘 가로 직사각형 높이
+  static const double xsHeight = 14;
+
+  /// sm 아이콘 가로 직사각형 너비
+  static const double smWidth = 25;
+
+  /// sm 아이콘 가로 직사각형 높이
+  static const double smHeight = 18;
+
+  /// md 아이콘 가로 직사각형 너비
+  static const double mdWidth = 28;
+
+  /// md 아이콘 가로 직사각형 높이
+  static const double mdHeight = 20;
+
+  /// lg 아이콘 가로 직사각형 너비
+  static const double lgWidth = 35;
+
+  /// lg 아이콘 가로 직사각형 높이
+  static const double lgHeight = 24;
+
+  /// xl 아이콘 가로 직사각형 너비
+  static const double xlWidth = 36;
+
+  /// xl 아이콘 가로 직사각형 높이
+  static const double xlHeight = 28;
+}
+
+/// 아이콘 제작 가이드용 세로 직사각형 크기 정의
+class AppIconVerticalRectSize {
+  /// xxs 아이콘 세로 직사각형 너비
+  static const double xxsWidth = 12;
+
+  /// xxs 아이콘 세로 직사각형 높이
+  static const double xxsHeight = 16;
+
+  /// xs 아이콘 세로 직사각형 너비
+  static const double xsWidth = 14;
+
+  /// xs 아이콘 세로 직사각형 높이
+  static const double xsHeight = 18;
+
+  /// sm 아이콘 세로 직사각형 너비
+  static const double smWidth = 18;
+
+  /// sm 아이콘 세로 직사각형 높이
+  static const double smHeight = 25;
+
+  /// md 아이콘 세로 직사각형 너비
+  static const double mdWidth = 20;
+
+  /// md 아이콘 세로 직사각형 높이
+  static const double mdHeight = 28;
+
+  /// lg 아이콘 세로 직사각형 너비
+  static const double lgWidth = 24;
+
+  /// lg 아이콘 세로 직사각형 높이
+  static const double lgHeight = 32;
+
+  /// xl 아이콘 세로 직사각형 너비
+  static const double xlWidth = 28;
+
+  /// xl 아이콘 세로 직사각형 높이
+  static const double xlHeight = 36;
 }
 
 /// 어플리케이션의 공통 높이 정의
