@@ -7,6 +7,7 @@ import 'package:wingle/widgetbook/components/pagination_page.dart';
 import 'package:wingle/widgetbook/components/selections/check_page.dart';
 import 'package:wingle/widgetbook/components/selections/checkbox_page.dart';
 import 'package:wingle/widgetbook/components/selections/radio_page.dart';
+import 'package:wingle/widgetbook/components/selections/toggle_switch_page.dart';
 import 'package:wingle/widgetbook/components/snackbar_page.dart';
 
 /// Widgetbook의 컴포넌트 폴더를 구성한다.
@@ -77,6 +78,15 @@ WidgetbookFolder buildComponentFolder() {
               WidgetbookUseCase(
                 name: 'Default',
                 builder: (context) => const RadioPage(),
+              ),
+            ],
+          ),
+          WidgetbookComponent(
+            name: 'Toggle Switch',
+            useCases: [
+              WidgetbookUseCase(
+                name: 'Default',
+                builder: (context) => const ToggleSwitchPage(),
               ),
             ],
           ),

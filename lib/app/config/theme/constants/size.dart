@@ -314,6 +314,18 @@ class AppContainerSize {
 
   /// Card 최소 높이
   static const double cardMinHeight = 48;
+
+  /// Toggle Switch 너비
+  static const double toggleSwitchWidth = 58;
+
+  /// Toggle Switch 높이
+  static const double toggleSwitchHeight = 24;
+
+  /// Toggle Switch thumb 크기
+  static const double toggleSwitchThumb = 33;
+
+  /// Toggle Switch 내부 여백
+  static const double toggleSwitchInset = 2;
 }
 
 /// 어플리케이션 내 선 두께 정의

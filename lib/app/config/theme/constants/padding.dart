@@ -74,4 +74,7 @@ class AppPadding {
 
   /// Snackbar 액션 버튼 가로 패딩
   static const double snackbarActionHorizontal = 12;
+
+  /// 토글 스위치 내부 패딩
+  static const double toggleSwitchPadding = 2;
 }
