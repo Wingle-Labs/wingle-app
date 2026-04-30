@@ -4,6 +4,27 @@ import 'package:wingle/app/config/theme/layout/app_layout_tokens.dart';
 
 /// 어플리케이션의 공통 브레이크포인트 정의
 enum AppBreakpoint {
+  /// Galaxy 기본, 최소 모바일
+  mobileSm,
+
+  /// iPhone 표준
+  mobileMd,
+
+  /// Pro Max, Ultra
+  mobileLg,
+
+  /// iPad Mini, Tab S9
+  tabletSm,
+
+  /// Fold 펼침, iPad Air
+  tabletMd,
+
+  /// iPad Pro 13"
+  tabletLg,
+
+  /// Tab Ultra, 웹
+  desktop,
+
   /// 초소형 (예: 모바일 세로)
   xs,
 
@@ -16,6 +37,27 @@ enum AppBreakpoint {
 
 /// 레이아웃 프리셋 종류
 enum AppLayoutPreset {
+  /// Galaxy 기본 모바일
+  mobileSm,
+
+  /// iPhone 표준 모바일
+  mobileMd,
+
+  /// Pro Max, Ultra 모바일
+  mobileLg,
+
+  /// iPad Mini, Tab S9
+  tabletSm,
+
+  /// Fold 펼침, iPad Air
+  tabletMd,
+
+  /// iPad Pro 13"
+  tabletLg,
+
+  /// Tab Ultra, 웹
+  desktop,
+
   /// 모바일 세로 XS
   xsMobile,
 
@@ -38,18 +80,44 @@ final class AppLayoutResolver {
 
   /// 주어진 너비에 맞는 브레이크포인트를 반환합니다.
   static AppBreakpoint resolveBreakpoint(double width) {
-    if (width < 391) {
-      return AppBreakpoint.xs;
+    if (width >= 1280) {
+      return AppBreakpoint.desktop;
     }
-    if (width < 744) {
-      return AppBreakpoint.md;
+    if (width >= 1024) {
+      return AppBreakpoint.tabletLg;
     }
-    return AppBreakpoint.xl;
+    if (width >= 882) {
+      return AppBreakpoint.tabletMd;
+    }
+    if (width >= 744) {
+      return AppBreakpoint.tabletSm;
+    }
+    if (width >= 430) {
+      return AppBreakpoint.mobileLg;
+    }
+    if (width >= 390) {
+      return AppBreakpoint.mobileMd;
+    }
+    return AppBreakpoint.mobileSm;
   }
 
   /// 주어진 프리셋에 맞는 그리드 스펙을 반환합니다.
   static AppGridSpec resolvePreset(AppLayoutPreset preset) {
     switch (preset) {
+      case AppLayoutPreset.mobileSm:
+        return AppLayoutTokens.mobileSm;
+      case AppLayoutPreset.mobileMd:
+        return AppLayoutTokens.mobileMd;
+      case AppLayoutPreset.mobileLg:
+        return AppLayoutTokens.mobileLg;
+      case AppLayoutPreset.tabletSm:
+        return AppLayoutTokens.tabletSm;
+      case AppLayoutPreset.tabletMd:
+        return AppLayoutTokens.tabletMd;
+      case AppLayoutPreset.tabletLg:
+        return AppLayoutTokens.tabletLg;
+      case AppLayoutPreset.desktop:
+        return AppLayoutTokens.desktop;
       case AppLayoutPreset.xsMobile:
         return AppLayoutTokens.xsMobile;
       case AppLayoutPreset.mdTabletThreeCol:

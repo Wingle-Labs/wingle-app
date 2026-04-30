@@ -13,6 +13,7 @@ import 'package:wingle/common/utils/secure_key_manager.dart';
 import 'package:wingle/widgetbook/components/widgetbook_component_folder.dart';
 import 'package:wingle/widgetbook/foundations/color_page.dart';
 import 'package:wingle/widgetbook/foundations/elevation_page.dart';
+import 'package:wingle/widgetbook/foundations/grid_page.dart';
 import 'package:wingle/widgetbook/foundations/padding_page.dart';
 import 'package:wingle/widgetbook/foundations/radius_page.dart';
 import 'package:wingle/widgetbook/foundations/size_page.dart';
@@ -97,6 +98,15 @@ class WingleWidgetbook extends StatelessWidget {
                 WidgetbookUseCase(
                   name: 'All Styles',
                   builder: (context) => const ElevationPage(),
+                ),
+              ],
+            ),
+            WidgetbookComponent(
+              name: 'Grid',
+              useCases: [
+                WidgetbookUseCase(
+                  name: 'All Styles',
+                  builder: (context) => const GridPage(),
                 ),
               ],
             ),
