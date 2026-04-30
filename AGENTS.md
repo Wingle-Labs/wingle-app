@@ -17,6 +17,9 @@
 ## Design System
 
 - 공용 UI 컴포넌트와 토큰은 `lib/app/config/theme` 아래 기존 구조를 우선 따른다.
+- 컴포넌트 구현에서는 `AppColorPalette` 값을 직접 사용하지 않고, 반드시 `context.colors`의 semantic token을 사용한다.
+- hover/focus/pressed/disabled/loading 등 interaction overlay도 palette opacity를 직접 조합하지 않고, `context.colors.overlayInactive`, `context.colors.overlayPressed`, `context.colors.overlayDisabled`, `context.colors.overlayLoading` 등 이미 정의된 semantic overlay token을 사용한다.
+- `AppColorPalette`는 semantic token 구현부, token registry, foundation 문서처럼 원시 palette를 정의하거나 설명하는 계층에서만 사용한다.
 - 매직 넘버를 컴포넌트나 화면에 직접 흩뿌리지 않는다.
 - 크기, 두께, 간격, 반경, 아이콘, 애니메이션 시간 등 반복 사용되거나 디자인 시스템 제원에 해당하는 값은 `lib/app/config/theme/constants` 아래의 적절한 상수 집합 파일에 정리한다.
 - `constants/color.dart`: 레거시/공통 색상 상수. 가능하면 먼저 `context.colors` semantic token을 사용하고, 정말 공통 색상 상수가 필요할 때만 확장한다.

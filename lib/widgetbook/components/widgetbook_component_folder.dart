@@ -4,6 +4,7 @@ import 'package:wingle/widgetbook/components/default_app_bar_page.dart';
 import 'package:wingle/widgetbook/components/divider_page.dart';
 import 'package:wingle/widgetbook/components/icon_page.dart';
 import 'package:wingle/widgetbook/components/pagination_page.dart';
+import 'package:wingle/widgetbook/components/selections/checkbox_page.dart';
 import 'package:wingle/widgetbook/components/snackbar_page.dart';
 
 /// Widgetbook의 컴포넌트 폴더를 구성한다.
@@ -44,6 +45,20 @@ WidgetbookFolder buildComponentFolder() {
           WidgetbookUseCase(
             name: 'Default',
             builder: (context) => const PaginationPage(),
+          ),
+        ],
+      ),
+      WidgetbookFolder(
+        name: 'Selections',
+        children: [
+          WidgetbookComponent(
+            name: 'Checkbox',
+            useCases: [
+              WidgetbookUseCase(
+                name: 'Default',
+                builder: (context) => const CheckboxPage(),
+              ),
+            ],
           ),
         ],
       ),
