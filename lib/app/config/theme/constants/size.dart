@@ -276,6 +276,12 @@ class AppContainerSize {
   /// vertical divider
   static const double verticalDividerHeight = 10;
 
+  /// Divider 기본 가로 길이
+  static const double dividerHorizontalLength = double.infinity;
+
+  /// Divider 기본 세로 길이
+  static const double dividerVerticalLength = 32;
+
   /// Bottom Sheet handle 길이
   static const double bottomSheetHandleWidth = 42;
 
@@ -305,4 +311,10 @@ class AppLineWidth {
 
   /// Radio button border 두께
   static const double radioButtonBorder = 2.4;
+
+  /// Divider 기본 두께
+  static const double dividerNormal = 1;
+
+  /// Divider 두꺼운 영역 두께
+  static const double dividerThick = 12;
 }

@@ -1,12 +1,22 @@
 import 'package:widgetbook/widgetbook.dart';
 import 'package:wingle/app/config/theme/components/wrappers/default_app_bar.dart';
 import 'package:wingle/widgetbook/components/default_app_bar_page.dart';
+import 'package:wingle/widgetbook/components/divider_page.dart';
 
 /// Widgetbook의 컴포넌트 폴더를 구성한다.
 WidgetbookFolder buildComponentFolder() {
   return WidgetbookFolder(
     name: 'Components',
     children: [
+      WidgetbookComponent(
+        name: 'Divider',
+        useCases: [
+          WidgetbookUseCase(
+            name: 'Default',
+            builder: (context) => const DividerPage(),
+          ),
+        ],
+      ),
       WidgetbookComponent(
         name: 'DefaultAppBar',
         useCases: [
