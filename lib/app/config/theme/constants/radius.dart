@@ -43,4 +43,7 @@ class AppRadius {
 
   /// Tag Radius
   static const double tagRadius = 6;
+
+  /// Toggle Icon Radius
+  static const double toggleIcon = 2;
 }

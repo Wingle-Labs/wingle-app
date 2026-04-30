@@ -7,6 +7,7 @@ import 'package:wingle/widgetbook/components/pagination_page.dart';
 import 'package:wingle/widgetbook/components/selections/check_page.dart';
 import 'package:wingle/widgetbook/components/selections/checkbox_page.dart';
 import 'package:wingle/widgetbook/components/selections/radio_page.dart';
+import 'package:wingle/widgetbook/components/selections/toggle_icon_page.dart';
 import 'package:wingle/widgetbook/components/selections/toggle_switch_page.dart';
 import 'package:wingle/widgetbook/components/snackbar_page.dart';
 
@@ -87,6 +88,15 @@ WidgetbookFolder buildComponentFolder() {
               WidgetbookUseCase(
                 name: 'Default',
                 builder: (context) => const ToggleSwitchPage(),
+              ),
+            ],
+          ),
+          WidgetbookComponent(
+            name: 'Toggle Icon',
+            useCases: [
+              WidgetbookUseCase(
+                name: 'Default',
+                builder: (context) => const ToggleIconPage(),
               ),
             ],
           ),

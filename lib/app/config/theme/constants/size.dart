@@ -326,6 +326,15 @@ class AppContainerSize {
 
   /// Toggle Switch 내부 여백
   static const double toggleSwitchInset = 2;
+
+  /// Toggle Icon 크기
+  static const double toggleIcon = 20;
+
+  /// Toggle Icon 점선 간격
+  static const double toggleIconDash = 4;
+
+  /// Toggle Icon 점선 공백
+  static const double toggleIconDashGap = 4;
 }
 
 /// 어플리케이션 내 선 두께 정의
@@ -344,6 +353,9 @@ class AppLineWidth {
 
   /// Radio button border 두께
   static const double radioButtonBorder = 1.4;
+
+  /// Toggle Icon border 두께
+  static const double toggleIconBorder = 1.4;
 
   /// Divider 기본 두께
   static const double dividerNormal = 1;
