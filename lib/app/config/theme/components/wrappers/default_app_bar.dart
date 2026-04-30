@@ -7,6 +7,7 @@ import 'package:wingle/app/config/theme/components/buttons/default_icon_button.d
 import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
+import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/app/config/theme/text/app_typography.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
@@ -31,9 +32,9 @@ enum DefaultAppBarLayout {
 class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   static const double _actionSize = AppIconSize.xl;
   static const double _actionHitSize = AppIconPixelGrid.xl;
-  static const double _actionGap = 4;
-  static const double _titleHorizontalGap = 12;
-  static const double _displayTextGap = 6;
+  static const double _actionGap = AppSpacing.s4;
+  static const double _titleHorizontalGap = AppSpacing.s12;
+  static const double _displayTextGap = AppSpacing.s6;
   static const double _minimumToolbarHeight =
       AppPadding.vertical * 2 + _actionHitSize;
 
@@ -200,11 +201,15 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
     }
 
     if (actions != null) {
-      return _ActionGroup(
+      final group = _ActionGroup(
         alignment: MainAxisAlignment.end,
         useIconGrid: _shouldUseIconGrid(actions as List<Widget>),
         children: actions as List<Widget>,
       );
+
+      return actionsPadding == null
+          ? group
+          : Padding(padding: actionsPadding as EdgeInsets, child: group);
     }
 
     if (trailing != null) {

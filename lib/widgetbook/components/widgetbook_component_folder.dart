@@ -38,13 +38,6 @@ WidgetbookFolder buildComponentFolder() {
             ),
           ),
           WidgetbookUseCase(
-            name: 'Basic With Subtitle',
-            builder: (context) => const DefaultAppBarPage(
-              initialLayout: DefaultAppBarLayout.basic,
-              initialShowSubtitle: true,
-            ),
-          ),
-          WidgetbookUseCase(
             name: 'Side',
             builder: (context) => const DefaultAppBarPage(
               initialLayout: DefaultAppBarLayout.side,
