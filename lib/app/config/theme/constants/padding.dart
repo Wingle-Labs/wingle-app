@@ -62,4 +62,16 @@ class AppPadding {
 
   /// 액션 버튼 마진
   static const double actionMargin = 4;
+
+  /// Snackbar 내부 세로 패딩
+  static const double snackbarVertical = 14;
+
+  /// Snackbar 내부 가로 패딩
+  static const double snackbarHorizontal = 16;
+
+  /// Snackbar 액션 버튼 세로 패딩
+  static const double snackbarActionVertical = 9;
+
+  /// Snackbar 액션 버튼 가로 패딩
+  static const double snackbarActionHorizontal = 12;
 }
