@@ -8,11 +8,17 @@ class AppRadius {
   /// 작은 둥근 모서리
   static const double sm = 8;
 
+  /// 디자인 시스템 표준 둥근 모서리 16px
+  static const double standard = 16;
+
   /// 중간 둥근 모서리
   static const double md = 12;
 
   /// 큰 둥근 모서리
   static const double lg = 20;
+
+  /// 디자인 시스템 큰 둥근 모서리 24px
+  static const double xl = 24;
 
   /// iOS Style
   static const double iosStyle = 18;
