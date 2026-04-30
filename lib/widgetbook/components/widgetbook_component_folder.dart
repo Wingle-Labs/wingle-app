@@ -5,7 +5,6 @@ import 'package:wingle/widgetbook/components/divider_page.dart';
 import 'package:wingle/widgetbook/components/icon_page.dart';
 import 'package:wingle/widgetbook/components/pagination_page.dart';
 import 'package:wingle/widgetbook/components/snackbar_page.dart';
-import 'package:wingle/widgetbook/components/step_indicator_page.dart';
 
 /// Widgetbook의 컴포넌트 폴더를 구성한다.
 WidgetbookFolder buildComponentFolder() {
@@ -45,15 +44,6 @@ WidgetbookFolder buildComponentFolder() {
           WidgetbookUseCase(
             name: 'Default',
             builder: (context) => const PaginationPage(),
-          ),
-        ],
-      ),
-      WidgetbookComponent(
-        name: 'StepIndicator',
-        useCases: [
-          WidgetbookUseCase(
-            name: 'Default',
-            builder: (context) => const StepIndicatorPage(),
           ),
         ],
       ),
