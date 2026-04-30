@@ -99,9 +99,10 @@ class _CheckboxOverlay {
       return colors.overlayPressed;
     }
 
+    // TODO: focused와 hovered 상태에 대한 overlayColor 결정
     if (states.contains(WidgetState.focused) ||
         states.contains(WidgetState.hovered)) {
-      return colors.overlayInactive;
+      return colors.overlayPressed;
     }
 
     return null;
