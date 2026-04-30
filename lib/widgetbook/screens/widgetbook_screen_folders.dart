@@ -120,8 +120,8 @@ WidgetbookComponent _screenComponent({
         builder: (context) {
           final themeMode = context.knobs.object.dropdown<ThemeMode>(
             label: '테마',
-            options: ThemeMode.values,
-            initialOption: ThemeMode.system,
+            options: const [ThemeMode.light, ThemeMode.dark, ThemeMode.system],
+            initialOption: ThemeMode.light,
             labelBuilder: (mode) => switch (mode) {
               ThemeMode.light => 'Light',
               ThemeMode.dark => 'Dark',

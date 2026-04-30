@@ -44,7 +44,7 @@ class WidgetbookPreviewApp extends StatefulWidget {
   const WidgetbookPreviewApp({
     super.key,
     required this.initialLocation,
-    this.themeMode = ThemeMode.system,
+    this.themeMode = ThemeMode.light,
     this.textScaleFactor = 1,
     this.userGender,
   });
@@ -184,7 +184,8 @@ class _WidgetbookPreviewAppState extends State<WidgetbookPreviewApp> {
               path: OnboardingRoutes.onboardingPassword.path,
               name: OnboardingRoutes.onboardingPassword.name,
               builder: (context, state) => OnboardingPasswordPage(
-                phoneNumber: (state.extra as String?) ??
+                phoneNumber:
+                    (state.extra as String?) ??
                     PhoneNumber('01012345678').apiValue,
               ),
             ),

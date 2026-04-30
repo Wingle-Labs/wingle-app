@@ -12,6 +12,7 @@ import 'package:wingle/common/utils/hive_util.dart';
 import 'package:wingle/common/utils/secure_key_manager.dart';
 import 'package:wingle/widgetbook/components/widgetbook_component_folder.dart';
 import 'package:wingle/widgetbook/foundations/color_page.dart';
+import 'package:wingle/widgetbook/foundations/elevation_page.dart';
 import 'package:wingle/widgetbook/foundations/padding_page.dart';
 import 'package:wingle/widgetbook/foundations/radius_page.dart';
 import 'package:wingle/widgetbook/foundations/size_page.dart';
@@ -66,10 +67,19 @@ class WingleWidgetbook extends StatelessWidget {
                   name: 'All Styles',
                   builder: (context) {
                     /// 테마 변경
-                    final theme = context.knobs.object.dropdown(
+                    final theme = context.knobs.object.dropdown<ThemeMode>(
                       label: 'Theme',
-                      options: ThemeMode.values,
-                      initialOption: ThemeMode.system,
+                      options: const [
+                        ThemeMode.light,
+                        ThemeMode.dark,
+                        ThemeMode.system,
+                      ],
+                      initialOption: ThemeMode.light,
+                      labelBuilder: (mode) => switch (mode) {
+                        ThemeMode.light => 'Light',
+                        ThemeMode.dark => 'Dark',
+                        ThemeMode.system => 'System',
+                      },
                     );
                     return MaterialApp(
                       themeMode: theme,
@@ -78,6 +88,15 @@ class WingleWidgetbook extends StatelessWidget {
                       home: const ColorPage(),
                     );
                   },
+                ),
+              ],
+            ),
+            WidgetbookComponent(
+              name: 'Elevation',
+              useCases: [
+                WidgetbookUseCase(
+                  name: 'All Styles',
+                  builder: (context) => const ElevationPage(),
                 ),
               ],
             ),
@@ -124,7 +143,7 @@ class WingleWidgetbook extends StatelessWidget {
       ],
       lightTheme: Themes.light,
       darkTheme: Themes.dark,
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.light,
       appBuilder: (context, child) =>
           Theme(data: Theme.of(context), child: child),
     );
