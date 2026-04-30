@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:widgetbook/widgetbook.dart';
-import 'package:wingle/app/config/theme/components/buttons/default_checkbox.dart';
+import 'package:wingle/app/config/theme/components/buttons/default_radio.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
@@ -8,19 +8,19 @@ import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
 
-/// Checkbox 컴포넌트 프리뷰
-class CheckboxPage extends StatefulWidget {
+/// Radio 컴포넌트 프리뷰
+class RadioPage extends StatefulWidget {
   /// 생성자
-  const CheckboxPage({super.key});
+  const RadioPage({super.key});
 
   @override
-  State<CheckboxPage> createState() => _CheckboxPageState();
+  State<RadioPage> createState() => _RadioPageState();
 }
 
-class _CheckboxPageState extends State<CheckboxPage> {
+class _RadioPageState extends State<RadioPage> {
   static const double _panelWidth = 640;
 
-  DefaultCheckboxState _testState = DefaultCheckboxState.selected;
+  bool _selected = true;
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +38,9 @@ class _CheckboxPageState extends State<CheckboxPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Checkbox', style: typography.title),
+            Text('Radio', style: typography.title),
             const SizedBox(height: AppSpacing.s24),
-            Text('상위 위계로 활성화 여부를 제어할 때 사용해요.', style: typography.body),
+            Text('여러 항목 중 하나를 선택해야 할 때 사용해요.', style: typography.body),
             const SizedBox(height: AppSpacing.s40),
             Container(
               width: _panelWidth,
@@ -54,21 +54,29 @@ class _CheckboxPageState extends State<CheckboxPage> {
                 children: [
                   const _SpecRow(
                     title: 'size',
-                    chips: ['md'],
-                    child: DefaultCheckbox(isChecked: true),
+                    chips: ['normal', 'small'],
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        DefaultRadio(isSelected: true),
+                        SizedBox(width: AppSpacing.s24),
+                        DefaultRadio(
+                          isSelected: true,
+                          size: DefaultRadioSize.small,
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(height: AppSpacing.s32),
                   const _SpecRow(
                     title: 'state',
-                    chips: ['unselected', 'selected', 'partial'],
+                    chips: ['unchecked', 'checked'],
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        DefaultCheckbox(isChecked: false),
+                        DefaultRadio(isSelected: false),
                         SizedBox(width: AppSpacing.s24),
-                        DefaultCheckbox(isChecked: true),
-                        SizedBox(width: AppSpacing.s24),
-                        DefaultCheckbox(isChecked: false, isPartial: true),
+                        DefaultRadio(isSelected: true),
                       ],
                     ),
                   ),
@@ -79,40 +87,34 @@ class _CheckboxPageState extends State<CheckboxPage> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        DefaultCheckbox(isChecked: false),
+                        DefaultRadio(isSelected: false, isDisabled: true),
                         SizedBox(width: AppSpacing.s24),
-                        DefaultCheckbox(isChecked: true, isDisabled: true),
-                        SizedBox(width: AppSpacing.s24),
-                        DefaultCheckbox(
-                          isChecked: false,
-                          isPartial: true,
-                          isDisabled: true,
-                        ),
+                        DefaultRadio(isSelected: true, isDisabled: true),
                       ],
                     ),
                   ),
                   const SizedBox(height: AppSpacing.s32),
                   _SpecRow(
                     title: 'interaction',
-                    chips: ['default', 'hovered', 'focused', 'pressed'],
+                    chips: ['normal', 'hovered', 'focused', 'pressed'],
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const DefaultCheckbox(isChecked: true),
+                        const DefaultRadio(isSelected: true),
                         const SizedBox(width: AppSpacing.s24),
                         _InteractionPreview(
                           overlayColor: colors.overlayInactive,
-                          child: const DefaultCheckbox(isChecked: true),
+                          child: const DefaultRadio(isSelected: true),
                         ),
                         const SizedBox(width: AppSpacing.s24),
                         _InteractionPreview(
                           overlayColor: colors.overlayInactive,
-                          child: const DefaultCheckbox(isChecked: true),
+                          child: const DefaultRadio(isSelected: true),
                         ),
                         const SizedBox(width: AppSpacing.s24),
                         _InteractionPreview(
                           overlayColor: colors.overlayPressed,
-                          child: const DefaultCheckbox(isChecked: true),
+                          child: const DefaultRadio(isSelected: true),
                         ),
                       ],
                     ),
@@ -124,17 +126,16 @@ class _CheckboxPageState extends State<CheckboxPage> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        DefaultCheckbox(
-                          isChecked:
-                              _testState == DefaultCheckboxState.selected,
-                          isPartial: _testState == DefaultCheckboxState.partial,
+                        DefaultRadio(
+                          isSelected: _selected,
                           isDisabled: disabled,
-                          semanticLabel: 'Widgetbook checkbox preview',
-                          onChanged: (_) => setState(_rotateTestState),
+                          semanticLabel: 'Widgetbook radio preview',
+                          onChanged: (_) =>
+                              setState(() => _selected = !_selected),
                         ),
                         const SizedBox(width: AppSpacing.s12),
                         Text(
-                          '실제 클릭 테스트: ${_testState.name}',
+                          '실제 클릭 테스트: ${_selected ? 'checked' : 'unchecked'}',
                           style: typography.body,
                         ),
                       ],
@@ -147,14 +148,6 @@ class _CheckboxPageState extends State<CheckboxPage> {
         ),
       ),
     );
-  }
-
-  void _rotateTestState() {
-    _testState = switch (_testState) {
-      DefaultCheckboxState.unselected => DefaultCheckboxState.selected,
-      DefaultCheckboxState.selected => DefaultCheckboxState.partial,
-      DefaultCheckboxState.partial => DefaultCheckboxState.unselected,
-    };
   }
 }
 

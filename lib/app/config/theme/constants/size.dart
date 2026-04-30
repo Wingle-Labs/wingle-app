@@ -51,6 +51,18 @@ class AppIconSize {
   /// 라디오 버튼 내부 원 크기
   static const double radioInner = 10;
 
+  /// Radio normal 크기
+  static const double radioNormal = sm;
+
+  /// Radio small 크기
+  static const double radioSmall = xs;
+
+  /// Radio normal 내부 원 크기
+  static const double radioInnerNormal = radioInner;
+
+  /// Radio small 내부 원 크기
+  static const double radioInnerSmall = 8;
+
   /// 모든 아이콘 크기
   static const List<double> values = [xxs, xs, sm, md, lg, xl];
 }
@@ -319,7 +331,7 @@ class AppLineWidth {
   static const double bottomSheetHandleHeight = 4;
 
   /// Radio button border 두께
-  static const double radioButtonBorder = 2.4;
+  static const double radioButtonBorder = 1.4;
 
   /// Divider 기본 두께
   static const double dividerNormal = 1;

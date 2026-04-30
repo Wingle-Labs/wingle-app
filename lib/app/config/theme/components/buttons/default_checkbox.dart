@@ -52,6 +52,7 @@ class DefaultCheckbox extends StatelessWidget {
     final textScale = MediaQuery.textScalerOf(context).scale(1.0);
     final clampedScale = scalePolicy.getScaleFactor(textScale);
     final size = AppIconSize.sm * clampedScale;
+    final touchSize = AppIconTouchSize.sm * clampedScale;
     final state = isPartial
         ? DefaultCheckboxState.partial
         : isChecked
@@ -66,16 +67,21 @@ class DefaultCheckbox extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: isDisabled ? null : () => onChanged?.call(!isChecked),
-          borderRadius: BorderRadius.circular(AppRadius.checkboxRadius),
+          customBorder: const CircleBorder(),
           overlayColor: WidgetStateProperty.resolveWith<Color?>(
             (states) => _CheckboxOverlay.resolve(states, isDisabled, context),
           ),
           child: SizedBox.square(
-            dimension: size,
-            child: _CheckboxMark(
-              state: state,
-              isDisabled: isDisabled,
-              size: size,
+            dimension: touchSize,
+            child: Center(
+              child: SizedBox.square(
+                dimension: size,
+                child: _CheckboxMark(
+                  state: state,
+                  isDisabled: isDisabled,
+                  size: size,
+                ),
+              ),
             ),
           ),
         ),
@@ -99,10 +105,9 @@ class _CheckboxOverlay {
       return colors.overlayPressed;
     }
 
-    // TODO: focused와 hovered 상태에 대한 overlayColor 결정
     if (states.contains(WidgetState.focused) ||
         states.contains(WidgetState.hovered)) {
-      return colors.overlayPressed;
+      return colors.overlayInactive;
     }
 
     return null;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wingle/app/config/theme/components/buttons/default_radio.dart';
 import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
@@ -82,30 +83,6 @@ class _BodyShapeRadio extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-
-    return SizedBox(
-      width: AppIconSize.sm,
-      height: AppIconSize.sm,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(
-            color: selected ? colors.textNormal : colors.interactionDisable,
-            width: AppLineWidth.radioButtonBorder,
-          ),
-        ),
-        child: Center(
-          child: Container(
-            width: selected ? AppIconSize.radioInner : 0,
-            height: selected ? AppIconSize.radioInner : 0,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: selected ? colors.textNormal : Colors.transparent,
-            ),
-          ),
-        ),
-      ),
-    );
+    return DefaultRadio(isSelected: selected);
   }
 }
