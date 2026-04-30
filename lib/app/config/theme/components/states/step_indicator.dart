@@ -4,8 +4,8 @@ import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 
-/// 프로필 입력 단계 진행 표시 바.
-class ProfileInputStepIndicator extends StatelessWidget {
+/// 진행 단계 표시 바.
+class StepIndicator extends StatelessWidget {
   /// 현재 단계(1부터 시작)
   final int currentStep;
 
@@ -28,7 +28,7 @@ class ProfileInputStepIndicator extends StatelessWidget {
   final Color? inactiveColor;
 
   /// 생성자
-  const ProfileInputStepIndicator({
+  const StepIndicator({
     super.key,
     required this.currentStep,
     required this.totalSteps,

@@ -235,7 +235,16 @@ class AppIconVerticalRectSize {
 /// 어플리케이션의 공통 높이 정의
 class AppContainerSize {
   /// indicator
-  static const double indicator = 8;
+  static const double indicator = 6;
+
+  /// Pagination dot 크기
+  static const double paginationDot = 6;
+
+  /// Pagination line 높이
+  static const double paginationLine = 6;
+
+  /// Pagination line 너비
+  static const double paginationLineWidth = 50;
 
   /// 작은 높이
   static const double small = 40;
