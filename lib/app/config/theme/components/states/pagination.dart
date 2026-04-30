@@ -12,6 +12,15 @@ enum PaginationVariant {
   line,
 }
 
+/// Pagination 하위 요소 상태
+enum PaginationItemState {
+  /// 현재 위치 또는 완료된 단계를 나타내는 활성 상태
+  active,
+
+  /// 아직 도달하지 않은 위치 또는 단계를 나타내는 비활성 상태
+  inactive,
+}
+
 /// 순서와 단계를 표시하는 Pagination 컴포넌트
 class Pagination extends StatelessWidget {
   /// 현재 인덱스. 0부터 시작합니다.
@@ -55,14 +64,20 @@ class Pagination extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       spacing: spacing,
       children: List.generate(length, (index) {
-        final isActive = index == resolvedCurrentIndex;
+        final state = index == resolvedCurrentIndex
+            ? PaginationItemState.active
+            : PaginationItemState.inactive;
 
         return switch (variant) {
           PaginationVariant.dot => _DotPageIndicator(
-            color: isActive ? resolvedActiveColor : resolvedInactiveColor,
+            state: state,
+            activeColor: resolvedActiveColor,
+            inactiveColor: resolvedInactiveColor,
           ),
           PaginationVariant.line => _LinePageIndicator(
-            color: isActive ? resolvedActiveColor : resolvedInactiveColor,
+            state: state,
+            activeColor: resolvedActiveColor,
+            inactiveColor: resolvedInactiveColor,
           ),
         };
       }),
@@ -71,12 +86,23 @@ class Pagination extends StatelessWidget {
 }
 
 class _DotPageIndicator extends StatelessWidget {
-  final Color color;
+  final PaginationItemState state;
+  final Color activeColor;
+  final Color inactiveColor;
 
-  const _DotPageIndicator({required this.color});
+  const _DotPageIndicator({
+    required this.state,
+    required this.activeColor,
+    required this.inactiveColor,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final color = switch (state) {
+      PaginationItemState.active => activeColor,
+      PaginationItemState.inactive => inactiveColor,
+    };
+
     return SizedBox.square(
       dimension: AppContainerSize.paginationDot,
       child: DecoratedBox(
@@ -87,12 +113,23 @@ class _DotPageIndicator extends StatelessWidget {
 }
 
 class _LinePageIndicator extends StatelessWidget {
-  final Color color;
+  final PaginationItemState state;
+  final Color activeColor;
+  final Color inactiveColor;
 
-  const _LinePageIndicator({required this.color});
+  const _LinePageIndicator({
+    required this.state,
+    required this.activeColor,
+    required this.inactiveColor,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final color = switch (state) {
+      PaginationItemState.active => activeColor,
+      PaginationItemState.inactive => inactiveColor,
+    };
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(AppContainerSize.paginationLine),
       child: SizedBox(
