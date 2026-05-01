@@ -95,40 +95,120 @@ class DefaultButton extends ConsumerWidget {
           ),
           child: Padding(
             padding: contentPadding,
-            child: Row(
-              mainAxisAlignment: .center,
-              mainAxisSize: .max,
-              spacing: AppSpacing.buttonInternal,
-              children: [
-                if (leading != null || leadingWidget != null)
-                  _ButtonIconSlot(
-                    icon: leading,
-                    color: foregroundColor,
-                    child: leadingWidget,
-                  ),
-                Flexible(
-                  child: TextScaleWrapper(
-                    policy: .cappedLarge,
-                    child: Text(
-                      label.tr(),
-                      style: (textStyle ?? context.typography.buttonLarge)
-                          .copyWith(color: foregroundColor),
-                      textAlign: .center,
-                    ),
-                  ),
-                ),
-
-                if (trailing != null || trailingWidget != null)
-                  _ButtonIconSlot(
-                    icon: trailing,
-                    color: foregroundColor,
-                    child: trailingWidget,
-                  ),
-              ],
+            child: _ButtonContent(
+              label: label.tr(),
+              leading: leading,
+              trailing: trailing,
+              leadingWidget: leadingWidget,
+              trailingWidget: trailingWidget,
+              foregroundColor: foregroundColor,
+              textStyle: (textStyle ?? context.typography.buttonLarge).copyWith(
+                color: foregroundColor,
+              ),
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class _ButtonContent extends StatelessWidget {
+  final String label;
+  final IconData? leading;
+  final IconData? trailing;
+  final Widget? leadingWidget;
+  final Widget? trailingWidget;
+  final Color foregroundColor;
+  final TextStyle textStyle;
+
+  const _ButtonContent({
+    required this.label,
+    required this.leading,
+    required this.trailing,
+    required this.leadingWidget,
+    required this.trailingWidget,
+    required this.foregroundColor,
+    required this.textStyle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final hasLeading = leading != null || leadingWidget != null;
+    final hasTrailing = trailing != null || trailingWidget != null;
+    final hasIcon = hasLeading || hasTrailing;
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final sideWidth = hasIcon
+            ? AppContainerSize.buttonIconSlot + AppSpacing.buttonInternal
+            : 0.0;
+        final maxTextWidth = constraints.hasBoundedWidth
+            ? (constraints.maxWidth - sideWidth * 2).clamp(
+                0.0,
+                constraints.maxWidth,
+              )
+            : double.infinity;
+
+        return Center(
+          child: Row(
+            mainAxisSize: .min,
+            children: [
+              if (hasIcon) ...[
+                _ReservedButtonIconSlot(
+                  child: hasLeading
+                      ? _ButtonIconSlot(
+                          icon: leading,
+                          color: foregroundColor,
+                          child: leadingWidget,
+                        )
+                      : null,
+                ),
+                const SizedBox(width: AppSpacing.buttonInternal),
+              ],
+              ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: maxTextWidth),
+                child: TextScaleWrapper(
+                  policy: .cappedLarge,
+                  child: Text(
+                    label,
+                    style: textStyle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: .center,
+                  ),
+                ),
+              ),
+              if (hasIcon) ...[
+                const SizedBox(width: AppSpacing.buttonInternal),
+                _ReservedButtonIconSlot(
+                  child: hasTrailing
+                      ? _ButtonIconSlot(
+                          icon: trailing,
+                          color: foregroundColor,
+                          child: trailingWidget,
+                        )
+                      : null,
+                ),
+              ],
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _ReservedButtonIconSlot extends StatelessWidget {
+  final Widget? child;
+
+  const _ReservedButtonIconSlot({this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.square(
+      dimension: AppContainerSize.buttonIconSlot,
+      child: child,
     );
   }
 }
@@ -146,18 +226,18 @@ class _ButtonIconSlot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(AppRadius.buttonIconSlot),
-      child: SizedBox.square(
-        dimension: AppContainerSize.buttonIconSlot,
-        child:
-            child ??
-            DefaultIcon(
+    return SizedBox.square(
+      dimension: AppContainerSize.buttonIconSlot,
+      child: child == null
+          ? DefaultIcon(
               icon: icon!,
               size: AppContainerSize.buttonIconSlot,
               color: color,
+            )
+          : ClipRRect(
+              borderRadius: BorderRadius.circular(AppRadius.buttonIconSlot),
+              child: child,
             ),
-      ),
     );
   }
 }
