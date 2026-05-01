@@ -48,10 +48,14 @@ class DefaultIcon extends StatelessWidget {
 
     return Semantics(
       label: semanticLabel,
-      child: ClipRect(
-        child: SizedBox.square(
-          dimension: spec.icon,
-          child: Center(
+      child: SizedBox.square(
+        dimension: spec.icon,
+        child: Center(
+          child: OverflowBox(
+            minWidth: spec.pixelGrid,
+            maxWidth: spec.pixelGrid,
+            minHeight: spec.pixelGrid,
+            maxHeight: spec.pixelGrid,
             child: Icon(
               icon,
               size: spec.pixelGrid,

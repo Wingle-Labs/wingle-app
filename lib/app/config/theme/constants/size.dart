@@ -142,6 +142,30 @@ class AppIconCircleDiameter {
   static const List<double> values = [xxs, xs, sm, md, lg, xl];
 }
 
+/// 아이콘 원형 keyline 지름 정의
+class AppIconCircleKeyline {
+  /// xxs 아이콘 원형 keyline 지름
+  static const double xxs = AppIconCircleDiameter.xxs;
+
+  /// xs 아이콘 원형 keyline 지름
+  static const double xs = AppIconCircleDiameter.xs;
+
+  /// sm 아이콘 원형 keyline 지름
+  static const double sm = AppIconCircleDiameter.sm;
+
+  /// md 아이콘 원형 keyline 지름
+  static const double md = AppIconCircleDiameter.md;
+
+  /// lg 아이콘 원형 keyline 지름
+  static const double lg = AppIconCircleDiameter.lg;
+
+  /// xl 아이콘 원형 keyline 지름
+  static const double xl = AppIconCircleDiameter.xl;
+
+  /// 모든 원형 keyline 지름
+  static const List<double> values = [xxs, xs, sm, md, lg, xl];
+}
+
 /// 아이콘 제작 가이드용 정사각형 크기 정의
 class AppIconSquareSize {
   /// xxs 아이콘 정사각형 크기
@@ -163,6 +187,30 @@ class AppIconSquareSize {
   static const double xl = 32;
 
   /// 모든 정사각형 크기
+  static const List<double> values = [xxs, xs, sm, md, lg, xl];
+}
+
+/// 아이콘 정사각형 keyline 크기 정의
+class AppIconSquareKeyline {
+  /// xxs 아이콘 정사각형 keyline 크기
+  static const double xxs = AppIconSquareSize.xxs;
+
+  /// xs 아이콘 정사각형 keyline 크기
+  static const double xs = AppIconSquareSize.xs;
+
+  /// sm 아이콘 정사각형 keyline 크기
+  static const double sm = AppIconSquareSize.sm;
+
+  /// md 아이콘 정사각형 keyline 크기
+  static const double md = AppIconSquareSize.md;
+
+  /// lg 아이콘 정사각형 keyline 크기
+  static const double lg = AppIconSquareSize.lg;
+
+  /// xl 아이콘 정사각형 keyline 크기
+  static const double xl = AppIconSquareSize.xl;
+
+  /// 모든 정사각형 keyline 크기
   static const List<double> values = [xxs, xs, sm, md, lg, xl];
 }
 
@@ -205,6 +253,45 @@ class AppIconHorizontalRectSize {
   static const double xlHeight = 28;
 }
 
+/// 아이콘 가로 직사각형 keyline 크기 정의
+class AppIconHorizontalRectKeyline {
+  /// xxs 아이콘 가로 직사각형 keyline 너비
+  static const double xxsWidth = AppIconHorizontalRectSize.xxsWidth;
+
+  /// xxs 아이콘 가로 직사각형 keyline 높이
+  static const double xxsHeight = AppIconHorizontalRectSize.xxsHeight;
+
+  /// xs 아이콘 가로 직사각형 keyline 너비
+  static const double xsWidth = AppIconHorizontalRectSize.xsWidth;
+
+  /// xs 아이콘 가로 직사각형 keyline 높이
+  static const double xsHeight = AppIconHorizontalRectSize.xsHeight;
+
+  /// sm 아이콘 가로 직사각형 keyline 너비
+  static const double smWidth = AppIconHorizontalRectSize.smWidth;
+
+  /// sm 아이콘 가로 직사각형 keyline 높이
+  static const double smHeight = AppIconHorizontalRectSize.smHeight;
+
+  /// md 아이콘 가로 직사각형 keyline 너비
+  static const double mdWidth = AppIconHorizontalRectSize.mdWidth;
+
+  /// md 아이콘 가로 직사각형 keyline 높이
+  static const double mdHeight = AppIconHorizontalRectSize.mdHeight;
+
+  /// lg 아이콘 가로 직사각형 keyline 너비
+  static const double lgWidth = AppIconHorizontalRectSize.lgWidth;
+
+  /// lg 아이콘 가로 직사각형 keyline 높이
+  static const double lgHeight = AppIconHorizontalRectSize.lgHeight;
+
+  /// xl 아이콘 가로 직사각형 keyline 너비
+  static const double xlWidth = AppIconHorizontalRectSize.xlWidth;
+
+  /// xl 아이콘 가로 직사각형 keyline 높이
+  static const double xlHeight = AppIconHorizontalRectSize.xlHeight;
+}
+
 /// 아이콘 제작 가이드용 세로 직사각형 크기 정의
 class AppIconVerticalRectSize {
   /// xxs 아이콘 세로 직사각형 너비
@@ -244,6 +331,45 @@ class AppIconVerticalRectSize {
   static const double xlHeight = 36;
 }
 
+/// 아이콘 세로 직사각형 keyline 크기 정의
+class AppIconVerticalRectKeyline {
+  /// xxs 아이콘 세로 직사각형 keyline 너비
+  static const double xxsWidth = AppIconVerticalRectSize.xxsWidth;
+
+  /// xxs 아이콘 세로 직사각형 keyline 높이
+  static const double xxsHeight = AppIconVerticalRectSize.xxsHeight;
+
+  /// xs 아이콘 세로 직사각형 keyline 너비
+  static const double xsWidth = AppIconVerticalRectSize.xsWidth;
+
+  /// xs 아이콘 세로 직사각형 keyline 높이
+  static const double xsHeight = AppIconVerticalRectSize.xsHeight;
+
+  /// sm 아이콘 세로 직사각형 keyline 너비
+  static const double smWidth = AppIconVerticalRectSize.smWidth;
+
+  /// sm 아이콘 세로 직사각형 keyline 높이
+  static const double smHeight = AppIconVerticalRectSize.smHeight;
+
+  /// md 아이콘 세로 직사각형 keyline 너비
+  static const double mdWidth = AppIconVerticalRectSize.mdWidth;
+
+  /// md 아이콘 세로 직사각형 keyline 높이
+  static const double mdHeight = AppIconVerticalRectSize.mdHeight;
+
+  /// lg 아이콘 세로 직사각형 keyline 너비
+  static const double lgWidth = AppIconVerticalRectSize.lgWidth;
+
+  /// lg 아이콘 세로 직사각형 keyline 높이
+  static const double lgHeight = AppIconVerticalRectSize.lgHeight;
+
+  /// xl 아이콘 세로 직사각형 keyline 너비
+  static const double xlWidth = AppIconVerticalRectSize.xlWidth;
+
+  /// xl 아이콘 세로 직사각형 keyline 높이
+  static const double xlHeight = AppIconVerticalRectSize.xlHeight;
+}
+
 /// 아이콘 크기별 디자인 시스템 제원
 class AppIconSpec {
   /// 아이콘 슬롯 크기
@@ -258,20 +384,38 @@ class AppIconSpec {
   /// 원형 아이콘 지름
   final double circleDiameter;
 
+  /// 원형 keyline 지름
+  double get circleKeyline => circleDiameter;
+
   /// 정사각형 아이콘 크기
   final double square;
+
+  /// 정사각형 keyline 크기
+  double get squareKeyline => square;
 
   /// 가로 직사각형 아이콘 너비
   final double horizontalRectWidth;
 
+  /// 가로 직사각형 keyline 너비
+  double get horizontalRectKeylineWidth => horizontalRectWidth;
+
   /// 가로 직사각형 아이콘 높이
   final double horizontalRectHeight;
+
+  /// 가로 직사각형 keyline 높이
+  double get horizontalRectKeylineHeight => horizontalRectHeight;
 
   /// 세로 직사각형 아이콘 너비
   final double verticalRectWidth;
 
+  /// 세로 직사각형 keyline 너비
+  double get verticalRectKeylineWidth => verticalRectWidth;
+
   /// 세로 직사각형 아이콘 높이
   final double verticalRectHeight;
+
+  /// 세로 직사각형 keyline 높이
+  double get verticalRectKeylineHeight => verticalRectHeight;
 
   /// 생성자
   const AppIconSpec({
