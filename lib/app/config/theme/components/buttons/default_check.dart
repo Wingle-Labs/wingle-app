@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wingle/app/config/theme/components/icons/default_icon.dart';
 import 'package:wingle/app/config/theme/components/texts/text_scale_policy.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
@@ -54,8 +55,8 @@ class DefaultCheck extends StatelessWidget {
             child: Center(
               child: SizedBox.square(
                 dimension: markSize,
-                child: Icon(
-                  Icons.check_rounded,
+                child: DefaultIcon(
+                  icon: Icons.check_rounded,
                   size: markSize,
                   color: _resolveIconColor(context),
                 ),

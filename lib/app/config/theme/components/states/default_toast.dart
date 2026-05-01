@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wingle/app/config/theme/components/icons/default_icon.dart';
 import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
@@ -154,7 +155,11 @@ class DefaultToastContent extends StatelessWidget {
               ),
               iconSize: AppIconSize.sm,
               color: color.textNormal,
-              icon: const Icon(Icons.close_rounded),
+              icon: DefaultIcon(
+                icon: Icons.close_rounded,
+                size: AppIconSize.sm,
+                color: color.textNormal,
+              ),
             ),
           ],
         ],

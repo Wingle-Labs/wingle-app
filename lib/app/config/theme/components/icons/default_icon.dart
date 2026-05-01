@@ -44,12 +44,23 @@ class DefaultIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final resolvedColor = color ?? _resolveColor(context);
+    final spec = AppIconSpec.fromIconSize(size);
 
-    return Icon(
-      icon,
-      size: size,
-      color: resolvedColor,
-      semanticLabel: semanticLabel,
+    return Semantics(
+      label: semanticLabel,
+      child: ClipRect(
+        child: SizedBox.square(
+          dimension: spec.icon,
+          child: Center(
+            child: Icon(
+              icon,
+              size: spec.pixelGrid,
+              color: resolvedColor,
+              semanticLabel: semanticLabel,
+            ),
+          ),
+        ),
+      ),
     );
   }
 

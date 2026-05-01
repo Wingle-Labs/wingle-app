@@ -1,12 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:wingle/app/config/theme/components/icons/default_icon.dart';
 import 'package:wingle/app/config/theme/components/texts/text_scale_policy.dart';
 import 'package:wingle/app/config/theme/components/texts/text_scale_wrapper.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
-import 'package:wingle/app/config/theme/constants/weight.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
 
@@ -211,11 +211,9 @@ class _DefaultOutlinedInputFieldState extends State<DefaultOutlinedInputField> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     IconButton(
-                      icon: Icon(
-                        Icons.clear,
-                        applyTextScaling: true,
+                      icon: DefaultIcon(
+                        icon: Icons.clear,
                         size: AppIconSize.md,
-                        fontWeight: AppFontWeight.regular,
                         semanticLabel: 'common.action.clear'.tr(),
                       ),
                       onPressed: widget.onClear,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wingle/app/config/theme/components/icons/default_icon.dart';
 import 'package:wingle/app/config/theme/components/texts/text_scale_policy.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
@@ -152,13 +153,13 @@ class _CheckboxMark extends StatelessWidget {
       child: Center(
         child: switch (state) {
           DefaultCheckboxState.unselected => null,
-          DefaultCheckboxState.selected => Icon(
-            Icons.check_rounded,
+          DefaultCheckboxState.selected => DefaultIcon(
+            icon: Icons.check_rounded,
             size: size,
             color: iconColor,
           ),
-          DefaultCheckboxState.partial => Icon(
-            Icons.remove_rounded,
+          DefaultCheckboxState.partial => DefaultIcon(
+            icon: Icons.remove_rounded,
             size: size,
             color: iconColor,
           ),

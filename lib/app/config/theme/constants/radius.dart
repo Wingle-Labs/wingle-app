@@ -46,4 +46,7 @@ class AppRadius {
 
   /// Toggle Icon Radius
   static const double toggleIcon = 2;
+
+  /// Button Icon Slot Radius
+  static const double buttonIconSlot = 3;
 }

@@ -244,6 +244,153 @@ class AppIconVerticalRectSize {
   static const double xlHeight = 36;
 }
 
+/// 아이콘 크기별 디자인 시스템 제원
+class AppIconSpec {
+  /// 아이콘 슬롯 크기
+  final double icon;
+
+  /// 터치 영역 크기
+  final double touch;
+
+  /// 픽셀 그리드 크기
+  final double pixelGrid;
+
+  /// 원형 아이콘 지름
+  final double circleDiameter;
+
+  /// 정사각형 아이콘 크기
+  final double square;
+
+  /// 가로 직사각형 아이콘 너비
+  final double horizontalRectWidth;
+
+  /// 가로 직사각형 아이콘 높이
+  final double horizontalRectHeight;
+
+  /// 세로 직사각형 아이콘 너비
+  final double verticalRectWidth;
+
+  /// 세로 직사각형 아이콘 높이
+  final double verticalRectHeight;
+
+  /// 생성자
+  const AppIconSpec({
+    required this.icon,
+    required this.touch,
+    required this.pixelGrid,
+    required this.circleDiameter,
+    required this.square,
+    required this.horizontalRectWidth,
+    required this.horizontalRectHeight,
+    required this.verticalRectWidth,
+    required this.verticalRectHeight,
+  });
+
+  /// xxs 아이콘 제원
+  static const AppIconSpec xxs = AppIconSpec(
+    icon: AppIconSize.xxs,
+    touch: AppIconTouchSize.xxs,
+    pixelGrid: AppIconPixelGrid.xxs,
+    circleDiameter: AppIconCircleDiameter.xxs,
+    square: AppIconSquareSize.xxs,
+    horizontalRectWidth: AppIconHorizontalRectSize.xxsWidth,
+    horizontalRectHeight: AppIconHorizontalRectSize.xxsHeight,
+    verticalRectWidth: AppIconVerticalRectSize.xxsWidth,
+    verticalRectHeight: AppIconVerticalRectSize.xxsHeight,
+  );
+
+  /// xs 아이콘 제원
+  static const AppIconSpec xs = AppIconSpec(
+    icon: AppIconSize.xs,
+    touch: AppIconTouchSize.xs,
+    pixelGrid: AppIconPixelGrid.xs,
+    circleDiameter: AppIconCircleDiameter.xs,
+    square: AppIconSquareSize.xs,
+    horizontalRectWidth: AppIconHorizontalRectSize.xsWidth,
+    horizontalRectHeight: AppIconHorizontalRectSize.xsHeight,
+    verticalRectWidth: AppIconVerticalRectSize.xsWidth,
+    verticalRectHeight: AppIconVerticalRectSize.xsHeight,
+  );
+
+  /// sm 아이콘 제원
+  static const AppIconSpec sm = AppIconSpec(
+    icon: AppIconSize.sm,
+    touch: AppIconTouchSize.sm,
+    pixelGrid: AppIconPixelGrid.sm,
+    circleDiameter: AppIconCircleDiameter.sm,
+    square: AppIconSquareSize.sm,
+    horizontalRectWidth: AppIconHorizontalRectSize.smWidth,
+    horizontalRectHeight: AppIconHorizontalRectSize.smHeight,
+    verticalRectWidth: AppIconVerticalRectSize.smWidth,
+    verticalRectHeight: AppIconVerticalRectSize.smHeight,
+  );
+
+  /// md 아이콘 제원
+  static const AppIconSpec md = AppIconSpec(
+    icon: AppIconSize.md,
+    touch: AppIconTouchSize.md,
+    pixelGrid: AppIconPixelGrid.md,
+    circleDiameter: AppIconCircleDiameter.md,
+    square: AppIconSquareSize.md,
+    horizontalRectWidth: AppIconHorizontalRectSize.mdWidth,
+    horizontalRectHeight: AppIconHorizontalRectSize.mdHeight,
+    verticalRectWidth: AppIconVerticalRectSize.mdWidth,
+    verticalRectHeight: AppIconVerticalRectSize.mdHeight,
+  );
+
+  /// lg 아이콘 제원
+  static const AppIconSpec lg = AppIconSpec(
+    icon: AppIconSize.lg,
+    touch: AppIconTouchSize.lg,
+    pixelGrid: AppIconPixelGrid.lg,
+    circleDiameter: AppIconCircleDiameter.lg,
+    square: AppIconSquareSize.lg,
+    horizontalRectWidth: AppIconHorizontalRectSize.lgWidth,
+    horizontalRectHeight: AppIconHorizontalRectSize.lgHeight,
+    verticalRectWidth: AppIconVerticalRectSize.lgWidth,
+    verticalRectHeight: AppIconVerticalRectSize.lgHeight,
+  );
+
+  /// xl 아이콘 제원
+  static const AppIconSpec xl = AppIconSpec(
+    icon: AppIconSize.xl,
+    touch: AppIconTouchSize.xl,
+    pixelGrid: AppIconPixelGrid.xl,
+    circleDiameter: AppIconCircleDiameter.xl,
+    square: AppIconSquareSize.xl,
+    horizontalRectWidth: AppIconHorizontalRectSize.xlWidth,
+    horizontalRectHeight: AppIconHorizontalRectSize.xlHeight,
+    verticalRectWidth: AppIconVerticalRectSize.xlWidth,
+    verticalRectHeight: AppIconVerticalRectSize.xlHeight,
+  );
+
+  /// 모든 아이콘 제원
+  static const List<AppIconSpec> values = [xxs, xs, sm, md, lg, xl];
+
+  /// 아이콘 슬롯 크기에서 제원을 찾습니다.
+  static AppIconSpec fromIconSize(double iconSize) {
+    return switch (iconSize) {
+      AppIconSize.xxs => xxs,
+      AppIconSize.xs => xs,
+      AppIconSize.sm => sm,
+      AppIconSize.md => md,
+      AppIconSize.lg => lg,
+      AppIconSize.xl => xl,
+      _ => AppIconSpec(
+        icon: iconSize,
+        touch: iconSize,
+        pixelGrid: iconSize * 1.25,
+        circleDiameter: iconSize,
+        square: iconSize,
+        horizontalRectWidth: iconSize,
+        horizontalRectHeight: iconSize,
+        verticalRectWidth: iconSize,
+        verticalRectHeight: iconSize,
+      ),
+    };
+  }
+}
+
 /// 어플리케이션의 공통 높이 정의
 class AppContainerSize {
   /// indicator
@@ -263,6 +410,12 @@ class AppContainerSize {
 
   /// 버튼 최소 길이
   static const double buttonMinimun = 54;
+
+  /// 기본 버튼 높이
+  static const double buttonHeight = 48;
+
+  /// 버튼 내부 아이콘 슬롯 크기
+  static const double buttonIconSlot = 16;
 
   /// 입력 필드 최소 높이
   static const double inputFieldMinimun = 48;

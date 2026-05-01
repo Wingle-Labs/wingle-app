@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wingle/app/config/theme/components/icons/default_icon.dart';
 import 'package:wingle/app/config/theme/components/texts/text_scale_wrapper.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
@@ -34,11 +35,20 @@ class DefaultButton extends ConsumerWidget {
   /// Trailing 아이콘
   final IconData? trailing;
 
+  /// Leading 아이콘 슬롯에 직접 넣을 위젯
+  final Widget? leadingWidget;
+
+  /// Trailing 아이콘 슬롯에 직접 넣을 위젯
+  final Widget? trailingWidget;
+
   /// 비활성화 상태 여부
   final bool isDisabled;
 
   /// Font Style
   final TextStyle? textStyle;
+
+  /// 버튼 내부 패딩
+  final EdgeInsetsGeometry contentPadding;
 
   /// const 생성자
   const DefaultButton({
@@ -51,8 +61,14 @@ class DefaultButton extends ConsumerWidget {
     this.borderSide = .none,
     this.leading,
     this.trailing,
+    this.leadingWidget,
+    this.trailingWidget,
     this.isDisabled = false,
     this.textStyle,
+    this.contentPadding = const .symmetric(
+      vertical: AppPadding.buttonVertical,
+      horizontal: AppPadding.buttonHorizontal,
+    ),
   });
 
   @override
@@ -74,25 +90,21 @@ class DefaultButton extends ConsumerWidget {
         }),
         child: ConstrainedBox(
           constraints: BoxConstraints(
-            minWidth: AppContainerSize.buttonMinimun,
-            minHeight: AppContainerSize.buttonMinimun,
+            minWidth: AppContainerSize.buttonHeight,
+            minHeight: AppContainerSize.buttonHeight,
           ),
           child: Padding(
-            padding: const .symmetric(
-              vertical: AppPadding.btnVertical,
-              horizontal: AppPadding.btnHorizontal,
-            ),
+            padding: contentPadding,
             child: Row(
               mainAxisAlignment: .center,
               mainAxisSize: .max,
               spacing: AppSpacing.buttonInternal,
               children: [
-                if (leading != null)
-                  Icon(
-                    leading,
-                    size: AppFontSize.button,
+                if (leading != null || leadingWidget != null)
+                  _ButtonIconSlot(
+                    icon: leading,
                     color: foregroundColor,
-                    applyTextScaling: true,
+                    child: leadingWidget,
                   ),
                 Flexible(
                   child: TextScaleWrapper(
@@ -106,17 +118,45 @@ class DefaultButton extends ConsumerWidget {
                   ),
                 ),
 
-                if (trailing != null)
-                  Icon(
-                    trailing,
-                    size: AppFontSize.button,
+                if (trailing != null || trailingWidget != null)
+                  _ButtonIconSlot(
+                    icon: trailing,
                     color: foregroundColor,
-                    applyTextScaling: true,
+                    child: trailingWidget,
                   ),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _ButtonIconSlot extends StatelessWidget {
+  final IconData? icon;
+  final Color color;
+  final Widget? child;
+
+  const _ButtonIconSlot({
+    required this.icon,
+    required this.color,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(AppRadius.buttonIconSlot),
+      child: SizedBox.square(
+        dimension: AppContainerSize.buttonIconSlot,
+        child:
+            child ??
+            DefaultIcon(
+              icon: icon!,
+              size: AppContainerSize.buttonIconSlot,
+              color: color,
+            ),
       ),
     );
   }

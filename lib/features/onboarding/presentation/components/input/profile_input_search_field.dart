@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:wingle/app/config/theme/components/icons/default_icon.dart';
 import 'package:wingle/app/config/theme/components/text_fields/default_outlined_input_field.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
@@ -73,9 +74,8 @@ class ProfileInputSearchField extends StatelessWidget {
       showClearButton: showClearButton,
       onClear: onClear,
       policy: .cappedMedium,
-      prefix: Icon(
-        Icons.search_rounded,
-        applyTextScaling: true,
+      prefix: DefaultIcon(
+        icon: Icons.search_rounded,
         size: AppIconSize.md,
         color: colors.textNeutral,
       ),

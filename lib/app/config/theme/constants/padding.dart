@@ -12,6 +12,18 @@ class AppPadding {
   /// 버튼 내부 가로 패딩
   static const double btnHorizontal = 20;
 
+  /// 기본 버튼 내부 세로 패딩
+  static const double buttonVertical = 10;
+
+  /// 기본 버튼 내부 가로 패딩
+  static const double buttonHorizontal = 24;
+
+  /// Full Width Button 내부 세로 패딩
+  static const double fullWidthButtonVertical = 11;
+
+  /// Full Width Button 내부 가로 패딩
+  static const double fullWidthButtonHorizontal = 20;
+
   /// Scaffold 내부 패딩
   static const double scaffold = 24;
 

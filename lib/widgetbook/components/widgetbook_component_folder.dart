@@ -1,8 +1,12 @@
 import 'package:widgetbook/widgetbook.dart';
 import 'package:wingle/app/config/theme/components/wrappers/default_app_bar.dart';
+import 'package:wingle/widgetbook/components/buttons/basic_button_page.dart';
+import 'package:wingle/widgetbook/components/buttons/full_width_button_page.dart';
+import 'package:wingle/widgetbook/components/cards_page.dart';
 import 'package:wingle/widgetbook/components/default_app_bar_page.dart';
 import 'package:wingle/widgetbook/components/divider_page.dart';
 import 'package:wingle/widgetbook/components/icon_page.dart';
+import 'package:wingle/widgetbook/components/misc_components_page.dart';
 import 'package:wingle/widgetbook/components/pagination_page.dart';
 import 'package:wingle/widgetbook/components/selections/check_page.dart';
 import 'package:wingle/widgetbook/components/selections/checkbox_page.dart';
@@ -10,12 +14,66 @@ import 'package:wingle/widgetbook/components/selections/radio_page.dart';
 import 'package:wingle/widgetbook/components/selections/toggle_icon_page.dart';
 import 'package:wingle/widgetbook/components/selections/toggle_switch_page.dart';
 import 'package:wingle/widgetbook/components/snackbar_page.dart';
+import 'package:wingle/widgetbook/components/states_page.dart';
+import 'package:wingle/widgetbook/components/text_fields_page.dart';
+import 'package:wingle/widgetbook/components/texts_page.dart';
+import 'package:wingle/widgetbook/components/wrappers_page.dart';
 
 /// Widgetbook의 컴포넌트 폴더를 구성한다.
 WidgetbookFolder buildComponentFolder() {
   return WidgetbookFolder(
     name: 'Components',
     children: [
+      WidgetbookFolder(
+        name: 'Button',
+        children: [
+          WidgetbookComponent(
+            name: 'Basic',
+            useCases: [
+              WidgetbookUseCase(
+                name: 'Default',
+                builder: (context) => const BasicButtonPage(),
+              ),
+            ],
+          ),
+          WidgetbookComponent(
+            name: 'Full Width',
+            useCases: [
+              WidgetbookUseCase(
+                name: 'Default',
+                builder: (context) => const FullWidthButtonPage(),
+              ),
+            ],
+          ),
+        ],
+      ),
+      WidgetbookComponent(
+        name: 'Cards',
+        useCases: [
+          WidgetbookUseCase(
+            name: 'All States',
+            builder: (context) => const CardsPage(),
+          ),
+        ],
+      ),
+      WidgetbookComponent(
+        name: 'Text Fields',
+        useCases: [
+          WidgetbookUseCase(
+            name: 'All States',
+            builder: (context) => const TextFieldsPage(),
+          ),
+        ],
+      ),
+      WidgetbookComponent(
+        name: 'Texts',
+        useCases: [
+          WidgetbookUseCase(
+            name: 'All States',
+            builder: (context) => const TextsPage(),
+          ),
+        ],
+      ),
       WidgetbookComponent(
         name: 'Divider',
         useCases: [
@@ -35,11 +93,38 @@ WidgetbookFolder buildComponentFolder() {
         ],
       ),
       WidgetbookComponent(
+        name: 'States',
+        useCases: [
+          WidgetbookUseCase(
+            name: 'All States',
+            builder: (context) => const StatesPage(),
+          ),
+        ],
+      ),
+      WidgetbookComponent(
         name: 'Snackbar',
         useCases: [
           WidgetbookUseCase(
             name: 'Default',
             builder: (context) => const SnackbarPage(),
+          ),
+        ],
+      ),
+      WidgetbookComponent(
+        name: 'Misc',
+        useCases: [
+          WidgetbookUseCase(
+            name: 'All States',
+            builder: (context) => const MiscComponentsPage(),
+          ),
+        ],
+      ),
+      WidgetbookComponent(
+        name: 'Wrappers',
+        useCases: [
+          WidgetbookUseCase(
+            name: 'All States',
+            builder: (context) => const WrappersPage(),
           ),
         ],
       ),
