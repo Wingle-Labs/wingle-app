@@ -65,7 +65,7 @@ class AppTypographyToken {
   /// 작은 버튼 텍스트
   static const TextStyle btn12 = TextStyle(
     fontSize: AppFontSize.caption,
-    fontWeight: AppFontWeight.semiBold,
+    fontWeight: AppFontWeight.medium,
     height: 1.35,
     letterSpacing: -0.6,
     fontFamily: "Pretendard",

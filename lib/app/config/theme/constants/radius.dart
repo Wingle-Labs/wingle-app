@@ -23,6 +23,9 @@ class AppRadius {
   /// iOS Style
   static const double iosStyle = 18;
 
+  /// 중간 버튼 둥근 모서리
+  static const double buttonMedium = 14;
+
   /// 완전한 pill 형태의 둥근 모서리
   static const double pill = 100;
 

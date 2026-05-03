@@ -558,6 +558,18 @@ class AppContainerSize {
   /// 기본 버튼 높이
   static const double buttonHeight = 48;
 
+  /// 가장 큰 버튼 높이
+  static const double buttonXLargeHeight = 54;
+
+  /// 중간 버튼 높이
+  static const double buttonMediumHeight = 40;
+
+  /// 작은 버튼 높이
+  static const double buttonSmallHeight = 36;
+
+  /// Chip 형태 버튼 높이
+  static const double buttonChipHeight = 32;
+
   /// 버튼 내부 아이콘 슬롯 크기
   static const double buttonIconSlot = 16;
 

@@ -57,6 +57,15 @@ class AppSpacing {
   /// 버튼 내부 요소 간 간격
   static const double buttonInternal = 8;
 
+  /// xs, sm, md 버튼의 아이콘-라벨 간격
+  static const double buttonLabelGapCompact = 2;
+
+  /// lg, full width 버튼의 아이콘-라벨 간격
+  static const double buttonLabelGapRegular = 4;
+
+  /// xl 버튼의 아이콘-라벨 간격
+  static const double buttonLabelGapLarge = 6;
+
   /// 텍스트 요소 간 세로 간격
   static const double textVerticalInternal = 10;
 

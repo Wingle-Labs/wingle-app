@@ -280,6 +280,22 @@ class LightColorScheme implements AppColorScheme {
   Color get componentSecondaryFilledButtonDisabled =>
       AppColorPalette.neutral8.color;
 
+  // ! Component-Tertiary-FilledButton: TODO
+  /// - [componentTertiaryFilledButtonEnabled]: TODO
+  @override
+  Color get componentTertiaryFilledButtonEnabled =>
+      AppColorPalette.gray30.color;
+
+  /// - [componentTertiaryFilledButtonInactive]: TODO
+  @override
+  Color get componentTertiaryFilledButtonInactive =>
+      AppColorPalette.gray20.color;
+
+  /// - [componentTertiaryFilledButtonDisabled]: TODO
+  @override
+  Color get componentTertiaryFilledButtonDisabled =>
+      AppColorPalette.neutral10.color;
+
   // ! Component-Primary-OutlinedButton: TODO
   /// - [componentPrimaryOutlinedButtonEnabled]: TODO
   @override

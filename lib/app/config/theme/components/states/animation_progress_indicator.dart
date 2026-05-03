@@ -6,8 +6,18 @@ import 'package:wingle/common/extensions/context_colors.dart';
 /// 기본 로딩 인디케이터 (커스텀)
 /// 세 개의 점이 파동처럼 움직이는 형태
 class AnimationProgressIndicator extends StatefulWidget {
+  /// 점 색상
+  final Color? color;
+
+  /// 영역 높이
+  final double height;
+
   /// 생성자
-  const AnimationProgressIndicator({super.key});
+  const AnimationProgressIndicator({
+    super.key,
+    this.color,
+    this.height = AppContainerSize.indicatorContainer,
+  });
 
   @override
   State<AnimationProgressIndicator> createState() =>
@@ -45,10 +55,10 @@ class _AnimationProgressIndicatorState extends State<AnimationProgressIndicator>
 
   @override
   Widget build(BuildContext context) {
-    final color = context.colors.primaryNormal;
+    final color = widget.color ?? context.colors.primaryNormal;
 
     return SizedBox(
-      height: AppContainerSize.indicatorContainer,
+      height: widget.height,
       child: AnimatedBuilder(
         animation: _controller,
         builder: (context, _) {

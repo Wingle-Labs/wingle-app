@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:widgetbook/widgetbook.dart';
+import 'package:wingle/app/config/theme/components/buttons/default_button.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_filled_button.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_outlined_button.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_text_button.dart';
@@ -9,6 +10,8 @@ import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
+import 'package:wingle/widgetbook/components/buttons/button_preview_parts.dart';
+import 'package:wingle/widgetbook/components/buttons/button_spec_resolver.dart';
 
 /// 기본 버튼 컴포넌트 프리뷰
 class BasicButtonPage extends StatefulWidget {
@@ -29,10 +32,45 @@ class _BasicButtonPageState extends State<BasicButtonPage> {
   Widget build(BuildContext context) {
     final typography = context.typography;
     final colors = context.colors;
-    final disabled = context.knobs.object.dropdown<bool>(
-      label: 'Disabled',
+    final selectedVariant = context.knobs.object.dropdown<DefaultButtonVariant>(
+      label: 'Variant',
+      options: DefaultButtonVariant.values,
+      labelBuilder: (variant) => variant.name,
+      initialOption: DefaultButtonVariant.lg,
+    );
+    final selectedStatus = context.knobs.object.dropdown<DefaultButtonStatus>(
+      label: 'Status',
+      options: DefaultButtonStatus.values,
+      labelBuilder: (status) => status.name,
+      initialOption: DefaultButtonStatus.enabled,
+    );
+    final showLeading = context.knobs.object.dropdown<bool>(
+      label: 'Leading',
       options: const [false, true],
       initialOption: false,
+    );
+    final showTrailing = context.knobs.object.dropdown<bool>(
+      label: 'Trailing',
+      options: const [false, true],
+      initialOption: false,
+    );
+    final resolvedSpec = WidgetbookButtonSpecResolver.resolveBase(
+      context: context,
+      variant: selectedVariant,
+      status: selectedStatus,
+      visualSpec: DefaultButtonVisualSpec(
+        backgroundColor: colors.backgroundAlternative,
+        foregroundColor: colors.textNormal,
+        pressedOverlayColor: colors.overlayPressed,
+        borderSide: BorderSide(
+          color: colors.strokeStructuralBorder,
+          width: AppLineWidth.outline,
+        ),
+      ),
+      backgroundToken: 'backgroundAlternative',
+      foregroundToken: 'textNormal',
+      borderToken: 'strokeStructuralBorder',
+      pressedOverlayToken: 'overlayPressed',
     );
 
     return Scaffold(
@@ -41,21 +79,22 @@ class _BasicButtonPageState extends State<BasicButtonPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Button / Basic', style: typography.title),
+            Text('Button / Common', style: typography.title),
             const SizedBox(height: AppSpacing.s12),
             Text(
-              '명확하게 권장하는 행동을 표현하는 기본 버튼입니다.',
+              'size, status, icon slot 같은 공통 프레임을 검증하는 베이스 버튼입니다.',
               style: typography.body.copyWith(color: colors.textAlternative),
             ),
             const SizedBox(height: AppSpacing.s40),
-            _SpecPanel(
+            ButtonSpecPanel(
               width: _panelWidth,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('사용 예시', style: typography.main),
                   const SizedBox(height: AppSpacing.s20),
-                  _MessageCard(
+                  ButtonSampleCard(
+                    width: _exampleWidth,
                     child: Column(
                       children: [
                         SizedBox(
@@ -77,7 +116,8 @@ class _BasicButtonPageState extends State<BasicButtonPage> {
                     ),
                   ),
                   const SizedBox(height: AppSpacing.s24),
-                  _MessageCard(
+                  ButtonSampleCard(
+                    width: _exampleWidth,
                     child: Column(
                       children: [
                         SizedBox(
@@ -99,7 +139,8 @@ class _BasicButtonPageState extends State<BasicButtonPage> {
                     ),
                   ),
                   const SizedBox(height: AppSpacing.s24),
-                  _MessageCard(
+                  ButtonSampleCard(
+                    width: _exampleWidth,
                     child: Column(
                       children: [
                         SizedBox(
@@ -125,14 +166,15 @@ class _BasicButtonPageState extends State<BasicButtonPage> {
               ),
             ),
             const SizedBox(height: AppSpacing.s40),
-            _SpecPanel(
+            ButtonSpecPanel(
               width: _panelWidth,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('구성 / 간격 기준', style: typography.main),
                   const SizedBox(height: AppSpacing.s20),
-                  _MessageCard(
+                  ButtonSampleCard(
+                    width: _exampleWidth,
                     child: SizedBox(
                       width: double.infinity,
                       child: DefaultFilledButton(
@@ -142,7 +184,8 @@ class _BasicButtonPageState extends State<BasicButtonPage> {
                     ),
                   ),
                   const SizedBox(height: AppSpacing.s24),
-                  _MessageCard(
+                  ButtonSampleCard(
+                    width: _exampleWidth,
                     child: Row(
                       children: [
                         Expanded(
@@ -175,14 +218,15 @@ class _BasicButtonPageState extends State<BasicButtonPage> {
               ),
             ),
             const SizedBox(height: AppSpacing.s40),
-            _SpecPanel(
+            ButtonSpecPanel(
               width: _panelWidth,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('상태 표현', style: typography.main),
                   const SizedBox(height: AppSpacing.s20),
-                  _MessageCard(
+                  ButtonSampleCard(
+                    width: _exampleWidth,
                     child: Column(
                       children: [
                         SizedBox(
@@ -193,7 +237,8 @@ class _BasicButtonPageState extends State<BasicButtonPage> {
                           ),
                         ),
                         const SizedBox(height: AppSpacing.s12),
-                        _PressedPreview(
+                        ButtonPressedPreview(
+                          borderRadius: AppRadius.iosStyleRadius,
                           child: DefaultFilledButton(
                             label: '텍스트',
                             onPressed: () {},
@@ -215,7 +260,7 @@ class _BasicButtonPageState extends State<BasicButtonPage> {
               ),
             ),
             const SizedBox(height: AppSpacing.s40),
-            _SpecPanel(
+            ButtonSpecPanel(
               width: _panelWidth,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -224,91 +269,42 @@ class _BasicButtonPageState extends State<BasicButtonPage> {
                   const SizedBox(height: AppSpacing.s20),
                   SizedBox(
                     width: _exampleWidth,
-                    child: DefaultFilledButton(
+                    child: DefaultButton(
                       label: '텍스트',
-                      isDisabled: disabled,
+                      variant: selectedVariant,
+                      status: selectedStatus,
+                      visualSpec: DefaultButtonVisualSpec(
+                        backgroundColor: colors.backgroundAlternative,
+                        foregroundColor: colors.textNormal,
+                        pressedOverlayColor: colors.overlayPressed,
+                        borderSide: BorderSide(
+                          color: colors.strokeStructuralBorder,
+                          width: AppLineWidth.outline,
+                        ),
+                      ),
+                      leading: showLeading ? Icons.favorite : null,
+                      trailing: showTrailing ? Icons.chevron_right : null,
                       onPressed: () => setState(() => _tapCount++),
                     ),
                   ),
                   const SizedBox(height: AppSpacing.s12),
                   Text('클릭 횟수: $_tapCount', style: typography.body),
+                  const SizedBox(height: AppSpacing.s12),
+                  Text(
+                    'variant: ${selectedVariant.name}, '
+                    'status: ${selectedStatus.name}',
+                    style: typography.bodySub.copyWith(
+                      color: colors.textAlternative,
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.s20),
+                  ButtonResolvedSpecCard(spec: resolvedSpec),
                 ],
               ),
             ),
           ],
         ),
       ),
-    );
-  }
-}
-
-class _SpecPanel extends StatelessWidget {
-  final double width;
-  final Widget child;
-
-  const _SpecPanel({required this.width, required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-
-    return Container(
-      width: width,
-      padding: const EdgeInsets.all(AppPadding.card),
-      decoration: BoxDecoration(
-        color: colors.backgroundAlternative,
-        borderRadius: BorderRadius.circular(AppRadius.xl),
-      ),
-      child: child,
-    );
-  }
-}
-
-class _MessageCard extends StatelessWidget {
-  final Widget child;
-
-  const _MessageCard({required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-
-    return Container(
-      width: _BasicButtonPageState._exampleWidth,
-      padding: const EdgeInsets.all(AppPadding.horizontal),
-      decoration: BoxDecoration(
-        color: colors.backgroundNormal,
-        border: Border.all(color: colors.strokeStructuralBorder),
-        borderRadius: BorderRadius.circular(AppRadius.md),
-      ),
-      child: child,
-    );
-  }
-}
-
-class _PressedPreview extends StatelessWidget {
-  final Widget child;
-
-  const _PressedPreview({required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-
-    return Stack(
-      children: [
-        SizedBox(width: double.infinity, child: child),
-        Positioned.fill(
-          child: IgnorePointer(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: colors.overlayPressed,
-                borderRadius: AppRadius.iosStyleRadius,
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

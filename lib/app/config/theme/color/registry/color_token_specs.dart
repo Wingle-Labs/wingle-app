@@ -158,6 +158,18 @@ enum AppColorTokenSpec {
     AppColorSemanticSection.components,
     _componentSecondaryFilledButtonDisabled,
   ),
+  componentTertiaryFilledButtonEnabled(
+    AppColorSemanticSection.components,
+    _componentTertiaryFilledButtonEnabled,
+  ),
+  componentTertiaryFilledButtonInactive(
+    AppColorSemanticSection.components,
+    _componentTertiaryFilledButtonInactive,
+  ),
+  componentTertiaryFilledButtonDisabled(
+    AppColorSemanticSection.components,
+    _componentTertiaryFilledButtonDisabled,
+  ),
   componentPrimaryOutlinedButtonEnabled(
     AppColorSemanticSection.components,
     _componentPrimaryOutlinedButtonEnabled,
@@ -322,6 +334,12 @@ Color _componentSecondaryFilledButtonInactive(AppColorScheme scheme) =>
     scheme.componentSecondaryFilledButtonInactive;
 Color _componentSecondaryFilledButtonDisabled(AppColorScheme scheme) =>
     scheme.componentSecondaryFilledButtonDisabled;
+Color _componentTertiaryFilledButtonEnabled(AppColorScheme scheme) =>
+    scheme.componentTertiaryFilledButtonEnabled;
+Color _componentTertiaryFilledButtonInactive(AppColorScheme scheme) =>
+    scheme.componentTertiaryFilledButtonInactive;
+Color _componentTertiaryFilledButtonDisabled(AppColorScheme scheme) =>
+    scheme.componentTertiaryFilledButtonDisabled;
 Color _componentPrimaryOutlinedButtonEnabled(AppColorScheme scheme) =>
     scheme.componentPrimaryOutlinedButtonEnabled;
 Color _componentPrimaryOutlinedButtonInactive(AppColorScheme scheme) =>

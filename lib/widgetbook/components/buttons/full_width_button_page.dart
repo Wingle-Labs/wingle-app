@@ -171,7 +171,7 @@ class _FullWidthButtonPageState extends State<FullWidthButtonPage> {
                     'radius ${AppRadius.iosStyle.toInt()}px, '
                     'padding ${AppPadding.fullWidthButtonVertical.toInt()}px/'
                     '${AppPadding.fullWidthButtonHorizontal.toInt()}px, '
-                    'gap ${AppSpacing.buttonInternal.toInt()}px',
+                    'gap ${AppSpacing.buttonLabelGapRegular.toInt()}px',
                     style: typography.bodySub.copyWith(
                       color: colors.textAlternative,
                     ),

@@ -21,6 +21,15 @@ abstract interface class AppColorComponentScheme {
   Color get componentSecondaryFilledButtonDisabled;
 
   /// 일반적인 요소에서 배경을 구분해야 할 때 사용합니다.
+  Color get componentTertiaryFilledButtonEnabled;
+
+  /// 이전 시스템에서 Hover에 해당하는 색을 마이그레이션할 때 사용합니다. 지금은 사용하지 않습니다.
+  Color get componentTertiaryFilledButtonInactive;
+
+  /// 비활성 상태의 배경으로 사용합니다.
+  Color get componentTertiaryFilledButtonDisabled;
+
+  /// 일반적인 요소에서 배경을 구분해야 할 때 사용합니다.
   Color get componentPrimaryOutlinedButtonEnabled;
 
   /// 이전 시스템에서 Hover에 해당하는 색을 마이그레이션할 때 사용합니다. 지금은 사용하지 않습니다.

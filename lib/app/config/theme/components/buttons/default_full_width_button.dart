@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_button.dart';
-import 'package:wingle/app/config/theme/constants/padding.dart';
-import 'package:wingle/common/extensions/context_colors.dart';
+import 'package:wingle/app/config/theme/components/buttons/default_filled_button.dart';
 
 /// 화면 주요 CTA에 사용하는 Full Width Button 컴포넌트
 class DefaultFullWidthButton extends StatelessWidget {
@@ -26,6 +25,12 @@ class DefaultFullWidthButton extends StatelessWidget {
   /// 비활성화 상태 여부
   final bool isDisabled;
 
+  /// 로딩 상태 여부
+  final bool isLoading;
+
+  /// 버튼 상태
+  final DefaultButtonStatus status;
+
   /// 버튼 너비
   final double width;
 
@@ -42,6 +47,8 @@ class DefaultFullWidthButton extends StatelessWidget {
     this.leadingWidget,
     this.trailingWidget,
     this.isDisabled = false,
+    this.isLoading = false,
+    this.status = DefaultButtonStatus.enabled,
     this.width = double.infinity,
     this.textStyle,
   });
@@ -50,26 +57,19 @@ class DefaultFullWidthButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: width,
-      child: DefaultButton(
+      child: DefaultFilledButton(
         label: label,
-        backgroundColor: isDisabled
-            ? context.colors.componentPrimaryFilledButtonDisabled
-            : context.colors.componentPrimaryFilledButtonEnabled,
-        pressedColor: context.colors.overlayPressed,
-        foregroundColor: isDisabled
-            ? context.colors.textAssistive
-            : context.colors.onPrimaryNormal,
-        onPressed: isDisabled ? null : onPressed,
-        leading: leadingIcon,
-        trailing: trailingIcon,
+        variant: DefaultButtonVariant.fullWidth,
+        theme: DefaultFilledButtonTheme.primary,
+        status: status,
+        onPressed: onPressed,
+        leadingIcon: leadingIcon,
+        trailingIcon: trailingIcon,
         leadingWidget: leadingWidget,
         trailingWidget: trailingWidget,
         isDisabled: isDisabled,
+        isLoading: isLoading,
         textStyle: textStyle,
-        contentPadding: const EdgeInsets.symmetric(
-          vertical: AppPadding.fullWidthButtonVertical,
-          horizontal: AppPadding.fullWidthButtonHorizontal,
-        ),
       ),
     );
   }

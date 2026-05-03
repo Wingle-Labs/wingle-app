@@ -1,7 +1,10 @@
 import 'package:widgetbook/widgetbook.dart';
 import 'package:wingle/app/config/theme/components/wrappers/default_app_bar.dart';
 import 'package:wingle/widgetbook/components/buttons/basic_button_page.dart';
+import 'package:wingle/widgetbook/components/buttons/filled_button_page.dart';
 import 'package:wingle/widgetbook/components/buttons/full_width_button_page.dart';
+import 'package:wingle/widgetbook/components/buttons/outlined_button_page.dart';
+import 'package:wingle/widgetbook/components/buttons/text_button_page.dart';
 import 'package:wingle/widgetbook/components/cards_page.dart';
 import 'package:wingle/widgetbook/components/default_app_bar_page.dart';
 import 'package:wingle/widgetbook/components/divider_page.dart';
@@ -28,11 +31,38 @@ WidgetbookFolder buildComponentFolder() {
         name: 'Button',
         children: [
           WidgetbookComponent(
-            name: 'Basic',
+            name: 'Common',
             useCases: [
               WidgetbookUseCase(
                 name: 'Default',
                 builder: (context) => const BasicButtonPage(),
+              ),
+            ],
+          ),
+          WidgetbookComponent(
+            name: 'Filled',
+            useCases: [
+              WidgetbookUseCase(
+                name: 'Default',
+                builder: (context) => const FilledButtonPage(),
+              ),
+            ],
+          ),
+          WidgetbookComponent(
+            name: 'Outlined',
+            useCases: [
+              WidgetbookUseCase(
+                name: 'Default',
+                builder: (context) => const OutlinedButtonPage(),
+              ),
+            ],
+          ),
+          WidgetbookComponent(
+            name: 'Text',
+            useCases: [
+              WidgetbookUseCase(
+                name: 'Default',
+                builder: (context) => const TextButtonPage(),
               ),
             ],
           ),

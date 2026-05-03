@@ -18,6 +18,18 @@ class AppPadding {
   /// 기본 버튼 내부 가로 패딩
   static const double buttonHorizontal = 24;
 
+  /// 중간 버튼 내부 가로 패딩
+  static const double buttonMediumHorizontal = 16;
+
+  /// 작은 버튼 내부 세로 패딩
+  static const double buttonSmallVertical = 8;
+
+  /// 작은 버튼 내부 가로 패딩
+  static const double buttonSmallHorizontal = 14;
+
+  /// Chip 형태 버튼 내부 가로 패딩
+  static const double buttonChipHorizontal = 12;
+
   /// Full Width Button 내부 세로 패딩
   static const double fullWidthButtonVertical = 11;
 
