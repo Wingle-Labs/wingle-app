@@ -47,6 +47,12 @@ class AppRadius {
   /// Tag Radius
   static const double tagRadius = 6;
 
+  /// Badge small Radius
+  static const double badgeSm = 6;
+
+  /// Badge default Radius
+  static const double badge = 8;
+
   /// Toggle Icon Radius
   static const double toggleIcon = 2;
 

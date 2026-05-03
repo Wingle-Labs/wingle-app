@@ -1,5 +1,6 @@
 import 'package:widgetbook/widgetbook.dart';
 import 'package:wingle/app/config/theme/components/wrappers/default_app_bar.dart';
+import 'package:wingle/widgetbook/components/badge_page.dart';
 import 'package:wingle/widgetbook/components/buttons/basic_button_page.dart';
 import 'package:wingle/widgetbook/components/buttons/filled_button_page.dart';
 import 'package:wingle/widgetbook/components/buttons/full_width_button_page.dart';
@@ -74,6 +75,15 @@ WidgetbookFolder buildComponentFolder() {
                 builder: (context) => const FullWidthButtonPage(),
               ),
             ],
+          ),
+        ],
+      ),
+      WidgetbookComponent(
+        name: 'Badge',
+        useCases: [
+          WidgetbookUseCase(
+            name: 'Default',
+            builder: (context) => const BadgePage(),
           ),
         ],
       ),

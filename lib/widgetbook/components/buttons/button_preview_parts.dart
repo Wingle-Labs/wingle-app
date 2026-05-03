@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
+import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
@@ -52,29 +53,58 @@ class ButtonSampleCard extends StatelessWidget {
       width: width,
       padding: const EdgeInsets.all(AppPadding.horizontal),
       decoration: BoxDecoration(
-        color: colors.backgroundNormal,
+        color: Colors.white,
         border: Border.all(color: colors.strokeStructuralBorder),
         borderRadius: BorderRadius.circular(AppRadius.md),
       ),
-      child: child,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(AppRadius.md),
+        child: child,
+      ),
     );
   }
 }
 
 /// 버튼 아이콘 슬롯 플레이스홀더
 class ButtonIconPlaceholder extends StatelessWidget {
-  /// 플레이스홀더 색상
-  final Color color;
+  /// frame 색상
+  final Color frameColor;
+
+  /// frame 크기
+  final double frameSize;
+
+  /// glyph 크기
+  final double glyphSize;
 
   /// 생성자
-  const ButtonIconPlaceholder({super.key, required this.color});
+  const ButtonIconPlaceholder({
+    super.key,
+    this.frameColor = const Color(0xFFFFD7D7),
+    this.frameSize = AppIconButtonFrameSize.sm,
+    this.glyphSize = AppIconSize.xs,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(AppRadius.buttonIconSlot),
+    // TODO(widgetbook): frame/glyph 크기가 일부 variant에서 Figma 스펙과 아직 불일치한다.
+    return SizedBox.square(
+      dimension: frameSize,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: frameColor,
+          borderRadius: BorderRadius.circular(AppRadius.buttonIconSlot),
+        ),
+        child: Center(
+          child: SizedBox.square(
+            dimension: glyphSize,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(AppRadius.buttonIconSlot),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

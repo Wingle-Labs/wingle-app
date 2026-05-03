@@ -11,7 +11,8 @@ class _ButtonContent extends StatelessWidget {
   final bool isLoading;
   final bool expandToMaxWidth;
   final double iconLabelGap;
-  final double iconSlotSize;
+  final double iconGlyphSize;
+  final double iconFrameSize;
 
   const _ButtonContent({
     required this.label,
@@ -24,7 +25,8 @@ class _ButtonContent extends StatelessWidget {
     required this.isLoading,
     required this.expandToMaxWidth,
     required this.iconLabelGap,
-    required this.iconSlotSize,
+    required this.iconGlyphSize,
+    required this.iconFrameSize,
   });
 
   @override
@@ -38,7 +40,7 @@ class _ButtonContent extends StatelessWidget {
         expandToMaxWidth: expandToMaxWidth,
         child: AnimationProgressIndicator(
           color: foregroundColor,
-          height: iconSlotSize,
+          height: iconFrameSize,
         ),
       );
     }
@@ -58,14 +60,15 @@ class _ButtonContent extends StatelessWidget {
           foregroundColor: foregroundColor,
           textStyle: textStyle,
           iconLabelGap: iconLabelGap,
-          iconSlotSize: iconSlotSize,
+          iconGlyphSize: iconGlyphSize,
+          iconFrameSize: iconFrameSize,
         ),
       );
     }
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final sideWidth = hasIcon ? iconSlotSize + iconLabelGap : 0.0;
+        final sideWidth = hasIcon ? iconFrameSize + iconLabelGap : 0.0;
         final maxTextWidth = constraints.hasBoundedWidth
             ? (constraints.maxWidth - sideWidth * 2).clamp(
                 0.0,
@@ -89,7 +92,8 @@ class _ButtonContent extends StatelessWidget {
               foregroundColor: foregroundColor,
               textStyle: textStyle,
               iconLabelGap: iconLabelGap,
-              iconSlotSize: iconSlotSize,
+              iconGlyphSize: iconGlyphSize,
+              iconFrameSize: iconFrameSize,
             ),
           ),
         );
@@ -120,7 +124,7 @@ class _ButtonContentAlign extends StatelessWidget {
 class _ButtonContentRow extends StatelessWidget {
   final String label;
   final bool hasIcon;
-  final bool hasLeading;
+final bool hasLeading;
   final bool hasTrailing;
   final IconData? leading;
   final IconData? trailing;
@@ -129,7 +133,8 @@ class _ButtonContentRow extends StatelessWidget {
   final Color foregroundColor;
   final TextStyle textStyle;
   final double iconLabelGap;
-  final double iconSlotSize;
+  final double iconGlyphSize;
+  final double iconFrameSize;
 
   const _ButtonContentRow({
     required this.label,
@@ -143,7 +148,8 @@ class _ButtonContentRow extends StatelessWidget {
     required this.foregroundColor,
     required this.textStyle,
     required this.iconLabelGap,
-    required this.iconSlotSize,
+    required this.iconGlyphSize,
+    required this.iconFrameSize,
   });
 
   @override
@@ -153,12 +159,13 @@ class _ButtonContentRow extends StatelessWidget {
       children: [
         if (hasIcon) ...[
           _ReservedButtonIconSlot(
-            dimension: iconSlotSize,
+            dimension: iconFrameSize,
             child: hasLeading
-                ? _ButtonIconSlot(
+                ? DefaultIconSlot(
+                    frameSize: iconFrameSize,
+                    glyphSize: iconGlyphSize,
                     icon: leading,
                     color: foregroundColor,
-                    dimension: iconSlotSize,
                     child: leadingWidget,
                   )
                 : null,
@@ -178,12 +185,13 @@ class _ButtonContentRow extends StatelessWidget {
         if (hasIcon) ...[
           SizedBox(width: iconLabelGap),
           _ReservedButtonIconSlot(
-            dimension: iconSlotSize,
+            dimension: iconFrameSize,
             child: hasTrailing
-                ? _ButtonIconSlot(
+                ? DefaultIconSlot(
+                    frameSize: iconFrameSize,
+                    glyphSize: iconGlyphSize,
                     icon: trailing,
                     color: foregroundColor,
-                    dimension: iconSlotSize,
                     child: trailingWidget,
                   )
                 : null,
@@ -203,32 +211,5 @@ class _ReservedButtonIconSlot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox.square(dimension: dimension, child: child);
-  }
-}
-
-class _ButtonIconSlot extends StatelessWidget {
-  final IconData? icon;
-  final Color color;
-  final Widget? child;
-  final double dimension;
-
-  const _ButtonIconSlot({
-    required this.icon,
-    required this.color,
-    required this.child,
-    required this.dimension,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox.square(
-      dimension: dimension,
-      child: child == null
-          ? DefaultIcon(icon: icon!, size: dimension, color: color)
-          : ClipRRect(
-              borderRadius: BorderRadius.circular(AppRadius.buttonIconSlot),
-              child: child,
-            ),
-    );
   }
 }

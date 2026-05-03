@@ -56,7 +56,6 @@ class _TextButtonPageState extends State<TextButtonPage> {
       options: const [true, false],
       initialOption: true,
     );
-    final iconColor = _iconColor(colors, selectedTheme);
     final resolvedSpec = WidgetbookButtonSpecResolver.resolveText(
       context: context,
       variant: selectedVariant,
@@ -91,12 +90,8 @@ class _TextButtonPageState extends State<TextButtonPage> {
                             label: '텍스트',
                             variant: variant,
                             theme: selectedTheme,
-                            leadingWidget: ButtonIconPlaceholder(
-                              color: iconColor,
-                            ),
-                            trailingWidget: ButtonIconPlaceholder(
-                              color: iconColor,
-                            ),
+                            leadingWidget: const ButtonIconPlaceholder(),
+                            trailingWidget: const ButtonIconPlaceholder(),
                             onPressed: () {},
                           ),
                           if (variant != DefaultButtonVariant.values.last)
@@ -108,12 +103,8 @@ class _TextButtonPageState extends State<TextButtonPage> {
                             label: '텍스트',
                             variant: variant,
                             theme: selectedTheme,
-                            leadingWidget: ButtonIconPlaceholder(
-                              color: iconColor,
-                            ),
-                            trailingWidget: ButtonIconPlaceholder(
-                              color: iconColor,
-                            ),
+                            leadingWidget: const ButtonIconPlaceholder(),
+                            trailingWidget: const ButtonIconPlaceholder(),
                             isDisabled: true,
                             onPressed: () {},
                           ),
@@ -149,10 +140,10 @@ class _TextButtonPageState extends State<TextButtonPage> {
                     theme: selectedTheme,
                     status: selectedStatus,
                     leadingWidget: showLeading
-                        ? ButtonIconPlaceholder(color: iconColor)
+                        ? const ButtonIconPlaceholder()
                         : null,
                     trailingWidget: showTrailing
-                        ? ButtonIconPlaceholder(color: iconColor)
+                        ? const ButtonIconPlaceholder()
                         : null,
                     onPressed: () => setState(() => _tapCount++),
                   ),
@@ -176,14 +167,5 @@ class _TextButtonPageState extends State<TextButtonPage> {
         ),
       ),
     );
-  }
-
-  Color _iconColor(dynamic colors, DefaultTextButtonTheme theme) {
-    return switch (theme) {
-      DefaultTextButtonTheme.primary =>
-        colors.componentPrimaryTextButtonEnabled,
-      DefaultTextButtonTheme.assistive =>
-        colors.componentAssistiveTextButtonEnabled,
-    };
   }
 }

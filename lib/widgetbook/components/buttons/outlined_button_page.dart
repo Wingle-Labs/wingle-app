@@ -57,7 +57,6 @@ class _OutlinedButtonPageState extends State<OutlinedButtonPage> {
       options: const [true, false],
       initialOption: true,
     );
-    final iconColor = _iconColor(colors, selectedTheme);
     final resolvedSpec = WidgetbookButtonSpecResolver.resolveOutlined(
       context: context,
       variant: selectedVariant,
@@ -92,12 +91,8 @@ class _OutlinedButtonPageState extends State<OutlinedButtonPage> {
                             label: '텍스트',
                             variant: variant,
                             theme: selectedTheme,
-                            leadingWidget: ButtonIconPlaceholder(
-                              color: iconColor,
-                            ),
-                            trailingWidget: ButtonIconPlaceholder(
-                              color: iconColor,
-                            ),
+                            leadingWidget: const ButtonIconPlaceholder(),
+                            trailingWidget: const ButtonIconPlaceholder(),
                             onPressed: () {},
                           ),
                           if (variant != DefaultButtonVariant.values.last)
@@ -109,12 +104,8 @@ class _OutlinedButtonPageState extends State<OutlinedButtonPage> {
                             label: '텍스트',
                             variant: variant,
                             theme: selectedTheme,
-                            leadingWidget: ButtonIconPlaceholder(
-                              color: iconColor,
-                            ),
-                            trailingWidget: ButtonIconPlaceholder(
-                              color: iconColor,
-                            ),
+                            leadingWidget: const ButtonIconPlaceholder(),
+                            trailingWidget: const ButtonIconPlaceholder(),
                             isDisabled: true,
                             onPressed: () {},
                           ),
@@ -150,10 +141,10 @@ class _OutlinedButtonPageState extends State<OutlinedButtonPage> {
                     theme: selectedTheme,
                     status: selectedStatus,
                     leadingWidget: showLeading
-                        ? ButtonIconPlaceholder(color: iconColor)
+                        ? const ButtonIconPlaceholder()
                         : null,
                     trailingWidget: showTrailing
-                        ? ButtonIconPlaceholder(color: iconColor)
+                        ? const ButtonIconPlaceholder()
                         : null,
                     onPressed: () => setState(() => _tapCount++),
                   ),
@@ -177,16 +168,5 @@ class _OutlinedButtonPageState extends State<OutlinedButtonPage> {
         ),
       ),
     );
-  }
-
-  Color _iconColor(dynamic colors, DefaultOutlinedButtonTheme theme) {
-    return switch (theme) {
-      DefaultOutlinedButtonTheme.primary =>
-        colors.componentPrimaryOutlinedButtonEnabled,
-      DefaultOutlinedButtonTheme.secondary =>
-        colors.componentSecondaryOutlinedButtonEnabled,
-      DefaultOutlinedButtonTheme.assistive =>
-        colors.componentAssistiveOutlinedButtonEnabled,
-    };
   }
 }

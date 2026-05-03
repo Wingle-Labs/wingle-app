@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wingle/app/config/theme/components/icons/default_icon.dart';
+import 'package:wingle/app/config/theme/components/icons/default_icon_slot.dart';
 import 'package:wingle/app/config/theme/components/states/animation_progress_indicator.dart';
 import 'package:wingle/app/config/theme/components/texts/text_scale_policy.dart';
 import 'package:wingle/app/config/theme/components/texts/text_scale_wrapper.dart';
@@ -127,7 +127,8 @@ class DefaultButton extends ConsumerWidget {
                 isLoading: isLoading,
                 expandToMaxWidth: variant == DefaultButtonVariant.fullWidth,
                 iconLabelGap: sizeSpec.iconLabelGap,
-                iconSlotSize: sizeSpec.iconSlotSize,
+                iconGlyphSize: sizeSpec.iconGlyphSize,
+                iconFrameSize: sizeSpec.iconFrameSize,
               ),
             ),
           ),

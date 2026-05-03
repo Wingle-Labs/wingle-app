@@ -7,7 +7,8 @@ class _DefaultButtonSizeSpec {
   final EdgeInsetsGeometry padding;
   final TextStyle textStyle;
   final double iconLabelGap;
-  final double iconSlotSize;
+  final double iconGlyphSize;
+  final double iconFrameSize;
 
   const _DefaultButtonSizeSpec({
     required this.height,
@@ -16,7 +17,8 @@ class _DefaultButtonSizeSpec {
     required this.padding,
     required this.textStyle,
     required this.iconLabelGap,
-    required this.iconSlotSize,
+    required this.iconGlyphSize,
+    required this.iconFrameSize,
   });
 
   factory _DefaultButtonSizeSpec.from(
@@ -36,7 +38,8 @@ class _DefaultButtonSizeSpec {
         ),
         textStyle: typography.buttonLarge,
         iconLabelGap: AppSpacing.buttonLabelGapRegular,
-        iconSlotSize: AppIconSize.sm,
+        iconGlyphSize: AppIconSize.sm,
+        iconFrameSize: AppIconButtonFrameSize.md,
       ),
       DefaultButtonVariant.xs => _DefaultButtonSizeSpec(
         height: AppContainerSize.buttonChipHeight,
@@ -48,7 +51,8 @@ class _DefaultButtonSizeSpec {
         ),
         textStyle: typography.buttonSmall,
         iconLabelGap: AppSpacing.buttonLabelGapCompact,
-        iconSlotSize: AppIconSize.xxs,
+        iconGlyphSize: AppIconSize.xxs,
+        iconFrameSize: AppIconButtonFrameSize.xxs,
       ),
       DefaultButtonVariant.sm => _DefaultButtonSizeSpec(
         height: AppContainerSize.buttonSmallHeight,
@@ -60,7 +64,8 @@ class _DefaultButtonSizeSpec {
         ),
         textStyle: typography.buttonMedium,
         iconLabelGap: AppSpacing.buttonLabelGapCompact,
-        iconSlotSize: AppIconSize.xs,
+        iconGlyphSize: AppIconSize.xs,
+        iconFrameSize: AppIconButtonFrameSize.xs,
       ),
       DefaultButtonVariant.md => _DefaultButtonSizeSpec(
         height: AppContainerSize.buttonMediumHeight,
@@ -72,7 +77,8 @@ class _DefaultButtonSizeSpec {
         ),
         textStyle: typography.buttonLarge,
         iconLabelGap: AppSpacing.buttonLabelGapCompact,
-        iconSlotSize: AppIconSize.xs,
+        iconGlyphSize: AppIconSize.xs,
+        iconFrameSize: AppIconButtonFrameSize.sm,
       ),
       DefaultButtonVariant.lg => _DefaultButtonSizeSpec(
         height: AppContainerSize.buttonHeight,
@@ -84,7 +90,8 @@ class _DefaultButtonSizeSpec {
         ),
         textStyle: typography.buttonLarge,
         iconLabelGap: AppSpacing.buttonLabelGapRegular,
-        iconSlotSize: AppIconSize.sm,
+        iconGlyphSize: AppIconSize.sm,
+        iconFrameSize: AppIconButtonFrameSize.md,
       ),
       DefaultButtonVariant.xl => _DefaultButtonSizeSpec(
         height: AppContainerSize.buttonXLargeHeight,
@@ -96,7 +103,8 @@ class _DefaultButtonSizeSpec {
         ),
         textStyle: typography.subtitle,
         iconLabelGap: AppSpacing.buttonLabelGapLarge,
-        iconSlotSize: AppIconSize.md,
+        iconGlyphSize: AppIconSize.md,
+        iconFrameSize: AppIconButtonFrameSize.lg,
       ),
     };
   }

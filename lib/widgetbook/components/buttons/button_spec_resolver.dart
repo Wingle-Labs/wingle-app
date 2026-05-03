@@ -86,6 +86,10 @@ class WidgetbookButtonSpecResolver {
           value: '${sizeSpec.radius.toInt()}px',
         ),
         WidgetbookButtonSpecEntry(
+          label: 'Label size',
+          value: '${sizeSpec.fontSize.toInt()}px',
+        ),
+        WidgetbookButtonSpecEntry(
           label: 'Label style',
           value: '${sizeSpec.fontSize.toInt()}px / ${sizeSpec.fontWeightLabel}',
         ),
@@ -95,8 +99,12 @@ class WidgetbookButtonSpecResolver {
               'V ${sizeSpec.verticalPadding.toInt()} / H ${sizeSpec.horizontalPadding.toInt()}',
         ),
         WidgetbookButtonSpecEntry(
-          label: 'Leading/Trailing slot',
-          value: '${sizeSpec.iconSlotSize.toInt()}px',
+          label: 'Leading/Trailing frame',
+          value: '${sizeSpec.iconFrameSize.toInt()}px',
+        ),
+        WidgetbookButtonSpecEntry(
+          label: 'Icon glyph',
+          value: '${sizeSpec.iconGlyphSize.toInt()}px',
         ),
         WidgetbookButtonSpecEntry(
           label: 'Internal gap',
@@ -124,7 +132,8 @@ class WidgetbookButtonSpecResolver {
         ),
         WidgetbookButtonSpecEntry(
           label: 'Pressed overlay',
-          value: '$pressedOverlayToken '
+          value:
+              '$pressedOverlayToken '
               '(${_toHex(visualSpec.pressedOverlayColor)})',
           swatchColor: visualSpec.pressedOverlayColor,
         ),
@@ -363,7 +372,8 @@ class _ButtonVariantLayoutSpec {
   final double verticalPadding;
   final double horizontalPadding;
   final double iconLabelGap;
-  final double iconSlotSize;
+  final double iconGlyphSize;
+  final double iconFrameSize;
 
   const _ButtonVariantLayoutSpec({
     required this.height,
@@ -374,7 +384,8 @@ class _ButtonVariantLayoutSpec {
     required this.verticalPadding,
     required this.horizontalPadding,
     required this.iconLabelGap,
-    required this.iconSlotSize,
+    required this.iconGlyphSize,
+    required this.iconFrameSize,
   });
 
   factory _ButtonVariantLayoutSpec.from(DefaultButtonVariant variant) {
@@ -388,7 +399,8 @@ class _ButtonVariantLayoutSpec {
         verticalPadding: AppPadding.fullWidthButtonVertical,
         horizontalPadding: AppPadding.fullWidthButtonHorizontal,
         iconLabelGap: AppSpacing.buttonLabelGapRegular,
-        iconSlotSize: AppIconSize.sm,
+        iconGlyphSize: AppIconSize.sm,
+        iconFrameSize: AppIconButtonFrameSize.md,
       ),
       DefaultButtonVariant.xs => const _ButtonVariantLayoutSpec(
         height: AppContainerSize.buttonChipHeight,
@@ -399,7 +411,8 @@ class _ButtonVariantLayoutSpec {
         verticalPadding: AppPadding.buttonSmallVertical,
         horizontalPadding: AppPadding.buttonChipHorizontal,
         iconLabelGap: AppSpacing.buttonLabelGapCompact,
-        iconSlotSize: AppIconSize.xxs,
+        iconGlyphSize: AppIconSize.xxs,
+        iconFrameSize: AppIconButtonFrameSize.xxs,
       ),
       DefaultButtonVariant.sm => const _ButtonVariantLayoutSpec(
         height: AppContainerSize.buttonSmallHeight,
@@ -410,7 +423,8 @@ class _ButtonVariantLayoutSpec {
         verticalPadding: AppPadding.buttonSmallVertical,
         horizontalPadding: AppPadding.buttonSmallHorizontal,
         iconLabelGap: AppSpacing.buttonLabelGapCompact,
-        iconSlotSize: AppIconSize.xs,
+        iconGlyphSize: AppIconSize.xs,
+        iconFrameSize: AppIconButtonFrameSize.xs,
       ),
       DefaultButtonVariant.md => const _ButtonVariantLayoutSpec(
         height: AppContainerSize.buttonMediumHeight,
@@ -421,7 +435,8 @@ class _ButtonVariantLayoutSpec {
         verticalPadding: AppPadding.buttonVertical,
         horizontalPadding: AppPadding.buttonMediumHorizontal,
         iconLabelGap: AppSpacing.buttonLabelGapCompact,
-        iconSlotSize: AppIconSize.xs,
+        iconGlyphSize: AppIconSize.xs,
+        iconFrameSize: AppIconButtonFrameSize.sm,
       ),
       DefaultButtonVariant.lg => const _ButtonVariantLayoutSpec(
         height: AppContainerSize.buttonHeight,
@@ -432,7 +447,8 @@ class _ButtonVariantLayoutSpec {
         verticalPadding: AppPadding.buttonVertical,
         horizontalPadding: AppPadding.buttonHorizontal,
         iconLabelGap: AppSpacing.buttonLabelGapRegular,
-        iconSlotSize: AppIconSize.sm,
+        iconGlyphSize: AppIconSize.sm,
+        iconFrameSize: AppIconButtonFrameSize.md,
       ),
       DefaultButtonVariant.xl => const _ButtonVariantLayoutSpec(
         height: AppContainerSize.buttonXLargeHeight,
@@ -443,7 +459,8 @@ class _ButtonVariantLayoutSpec {
         verticalPadding: AppPadding.buttonVertical,
         horizontalPadding: AppPadding.buttonHorizontal,
         iconLabelGap: AppSpacing.buttonLabelGapLarge,
-        iconSlotSize: AppIconSize.md,
+        iconGlyphSize: AppIconSize.md,
+        iconFrameSize: AppIconButtonFrameSize.lg,
       ),
     };
   }

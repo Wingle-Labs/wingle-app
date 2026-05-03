@@ -88,4 +88,28 @@ abstract interface class AppColorComponentScheme {
 
   /// info card 배경에 사용합니다.
   Color get componentInfoCardBackground;
+
+  /// badge primary 배경에 사용합니다.
+  Color get componentBadgePrimaryBackground;
+
+  /// badge primary 텍스트에 사용합니다.
+  Color get componentBadgePrimaryForeground;
+
+  /// badge secondary 배경에 사용합니다.
+  Color get componentBadgeSecondaryBackground;
+
+  /// badge secondary 텍스트에 사용합니다.
+  Color get componentBadgeSecondaryForeground;
+
+  /// badge tertiary 배경에 사용합니다.
+  Color get componentBadgeTertiaryBackground;
+
+  /// badge tertiary 텍스트에 사용합니다.
+  Color get componentBadgeTertiaryForeground;
+
+  /// badge gray 배경에 사용합니다.
+  Color get componentBadgeGrayBackground;
+
+  /// badge gray 텍스트에 사용합니다.
+  Color get componentBadgeGrayForeground;
 }

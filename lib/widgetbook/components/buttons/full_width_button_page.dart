@@ -7,6 +7,7 @@ import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
+import 'package:wingle/widgetbook/components/buttons/button_preview_parts.dart';
 
 /// Full Width Button 컴포넌트 프리뷰
 class FullWidthButtonPage extends StatefulWidget {
@@ -191,12 +192,7 @@ class _ButtonIconPlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(AppRadius.buttonIconSlot),
-      ),
-    );
+    return const ButtonIconPlaceholder();
   }
 }
 

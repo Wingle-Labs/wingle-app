@@ -402,4 +402,38 @@ class LightColorScheme implements AppColorScheme {
   /// - [componentInfoCardBackground]: TODO
   @override
   Color get componentInfoCardBackground => AppColorPalette.gray10.color;
+
+  // ! Component-Badge: 텍스트 배지에 사용합니다.
+  /// - [componentBadgePrimaryBackground]: badge primary 배경에 사용합니다.
+  @override
+  Color get componentBadgePrimaryBackground => AppColorPalette.brown50.color;
+
+  /// - [componentBadgePrimaryForeground]: badge primary 텍스트에 사용합니다.
+  @override
+  Color get componentBadgePrimaryForeground => AppColorPalette.common0.color;
+
+  /// - [componentBadgeSecondaryBackground]: badge secondary 배경에 사용합니다.
+  @override
+  Color get componentBadgeSecondaryBackground =>
+      AppColorPalette.asheBrown30.color;
+
+  /// - [componentBadgeSecondaryForeground]: badge secondary 텍스트에 사용합니다.
+  @override
+  Color get componentBadgeSecondaryForeground => AppColorPalette.brown50.color;
+
+  /// - [componentBadgeTertiaryBackground]: badge tertiary 배경에 사용합니다.
+  @override
+  Color get componentBadgeTertiaryBackground => AppColorPalette.green5.color;
+
+  /// - [componentBadgeTertiaryForeground]: badge tertiary 텍스트에 사용합니다.
+  @override
+  Color get componentBadgeTertiaryForeground => AppColorPalette.green50.color;
+
+  /// - [componentBadgeGrayBackground]: badge gray 배경에 사용합니다.
+  @override
+  Color get componentBadgeGrayBackground => AppColorPalette.neutral10.color;
+
+  /// - [componentBadgeGrayForeground]: badge gray 텍스트에 사용합니다.
+  @override
+  Color get componentBadgeGrayForeground => AppColorPalette.neutral30.color;
 }

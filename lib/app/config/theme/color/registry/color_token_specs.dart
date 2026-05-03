@@ -249,6 +249,38 @@ enum AppColorTokenSpec {
   componentInfoCardBackground(
     AppColorSemanticSection.components,
     _componentInfoCardBackground,
+  ),
+  componentBadgePrimaryBackground(
+    AppColorSemanticSection.components,
+    _componentBadgePrimaryBackground,
+  ),
+  componentBadgePrimaryForeground(
+    AppColorSemanticSection.components,
+    _componentBadgePrimaryForeground,
+  ),
+  componentBadgeSecondaryBackground(
+    AppColorSemanticSection.components,
+    _componentBadgeSecondaryBackground,
+  ),
+  componentBadgeSecondaryForeground(
+    AppColorSemanticSection.components,
+    _componentBadgeSecondaryForeground,
+  ),
+  componentBadgeTertiaryBackground(
+    AppColorSemanticSection.components,
+    _componentBadgeTertiaryBackground,
+  ),
+  componentBadgeTertiaryForeground(
+    AppColorSemanticSection.components,
+    _componentBadgeTertiaryForeground,
+  ),
+  componentBadgeGrayBackground(
+    AppColorSemanticSection.components,
+    _componentBadgeGrayBackground,
+  ),
+  componentBadgeGrayForeground(
+    AppColorSemanticSection.components,
+    _componentBadgeGrayForeground,
   );
 
   final AppColorSemanticSection section;
@@ -380,3 +412,19 @@ Color _componentBottomSheetHandle(AppColorScheme scheme) =>
     scheme.componentBottomSheetHandle;
 Color _componentInfoCardBackground(AppColorScheme scheme) =>
     scheme.componentInfoCardBackground;
+Color _componentBadgePrimaryBackground(AppColorScheme scheme) =>
+    scheme.componentBadgePrimaryBackground;
+Color _componentBadgePrimaryForeground(AppColorScheme scheme) =>
+    scheme.componentBadgePrimaryForeground;
+Color _componentBadgeSecondaryBackground(AppColorScheme scheme) =>
+    scheme.componentBadgeSecondaryBackground;
+Color _componentBadgeSecondaryForeground(AppColorScheme scheme) =>
+    scheme.componentBadgeSecondaryForeground;
+Color _componentBadgeTertiaryBackground(AppColorScheme scheme) =>
+    scheme.componentBadgeTertiaryBackground;
+Color _componentBadgeTertiaryForeground(AppColorScheme scheme) =>
+    scheme.componentBadgeTertiaryForeground;
+Color _componentBadgeGrayBackground(AppColorScheme scheme) =>
+    scheme.componentBadgeGrayBackground;
+Color _componentBadgeGrayForeground(AppColorScheme scheme) =>
+    scheme.componentBadgeGrayForeground;

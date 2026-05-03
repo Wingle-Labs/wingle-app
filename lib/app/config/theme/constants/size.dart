@@ -28,6 +28,18 @@ class AppFontSize {
   static const double tag = 10;
 }
 
+/// 배지 텍스트 크기 정의
+class AppBadgeFontSize {
+  /// 작은 배지 텍스트 크기
+  static const double sm = 10;
+
+  /// 중간 배지 텍스트 크기
+  static const double md = 12;
+
+  /// 큰 배지 텍스트 크기
+  static const double lg = 14;
+}
+
 /// 어플리케이션의 공통 아이콘 크기 정의
 class AppIconSize {
   /// xxs 아이콘 크기
@@ -65,6 +77,27 @@ class AppIconSize {
 
   /// 모든 아이콘 크기
   static const List<double> values = [xxs, xs, sm, md, lg, xl];
+}
+
+/// 버튼 아이콘 frame 크기 정의
+class AppIconButtonFrameSize {
+  /// xxs frame
+  static const double xxs = 16;
+
+  /// xs frame
+  static const double xs = 20;
+
+  /// sm frame
+  static const double sm = 24;
+
+  /// md frame
+  static const double md = 26;
+
+  /// lg frame
+  static const double lg = 32;
+
+  /// 모든 frame 크기
+  static const List<double> values = [xxs, xs, sm, md, lg];
 }
 
 /// 어플리케이션의 공통 아이콘 터치 영역 정의
@@ -212,6 +245,21 @@ class AppIconSquareKeyline {
 
   /// 모든 정사각형 keyline 크기
   static const List<double> values = [xxs, xs, sm, md, lg, xl];
+}
+
+/// 배지 높이 정의
+class AppBadgeHeight {
+  /// 작은 배지 높이
+  static const double sm = 18;
+
+  /// 중간 배지 높이
+  static const double md = 24;
+
+  /// 큰 배지 높이
+  static const double lg = 28;
+
+  /// 모든 배지 높이
+  static const List<double> values = [sm, md, lg];
 }
 
 /// 아이콘 제작 가이드용 가로 직사각형 크기 정의
