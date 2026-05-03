@@ -103,14 +103,20 @@ class AppPadding {
   static const double toggleSwitchPadding = 2;
 
   /// 배지 작은 내부 패딩
-  static const double badgeSmVertical = 1;
+  static const double badgeSmVertical = 4;
 
   /// 배지 작은 내부 패딩
   static const double badgeSmHorizontal = 6;
 
-  /// 배지 중간/큰 내부 패딩
-  static const double badgeMdVertical = 4;
+  /// 배지 중간 내부 패딩
+  static const double badgeMdVertical = 6;
 
-  /// 배지 중간/큰 내부 패딩
+  /// 배지 중간 내부 패딩
   static const double badgeMdHorizontal = 8;
+
+  /// 배지 큰 내부 패딩
+  static const double badgeLgVertical = 8;
+
+  /// 배지 큰 내부 패딩
+  static const double badgeLgHorizontal = 10;
 }

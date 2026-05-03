@@ -33,11 +33,8 @@ class AppBadgeFontSize {
   /// 작은 배지 텍스트 크기
   static const double sm = 10;
 
-  /// 중간 배지 텍스트 크기
-  static const double md = 12;
-
   /// 큰 배지 텍스트 크기
-  static const double lg = 14;
+  static const double lg = 12;
 }
 
 /// 어플리케이션의 공통 아이콘 크기 정의
