@@ -4,9 +4,11 @@ import 'package:wingle/app/config/theme/components/dividers/default_divider.dart
 import 'package:wingle/app/config/theme/components/states/pagination.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
+import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
+import 'package:wingle/widgetbook/components/component_resolved_spec.dart';
 
 /// Pagination 컴포넌트 프리뷰
 class PaginationPage extends StatefulWidget {
@@ -35,6 +37,39 @@ class _PaginationPageState extends State<PaginationPage> {
       initialOption: 5,
     );
     final resolvedIndex = _currentIndex.clamp(0, length - 1);
+    final colors = context.colors;
+    final resolvedSpec = <WidgetbookResolvedSpecEntry>[
+      WidgetbookResolvedSpecEntry(label: 'Variant', value: variant.name),
+      WidgetbookResolvedSpecEntry(label: 'Length', value: '$length'),
+      WidgetbookResolvedSpecEntry(
+        label: 'Current index',
+        value: '$resolvedIndex',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Item size',
+        value: switch (variant) {
+          PaginationVariant.dot =>
+            '${AppContainerSize.paginationDot.toInt()}px',
+          PaginationVariant.line =>
+            '${AppContainerSize.paginationLineWidth.toInt()}×${AppContainerSize.paginationLine.toInt()}px',
+        },
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Gap',
+        value: '${AppSpacing.s8.toInt()}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Active color',
+        value: 'primaryNormal (${widgetbookColorToHex(colors.primaryNormal)})',
+        swatchColor: colors.primaryNormal,
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Inactive color',
+        value:
+            'interactionDisable (${widgetbookColorToHex(colors.interactionDisable)})',
+        swatchColor: colors.interactionDisable,
+      ),
+    ];
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -128,6 +163,8 @@ class _PaginationPageState extends State<PaginationPage> {
                       ),
                     ],
                   ),
+                  const SizedBox(height: AppSpacing.s24),
+                  WidgetbookResolvedSpecCard(entries: resolvedSpec),
                 ],
               ),
             ),

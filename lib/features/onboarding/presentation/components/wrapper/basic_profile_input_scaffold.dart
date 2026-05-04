@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_floating_button.dart';
+import 'package:wingle/app/config/theme/components/states/step_indicator.dart';
 import 'package:wingle/app/config/theme/components/texts/default_page_header.dart';
 import 'package:wingle/app/config/theme/components/texts/text_scale_policy.dart';
 import 'package:wingle/app/config/theme/components/wrappers/constrained_scrollable_scaffold.dart';
@@ -8,7 +9,6 @@ import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
-import 'package:wingle/features/onboarding/presentation/components/progress/profile_input_step_indicator.dart';
 
 /// 기본 프로필 입력 화면의 공통 레이아웃.
 class BasicProfileInputScaffold extends StatelessWidget {
@@ -82,7 +82,7 @@ class BasicProfileInputScaffold extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ProfileInputStepIndicator(
+          StepIndicator(
             currentStep: currentStep,
             totalSteps: totalSteps,
             padding: const EdgeInsets.only(

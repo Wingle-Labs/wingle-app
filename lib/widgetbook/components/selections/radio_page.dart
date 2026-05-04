@@ -7,6 +7,7 @@ import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
+import 'package:wingle/widgetbook/components/component_resolved_spec.dart';
 
 /// Radio 컴포넌트 프리뷰
 class RadioPage extends StatefulWidget {
@@ -31,6 +32,39 @@ class _RadioPageState extends State<RadioPage> {
       options: const [false, true],
       initialOption: false,
     );
+    final resolvedSpec = <WidgetbookResolvedSpecEntry>[
+      WidgetbookResolvedSpecEntry(
+        label: 'Size',
+        value: '${AppIconSize.radioNormal.toInt()}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Inner dot',
+        value: '${AppIconSize.radioInnerNormal.toInt()}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Touch size',
+        value: '${AppIconTouchSize.sm.toInt()}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Border width',
+        value: '${AppLineWidth.radioButtonBorder}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'State',
+        value: disabled ? 'disabled' : (_selected ? 'checked' : 'unchecked'),
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Active fill',
+        value: 'primaryNormal (${widgetbookColorToHex(colors.primaryNormal)})',
+        swatchColor: colors.primaryNormal,
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Inactive border',
+        value:
+            'strokeStructuralBorder (${widgetbookColorToHex(colors.strokeStructuralBorder)})',
+        swatchColor: colors.strokeStructuralBorder,
+      ),
+    ];
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -141,6 +175,8 @@ class _RadioPageState extends State<RadioPage> {
                       ],
                     ),
                   ),
+                  const SizedBox(height: AppSpacing.s32),
+                  WidgetbookResolvedSpecCard(entries: resolvedSpec),
                 ],
               ),
             ),

@@ -6,6 +6,7 @@ import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
+import 'package:wingle/widgetbook/components/component_resolved_spec.dart';
 
 /// Toggle Icon 컴포넌트 프리뷰
 class ToggleIconPage extends StatefulWidget {
@@ -25,6 +26,43 @@ class _ToggleIconPageState extends State<ToggleIconPage> {
   Widget build(BuildContext context) {
     final typography = context.typography;
     final colors = context.colors;
+    final resolvedSpec = <WidgetbookResolvedSpecEntry>[
+      WidgetbookResolvedSpecEntry(
+        label: 'Icon frame',
+        value: '${AppContainerSize.toggleIcon.toInt()}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Touch size',
+        value: '${AppIconTouchSize.sm.toInt()}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Radius',
+        value: '${AppRadius.xs.toInt()}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Border width',
+        value: '${AppLineWidth.toggleIconBorder}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Dash / gap',
+        value:
+            '${AppContainerSize.toggleIconDash.toInt()} / ${AppContainerSize.toggleIconDashGap.toInt()}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'State',
+        value: _active ? 'active' : 'inactive',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Active stroke',
+        value: 'primaryNormal (${widgetbookColorToHex(colors.primaryNormal)})',
+        swatchColor: colors.primaryNormal,
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Inactive stroke',
+        value: 'textDisable (${widgetbookColorToHex(colors.textDisable)})',
+        swatchColor: colors.textDisable,
+      ),
+    ];
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -108,6 +146,8 @@ class _ToggleIconPageState extends State<ToggleIconPage> {
                       ],
                     ),
                   ),
+                  const SizedBox(height: AppSpacing.s32),
+                  WidgetbookResolvedSpecCard(entries: resolvedSpec),
                 ],
               ),
             ),

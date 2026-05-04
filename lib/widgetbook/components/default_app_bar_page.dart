@@ -7,6 +7,7 @@ import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
+import 'package:wingle/widgetbook/components/component_resolved_spec.dart';
 
 /// DefaultAppBar를 확인할 수 있는 페이지
 class DefaultAppBarPage extends StatelessWidget {
@@ -92,6 +93,53 @@ class DefaultAppBarPage extends StatelessWidget {
     final resolvedTitle = layout == DefaultAppBarLayout.display
         ? title
         : (showTitle ? title : null);
+    final resolvedSpec = <WidgetbookResolvedSpecEntry>[
+      WidgetbookResolvedSpecEntry(label: 'Layout', value: layout.name),
+      WidgetbookResolvedSpecEntry(
+        label: 'Height',
+        value: layout == DefaultAppBarLayout.display && showSubtitle
+            ? 'adaptive display'
+            : '${(AppPadding.vertical * 2 + AppIconPixelGrid.xl).toInt()}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Padding',
+        value:
+            'V ${AppPadding.vertical.toInt()} / H ${AppPadding.horizontal.toInt()}',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Action frame',
+        value: '${AppIconPixelGrid.xl.toInt()}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Action glyph',
+        value: '${AppIconSize.xl.toInt()}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Action gap',
+        value: '${AppSpacing.s4.toInt()}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Title gap',
+        value: '${AppSpacing.s12.toInt()}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Display subtitle gap',
+        value: '${AppSpacing.s6.toInt()}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Background',
+        value:
+            'backgroundNormal (${widgetbookColorToHex(colors.backgroundNormal)})',
+        swatchColor: colors.backgroundNormal,
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Bottom border',
+        value: showBottomBorder
+            ? 'strokeNeutral (${widgetbookColorToHex(colors.strokeNeutral)})'
+            : 'none',
+        swatchColor: showBottomBorder ? colors.strokeNeutral : null,
+      ),
+    ];
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -110,18 +158,25 @@ class DefaultAppBarPage extends StatelessWidget {
             _SectionCard(
               title: 'Interactive',
               description: '선택한 layout과 액션 수, title/subtitle 상태를 확인합니다.',
-              child: _AppBarPreview(
-                child: DefaultAppBar(
-                  layout: layout,
-                  isActionVisible: rightActionCount > 0,
-                  showBottomBorder: showBottomBorder,
-                  leadingActions: _buildActionIcons(leftActionCount),
-                  title: resolvedTitle,
-                  isTitleTranslationKey: false,
-                  subtitle: showSubtitle ? subtitle : null,
-                  isSubtitleTranslationKey: false,
-                  actions: _buildActionIcons(rightActionCount),
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _AppBarPreview(
+                    child: DefaultAppBar(
+                      layout: layout,
+                      isActionVisible: rightActionCount > 0,
+                      showBottomBorder: showBottomBorder,
+                      leadingActions: _buildActionIcons(leftActionCount),
+                      title: resolvedTitle,
+                      isTitleTranslationKey: false,
+                      subtitle: showSubtitle ? subtitle : null,
+                      isSubtitleTranslationKey: false,
+                      actions: _buildActionIcons(rightActionCount),
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.s24),
+                  WidgetbookResolvedSpecCard(entries: resolvedSpec),
+                ],
               ),
             ),
             Wrap(

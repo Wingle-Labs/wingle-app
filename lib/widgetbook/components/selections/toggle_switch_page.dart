@@ -3,9 +3,11 @@ import 'package:widgetbook/widgetbook.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_toggle_switch.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
+import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
+import 'package:wingle/widgetbook/components/component_resolved_spec.dart';
 
 /// Toggle Switch 컴포넌트 프리뷰
 class ToggleSwitchPage extends StatefulWidget {
@@ -30,6 +32,46 @@ class _ToggleSwitchPageState extends State<ToggleSwitchPage> {
       options: const [false, true],
       initialOption: false,
     );
+    final resolvedSpec = <WidgetbookResolvedSpecEntry>[
+      WidgetbookResolvedSpecEntry(
+        label: 'Track size',
+        value:
+            '${AppContainerSize.toggleSwitchWidth.toInt()}×${AppContainerSize.toggleSwitchHeight.toInt()}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Thumb size',
+        value: '${AppContainerSize.toggleSwitchThumb.toInt()}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Inset',
+        value: '${AppContainerSize.toggleSwitchInset.toInt()}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Padding',
+        value: 'all ${AppPadding.toggleSwitchPadding.toInt()}',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'State',
+        value: disabled ? 'disabled' : (_active ? 'on' : 'off'),
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Active track',
+        value: 'primaryNormal (${widgetbookColorToHex(colors.primaryNormal)})',
+        swatchColor: colors.primaryNormal,
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Inactive track',
+        value:
+            'strokeStructuralBorder (${widgetbookColorToHex(colors.strokeStructuralBorder)})',
+        swatchColor: colors.strokeStructuralBorder,
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Disabled track',
+        value:
+            'interactionDisable (${widgetbookColorToHex(colors.interactionDisable)})',
+        swatchColor: colors.interactionDisable,
+      ),
+    ];
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -104,6 +146,8 @@ class _ToggleSwitchPageState extends State<ToggleSwitchPage> {
                       ],
                     ),
                   ),
+                  const SizedBox(height: AppSpacing.s32),
+                  WidgetbookResolvedSpecCard(entries: resolvedSpec),
                 ],
               ),
             ),

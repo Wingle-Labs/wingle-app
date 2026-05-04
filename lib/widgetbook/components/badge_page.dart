@@ -6,6 +6,7 @@ import 'package:wingle/app/config/theme/constants/radius.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
+import 'package:wingle/widgetbook/components/component_resolved_spec.dart';
 
 /// Badge 컴포넌트 프리뷰
 class BadgePage extends StatelessWidget {
@@ -27,6 +28,7 @@ class BadgePage extends StatelessWidget {
       options: DefaultBadgeType.values,
       initialOption: DefaultBadgeType.primary,
     );
+    final resolvedSpec = _buildResolvedSpec(context, size, type);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -104,6 +106,8 @@ class BadgePage extends StatelessWidget {
                       ],
                     ),
                   ),
+                  const SizedBox(height: AppSpacing.s32),
+                  WidgetbookResolvedSpecCard(entries: resolvedSpec),
                 ],
               ),
             ),
@@ -111,6 +115,85 @@ class BadgePage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  List<WidgetbookResolvedSpecEntry> _buildResolvedSpec(
+    BuildContext context,
+    DefaultBadgeSize size,
+    DefaultBadgeType type,
+  ) {
+    final colors = context.colors;
+
+    final (
+      height,
+      radius,
+      vertical,
+      horizontal,
+      labelSize,
+      labelWeight,
+    ) = switch (size) {
+      DefaultBadgeSize.sm => ('18px', '6px', '4px', '6px', '12px', '500'),
+      DefaultBadgeSize.md => ('24px', '8px', '6px', '8px', '16px', '600'),
+      DefaultBadgeSize.lg => ('28px', '8px', '8px', '10px', '16px', '600'),
+    };
+
+    final (
+      backgroundToken,
+      backgroundColor,
+      foregroundToken,
+      foregroundColor,
+    ) = switch (type) {
+      DefaultBadgeType.primary => (
+        'componentBadgePrimaryBackground',
+        colors.componentBadgePrimaryBackground,
+        'componentBadgePrimaryForeground',
+        colors.componentBadgePrimaryForeground,
+      ),
+      DefaultBadgeType.secondary => (
+        'componentBadgeSecondaryBackground',
+        colors.componentBadgeSecondaryBackground,
+        'componentBadgeSecondaryForeground',
+        colors.componentBadgeSecondaryForeground,
+      ),
+      DefaultBadgeType.tertiary => (
+        'componentBadgeTertiaryBackground',
+        colors.componentBadgeTertiaryBackground,
+        'componentBadgeTertiaryForeground',
+        colors.componentBadgeTertiaryForeground,
+      ),
+      DefaultBadgeType.gray => (
+        'componentBadgeGrayBackground',
+        colors.componentBadgeGrayBackground,
+        'componentBadgeGrayForeground',
+        colors.componentBadgeGrayForeground,
+      ),
+    };
+
+    return [
+      WidgetbookResolvedSpecEntry(label: 'Size', value: size.name),
+      WidgetbookResolvedSpecEntry(label: 'Type', value: type.name),
+      WidgetbookResolvedSpecEntry(label: 'Height', value: height),
+      WidgetbookResolvedSpecEntry(label: 'Radius', value: radius),
+      WidgetbookResolvedSpecEntry(
+        label: 'Padding',
+        value: 'V $vertical / H $horizontal',
+      ),
+      WidgetbookResolvedSpecEntry(label: 'Label size', value: labelSize),
+      WidgetbookResolvedSpecEntry(
+        label: 'Label style',
+        value: '$labelSize / $labelWeight',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Background',
+        value: '$backgroundToken (${widgetbookColorToHex(backgroundColor)})',
+        swatchColor: backgroundColor,
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Foreground',
+        value: '$foregroundToken (${widgetbookColorToHex(foregroundColor)})',
+        swatchColor: foregroundColor,
+      ),
+    ];
   }
 }
 

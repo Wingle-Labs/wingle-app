@@ -7,6 +7,7 @@ import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
+import 'package:wingle/widgetbook/components/component_resolved_spec.dart';
 
 /// Check 컴포넌트 프리뷰
 class CheckPage extends StatefulWidget {
@@ -31,6 +32,41 @@ class _CheckPageState extends State<CheckPage> {
       options: const [false, true],
       initialOption: false,
     );
+    final resolvedSpec = <WidgetbookResolvedSpecEntry>[
+      WidgetbookResolvedSpecEntry(
+        label: 'Size',
+        value: '${AppIconSize.sm.toInt()}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Touch size',
+        value: '${AppIconTouchSize.sm.toInt()}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'State',
+        value: disabled ? 'disabled' : (_checked ? 'checked' : 'unchecked'),
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Icon color',
+        value: disabled
+            ? 'componentCheckDisabled (${widgetbookColorToHex(colors.interactionDisable)})'
+            : 'componentCheckEnabled (${widgetbookColorToHex(colors.primaryNormal)})',
+        swatchColor: disabled
+            ? colors.interactionDisable
+            : colors.primaryNormal,
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Pressed overlay',
+        value:
+            'overlayPressed (${widgetbookColorToHex(colors.overlayPressed)})',
+        swatchColor: colors.overlayPressed,
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Hover/Focus overlay',
+        value:
+            'overlayInactive (${widgetbookColorToHex(colors.overlayInactive)})',
+        swatchColor: colors.overlayInactive,
+      ),
+    ];
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -131,6 +167,8 @@ class _CheckPageState extends State<CheckPage> {
                       ],
                     ),
                   ),
+                  const SizedBox(height: AppSpacing.s32),
+                  WidgetbookResolvedSpecCard(entries: resolvedSpec),
                 ],
               ),
             ),

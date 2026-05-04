@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:widgetbook/widgetbook.dart';
 import 'package:wingle/app/config/theme/components/dividers/default_divider.dart';
+import 'package:wingle/app/config/theme/constants/radius.dart';
+import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
+import 'package:wingle/widgetbook/components/component_resolved_spec.dart';
 
 /// Divider 컴포넌트 프리뷰
 class DividerPage extends StatelessWidget {
@@ -33,6 +36,32 @@ class DividerPage extends StatelessWidget {
       min: vertical ? 16 : 120,
       max: vertical ? 120 : 560,
     );
+    final resolvedSpec = <WidgetbookResolvedSpecEntry>[
+      WidgetbookResolvedSpecEntry(label: 'Variant', value: variant.name),
+      WidgetbookResolvedSpecEntry(
+        label: 'Axis',
+        value: vertical ? 'vertical' : 'horizontal',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Length',
+        value: '${length.toStringAsFixed(0)}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Thickness',
+        value:
+            '${(variant == DefaultDividerVariant.normal ? AppLineWidth.dividerNormal : AppLineWidth.dividerThick).toStringAsFixed(0)}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Color',
+        value:
+            'strokeStructuralDivider (${widgetbookColorToHex(colors.strokeStructuralDivider)})',
+        swatchColor: colors.strokeStructuralDivider,
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Preview frame radius',
+        value: '${AppRadius.standard.toInt()}px',
+      ),
+    ];
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -53,12 +82,19 @@ class DividerPage extends StatelessWidget {
               description:
                   'Variant: ${variant.name}, Vertical: $vertical, '
                   'Length: ${length.toStringAsFixed(0)}px',
-              child: _DividerPreviewFrame(
-                child: DefaultDivider(
-                  variant: variant,
-                  vertical: vertical,
-                  length: length,
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _DividerPreviewFrame(
+                    child: DefaultDivider(
+                      variant: variant,
+                      vertical: vertical,
+                      length: length,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  WidgetbookResolvedSpecCard(entries: resolvedSpec),
+                ],
               ),
             ),
             _DividerCard(

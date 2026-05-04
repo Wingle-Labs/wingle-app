@@ -6,6 +6,7 @@ import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
+import 'package:wingle/widgetbook/components/component_resolved_spec.dart';
 
 /// Snackbar 컴포넌트 프리뷰
 class SnackbarPage extends StatelessWidget {
@@ -79,6 +80,46 @@ class _SnackbarSpecCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final typography = context.typography;
     final colors = context.colors;
+    final resolvedSpec = <WidgetbookResolvedSpecEntry>[
+      WidgetbookResolvedSpecEntry(
+        label: 'Container min height',
+        value: '${AppContainerSize.cardMinHeight.toInt()}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Padding',
+        value:
+            'V ${AppPadding.snackbarVertical.toInt()} / H ${AppPadding.snackbarHorizontal.toInt()}',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Radius',
+        value: '${AppRadius.sm.toInt()}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Background',
+        value:
+            'backgroundElevatedNormal (${widgetbookColorToHex(colors.backgroundElevatedNormal)})',
+        swatchColor: colors.backgroundElevatedNormal,
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Text',
+        value: 'textStrong (${widgetbookColorToHex(colors.textStrong)})',
+        swatchColor: colors.textStrong,
+      ),
+      if (withAction)
+        WidgetbookResolvedSpecEntry(
+          label: 'Action bg',
+          value:
+              'secondaryNormal (${widgetbookColorToHex(colors.secondaryNormal)})',
+          swatchColor: colors.secondaryNormal,
+        ),
+      if (withAction)
+        WidgetbookResolvedSpecEntry(
+          label: 'Action fg',
+          value:
+              'onSecondaryNormal (${widgetbookColorToHex(colors.onSecondaryNormal)})',
+          swatchColor: colors.onSecondaryNormal,
+        ),
+    ];
 
     return Container(
       constraints: const BoxConstraints(
@@ -112,6 +153,8 @@ class _SnackbarSpecCard extends StatelessWidget {
             withLeading: false,
             withAction: withAction,
           ),
+          const SizedBox(height: AppSpacing.s24),
+          WidgetbookResolvedSpecCard(entries: resolvedSpec),
         ],
       ),
     );

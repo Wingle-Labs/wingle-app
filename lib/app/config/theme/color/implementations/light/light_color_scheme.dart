@@ -465,7 +465,7 @@ class LightColorScheme implements AppColorScheme {
   /// - [componentChipButtonPrimaryDisabledBackground]: chip button primary disabled 배경에 사용합니다.
   @override
   Color get componentChipButtonPrimaryDisabledBackground =>
-      AppColorPalette.neutral10.color;
+      AppColorPalette.gray50.color;
 
   /// - [componentChipButtonPrimaryDisabledForeground]: chip button primary disabled 텍스트에 사용합니다.
   @override
@@ -510,10 +510,10 @@ class LightColorScheme implements AppColorScheme {
   /// - [componentChipButtonSecondaryDisabledBackground]: chip button secondary disabled 배경에 사용합니다.
   @override
   Color get componentChipButtonSecondaryDisabledBackground =>
-      AppColorPalette.neutral10.color;
+      AppColorPalette.gray30.color;
 
   /// - [componentChipButtonSecondaryDisabledForeground]: chip button secondary disabled 텍스트에 사용합니다.
   @override
   Color get componentChipButtonSecondaryDisabledForeground =>
-      AppColorPalette.neutral20.color;
+      AppColorPalette.neutral10.color;
 }

@@ -7,6 +7,7 @@ import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
+import 'package:wingle/widgetbook/components/component_resolved_spec.dart';
 
 /// Checkbox 컴포넌트 프리뷰
 class CheckboxPage extends StatefulWidget {
@@ -31,6 +32,47 @@ class _CheckboxPageState extends State<CheckboxPage> {
       options: const [false, true],
       initialOption: false,
     );
+    final resolvedSpec = <WidgetbookResolvedSpecEntry>[
+      WidgetbookResolvedSpecEntry(
+        label: 'Size',
+        value: '${AppIconSize.sm.toInt()}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Touch size',
+        value: '${AppIconTouchSize.sm.toInt()}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Radius',
+        value: '${AppRadius.checkboxRadius.toInt()}px',
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'State',
+        value: disabled ? 'disabled' : _testState.name,
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Background',
+        value:
+            'backgroundElevatedNormal (${widgetbookColorToHex(colors.backgroundElevatedNormal)})',
+        swatchColor: colors.backgroundElevatedNormal,
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Border',
+        value:
+            'strokeStructuralBorder (${widgetbookColorToHex(colors.strokeStructuralBorder)})',
+        swatchColor: colors.strokeStructuralBorder,
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Active fill',
+        value: 'primaryNormal (${widgetbookColorToHex(colors.primaryNormal)})',
+        swatchColor: colors.primaryNormal,
+      ),
+      WidgetbookResolvedSpecEntry(
+        label: 'Disabled icon',
+        value:
+            'componentCheckboxIconDisabled (${widgetbookColorToHex(colors.componentCheckboxIconDisabled)})',
+        swatchColor: colors.componentCheckboxIconDisabled,
+      ),
+    ];
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -140,6 +182,8 @@ class _CheckboxPageState extends State<CheckboxPage> {
                       ],
                     ),
                   ),
+                  const SizedBox(height: AppSpacing.s32),
+                  WidgetbookResolvedSpecCard(entries: resolvedSpec),
                 ],
               ),
             ),
