@@ -281,6 +281,70 @@ enum AppColorTokenSpec {
   componentBadgeGrayForeground(
     AppColorSemanticSection.components,
     _componentBadgeGrayForeground,
+  ),
+  componentChipButtonPrimarySelectedBackground(
+    AppColorSemanticSection.components,
+    _componentChipButtonPrimarySelectedBackground,
+  ),
+  componentChipButtonPrimarySelectedForeground(
+    AppColorSemanticSection.components,
+    _componentChipButtonPrimarySelectedForeground,
+  ),
+  componentChipButtonPrimaryUnselectedBackground(
+    AppColorSemanticSection.components,
+    _componentChipButtonPrimaryUnselectedBackground,
+  ),
+  componentChipButtonPrimaryUnselectedForeground(
+    AppColorSemanticSection.components,
+    _componentChipButtonPrimaryUnselectedForeground,
+  ),
+  componentChipButtonPrimaryUnselectedBorder(
+    AppColorSemanticSection.components,
+    _componentChipButtonPrimaryUnselectedBorder,
+  ),
+  componentChipButtonPrimaryDisabledBackground(
+    AppColorSemanticSection.components,
+    _componentChipButtonPrimaryDisabledBackground,
+  ),
+  componentChipButtonPrimaryDisabledForeground(
+    AppColorSemanticSection.components,
+    _componentChipButtonPrimaryDisabledForeground,
+  ),
+  componentChipButtonSecondaryDefaultBackground(
+    AppColorSemanticSection.components,
+    _componentChipButtonSecondaryDefaultBackground,
+  ),
+  componentChipButtonSecondaryDefaultForeground(
+    AppColorSemanticSection.components,
+    _componentChipButtonSecondaryDefaultForeground,
+  ),
+  componentChipButtonSecondarySelectedBackground(
+    AppColorSemanticSection.components,
+    _componentChipButtonSecondarySelectedBackground,
+  ),
+  componentChipButtonSecondarySelectedForeground(
+    AppColorSemanticSection.components,
+    _componentChipButtonSecondarySelectedForeground,
+  ),
+  componentChipButtonSecondaryUnselectedBackground(
+    AppColorSemanticSection.components,
+    _componentChipButtonSecondaryUnselectedBackground,
+  ),
+  componentChipButtonSecondaryUnselectedForeground(
+    AppColorSemanticSection.components,
+    _componentChipButtonSecondaryUnselectedForeground,
+  ),
+  componentChipButtonSecondaryUnselectedBorder(
+    AppColorSemanticSection.components,
+    _componentChipButtonSecondaryUnselectedBorder,
+  ),
+  componentChipButtonSecondaryDisabledBackground(
+    AppColorSemanticSection.components,
+    _componentChipButtonSecondaryDisabledBackground,
+  ),
+  componentChipButtonSecondaryDisabledForeground(
+    AppColorSemanticSection.components,
+    _componentChipButtonSecondaryDisabledForeground,
   );
 
   final AppColorSemanticSection section;
@@ -428,3 +492,37 @@ Color _componentBadgeGrayBackground(AppColorScheme scheme) =>
     scheme.componentBadgeGrayBackground;
 Color _componentBadgeGrayForeground(AppColorScheme scheme) =>
     scheme.componentBadgeGrayForeground;
+Color _componentChipButtonPrimarySelectedBackground(AppColorScheme scheme) =>
+    scheme.componentChipButtonPrimarySelectedBackground;
+Color _componentChipButtonPrimarySelectedForeground(AppColorScheme scheme) =>
+    scheme.componentChipButtonPrimarySelectedForeground;
+Color _componentChipButtonPrimaryUnselectedBackground(AppColorScheme scheme) =>
+    scheme.componentChipButtonPrimaryUnselectedBackground;
+Color _componentChipButtonPrimaryUnselectedForeground(AppColorScheme scheme) =>
+    scheme.componentChipButtonPrimaryUnselectedForeground;
+Color _componentChipButtonPrimaryUnselectedBorder(AppColorScheme scheme) =>
+    scheme.componentChipButtonPrimaryUnselectedBorder;
+Color _componentChipButtonPrimaryDisabledBackground(AppColorScheme scheme) =>
+    scheme.componentChipButtonPrimaryDisabledBackground;
+Color _componentChipButtonPrimaryDisabledForeground(AppColorScheme scheme) =>
+    scheme.componentChipButtonPrimaryDisabledForeground;
+Color _componentChipButtonSecondaryDefaultBackground(AppColorScheme scheme) =>
+    scheme.componentChipButtonSecondaryDefaultBackground;
+Color _componentChipButtonSecondaryDefaultForeground(AppColorScheme scheme) =>
+    scheme.componentChipButtonSecondaryDefaultForeground;
+Color _componentChipButtonSecondarySelectedBackground(AppColorScheme scheme) =>
+    scheme.componentChipButtonSecondarySelectedBackground;
+Color _componentChipButtonSecondarySelectedForeground(AppColorScheme scheme) =>
+    scheme.componentChipButtonSecondarySelectedForeground;
+Color _componentChipButtonSecondaryUnselectedBackground(
+  AppColorScheme scheme,
+) => scheme.componentChipButtonSecondaryUnselectedBackground;
+Color _componentChipButtonSecondaryUnselectedForeground(
+  AppColorScheme scheme,
+) => scheme.componentChipButtonSecondaryUnselectedForeground;
+Color _componentChipButtonSecondaryUnselectedBorder(AppColorScheme scheme) =>
+    scheme.componentChipButtonSecondaryUnselectedBorder;
+Color _componentChipButtonSecondaryDisabledBackground(AppColorScheme scheme) =>
+    scheme.componentChipButtonSecondaryDisabledBackground;
+Color _componentChipButtonSecondaryDisabledForeground(AppColorScheme scheme) =>
+    scheme.componentChipButtonSecondaryDisabledForeground;

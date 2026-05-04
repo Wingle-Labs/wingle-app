@@ -112,4 +112,52 @@ abstract interface class AppColorComponentScheme {
 
   /// badge gray 텍스트에 사용합니다.
   Color get componentBadgeGrayForeground;
+
+  /// chip button primary selected 배경에 사용합니다.
+  Color get componentChipButtonPrimarySelectedBackground;
+
+  /// chip button primary selected 텍스트에 사용합니다.
+  Color get componentChipButtonPrimarySelectedForeground;
+
+  /// chip button primary unselected 배경에 사용합니다.
+  Color get componentChipButtonPrimaryUnselectedBackground;
+
+  /// chip button primary unselected 텍스트에 사용합니다.
+  Color get componentChipButtonPrimaryUnselectedForeground;
+
+  /// chip button primary unselected 테두리에 사용합니다.
+  Color get componentChipButtonPrimaryUnselectedBorder;
+
+  /// chip button primary disabled 배경에 사용합니다.
+  Color get componentChipButtonPrimaryDisabledBackground;
+
+  /// chip button primary disabled 텍스트에 사용합니다.
+  Color get componentChipButtonPrimaryDisabledForeground;
+
+  /// chip button secondary default 배경에 사용합니다.
+  Color get componentChipButtonSecondaryDefaultBackground;
+
+  /// chip button secondary default 텍스트에 사용합니다.
+  Color get componentChipButtonSecondaryDefaultForeground;
+
+  /// chip button secondary selected 배경에 사용합니다.
+  Color get componentChipButtonSecondarySelectedBackground;
+
+  /// chip button secondary selected 텍스트에 사용합니다.
+  Color get componentChipButtonSecondarySelectedForeground;
+
+  /// chip button secondary unselected 배경에 사용합니다.
+  Color get componentChipButtonSecondaryUnselectedBackground;
+
+  /// chip button secondary unselected 텍스트에 사용합니다.
+  Color get componentChipButtonSecondaryUnselectedForeground;
+
+  /// chip button secondary unselected 테두리에 사용합니다.
+  Color get componentChipButtonSecondaryUnselectedBorder;
+
+  /// chip button secondary disabled 배경에 사용합니다.
+  Color get componentChipButtonSecondaryDisabledBackground;
+
+  /// chip button secondary disabled 텍스트에 사용합니다.
+  Color get componentChipButtonSecondaryDisabledForeground;
 }

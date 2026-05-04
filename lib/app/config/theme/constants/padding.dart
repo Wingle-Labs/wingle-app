@@ -30,6 +30,12 @@ class AppPadding {
   /// Chip 형태 버튼 내부 가로 패딩
   static const double buttonChipHorizontal = 12;
 
+  /// Chip 버튼 내부 세로 패딩
+  static const double chipButtonVertical = 6;
+
+  /// Chip 버튼 내부 가로 패딩
+  static const double chipButtonHorizontal = 14;
+
   /// Full Width Button 내부 세로 패딩
   static const double fullWidthButtonVertical = 11;
 

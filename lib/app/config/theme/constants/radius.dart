@@ -58,4 +58,7 @@ class AppRadius {
 
   /// Button Icon Slot Radius
   static const double buttonIconSlot = 3;
+
+  /// Chip Button Radius
+  static const double chipButton = 18;
 }

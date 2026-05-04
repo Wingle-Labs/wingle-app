@@ -259,6 +259,12 @@ class AppBadgeHeight {
   static const List<double> values = [sm, md, lg];
 }
 
+/// Chip 버튼 높이 정의
+class AppChipButtonHeight {
+  /// 기본 chip 버튼 높이
+  static const double md = 32;
+}
+
 /// 아이콘 제작 가이드용 가로 직사각형 크기 정의
 class AppIconHorizontalRectSize {
   /// xxs 아이콘 가로 직사각형 너비
