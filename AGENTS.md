@@ -5,6 +5,16 @@
 - 기본 답변 언어는 한국어로 한다.
 - 작업 결과는 변경 파일, 검증 명령, 남은 리스크를 중심으로 간결하게 보고한다.
 
+## API Workflows
+
+- BE API 관련 작업(명세 확인, 엔드포인트 설계 검토, API 연동 구현, API 디버깅, admin 기반 운영 확인) 전에는 반드시 프로젝트 로컬 스킬 `.agents/skills/api-backend-context`를 먼저 사용한다.
+- API 작업 시 소스 우선순위는 다음과 같다.
+  - Swagger/OpenAPI: 엔드포인트, request/response schema, 인증 방식 확인
+  - Notion API 문서: 업무 규칙, 정책, Swagger에 없는 보충 설명 확인
+  - Admin 페이지: 실제 운영 상태, 관리자 플로우, 실데이터 화면 확인
+- Swagger나 Notion이 일시적으로 접근 불가하면 그 사실을 먼저 보고하고, 대체 가능한 다른 소스에서 확인한 범위만 근거로 작업한다.
+- 관리자 자격증명은 저장소 파일에 상수로 기록하지 않고, 사용자 제공 비공개 정보로만 취급한다.
+
 ## Commit Messages
 
 - 커밋 메시지는 Conventional Commit 형식을 사용한다.

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Wingle API Backend Context"
+  short_description: "Wingle API 명세와 admin 검증 절차를 표준화합니다."
+  default_prompt: "Use $api-backend-context to inspect Wingle backend APIs before implementing or debugging an integration."
+
+policy:
+  allow_implicit_invocation: true
