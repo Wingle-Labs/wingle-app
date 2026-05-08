@@ -26,10 +26,11 @@ void main() {
       agreements: [
         AgreementItemModel(
           id: 1,
+          type: 'PRIVACY',
           title: '개인정보 처리방침',
           content: '내용',
           isRequired: true,
-          version: '1.3',
+          version: '1',
           isChecked: true,
         ),
       ],
@@ -39,7 +40,7 @@ void main() {
     expect(body, {
       'UUID': 'device-uuid',
       'agreements': [
-        {'Id': 1, 'version': '1.3', 'isRequired': true, 'agreed': true},
+        {'type': 'PRIVACY', 'version': 1, 'isRequired': true, 'agreed': true},
       ],
     });
   });

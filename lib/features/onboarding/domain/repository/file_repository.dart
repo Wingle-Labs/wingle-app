@@ -8,6 +8,16 @@ abstract class FileRepository {
     String contentType = FileUploadConstants.defaultProfileImageContentType,
   });
 
+  /// 스타일 사진 presigned URL을 발급한다.
+  Future<ProfileImagePresignResult> createStyleImagePresignedUrl({
+    String contentType = FileUploadConstants.defaultProfileImageContentType,
+  });
+
+  /// 얼굴 사진 presigned URL을 발급한다.
+  Future<ProfileImagePresignResult> createFaceImagePresignedUrl({
+    String contentType = FileUploadConstants.defaultProfileImageContentType,
+  });
+
   /// 업로드 URL을 발급한다.
   Future<FileUploadPresignResult> createUploadPresign({
     required String fileName,

@@ -99,7 +99,7 @@ void main() {
         'gender': '남',
         'UUID': 'device-uuid',
         'age': 26,
-        'impUid': 'imp_123',
+        'birth': '2001-01-01',
       });
     });
   });

@@ -16,6 +16,7 @@ class MockTermRepository implements TermRepository {
     return [
       AgreementItemModel(
         id: 1,
+        type: 'PRIVACY',
         title: '개인정보 처리방침',
         content: '# 개인정보처리방침\n\n## 1조 ...',
         isRequired: true,
@@ -24,6 +25,7 @@ class MockTermRepository implements TermRepository {
       ),
       AgreementItemModel(
         id: 2,
+        type: 'TOS',
         title: '서비스 이용약관',
         content: '# 서비스 이용약관\n\n## 1조 ...',
         isRequired: true,
@@ -32,6 +34,7 @@ class MockTermRepository implements TermRepository {
       ),
       AgreementItemModel(
         id: 3,
+        type: 'ADS',
         title: '광고성 정보 수신 동의',
         content: '# 광고성 정보 수신 동의\n\n## 1조 ...',
         isRequired: false,
@@ -39,6 +42,12 @@ class MockTermRepository implements TermRepository {
         isChecked: false,
       ),
     ];
+  }
+
+  @override
+  Future<Map<String, int>> fetchCurrentVersions() async {
+    await Future.delayed(const Duration(milliseconds: 10));
+    return const {'TOS': 1, 'PRIVACY': 1, 'ADS': 1};
   }
 
   @override

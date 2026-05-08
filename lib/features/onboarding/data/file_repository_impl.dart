@@ -25,9 +25,16 @@ class FileRepositoryImpl implements FileRepository {
   Future<ProfileImagePresignResult> createProfileImagePresignedUrl({
     String contentType = FileUploadConstants.defaultProfileImageContentType,
   }) async {
-    final response = await _client.post(
+    return createStyleImagePresignedUrl(contentType: contentType);
+  }
+
+  @override
+  Future<ProfileImagePresignResult> createStyleImagePresignedUrl({
+    String contentType = FileUploadConstants.defaultProfileImageContentType,
+  }) async {
+    final response = await _client.get(
       Uri.parse(
-        '$_baseUrl${ApiEndpoints.profileImagePresign}',
+        '$_baseUrl${ApiEndpoints.styleImagePresign}',
       ).replace(queryParameters: {'contentType': contentType}),
       headers: ApiRequestHeaders.auth(),
     );
@@ -36,9 +43,33 @@ class FileRepositoryImpl implements FileRepository {
       throw Exception(ApiErrorMessages.createProfileImagePresignedUrlFailed);
     }
 
-    return ProfileImagePresignResult.fromJson(
+    final result = ProfileImagePresignResult.fromJson(
       jsonDecode(response.body) as Map<String, dynamic>,
     );
+
+    return _validateProfileImagePresignResult(result);
+  }
+
+  @override
+  Future<ProfileImagePresignResult> createFaceImagePresignedUrl({
+    String contentType = FileUploadConstants.defaultProfileImageContentType,
+  }) async {
+    final response = await _client.get(
+      Uri.parse(
+        '$_baseUrl${ApiEndpoints.faceImagePresign}',
+      ).replace(queryParameters: {'contentType': contentType}),
+      headers: ApiRequestHeaders.auth(),
+    );
+
+    if (!_isSuccess(response)) {
+      throw Exception(ApiErrorMessages.createProfileImagePresignedUrlFailed);
+    }
+
+    final result = ProfileImagePresignResult.fromJson(
+      jsonDecode(response.body) as Map<String, dynamic>,
+    );
+
+    return _validateProfileImagePresignResult(result);
   }
 
   @override
@@ -57,19 +88,8 @@ class FileRepositoryImpl implements FileRepository {
       if (checksum != null) 'checksum': checksum,
     };
 
-    final response = await _client.post(
-      Uri.parse('$_baseUrl${ApiEndpoints.fileUploadPresign}'),
-      headers: ApiRequestHeaders.json(includeAuth: true),
-      body: jsonEncode(body),
-    );
-
-    if (!_isSuccess(response)) {
-      throw Exception(ApiErrorMessages.createUploadPresignFailed);
-    }
-
-    return FileUploadPresignResult.fromJson(
-      jsonDecode(response.body) as Map<String, dynamic>,
-    );
+    body;
+    throw UnsupportedError('Swagger 명세에 없는 파일 업로드 API입니다.');
   }
 
   @override
@@ -88,19 +108,8 @@ class FileRepositoryImpl implements FileRepository {
       if (contentType != null) 'contentType': contentType,
     };
 
-    final response = await _client.post(
-      Uri.parse('$_baseUrl${ApiEndpoints.fileUploadComplete}'),
-      headers: ApiRequestHeaders.json(includeAuth: true),
-      body: jsonEncode(body),
-    );
-
-    if (!_isSuccess(response)) {
-      throw Exception(ApiErrorMessages.completeUploadFailed);
-    }
-
-    return FileUploadCompleteResult.fromJson(
-      jsonDecode(response.body) as Map<String, dynamic>,
-    );
+    body;
+    throw UnsupportedError('Swagger 명세에 없는 파일 업로드 완료 API입니다.');
   }
 
   @override
@@ -108,39 +117,26 @@ class FileRepositoryImpl implements FileRepository {
     required String fileId,
     int expiresIn = FileUploadConstants.defaultPresignedUrlExpiresInSeconds,
   }) async {
-    final response = await _client.get(
-      Uri.parse(
-        '$_baseUrl${ApiEndpoints.filePresignedUrl(fileId)}',
-      ).replace(queryParameters: {'expiresIn': expiresIn.toString()}),
-      headers: ApiRequestHeaders.auth(),
-    );
-
-    if (!_isSuccess(response)) {
-      throw Exception(ApiErrorMessages.createPresignedUrlFailed);
-    }
-
-    return FilePresignedUrlResult.fromJson(
-      jsonDecode(response.body) as Map<String, dynamic>,
-    );
+    expiresIn;
+    throw UnsupportedError('Swagger 명세에 없는 파일 조회 API입니다.');
   }
 
   @override
   Future<FileDeleteResult> deleteFile(String fileId) async {
-    final response = await _client.delete(
-      Uri.parse('$_baseUrl${ApiEndpoints.fileDetail(fileId)}'),
-      headers: ApiRequestHeaders.auth(),
-    );
-
-    if (!_isSuccess(response)) {
-      throw Exception(ApiErrorMessages.deleteFileFailed);
-    }
-
-    return FileDeleteResult.fromJson(
-      jsonDecode(response.body) as Map<String, dynamic>,
-    );
+    throw UnsupportedError('Swagger 명세에 없는 파일 삭제 API입니다.');
   }
 
   bool _isSuccess(http.Response response) {
     return response.statusCode >= 200 && response.statusCode < 300;
+  }
+
+  ProfileImagePresignResult _validateProfileImagePresignResult(
+    ProfileImagePresignResult result,
+  ) {
+    if (result.presignedUrl.isEmpty || result.s3Key.isEmpty) {
+      throw Exception(ApiErrorMessages.createProfileImagePresignedUrlFailed);
+    }
+
+    return result;
   }
 }

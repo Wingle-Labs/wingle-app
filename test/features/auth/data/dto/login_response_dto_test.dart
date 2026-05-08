@@ -21,6 +21,16 @@ void main() {
     expect(result.gender, 'female');
   });
 
+  test('LoginResponseDto는 onboardingStatus를 우선 파싱한다', () {
+    final dto = LoginResponseDto.fromJson({
+      'accessToken': 'access-token',
+      'refreshToken': 'refresh-token',
+      'onboardingStatus': 'FIRST_APPROVAL_REJECTED',
+    });
+
+    expect(dto.profileStatus, LoginProfileStatus.firstApprovalRejected);
+  });
+
   test('LoginResponseDto는 profileStatus가 없으면 승인 완료로 처리한다', () {
     final dto = LoginResponseDto.fromJson({
       'accessToken': 'access-token',

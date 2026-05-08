@@ -4,12 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wingle/common/constants/api_error_messages.dart';
 import 'package:wingle/features/onboarding/data/mock/mock_profile_repository.dart';
-import 'package:wingle/features/onboarding/domain/model/profile/residence_code.dart';
-import 'package:wingle/features/onboarding/domain/repository/profile_repository.dart';
 import 'package:wingle/features/onboarding/presentation/providers/basic_profile_provider.dart';
 import 'package:wingle/features/onboarding/presentation/providers/profile_repository_provider.dart';
 
-class _QueueProfileRepository implements ProfileRepository {
+class _QueueProfileRepository extends MockProfileRepository {
   _QueueProfileRepository(Iterable<String> nicknames)
     : _nicknames = Queue<String>.from(nicknames);
 
@@ -23,77 +21,13 @@ class _QueueProfileRepository implements ProfileRepository {
 
     return _nicknames.removeFirst();
   }
-
-  @override
-  Future<void> submitBasicProfile({
-    required String nickname,
-    required ResidenceCode residence,
-    required int height,
-    required String bodyType,
-  }) async {}
-
-  @override
-  Future<void> submitEducation({
-    required String? university,
-    required String educationLevel,
-  }) async {}
-
-  @override
-  Future<void> submitJob({
-    required String company,
-    required String occupation,
-  }) async {}
-
-  @override
-  Future<void> submitProfileDetails({
-    required String mbti,
-    required String selfIntroduction,
-  }) async {}
-
-  @override
-  Future<void> verifyEducationEmail({required String email}) async {}
-
-  @override
-  Future<void> verifyJobEmail({required String email}) async {}
 }
 
-class _FailingProfileRepository implements ProfileRepository {
+class _FailingProfileRepository extends MockProfileRepository {
   @override
   Future<String> fetchRandomNickname() async {
     throw Exception('failure');
   }
-
-  @override
-  Future<void> submitBasicProfile({
-    required String nickname,
-    required ResidenceCode residence,
-    required int height,
-    required String bodyType,
-  }) async {}
-
-  @override
-  Future<void> submitEducation({
-    required String? university,
-    required String educationLevel,
-  }) async {}
-
-  @override
-  Future<void> submitJob({
-    required String company,
-    required String occupation,
-  }) async {}
-
-  @override
-  Future<void> submitProfileDetails({
-    required String mbti,
-    required String selfIntroduction,
-  }) async {}
-
-  @override
-  Future<void> verifyEducationEmail({required String email}) async {}
-
-  @override
-  Future<void> verifyJobEmail({required String email}) async {}
 }
 
 void main() {

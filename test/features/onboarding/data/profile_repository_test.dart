@@ -50,7 +50,7 @@ void main() {
     test('랜덤 닉네임을 조회한다', () async {
       final client = MockClient((request) async {
         expect(request.method, 'GET');
-        expect(request.url.path, '/api/v1/signup/nickname/random');
+        expect(request.url.path, '/api/v1/auth/signup/nickname/random');
         return http.Response.bytes(
           utf8.encode('{"nickname":"${MockProfileRepository.mockNickname}"}'),
           200,
@@ -73,7 +73,7 @@ void main() {
 
       final client = MockClient((request) async {
         expect(request.method, 'POST');
-        expect(request.url.path, '/api/v1/signup/profile');
+        expect(request.url.path, '/api/v1/auth/signup/profile');
         body = jsonDecode(request.body) as Map<String, dynamic>;
         return http.Response('', 200);
       });
@@ -96,9 +96,9 @@ void main() {
 
       expect(body, {
         'nickname': MockProfileRepository.mockNickname,
-        'residence': {'level1': '370', 'level2': '37080', 'level3': '37080412'},
+        'residenceCode': '37080412',
         'height': 170,
-        'bodyType': '보통',
+        'bodyTypeCode': '보통',
       });
     });
 
@@ -107,7 +107,7 @@ void main() {
 
       final client = MockClient((request) async {
         expect(request.method, 'POST');
-        expect(request.url.path, '/api/v1/signup/profile/details');
+        expect(request.url.path, '/api/v1/profiles/detail');
         body = jsonDecode(request.body) as Map<String, dynamic>;
         return http.Response('', 200);
       });
@@ -122,7 +122,12 @@ void main() {
         selfIntroduction: '안녕하세요.',
       );
 
-      expect(body, {'MBTI': 'ISFP', 'selfIntroduction': '안녕하세요.'});
+      expect(body, {
+        'mbti': 'ISFP',
+        'selfIntroduction': '안녕하세요.',
+        'subStylePhotoKeys': <dynamic>[],
+        'subFacePhotoKeys': <dynamic>[],
+      });
     });
 
     test('학교 정보를 등록한다', () async {
@@ -130,7 +135,7 @@ void main() {
 
       final client = MockClient((request) async {
         expect(request.method, 'POST');
-        expect(request.url.path, '/api/v1/users/profile/education');
+        expect(request.url.path, '/api/v1/user/profile/education');
         body = jsonDecode(request.body) as Map<String, dynamic>;
         return http.Response('', 200);
       });
@@ -148,6 +153,29 @@ void main() {
       expect(body, {'university': '한국대학교', 'educationLevel': '대학교'});
     });
 
+    test('기타 학교는 university 없이 등록한다', () async {
+      late Map<String, dynamic> body;
+
+      final client = MockClient((request) async {
+        expect(request.method, 'POST');
+        expect(request.url.path, '/api/v1/user/profile/education');
+        body = jsonDecode(request.body) as Map<String, dynamic>;
+        return http.Response('', 200);
+      });
+
+      final repository = ProfileRepositoryImpl(
+        client: client,
+        baseUrl: baseUrl,
+      );
+
+      await repository.submitEducation(
+        university: null,
+        educationLevel: 'OTHER',
+      );
+
+      expect(body, {'educationLevel': 'OTHER'});
+    });
+
     test('학교 이메일 인증을 요청한다', () async {
       late Map<String, dynamic> body;
 
@@ -155,7 +183,7 @@ void main() {
         expect(request.method, 'POST');
         expect(
           request.url.path,
-          '/api/v1/users/profile/education/verification',
+          '/api/v1/user/profile/education/email-verifications',
         );
         body = jsonDecode(request.body) as Map<String, dynamic>;
         return http.Response('', 200);
@@ -176,7 +204,7 @@ void main() {
 
       final client = MockClient((request) async {
         expect(request.method, 'POST');
-        expect(request.url.path, '/api/v1/users/profile/job');
+        expect(request.url.path, '/api/v1/user/profile/job');
         body = jsonDecode(request.body) as Map<String, dynamic>;
         return http.Response('', 200);
       });
@@ -196,7 +224,10 @@ void main() {
 
       final client = MockClient((request) async {
         expect(request.method, 'POST');
-        expect(request.url.path, '/api/v1/users/profile/job/verification');
+        expect(
+          request.url.path,
+          '/api/v1/user/profile/job/email-verifications',
+        );
         body = jsonDecode(request.body) as Map<String, dynamic>;
         return http.Response('', 200);
       });

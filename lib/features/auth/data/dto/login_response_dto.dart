@@ -29,7 +29,9 @@ class LoginResponseDto {
       accessToken: json['accessToken'] as String? ?? '',
       refreshToken: json['refreshToken'] as String? ?? '',
       profileStatus: LoginProfileStatus.fromApiValue(
-        json['profileStatus']?.toString() ?? json['profile_status']?.toString(),
+        json['onboardingStatus']?.toString() ??
+            json['profileStatus']?.toString() ??
+            json['profile_status']?.toString(),
       ),
       gender: json['gender']?.toString().toLowerCase(),
     );

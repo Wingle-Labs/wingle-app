@@ -59,26 +59,26 @@ void main() {
   });
 
   group('QuestionRepositoryImpl', () {
-    test('질문 목록을 조회한다', () async {
+    test('객관식 질문 목록을 조회한다', () async {
       final client = MockClient((request) async {
         expect(request.method, 'GET');
-        expect(request.url.path, '/api/v1/questions');
-        expect(request.url.queryParameters['type'], 'OBJECTIVE');
+        expect(request.url.path, '/api/v1/choice-questions/snapshot');
         return http.Response.bytes(
           utf8.encode(
             jsonEncode({
-              'questions': [
-                {
-                  'id': '1',
-                  'type': 'OBJECTIVE',
-                  'category': 'love',
-                  'content': '여름 vs 겨울',
-                  'options': [
-                    {'id': 1, 'order': 1, 'content': '여름'},
-                    {'id': 2, 'order': 2, 'content': '겨울'},
-                  ],
-                },
-              ],
+              'QC_LOVE': {
+                'version': 1,
+                'questions': [
+                  {
+                    'id': 1,
+                    'content': '여름 vs 겨울',
+                    'options': [
+                      {'id': 1, 'content': '여름'},
+                      {'id': 2, 'content': '겨울'},
+                    ],
+                  },
+                ],
+              },
             }),
           ),
           200,
@@ -102,12 +102,50 @@ void main() {
       expect(questions.first.options!.first.content, '여름');
     });
 
+    test('주관식 질문 목록을 조회한다', () async {
+      final client = MockClient((request) async {
+        expect(request.method, 'GET');
+        expect(request.url.path, '/api/v1/essay-questions/snapshot');
+        return http.Response.bytes(
+          utf8.encode(
+            jsonEncode({
+              'version': 1,
+              'questions': [
+                {
+                  'id': 1,
+                  'content': '자신을 소개해주세요.',
+                  'isRequire': true,
+                  'sortOrder': 1,
+                },
+              ],
+            }),
+          ),
+          200,
+          headers: {'content-type': 'application/json; charset=utf-8'},
+        );
+      });
+
+      final repository = QuestionRepositoryImpl(
+        client: client,
+        baseUrl: baseUrl,
+      );
+
+      final questions = await repository.fetchQuestions(
+        type: QuestionType.subjective,
+      );
+
+      expect(questions, hasLength(1));
+      expect(questions.first.id, '1');
+      expect(questions.first.type, QuestionType.subjective);
+      expect(questions.first.options, isNull);
+    });
+
     test('객관식 질문 답변을 등록한다', () async {
       late Map<String, dynamic> body;
 
       final client = MockClient((request) async {
         expect(request.method, 'POST');
-        expect(request.url.path, '/api/v1/users/objective_questions/answer');
+        expect(request.url.path, '/api/v1/choice-questions/answers');
         body = jsonDecode(request.body) as Map<String, dynamic>;
         return http.Response('', 200);
       });
@@ -138,20 +176,12 @@ void main() {
       );
 
       expect(body, {
-        'datingAnswers': [
-          {'questionId': 1, 'selectedOptionId': 2},
-        ],
-        'lifeStyleAnswers': [
-          {'questionId': 5, 'selectedOptionId': 3},
-        ],
-        'careerFinanceAnswers': [
-          {'questionId': 11, 'selectedOptionId': 4},
-        ],
-        'personalityAnswers': [
-          {'questionId': 17, 'selectedOptionId': 2},
-        ],
-        'familyAnswers': [
-          {'questionId': 23, 'selectedOptionId': 5},
+        'answers': [
+          {'questionId': 1, 'optionId': 2},
+          {'questionId': 5, 'optionId': 3},
+          {'questionId': 11, 'optionId': 4},
+          {'questionId': 17, 'optionId': 2},
+          {'questionId': 23, 'optionId': 5},
         ],
       });
     });
@@ -161,7 +191,7 @@ void main() {
 
       final client = MockClient((request) async {
         expect(request.method, 'POST');
-        expect(request.url.path, '/api/v1/users/subjective_questions/answer');
+        expect(request.url.path, '/api/v1/essay-questions/answers');
         body = jsonDecode(request.body) as Map<String, dynamic>;
         return http.Response('', 200);
       });

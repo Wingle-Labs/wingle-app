@@ -55,7 +55,7 @@ class SignupRepositoryImpl implements SignupRepository {
         'gender': _genderToApiValue(user.gender),
         'UUID': uuid,
         'age': age,
-        'impUid': impUid,
+        'birth': _formatDate(user.birthDate),
       }),
     );
 
@@ -79,5 +79,15 @@ class SignupRepositoryImpl implements SignupRepository {
       case null:
         throw Exception(ApiErrorMessages.signupIdentityVerificationFailed);
     }
+  }
+
+  String _formatDate(DateTime? date) {
+    if (date == null) {
+      throw Exception(ApiErrorMessages.signupIdentityVerificationFailed);
+    }
+
+    final month = date.month.toString().padLeft(2, '0');
+    final day = date.day.toString().padLeft(2, '0');
+    return '${date.year}-$month-$day';
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:wingle/features/onboarding/domain/model/profile/rejection_reason.dart';
 import 'package:wingle/features/onboarding/domain/model/profile/residence_code.dart';
 import 'package:wingle/features/onboarding/domain/repository/profile_repository.dart';
 
@@ -28,6 +29,10 @@ class MockProfileRepository implements ProfileRepository {
   Future<void> submitProfileDetails({
     required String mbti,
     required String selfIntroduction,
+    String? mainStylePhotoKey,
+    List<String> subStylePhotoKeys = const <String>[],
+    String? mainFacePhotoKey,
+    List<String> subFacePhotoKeys = const <String>[],
   }) async {
     await Future<void>.delayed(const Duration(milliseconds: 500));
   }
@@ -46,6 +51,14 @@ class MockProfileRepository implements ProfileRepository {
   }
 
   @override
+  Future<void> confirmEducationEmail({
+    required String email,
+    required int verificationCode,
+  }) async {
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+  }
+
+  @override
   Future<void> submitJob({
     required String company,
     required String occupation,
@@ -56,5 +69,32 @@ class MockProfileRepository implements ProfileRepository {
   @override
   Future<void> verifyJobEmail({required String email}) async {
     await Future<void>.delayed(const Duration(milliseconds: 500));
+  }
+
+  @override
+  Future<void> confirmJobEmail({
+    required String email,
+    required int verificationCode,
+  }) async {
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+  }
+
+  @override
+  Future<void> requestProfileApproval() async {
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+  }
+
+  @override
+  Future<void> requestProfileReapply() async {
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+  }
+
+  @override
+  Future<RejectionReason> fetchRejectionReason() async {
+    await Future<void>.delayed(const Duration(milliseconds: 10));
+    return const RejectionReason(
+      reason: '프로필 사진이 기준에 맞지 않습니다.',
+      reviewedAt: '2026-05-01T14:30:00',
+    );
   }
 }

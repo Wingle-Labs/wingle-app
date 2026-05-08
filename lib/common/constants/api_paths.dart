@@ -1,146 +1,159 @@
 /// 서버 API 엔드포인트를 중앙에서 관리하는 클래스.
 ///
-/// - 모든 REST 경로는 이 파일에서 정의한다.
-/// - 문자열 하드코딩을 방지한다.
-/// - 경로 변경 시 단일 수정 지점을 보장한다.
-/// - 도메인 단위 확장을 고려한 구조를 유지한다.
-///
-/// 주의:
-/// - baseUrl은 포함하지 않는다.
-/// - 슬래시(`/`)는 반드시 prefix로 포함한다.
-/// - 동적 경로는 함수로 정의한다.
-///
-/// 예:
-///   GET  /terms
-///   GET  /terms/1
-///   GET  /users/10
+/// `API_BASE_URL`은 `https://test.wingle.kr`처럼 host만 포함하므로
+/// 이 파일의 경로는 `/api/v1` prefix를 포함한다.
 class ApiEndpoints {
   /// 인스턴스 생성을 방지하기 위한 private 생성자.
   ApiEndpoints._();
 
   // ! -------------------------------------------------------------------------
-  // ! Terms Domain
-  // ! -------------------------------------------------------------------------
-
-  /// 약관 목록 조회
-  ///
-  /// GET /api/v1/auth/signup/terms
-  static const String terms = '/api/v1/auth/signup/terms';
-
-  /// 특정 약관 상세 조회
-  ///
-  /// GET /terms/{id}
-  static String termDetail(int id) => '/terms/$id';
-
-  // ! -------------------------------------------------------------------------
   // ! Auth Domain
   // ! -------------------------------------------------------------------------
 
-  /// ID/PW 로그인
-  ///
   /// POST /api/v1/auth/login
   static const String authLogin = '/api/v1/auth/login';
 
-  /// 회원가입 비밀번호 등록
-  ///
+  /// POST /api/v1/auth/logout
+  static const String authLogout = '/api/v1/auth/logout';
+
+  /// POST /api/v1/auth/reissue
+  static const String authReissue = '/api/v1/auth/reissue';
+
+  /// POST /api/v1/auth/signup/terms
+  static const String signupTerms = '/api/v1/auth/signup/terms';
+
+  /// POST /api/v1/auth/signup/profile
+  static const String signupProfile = '/api/v1/auth/signup/profile';
+
   /// POST /api/v1/auth/signup/password
   static const String signupPassword = '/api/v1/auth/signup/password';
 
-  /// 본인인증 결과 등록
-  ///
   /// POST /api/v1/auth/signup/identity-verification
   static const String signupIdentityVerification =
       '/api/v1/auth/signup/identity-verification';
 
-  // ! -------------------------------------------------------------------------
-  // ! Signup / Profile Domain
-  // ! -------------------------------------------------------------------------
-
-  /// 랜덤 닉네임 생성
-  ///
-  /// GET /api/v1/signup/nickname/random
-  static const String signupNicknameRandom = '/api/v1/signup/nickname/random';
-
-  /// 기본 프로필 정보 등록
-  ///
-  /// POST /api/v1/signup/profile
-  static const String signupProfile = '/api/v1/signup/profile';
-
-  /// 세부 프로필 정보 등록
-  ///
-  /// POST /api/v1/signup/profile/details
-  static const String signupProfileDetails = '/api/v1/signup/profile/details';
-
-  /// 학교 정보 등록
-  ///
-  /// POST /api/v1/users/profile/education
-  static const String profileEducation = '/api/v1/users/profile/education';
-
-  /// 학교 이메일 인증
-  ///
-  /// POST /api/v1/users/profile/education/verification
-  static const String profileEducationVerification =
-      '/api/v1/users/profile/education/verification';
-
-  /// 회사 정보 등록
-  ///
-  /// POST /api/v1/users/profile/job
-  static const String profileJob = '/api/v1/users/profile/job';
-
-  /// 회사 이메일 인증
-  ///
-  /// POST /api/v1/users/profile/job/verification
-  static const String profileJobVerification =
-      '/api/v1/users/profile/job/verification';
+  /// GET /api/v1/auth/signup/nickname/random
+  static const String signupNicknameRandom =
+      '/api/v1/auth/signup/nickname/random';
 
   // ! -------------------------------------------------------------------------
-  // ! Questions Domain
+  // ! Profile Domain
   // ! -------------------------------------------------------------------------
 
-  /// 질문 조회
-  ///
-  /// GET /api/v1/questions?type=OBJECTIVE
-  static String questions(String type) => '/api/v1/questions?type=$type';
+  /// PUT /api/v1/user/profile
+  static const String userProfile = '/api/v1/user/profile';
 
-  /// 객관식 질문 답변 등록
-  ///
-  /// POST /api/v1/users/objective_questions/answer
-  static const String objectiveQuestionAnswers =
-      '/api/v1/users/objective_questions/answer';
+  /// POST /api/v1/user/profile/job
+  static const String profileJob = '/api/v1/user/profile/job';
 
-  /// 주관식 질문 답변 등록
-  ///
-  /// POST /api/v1/users/subjective_questions/answer
-  static const String subjectiveQuestionAnswers =
-      '/api/v1/users/subjective_questions/answer';
+  /// PUT /api/v1/user/profile/job
+  static const String profileJobReapply = '/api/v1/user/profile/job';
+
+  /// POST /api/v1/user/profile/job/email-verifications
+  static const String profileJobEmailVerifications =
+      '/api/v1/user/profile/job/email-verifications';
+
+  /// POST /api/v1/user/profile/job/email-verifications/confirm
+  static const String profileJobEmailVerificationsConfirm =
+      '/api/v1/user/profile/job/email-verifications/confirm';
+
+  /// POST /api/v1/user/profile/education
+  static const String profileEducation = '/api/v1/user/profile/education';
+
+  /// PUT /api/v1/user/profile/education
+  static const String profileEducationReapply =
+      '/api/v1/user/profile/education';
+
+  /// POST /api/v1/user/profile/education/email-verifications
+  static const String profileEducationEmailVerifications =
+      '/api/v1/user/profile/education/email-verifications';
+
+  /// POST /api/v1/user/profile/education/email-verifications/confirm
+  static const String profileEducationEmailVerificationsConfirm =
+      '/api/v1/user/profile/education/email-verifications/confirm';
+
+  /// POST /api/v1/profiles/detail
+  static const String profileDetail = '/api/v1/profiles/detail';
+
+  /// PUT /api/v1/profiles/detail
+  static const String profileDetailReapply = '/api/v1/profiles/detail';
+
+  /// POST /api/v1/profiles/approval/request
+  static const String profileApprovalRequest =
+      '/api/v1/profiles/approval/request';
+
+  /// POST /api/v1/profiles/reapply
+  static const String profileReapply = '/api/v1/profiles/reapply';
+
+  /// GET /api/v1/profiles/rejection-reason
+  static const String profileRejectionReason =
+      '/api/v1/profiles/rejection-reason';
+
+  // ! -------------------------------------------------------------------------
+  // ! Codebook Domain
+  // ! -------------------------------------------------------------------------
+
+  /// GET /api/v1/terms/snapshot
+  static const String termsSnapshot = '/api/v1/terms/snapshot';
+
+  /// GET /api/v1/terms/current-versions
+  static const String termsCurrentVersions = '/api/v1/terms/current-versions';
+
+  /// GET /api/v1/codebook/snapshot
+  static const String codebookSnapshot = '/api/v1/codebook/snapshot';
+
+  /// GET /api/v1/codebook/current-versions
+  static const String codebookCurrentVersions =
+      '/api/v1/codebook/current-versions';
+
+  /// GET /api/v1/choice-questions/snapshot
+  static const String choiceQuestionsSnapshot =
+      '/api/v1/choice-questions/snapshot';
+
+  /// GET /api/v1/choice-questions/current-versions
+  static const String choiceQuestionsCurrentVersions =
+      '/api/v1/choice-questions/current-versions';
+
+  /// GET /api/v1/essay-questions/snapshot
+  static const String essayQuestionsSnapshot =
+      '/api/v1/essay-questions/snapshot';
+
+  /// GET /api/v1/essay-questions/current-versions
+  static const String essayQuestionsCurrentVersions =
+      '/api/v1/essay-questions/current-versions';
+
+  // ! -------------------------------------------------------------------------
+  // ! Answer Domain
+  // ! -------------------------------------------------------------------------
+
+  /// GET /api/v1/choice-questions/answers
+  static const String choiceQuestionAnswers =
+      '/api/v1/choice-questions/answers';
+
+  /// GET /api/v1/essay-questions/answers
+  static const String essayQuestionAnswers = '/api/v1/essay-questions/answers';
 
   // ! -------------------------------------------------------------------------
   // ! File Domain
   // ! -------------------------------------------------------------------------
 
-  /// 프로필 이미지 presigned url 발급
-  ///
-  /// POST /api/v1/files/presigned/profile
-  static const String profileImagePresign = '/api/v1/files/presigned/profile';
+  /// GET /api/v1/files/presigned/style
+  static const String styleImagePresign = '/api/v1/files/presigned/style';
 
-  /// 파일 업로드 url 발급
-  ///
-  /// POST /api/v1/files/uploads/presign
-  static const String fileUploadPresign = '/api/v1/files/uploads/presign';
+  /// GET /api/v1/files/presigned/face
+  static const String faceImagePresign = '/api/v1/files/presigned/face';
 
-  /// 파일 업로드 완료 통지
-  ///
-  /// POST /api/v1/files/uploads/complete
-  static const String fileUploadComplete = '/api/v1/files/uploads/complete';
+  // ! -------------------------------------------------------------------------
+  // ! Contact Domain
+  // ! -------------------------------------------------------------------------
 
-  /// 파일 조회용 presigned url 발급
-  ///
-  /// GET /api/v1/files/{fileId}/presigned-url
-  static String filePresignedUrl(String fileId) =>
-      '/api/v1/files/$fileId/presigned-url';
+  /// POST /api/v1/contacts
+  static const String contacts = '/api/v1/contacts';
 
-  /// 파일 삭제
-  ///
-  /// DELETE /api/v1/files/{fileId}
-  static String fileDetail(String fileId) => '/api/v1/files/$fileId';
+  // ! -------------------------------------------------------------------------
+  // ! Health Domain
+  // ! -------------------------------------------------------------------------
+
+  /// GET /api/v1/healthcheck
+  static const String healthcheck = '/api/v1/healthcheck';
 }

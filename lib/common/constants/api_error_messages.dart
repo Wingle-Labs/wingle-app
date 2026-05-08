@@ -19,6 +19,12 @@ class ApiErrorMessages {
   static const String invalidLoginCredentials =
       'common.error.api.invalidLoginCredentials';
 
+  /// 로그아웃 실패 메시지
+  static const String logoutFailed = 'common.error.api.logoutFailed';
+
+  /// 토큰 재발급 실패 메시지
+  static const String reissueFailed = 'common.error.api.reissueFailed';
+
   /// 회원가입 비밀번호 등록 실패 메시지
   static const String signupPasswordFailed =
       'common.error.api.signupPasswordFailed';
@@ -84,4 +90,35 @@ class ApiErrorMessages {
 
   /// 이미지 삭제 실패 메시지
   static const String deleteFileFailed = 'common.error.api.deleteFileFailed';
+
+  /// 코드북 조회 실패 메시지
+  static const String fetchCodebookFailed =
+      'common.error.api.fetchCodebookFailed';
+
+  /// 답변 조회 실패 메시지
+  static const String fetchAnswersFailed =
+      'common.error.api.fetchAnswersFailed';
+
+  /// 답변 저장 실패 메시지
+  static const String submitAnswersFailed =
+      'common.error.api.submitAnswersFailed';
+
+  /// 연락처 업로드 실패 메시지
+  static const String uploadContactsFailed =
+      'common.error.api.uploadContactsFailed';
+
+  /// 서버 상태 확인 실패 메시지
+  static const String healthcheckFailed = 'common.error.api.healthcheckFailed';
+
+  /// 프로필 심사 요청 실패 메시지
+  static const String requestProfileApprovalFailed =
+      'common.error.api.requestProfileApprovalFailed';
+
+  /// 프로필 재심사 요청 실패 메시지
+  static const String requestProfileReapplyFailed =
+      'common.error.api.requestProfileReapplyFailed';
+
+  /// 프로필 거절 사유 조회 실패 메시지
+  static const String fetchRejectionReasonFailed =
+      'common.error.api.fetchRejectionReasonFailed';
 }

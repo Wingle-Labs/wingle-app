@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:wingle/common/constants/api_error_messages.dart';
 import 'package:wingle/features/auth/domain/exceptions/auth_exception.dart';
+import 'package:wingle/features/auth/domain/models/auth_token.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 import 'package:wingle/features/auth/domain/models/login_result.dart';
 import 'package:wingle/features/auth/domain/models/password.dart';
@@ -49,6 +50,17 @@ class MockLoginRepository implements LoginRepository {
       refreshToken: 'mock-refresh-token',
       profileStatus: profileStatus,
       gender: gender,
+    );
+  }
+
+  @override
+  Future<void> logout() async {}
+
+  @override
+  Future<AuthToken> reissue({required String refreshToken}) async {
+    return const AuthToken(
+      accessToken: 'mock-access-token',
+      refreshToken: 'mock-refresh-token',
     );
   }
 }

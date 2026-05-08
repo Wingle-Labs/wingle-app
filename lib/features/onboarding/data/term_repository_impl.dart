@@ -27,7 +27,7 @@ class TermRepositoryImpl implements TermRepository {
   @override
   Future<List<AgreementItemModel>> fetchTerms() async {
     final response = await _client.get(
-      Uri.parse('$_baseUrl${ApiEndpoints.terms}'),
+      Uri.parse('$_baseUrl${ApiEndpoints.termsSnapshot}'),
     );
 
     if (response.statusCode != 200) {
@@ -37,7 +37,8 @@ class TermRepositoryImpl implements TermRepository {
     final Map<String, dynamic> decoded =
         jsonDecode(response.body) as Map<String, dynamic>;
 
-    final List<dynamic> rawTerms = decoded['terms'] as List<dynamic>;
+    final List<dynamic> rawTerms =
+        decoded['terms'] as List<dynamic>? ?? <dynamic>[];
 
     final dtos = rawTerms
         .map((e) => TermDto.fromJson(e as Map<String, dynamic>))
@@ -47,18 +48,37 @@ class TermRepositoryImpl implements TermRepository {
   }
 
   @override
+  Future<Map<String, int>> fetchCurrentVersions() async {
+    final response = await _client.get(
+      Uri.parse('$_baseUrl${ApiEndpoints.termsCurrentVersions}'),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception(ApiErrorMessages.fetchTermsFailed);
+    }
+
+    final decoded = jsonDecode(response.body) as Map<String, dynamic>;
+    return decoded.map((key, value) {
+      final version = value is num
+          ? value.toInt()
+          : int.parse(value.toString());
+      return MapEntry(key, version);
+    });
+  }
+
+  @override
   Future<bool> submitAgreements({
     required String uuid,
     required List<AgreementItemModel> agreements,
   }) async {
-    final uri = Uri.parse('$_baseUrl${ApiEndpoints.terms}');
+    final uri = Uri.parse('$_baseUrl${ApiEndpoints.signupTerms}');
 
     final body = {
       'UUID': uuid,
       'agreements': agreements.map((e) {
         return {
-          'Id': e.id,
-          'version': e.version,
+          'type': e.type ?? e.id.toString(),
+          'version': int.tryParse(e.version) ?? e.version,
           'isRequired': e.isRequired,
           'agreed': e.isChecked,
         };

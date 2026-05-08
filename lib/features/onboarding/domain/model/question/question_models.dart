@@ -122,7 +122,7 @@ class ObjectiveQuestionAnswer {
 
   /// JSON으로 변환한다.
   Map<String, dynamic> toJson() {
-    return {'questionId': questionId, 'selectedOptionId': selectedOptionId};
+    return {'questionId': questionId, 'optionId': selectedOptionId};
   }
 }
 
@@ -155,13 +155,13 @@ class ObjectiveQuestionAnswers {
   /// JSON으로 변환한다.
   Map<String, dynamic> toJson() {
     return {
-      'datingAnswers': datingAnswers.map((e) => e.toJson()).toList(),
-      'lifeStyleAnswers': lifeStyleAnswers.map((e) => e.toJson()).toList(),
-      'careerFinanceAnswers': careerFinanceAnswers
-          .map((e) => e.toJson())
-          .toList(),
-      'personalityAnswers': personalityAnswers.map((e) => e.toJson()).toList(),
-      'familyAnswers': familyAnswers.map((e) => e.toJson()).toList(),
+      'answers': [
+        ...datingAnswers,
+        ...lifeStyleAnswers,
+        ...careerFinanceAnswers,
+        ...personalityAnswers,
+        ...familyAnswers,
+      ].map((e) => e.toJson()).toList(),
     };
   }
 }

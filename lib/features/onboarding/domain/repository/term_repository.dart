@@ -13,6 +13,9 @@ abstract class TermRepository {
   /// - 네트워크 실패 시 예외 발생
   Future<List<AgreementItemModel>> fetchTerms();
 
+  /// 현재 약관 버전을 조회한다.
+  Future<Map<String, int>> fetchCurrentVersions();
+
   /// 사용자가 동의한 약관 목록을 서버로 전송한다.
   ///
   /// 파라미터:
