@@ -12,14 +12,14 @@ import 'package:wingle/features/auth/domain/repositories/login_repository.dart';
 /// 로그인 Repository Mock 구현
 class MockLoginRepository implements LoginRepository {
   /// 테스트용 계정
-  static const String mockPhoneNumber = '010-1234-5678';
+  static const String mockPhoneNumber = '010-9256-6504';
 
   /// 테스트용 비밀번호
   static const String mockPassword = '!abc1010';
 
   /// 기본 프로필 진행 상태
   static const LoginProfileStatus defaultProfileStatus =
-      LoginProfileStatus.beforeBasicProfile;
+      LoginProfileStatus.signupCompleted;
 
   /// 로그인 시 반환할 프로필 진행 상태
   final LoginProfileStatus profileStatus;

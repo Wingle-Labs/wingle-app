@@ -2,11 +2,13 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_ce/hive.dart';
+import 'package:wingle/app/router/onboarding_redirect_resolver.dart';
 import 'package:wingle/app/router/redirect_logic.dart';
 import 'package:wingle/common/constants/hive_constants.dart';
 import 'package:wingle/common/constants/route_constants.dart';
 import 'package:wingle/common/utils/hive_util.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
+import 'package:wingle/features/home/route/home_routes.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 void main() {
@@ -32,10 +34,10 @@ void main() {
     );
   });
 
-  test('승인 완료 사용자는 onboarding에서 home으로 이동한다', () async {
+  test('온보딩 완료 사용자는 onboarding에서 home으로 이동한다', () async {
     await HiveUtil.write(
       key: HiveLoginBox.profileStatus,
-      value: LoginProfileStatus.firstApprovalApproved.apiValue,
+      value: LoginProfileStatus.onboardingCompleted.apiValue,
     );
 
     expect(
@@ -47,7 +49,7 @@ void main() {
   test('기본 프로필 정보 등록 전 사용자는 home에서 basicProfile로 이동한다', () async {
     await HiveUtil.write(
       key: HiveLoginBox.profileStatus,
-      value: LoginProfileStatus.beforeBasicProfile.apiValue,
+      value: LoginProfileStatus.signupCompleted.apiValue,
     );
 
     expect(
@@ -59,7 +61,7 @@ void main() {
   test('회사 정보 등록 전 사용자는 home에서 company로 이동한다', () async {
     await HiveUtil.write(
       key: HiveLoginBox.profileStatus,
-      value: LoginProfileStatus.beforeCompanyInfo.apiValue,
+      value: LoginProfileStatus.basicInfoCompleted.apiValue,
     );
 
     expect(
@@ -68,15 +70,41 @@ void main() {
     );
   });
 
-  test('프로필 진행 중 사용자는 home에서 onboarding으로 이동한다', () async {
+  test('상세 프로필 등록 전 사용자는 home에서 상세 프로필 placeholder로 이동한다', () async {
     await HiveUtil.write(
       key: HiveLoginBox.profileStatus,
-      value: LoginProfileStatus.beforeProfileDetails.apiValue,
+      value: LoginProfileStatus.educationInfoCompleted.apiValue,
     );
 
     expect(
       appRedirectLogic(true, AppRoute.home.path),
-      AppRoute.onboarding.path,
+      OnboardingRoutes.profileDetails.fullPath,
     );
+  });
+
+  test('BE 온보딩 상태 전체가 명시적인 목적지로 매핑된다', () {
+    final cases = <LoginProfileStatus, String>{
+      LoginProfileStatus.signupCompleted: OnboardingRoutes.basicProfile.name,
+      LoginProfileStatus.basicInfoCompleted:
+          OnboardingRoutes.basicProfileCompany.name,
+      LoginProfileStatus.jobInfoCompleted:
+          OnboardingRoutes.basicProfileEducation.name,
+      LoginProfileStatus.educationInfoCompleted:
+          OnboardingRoutes.profileDetails.name,
+      LoginProfileStatus.profileCompleted:
+          OnboardingRoutes.approvalRequest.name,
+      LoginProfileStatus.awaitingApproval:
+          OnboardingRoutes.approvalPending.name,
+      LoginProfileStatus.profileRejected: OnboardingRoutes.profileRejected.name,
+      LoginProfileStatus.profileApproved: OnboardingRoutes.choiceQuestions.name,
+      LoginProfileStatus.choiceQuestionCompleted:
+          OnboardingRoutes.requiredSelfIntro.name,
+      LoginProfileStatus.essayQuestionCompleted: HomeRoutes.root.name,
+      LoginProfileStatus.onboardingCompleted: HomeRoutes.root.name,
+    };
+
+    for (final entry in cases.entries) {
+      expect(resolveOnboardingDestination(entry.key).name, entry.value);
+    }
   });
 }

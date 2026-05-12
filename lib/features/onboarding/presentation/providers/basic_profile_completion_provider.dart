@@ -67,7 +67,7 @@ class BasicProfileCompletionNotifier
 
       await HiveUtil.write(
         key: HiveLoginBox.profileStatus,
-        value: LoginProfileStatus.beforeCompanyInfo.apiValue,
+        value: LoginProfileStatus.basicInfoCompleted.apiValue,
       );
 
       if (!ref.mounted) return false;

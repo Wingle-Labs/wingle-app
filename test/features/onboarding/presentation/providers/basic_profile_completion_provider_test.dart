@@ -80,7 +80,7 @@ void main() {
     expect(repository.bodyType, '슬림');
     expect(
       HiveUtil.read(HiveLoginBox.profileStatus),
-      LoginProfileStatus.beforeCompanyInfo.apiValue,
+      LoginProfileStatus.basicInfoCompleted.apiValue,
     );
   });
 }

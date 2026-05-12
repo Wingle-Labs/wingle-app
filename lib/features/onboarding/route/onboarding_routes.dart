@@ -40,6 +40,42 @@ abstract final class OnboardingRoutes {
     name: 'basic-profile-company',
   );
 
+  /// 학교 입력
+  static const basicProfileEducation = RouteNode(
+    parent: login,
+    name: 'basic-profile-education',
+  );
+
+  /// 상세 프로필 및 사진 입력
+  static const profileDetails = RouteNode(
+    parent: login,
+    name: 'profile-details',
+  );
+
+  /// 프로필 심사 요청
+  static const approvalRequest = RouteNode(
+    parent: login,
+    name: 'approval-request',
+  );
+
+  /// 프로필 심사 대기
+  static const approvalPending = RouteNode(
+    parent: login,
+    name: 'approval-pending',
+  );
+
+  /// 프로필 거절 사유 및 재심사
+  static const profileRejected = RouteNode(
+    parent: login,
+    name: 'profile-rejected',
+  );
+
+  /// 객관식 질문 답변
+  static const choiceQuestions = RouteNode(
+    parent: login,
+    name: 'choice-questions',
+  );
+
   /// 비밀번호 재설정
   static const resetPassword = RouteNode(parent: login, name: 'reset-password');
 

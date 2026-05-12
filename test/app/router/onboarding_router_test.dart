@@ -23,6 +23,22 @@ void main() {
         router.namedLocation(OnboardingRoutes.passWebView.name),
         OnboardingRoutes.passWebView.fullPath,
       );
+      expect(
+        router.namedLocation(OnboardingRoutes.basicProfileEducation.name),
+        OnboardingRoutes.basicProfileEducation.fullPath,
+      );
+      expect(
+        router.namedLocation(OnboardingRoutes.profileDetails.name),
+        OnboardingRoutes.profileDetails.fullPath,
+      );
+      expect(
+        router.namedLocation(OnboardingRoutes.approvalPending.name),
+        OnboardingRoutes.approvalPending.fullPath,
+      );
+      expect(
+        router.namedLocation(OnboardingRoutes.choiceQuestions.name),
+        OnboardingRoutes.choiceQuestions.fullPath,
+      );
     });
   });
 }

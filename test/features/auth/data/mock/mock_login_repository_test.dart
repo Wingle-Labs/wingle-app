@@ -7,7 +7,7 @@ import 'package:wingle/features/auth/domain/models/password.dart';
 import 'package:wingle/features/auth/domain/models/phone_number.dart';
 
 void main() {
-  test('MockLoginRepository는 12개 상태를 모두 반환할 수 있다', () async {
+  test('MockLoginRepository는 온보딩 상태를 모두 반환할 수 있다', () async {
     for (final status in LoginProfileStatus.values) {
       final repository = MockLoginRepository(profileStatus: status);
       final result = await repository.login(

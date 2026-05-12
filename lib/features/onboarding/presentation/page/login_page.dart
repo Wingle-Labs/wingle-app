@@ -10,16 +10,15 @@ import 'package:wingle/app/config/theme/components/wrappers/constrained_scrollab
 import 'package:wingle/app/config/theme/components/wrappers/default_app_bar.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
+import 'package:wingle/app/router/onboarding_redirect_resolver.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
-import 'package:wingle/features/home/route/home_routes.dart';
 import 'package:wingle/features/onboarding/presentation/components/button/change_phone_number_button.dart';
 import 'package:wingle/features/onboarding/presentation/components/button/reset_password_button.dart';
 import 'package:wingle/features/onboarding/presentation/components/button/signup_button.dart';
 import 'package:wingle/features/onboarding/presentation/components/input/password_input_field.dart';
 import 'package:wingle/features/onboarding/presentation/components/input/phone_input_field.dart';
 import 'package:wingle/features/onboarding/presentation/providers/login_page_provider.dart';
-import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// 로그인 페이지
 class LoginPage extends ConsumerStatefulWidget {
@@ -43,6 +42,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       floatingActionButton: Padding(
         padding: .symmetric(horizontal: AppPadding.btnHorizontal),
         child: DefaultFilledButton(
+          variant: .fullWidth,
           isDisabled: !state.canLogin,
           onPressed: () async {
             final isSuccess = await notifier.submit();
@@ -50,10 +50,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
             if (isSuccess) {
               DefaultToast.show(context, 'onboarding.login.toast.success');
-              final nextPath = _nextPathForStatus(
-                ref.read(loginPageProvider).profileStatus,
+              final destination = resolveOnboardingDestination(
+                ref.read(loginPageProvider).profileStatus ??
+                    LoginProfileStatus.signupCompleted,
               );
-              context.goNamed(nextPath);
+              context.goNamed(destination.name);
               return;
             }
 
@@ -132,21 +133,5 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         ],
       ),
     );
-  }
-
-  String _nextPathForStatus(LoginProfileStatus? profileStatus) {
-    if (profileStatus?.isApproved ?? true) {
-      return HomeRoutes.root.name;
-    }
-
-    if (profileStatus?.isBeforeBasicProfile ?? false) {
-      return OnboardingRoutes.basicProfile.name;
-    }
-
-    if (profileStatus?.isBeforeCompanyInfo ?? false) {
-      return OnboardingRoutes.basicProfileCompany.name;
-    }
-
-    return HomeRoutes.root.name;
   }
 }

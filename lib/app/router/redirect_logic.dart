@@ -1,7 +1,7 @@
+import 'package:wingle/app/router/onboarding_redirect_resolver.dart';
 import 'package:wingle/common/constants/hive_constants.dart';
 import 'package:wingle/common/utils/hive_util.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
-import 'package:wingle/features/home/route/home_routes.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// 앱의 로그인 상태에 따른 라우트 리디렉션 로직
@@ -19,29 +19,14 @@ String? appRedirectLogic(bool loggedIn, String currentPath) {
     return OnboardingRoutes.root.path;
   }
 
-  /// 로그인을 했는데 BasicProfile을 작성하지 않은 상태고 Onboarding이 아닌 경로일 때 BasicProfile로 리디렉션
-  if (profileStatus.isBeforeBasicProfile) {
-    if (!currentPath.contains(OnboardingRoutes.root.path)) {
-      return OnboardingRoutes.basicProfile.fullPath;
-    }
+  final destination = resolveOnboardingDestination(profileStatus);
+  if (currentPath == destination.path) return null;
+  if (profileStatus.isCompleted) {
+    if (isInOnboarding) return destination.path;
     return null;
   }
 
-  /// 로그인을 했는데 회사 정보 등록 전 상태고 Onboarding이 아닌 경로일 때 회사 정보로 리디렉션
-  if (profileStatus.isBeforeCompanyInfo) {
-    if (!currentPath.contains(OnboardingRoutes.root.path)) {
-      return OnboardingRoutes.basicProfileCompany.fullPath;
-    }
-    return null;
-  }
-
-  /// 로그인을 했는데 Approved 상태이면 Home으로 리디렉션
-  if (profileStatus.isApproved) {
-    if (isInOnboarding) return HomeRoutes.root.path;
-    return null;
-  }
-
-  if (!isInOnboarding) return OnboardingRoutes.root.path;
+  if (!isInOnboarding) return destination.path;
   return null;
 }
 
