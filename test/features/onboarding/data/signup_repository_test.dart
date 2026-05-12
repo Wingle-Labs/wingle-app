@@ -24,7 +24,7 @@ void main() {
         uuid: 'device-uuid',
         user: PortoneVerifiedCustomerDto(
           name: '김민수',
-          phoneNumber: '010-1234-5678',
+          phoneNumber: '010-9256-6504',
           operator: PassOperator.skt,
           birthDate: DateTime(2001, 1, 1),
           gender: PassGender.male,
@@ -75,7 +75,7 @@ void main() {
 
       final user = PortoneVerifiedCustomerDto(
         name: '김민수',
-        phoneNumber: '010-1234-5678',
+        phoneNumber: '010-9256-6504',
         operator: PassOperator.skt,
         birthDate: DateTime(2001, 1, 1),
         gender: PassGender.male,
@@ -94,7 +94,7 @@ void main() {
       expect(body, {
         'name': '김민수',
         'isForeigner': false,
-        'phoneNumber': '010-1234-5678',
+        'phoneNumber': '010-9256-6504',
         'CI': 'CI123',
         'gender': '남',
         'UUID': 'device-uuid',
@@ -116,13 +116,13 @@ void main() {
       await repository.submitIdentityVerification(
         uuid: 'device-uuid',
         user: PortoneVerifiedCustomerDto(
-          name: '홍길동',
-          phoneNumber: '01012345678',
+          name: '정민호',
+          phoneNumber: '01092566504',
           operator: PassOperator.skt,
           birthDate: DateTime(2000, 1, 1),
           gender: PassGender.female,
           isForeigner: false,
-          ci: 'dGVzdENJaGFzaFZhbHVlMTIzNDU2Nzg5MA==',
+          ci: 'testdGVzdENJaGFzaFZhbHVlMTIzNDU2Nzg5M',
           di: 'DI123',
         ),
         age: 25,
@@ -130,10 +130,10 @@ void main() {
       );
 
       expect(body, {
-        'name': '홍길동',
+        'name': '정민호',
         'isForeigner': false,
-        'phoneNumber': '010-1234-5678',
-        'CI': 'dGVzdENJaGFzaFZhbHVlMTIzNDU2Nzg5MA==',
+        'phoneNumber': '010-9256-6504',
+        'CI': 'testdGVzdENJaGFzaFZhbHVlMTIzNDU2Nzg5M',
         'gender': '여',
         'UUID': 'device-uuid',
         'age': 25,

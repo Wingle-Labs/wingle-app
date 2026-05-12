@@ -58,7 +58,7 @@ void main() {
         status: 'confirmed',
         verifiedCustomer: PortoneVerifiedCustomerDto(
           name: '김민수',
-          phoneNumber: '010-1234-5678',
+          phoneNumber: '010-9256-6504',
           operator: PassOperator.skt,
           birthDate: DateTime(2001, 1, 1),
           gender: PassGender.male,

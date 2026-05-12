@@ -9,10 +9,10 @@ void main() {
     final response = await repository.fetchVerificationResult('MOCK_UID');
     final user = response.identityVerification.verifiedCustomer;
 
-    expect(user.name, '홍길동');
+    expect(user.name, '정민호');
     expect(user.isForeigner, isFalse);
-    expect(user.phoneNumber, '010-1234-5678');
-    expect(user.ci, 'dGVzdENJaGFzaFZhbHVlMTIzNDU2Nzg5MA==');
+    expect(user.phoneNumber, '010-9256-6504');
+    expect(user.ci, 'testdGVzdENJaGFzaFZhbHVlMTIzNDU2Nzg5M');
     expect(user.gender, PassGender.female);
     expect(user.birthDate, DateTime(2000, 1, 1));
   });

@@ -22,11 +22,11 @@ void main() {
     );
 
     await repository.uploadContacts(
-      phoneNumbers: [' 010-1234-5678 ', '010-1234-5678'],
+      phoneNumbers: [' 010-9256-6504 ', '010-9256-6504'],
     );
 
     expect(body, {
-      'phoneNumbers': ['010-1234-5678'],
+      'phoneNumbers': ['010-9256-6504'],
     });
   });
 

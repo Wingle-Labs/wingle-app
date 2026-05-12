@@ -31,11 +31,11 @@ void main() {
       final repository = LoginRepositoryImpl(client: client, baseUrl: baseUrl);
 
       final result = await repository.login(
-        phoneNumber: PhoneNumber('010-1234-5678'),
+        phoneNumber: PhoneNumber('010-9256-6504'),
         password: Password('Password1!'),
       );
 
-      expect(body, {'phoneNumber': '010-1234-5678', 'password': 'Password1!'});
+      expect(body, {'phoneNumber': '010-9256-6504', 'password': 'Password1!'});
       expect(result.accessToken, 'access-token');
     });
 
