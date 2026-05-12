@@ -50,7 +50,7 @@ class SignupRepositoryImpl implements SignupRepository {
       body: jsonEncode({
         'name': user.name,
         'isForeigner': user.isForeigner,
-        'phoneNumber': user.phoneNumber,
+        'phoneNumber': _formatPhoneNumber(user.phoneNumber),
         'CI': user.ci,
         'gender': _genderToApiValue(user.gender),
         'UUID': uuid,
@@ -79,6 +79,21 @@ class SignupRepositoryImpl implements SignupRepository {
       case null:
         throw Exception(ApiErrorMessages.signupIdentityVerificationFailed);
     }
+  }
+
+  String _formatPhoneNumber(String? phoneNumber) {
+    if (phoneNumber == null || phoneNumber.isEmpty) {
+      throw Exception(ApiErrorMessages.signupIdentityVerificationFailed);
+    }
+
+    final digits = phoneNumber.replaceAll(RegExp(r'\D'), '');
+
+    if (RegExp(r'^010\d{8}$').hasMatch(digits)) {
+      return '${digits.substring(0, 3)}-${digits.substring(3, 7)}-'
+          '${digits.substring(7)}';
+    }
+
+    return phoneNumber;
   }
 
   String _formatDate(DateTime? date) {

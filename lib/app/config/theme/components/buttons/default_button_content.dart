@@ -33,8 +33,6 @@ class _ButtonContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final hasLeading = leading != null || leadingWidget != null;
     final hasTrailing = trailing != null || trailingWidget != null;
-    final hasIcon = hasLeading || hasTrailing;
-
     if (isLoading) {
       return _ButtonContentAlign(
         expandToMaxWidth: expandToMaxWidth,
@@ -50,7 +48,6 @@ class _ButtonContent extends StatelessWidget {
         expandToMaxWidth: false,
         child: _ButtonContentRow(
           label: label,
-          hasIcon: hasIcon,
           hasLeading: hasLeading,
           hasTrailing: hasTrailing,
           leading: leading,
@@ -68,9 +65,10 @@ class _ButtonContent extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final sideWidth = hasIcon ? iconFrameSize + iconLabelGap : 0.0;
+        final leadingWidth = hasLeading ? iconFrameSize + iconLabelGap : 0.0;
+        final trailingWidth = hasTrailing ? iconFrameSize + iconLabelGap : 0.0;
         final maxTextWidth = constraints.hasBoundedWidth
-            ? (constraints.maxWidth - sideWidth * 2).clamp(
+            ? (constraints.maxWidth - leadingWidth - trailingWidth).clamp(
                 0.0,
                 constraints.maxWidth,
               )
@@ -82,7 +80,6 @@ class _ButtonContent extends StatelessWidget {
             constraints: BoxConstraints(maxWidth: maxTextWidth),
             child: _ButtonContentRow(
               label: label,
-              hasIcon: hasIcon,
               hasLeading: hasLeading,
               hasTrailing: hasTrailing,
               leading: leading,
@@ -123,8 +120,7 @@ class _ButtonContentAlign extends StatelessWidget {
 
 class _ButtonContentRow extends StatelessWidget {
   final String label;
-  final bool hasIcon;
-final bool hasLeading;
+  final bool hasLeading;
   final bool hasTrailing;
   final IconData? leading;
   final IconData? trailing;
@@ -138,7 +134,6 @@ final bool hasLeading;
 
   const _ButtonContentRow({
     required this.label,
-    required this.hasIcon,
     required this.hasLeading,
     required this.hasTrailing,
     required this.leading,
@@ -157,18 +152,16 @@ final bool hasLeading;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (hasIcon) ...[
+        if (hasLeading) ...[
           _ReservedButtonIconSlot(
             dimension: iconFrameSize,
-            child: hasLeading
-                ? DefaultIconSlot(
-                    frameSize: iconFrameSize,
-                    glyphSize: iconGlyphSize,
-                    icon: leading,
-                    color: foregroundColor,
-                    child: leadingWidget,
-                  )
-                : null,
+            child: DefaultIconSlot(
+              frameSize: iconFrameSize,
+              glyphSize: iconGlyphSize,
+              icon: leading,
+              color: foregroundColor,
+              child: leadingWidget,
+            ),
           ),
           SizedBox(width: iconLabelGap),
         ],
@@ -182,19 +175,17 @@ final bool hasLeading;
             textAlign: TextAlign.center,
           ),
         ),
-        if (hasIcon) ...[
+        if (hasTrailing) ...[
           SizedBox(width: iconLabelGap),
           _ReservedButtonIconSlot(
             dimension: iconFrameSize,
-            child: hasTrailing
-                ? DefaultIconSlot(
-                    frameSize: iconFrameSize,
-                    glyphSize: iconGlyphSize,
-                    icon: trailing,
-                    color: foregroundColor,
-                    child: trailingWidget,
-                  )
-                : null,
+            child: DefaultIconSlot(
+              frameSize: iconFrameSize,
+              glyphSize: iconGlyphSize,
+              icon: trailing,
+              color: foregroundColor,
+              child: trailingWidget,
+            ),
           ),
         ],
       ],

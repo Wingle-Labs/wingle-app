@@ -102,5 +102,43 @@ void main() {
         'birth': '2001-01-01',
       });
     });
+
+    test('submitIdentityVerification은 하이픈 없는 휴대폰 번호를 API 형식으로 변환한다', () async {
+      late Map<String, dynamic> body;
+
+      final client = MockClient((request) async {
+        body = jsonDecode(request.body) as Map<String, dynamic>;
+        return http.Response('', 200);
+      });
+
+      final repository = SignupRepositoryImpl(client: client, baseUrl: baseUrl);
+
+      await repository.submitIdentityVerification(
+        uuid: 'device-uuid',
+        user: PortoneVerifiedCustomerDto(
+          name: '홍길동',
+          phoneNumber: '01012345678',
+          operator: PassOperator.skt,
+          birthDate: DateTime(2000, 1, 1),
+          gender: PassGender.female,
+          isForeigner: false,
+          ci: 'dGVzdENJaGFzaFZhbHVlMTIzNDU2Nzg5MA==',
+          di: 'DI123',
+        ),
+        age: 25,
+        impUid: 'imp_123',
+      );
+
+      expect(body, {
+        'name': '홍길동',
+        'isForeigner': false,
+        'phoneNumber': '010-1234-5678',
+        'CI': 'dGVzdENJaGFzaFZhbHVlMTIzNDU2Nzg5MA==',
+        'gender': '여',
+        'UUID': 'device-uuid',
+        'age': 25,
+        'birth': '2000-01-01',
+      });
+    });
   });
 }

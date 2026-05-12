@@ -17,7 +17,13 @@ final healthRepositoryProvider = Provider<HealthRepository>((ref) {
   }
 
   final baseUrl = EnvUtil.get(ApiEnvFile.baseUrl);
-  final client = AuthenticatedApiClient(inner: http.Client(), baseUrl: baseUrl);
+  final client = AuthenticatedApiClient(
+    inner: http.Client(),
+    baseUrl: baseUrl,
+    requestSourceLabel: RepositorySelector.selectionLabel(
+      isApiReady: isApiReady,
+    ),
+  );
   ref.onDispose(client.close);
 
   return HealthRepositoryImpl(client: client, baseUrl: baseUrl);

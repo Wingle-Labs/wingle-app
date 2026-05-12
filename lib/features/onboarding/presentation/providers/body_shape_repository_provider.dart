@@ -18,7 +18,13 @@ final bodyShapeRepositoryProvider = Provider<BodyShapeRepository>((ref) {
   }
 
   final baseUrl = EnvUtil.get(ApiEnvFile.baseUrl);
-  final client = AuthenticatedApiClient(inner: http.Client(), baseUrl: baseUrl);
+  final client = AuthenticatedApiClient(
+    inner: http.Client(),
+    baseUrl: baseUrl,
+    requestSourceLabel: RepositorySelector.selectionLabel(
+      isApiReady: isApiReady,
+    ),
+  );
   ref.onDispose(client.close);
 
   return BodyShapeRepositoryImpl(client: client, baseUrl: baseUrl);

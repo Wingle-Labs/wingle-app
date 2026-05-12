@@ -17,7 +17,13 @@ final loginRepositoryProvider = Provider<LoginRepository>((ref) {
   }
 
   final baseUrl = EnvUtil.get(ApiEnvFile.baseUrl);
-  final client = AuthenticatedApiClient(inner: http.Client(), baseUrl: baseUrl);
+  final client = AuthenticatedApiClient(
+    inner: http.Client(),
+    baseUrl: baseUrl,
+    requestSourceLabel: RepositorySelector.selectionLabel(
+      isApiReady: isApiReady,
+    ),
+  );
   ref.onDispose(client.close);
 
   return LoginRepositoryImpl(client: client, baseUrl: baseUrl);

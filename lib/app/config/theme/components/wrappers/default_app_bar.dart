@@ -41,6 +41,12 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   /// 좌측 액션 버튼
   final List<Widget>? leadingActions;
 
+  /// 뒤로갈 수 있는 화면에서 자동으로 뒤로가기 버튼을 표시할지 여부
+  final bool automaticallyImplyLeading;
+
+  /// 자동 뒤로가기 버튼 클릭 시 실행할 콜백
+  final VoidCallback? onBackPressed;
+
   /// 액션 버튼 표시 여부
   final bool isActionVisible;
 
@@ -86,6 +92,8 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     Size preferredSize = const Size.fromHeight(_minimumToolbarHeight),
     this.leadingActions,
+    this.automaticallyImplyLeading = true,
+    this.onBackPressed,
     this.isActionVisible = true,
     this.actions,
     this.actionsPadding,
@@ -134,7 +142,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             child: switch (layout) {
               DefaultAppBarLayout.basic => _BasicAppBarContent(
-                leading: _resolveLeadingGroup(),
+                leading: _resolveLeadingGroup(context),
                 title: title == null
                     ? null
                     : DefaultText(
@@ -145,7 +153,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
                 trailing: _resolveTrailingGroup(),
               ),
               DefaultAppBarLayout.side => _SideAppBarContent(
-                leading: _resolveLeadingGroup(),
+                leading: _resolveLeadingGroup(context),
                 title: title == null
                     ? null
                     : DefaultText(
@@ -180,8 +188,12 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  Widget _resolveLeadingGroup() {
+  Widget? _resolveLeadingGroup(BuildContext context) {
     if (leadingActions != null) {
+      if ((leadingActions as List<Widget>).isEmpty) {
+        return null;
+      }
+
       return _ActionGroup(
         useIconGrid: _shouldUseIconGrid(leadingActions as List<Widget>),
         children: leadingActions as List<Widget>,
@@ -192,15 +204,28 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
       return SizedBox(width: leadingWidth, child: leading);
     }
 
-    return const _ActionGroup(useIconGrid: true, children: []);
+    if (automaticallyImplyLeading && Navigator.canPop(context)) {
+      final backAction = _AppBarIconAction(
+        icon: const Icon(Icons.arrow_back_ios_new_rounded),
+        onPressed: onBackPressed ?? () => Navigator.maybePop(context),
+      );
+
+      return _ActionGroup(useIconGrid: true, children: [backAction]);
+    }
+
+    return null;
   }
 
-  Widget _resolveTrailingGroup() {
+  Widget? _resolveTrailingGroup() {
     if (!isActionVisible) {
-      return const _ActionGroup(useIconGrid: true, children: []);
+      return null;
     }
 
     if (actions != null) {
+      if ((actions as List<Widget>).isEmpty) {
+        return null;
+      }
+
       final group = _ActionGroup(
         alignment: MainAxisAlignment.end,
         useIconGrid: _shouldUseIconGrid(actions as List<Widget>),
@@ -216,7 +241,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
       return trailing as Widget;
     }
 
-    return const _ActionGroup(useIconGrid: true, children: []);
+    return null;
   }
 
   bool _shouldUseIconGrid(List<Widget> children) {
@@ -270,9 +295,9 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class _BasicAppBarContent extends StatelessWidget {
-  final Widget leading;
+  final Widget? leading;
   final Widget? title;
-  final Widget trailing;
+  final Widget? trailing;
 
   const _BasicAppBarContent({
     required this.leading,
@@ -286,23 +311,27 @@ class _BasicAppBarContent extends StatelessWidget {
       constraints: const BoxConstraints(
         minHeight: DefaultAppBar._actionHitSize,
       ),
-      child: Row(
-        children: [
-          leading,
-          const SizedBox(width: DefaultAppBar._titleHorizontalGap),
-          Expanded(child: Center(child: title ?? const SizedBox.shrink())),
-          const SizedBox(width: DefaultAppBar._titleHorizontalGap),
-          trailing,
-        ],
+      child: SizedBox(
+        height: DefaultAppBar._actionHitSize,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            if (title != null) Center(child: title),
+            if (leading != null)
+              Align(alignment: Alignment.centerLeft, child: leading),
+            if (trailing != null)
+              Align(alignment: Alignment.centerRight, child: trailing),
+          ],
+        ),
       ),
     );
   }
 }
 
 class _SideAppBarContent extends StatelessWidget {
-  final Widget leading;
+  final Widget? leading;
   final Widget? title;
-  final Widget trailing;
+  final Widget? trailing;
 
   const _SideAppBarContent({
     required this.leading,
@@ -316,14 +345,18 @@ class _SideAppBarContent extends StatelessWidget {
       constraints: const BoxConstraints(
         minHeight: DefaultAppBar._actionHitSize,
       ),
-      child: Row(
-        children: [
-          leading,
-          const SizedBox(width: DefaultAppBar._titleHorizontalGap),
-          Expanded(child: Center(child: title ?? const SizedBox.shrink())),
-          const SizedBox(width: DefaultAppBar._titleHorizontalGap),
-          trailing,
-        ],
+      child: SizedBox(
+        height: DefaultAppBar._actionHitSize,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            if (title != null) Center(child: title),
+            if (leading != null)
+              Align(alignment: Alignment.centerLeft, child: leading),
+            if (trailing != null)
+              Align(alignment: Alignment.centerRight, child: trailing),
+          ],
+        ),
       ),
     );
   }
@@ -332,7 +365,7 @@ class _SideAppBarContent extends StatelessWidget {
 class _DisplayAppBarContent extends StatelessWidget {
   final Widget title;
   final Widget? subtitle;
-  final Widget trailing;
+  final Widget? trailing;
 
   const _DisplayAppBarContent({
     required this.title,
@@ -358,9 +391,35 @@ class _DisplayAppBarContent extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(width: DefaultAppBar._titleHorizontalGap),
-        trailing,
+        if (trailing != null) ...[
+          const SizedBox(width: DefaultAppBar._titleHorizontalGap),
+          trailing as Widget,
+        ],
       ],
+    );
+  }
+}
+
+class _AppBarIconAction extends StatelessWidget {
+  final Widget icon;
+  final VoidCallback? onPressed;
+
+  const _AppBarIconAction({required this.icon, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.square(
+      dimension: DefaultAppBar._actionHitSize,
+      child: InkResponse(
+        onTap: onPressed,
+        radius: DefaultAppBar._actionHitSize / 2,
+        child: Center(
+          child: IconTheme.merge(
+            data: const IconThemeData(size: DefaultAppBar._actionSize),
+            child: icon,
+          ),
+        ),
+      ),
     );
   }
 }
@@ -415,13 +474,19 @@ class _ActionGroup extends StatelessWidget {
         widgets.add(const SizedBox(width: DefaultAppBar._actionGap));
       }
 
+      final child = children[index];
+      if (child is _AppBarIconAction) {
+        widgets.add(child);
+        continue;
+      }
+
       widgets.add(
         SizedBox.square(
           dimension: DefaultAppBar._actionHitSize,
           child: Center(
             child: SizedBox.square(
               dimension: DefaultAppBar._actionSize,
-              child: Center(child: children[index]),
+              child: Center(child: child),
             ),
           ),
         ),

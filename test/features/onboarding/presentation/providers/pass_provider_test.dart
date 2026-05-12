@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wingle/app/providers/device_uuid_provider.dart';
-import 'package:wingle/features/onboarding/domain/constants/age_constants.dart';
 import 'package:wingle/features/onboarding/domain/constants/pass_gender.dart';
 import 'package:wingle/features/onboarding/domain/constants/pass_operator.dart';
 import 'package:wingle/features/onboarding/domain/model/pass/portone_confirm_response_dto.dart';
@@ -90,9 +89,15 @@ void main() {
     expect(signupRepository.submittedUuid, 'device-uuid');
     expect(signupRepository.submittedImpUid, 'imp_123');
     expect(signupRepository.submittedUser?.name, '김민수');
-    expect(
-      signupRepository.submittedAge,
-      DateTime.now().year - 2001 + AgeConstants.koreanAgeOffset,
-    );
+    expect(signupRepository.submittedAge, _calculateAge(DateTime(2001, 1, 1)));
   });
+}
+
+int _calculateAge(DateTime birthDate) {
+  final now = DateTime.now();
+  final hasHadBirthday =
+      now.month > birthDate.month ||
+      (now.month == birthDate.month && now.day >= birthDate.day);
+  final age = now.year - birthDate.year;
+  return hasHadBirthday ? age : age - 1;
 }

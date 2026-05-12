@@ -67,17 +67,29 @@ void main() {
     }
   });
 
-  testWidgets('DefaultFilledButton은 한쪽 아이콘만 있어도 텍스트를 중앙에 둔다', (tester) async {
+  testWidgets('DefaultFilledButton은 없는 trailing 슬롯 폭을 예약하지 않는다', (
+    tester,
+  ) async {
+    await pumpButton(tester, variant: DefaultButtonVariant.lg);
+    final noIconWidth = tester.getSize(find.byType(Material).last).width;
+
     await pumpButton(
       tester,
       variant: DefaultButtonVariant.lg,
       leadingWidget: const SizedBox.square(dimension: 16),
     );
+    final leadingOnlyWidth = tester.getSize(find.byType(Material).last).width;
 
-    final buttonCenter = tester.getCenter(find.byType(Material).last);
-    final textCenter = tester.getCenter(find.text('텍스트'));
+    await pumpButton(
+      tester,
+      variant: DefaultButtonVariant.lg,
+      leadingWidget: const SizedBox.square(dimension: 16),
+      trailingWidget: const SizedBox.square(dimension: 16),
+    );
+    final bothIconWidth = tester.getSize(find.byType(Material).last).width;
 
-    expect((buttonCenter.dx - textCenter.dx).abs(), lessThan(0.1));
+    expect(leadingOnlyWidth, greaterThan(noIconWidth));
+    expect(leadingOnlyWidth, lessThan(bothIconWidth));
   });
 
   testWidgets('DefaultFilledButton loading 상태는 인디케이터를 표시하고 탭을 막는다', (

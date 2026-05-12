@@ -84,4 +84,80 @@ void main() {
     expect(response.statusCode, 401);
     expect(response.body, 'expired');
   });
+
+  test('비프로덕션 API 로깅은 request와 response를 출력하고 민감값은 마스킹한다', () async {
+    final logs = <String>[];
+    final inner = MockClient((request) async {
+      return http.Response(
+        jsonEncode({
+          'accessToken': 'secret-access',
+          'refreshToken': 'secret-refresh',
+          'profileStatus': 'APPROVED',
+        }),
+        200,
+      );
+    });
+
+    final client = AuthenticatedApiClient(
+      inner: inner,
+      baseUrl: baseUrl,
+      logger: logs.add,
+      requestSourceLabel: 'LIVE (API_SOURCE=LIVE, isApiReady=true)',
+    );
+
+    final response = await client.post(
+      Uri.parse('$baseUrl/api/v1/auth/login'),
+      headers: {
+        ApiRequestHeaders.authorizationHeader: 'Bearer secret-access',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'phoneNumber': '01000000000',
+        'password': 'secret-password',
+      }),
+    );
+
+    expect(response.statusCode, 200);
+    expect(response.body, contains('APPROVED'));
+    expect(logs, hasLength(2));
+    expect(
+      logs.first,
+      contains('[API] request: POST $baseUrl/api/v1/auth/login'),
+    );
+    expect(
+      logs.first,
+      contains('[API] source: LIVE (API_SOURCE=LIVE, isApiReady=true)'),
+    );
+    expect(logs.first, contains('"Authorization":"<redacted>"'));
+    expect(logs.first, contains('"password":"<redacted>"'));
+    expect(logs.first, contains('"phoneNumber":"01000000000"'));
+    expect(logs.first, endsWith('\n'));
+    expect(logs.last, contains('[API] POST $baseUrl/api/v1/auth/login -> 200'));
+    expect(logs.last, contains('"accessToken":"<redacted>"'));
+    expect(logs.last, contains('"refreshToken":"<redacted>"'));
+    expect(logs.last, endsWith('\n'));
+    expect(logs.join('\n'), isNot(contains('secret-access')));
+    expect(logs.join('\n'), isNot(contains('secret-refresh')));
+    expect(logs.join('\n'), isNot(contains('secret-password')));
+  });
+
+  test('응답 로깅이 꺼져 있으면 로그를 출력하지 않는다', () async {
+    final logs = <String>[];
+    final inner = MockClient((request) async {
+      return http.Response('ok', 200);
+    });
+
+    final client = AuthenticatedApiClient(
+      inner: inner,
+      baseUrl: baseUrl,
+      enableResponseLogging: false,
+      logger: logs.add,
+    );
+
+    final response = await client.get(Uri.parse('$baseUrl/api/v1/healthcheck'));
+
+    expect(response.statusCode, 200);
+    expect(response.body, 'ok');
+    expect(logs, isEmpty);
+  });
 }

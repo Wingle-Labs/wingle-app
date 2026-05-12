@@ -17,7 +17,13 @@ final answerRepositoryProvider = Provider<AnswerRepository>((ref) {
   }
 
   final baseUrl = EnvUtil.get(ApiEnvFile.baseUrl);
-  final client = AuthenticatedApiClient(inner: http.Client(), baseUrl: baseUrl);
+  final client = AuthenticatedApiClient(
+    inner: http.Client(),
+    baseUrl: baseUrl,
+    requestSourceLabel: RepositorySelector.selectionLabel(
+      isApiReady: isApiReady,
+    ),
+  );
   ref.onDispose(client.close);
 
   return AnswerRepositoryImpl(client: client, baseUrl: baseUrl);

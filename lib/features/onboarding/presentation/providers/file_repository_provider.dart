@@ -17,7 +17,13 @@ final fileRepositoryProvider = Provider<FileRepository>((ref) {
   }
 
   final baseUrl = EnvUtil.get(ApiEnvFile.baseUrl);
-  final client = AuthenticatedApiClient(inner: http.Client(), baseUrl: baseUrl);
+  final client = AuthenticatedApiClient(
+    inner: http.Client(),
+    baseUrl: baseUrl,
+    requestSourceLabel: RepositorySelector.selectionLabel(
+      isApiReady: isApiReady,
+    ),
+  );
   ref.onDispose(client.close);
 
   return FileRepositoryImpl(client: client, baseUrl: baseUrl);

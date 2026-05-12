@@ -36,6 +36,40 @@ void main() {
         isFalse,
       );
     });
+
+    test('effectiveSource는 API 준비 여부와 source를 함께 반영한다', () {
+      expect(
+        RepositorySelector.effectiveSource(
+          isApiReady: false,
+          source: RepositorySource.live,
+        ),
+        RepositorySource.mock,
+      );
+      expect(
+        RepositorySelector.effectiveSource(
+          isApiReady: true,
+          source: RepositorySource.live,
+        ),
+        RepositorySource.live,
+      );
+    });
+
+    test('selectionLabel은 실제 선택값과 판단 근거를 함께 반환한다', () {
+      expect(
+        RepositorySelector.selectionLabel(
+          isApiReady: false,
+          source: RepositorySource.live,
+        ),
+        'MOCK (API_SOURCE=LIVE, isApiReady=false)',
+      );
+      expect(
+        RepositorySelector.selectionLabel(
+          isApiReady: true,
+          source: RepositorySource.live,
+        ),
+        'LIVE (API_SOURCE=LIVE, isApiReady=true)',
+      );
+    });
   });
 
   group('RepositorySource.fromEnv', () {
