@@ -11,6 +11,7 @@ import 'package:wingle/widgetbook/components/chip_button_page.dart';
 import 'package:wingle/widgetbook/components/default_app_bar_page.dart';
 import 'package:wingle/widgetbook/components/divider_page.dart';
 import 'package:wingle/widgetbook/components/icon_page.dart';
+import 'package:wingle/widgetbook/components/input_field_page.dart';
 import 'package:wingle/widgetbook/components/misc_components_page.dart';
 import 'package:wingle/widgetbook/components/pagination_page.dart';
 import 'package:wingle/widgetbook/components/selections/check_page.dart';
@@ -20,7 +21,6 @@ import 'package:wingle/widgetbook/components/selections/toggle_icon_page.dart';
 import 'package:wingle/widgetbook/components/selections/toggle_switch_page.dart';
 import 'package:wingle/widgetbook/components/snackbar_page.dart';
 import 'package:wingle/widgetbook/components/states_page.dart';
-import 'package:wingle/widgetbook/components/text_fields_page.dart';
 import 'package:wingle/widgetbook/components/texts_page.dart';
 import 'package:wingle/widgetbook/components/wrappers_page.dart';
 
@@ -107,11 +107,11 @@ WidgetbookFolder buildComponentFolder() {
         ],
       ),
       WidgetbookComponent(
-        name: 'Text Fields',
+        name: 'Input Field',
         useCases: [
           WidgetbookUseCase(
-            name: 'All States',
-            builder: (context) => const TextFieldsPage(),
+            name: 'Normal',
+            builder: (context) => const InputFieldPage(),
           ),
         ],
       ),

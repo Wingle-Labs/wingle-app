@@ -1,10 +1,9 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wingle/app/config/theme/components/text_fields/default_underline_input_field.dart';
+import 'package:wingle/app/config/theme/components/texts/text_scale_policy.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
-import 'package:wingle/app/config/theme/constants/size.dart';
-import 'package:wingle/app/config/theme/constants/spacing.dart';
 
 /// 밑줄이 그어진 텍스트 필드
 class UnderlineField extends ConsumerStatefulWidget {
@@ -72,58 +71,22 @@ class UnderlineField extends ConsumerStatefulWidget {
 class _UnderlineFieldState extends ConsumerState<UnderlineField> {
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Column(
-      children: [
-        TextFormField(
-          autofocus: true,
-          maxLength: widget.maxLength,
-          enabled: widget.enabled,
-          controller: widget.controller,
-          onChanged: widget.onChanged,
-          decoration: InputDecoration(
-            helperStyle: TextStyle(
-              fontSize: AppFontSize.caption,
-              color: theme.hintColor,
-            ),
-            labelText: widget.label.tr(),
-            labelStyle: TextStyle(
-              fontSize: AppFontSize.body,
-              color: theme.hintColor,
-            ),
-            hintText: widget.hint?.tr(),
-            hintStyle: TextStyle(
-              fontSize: AppFontSize.body,
-              color: theme.hintColor,
-            ),
-            helperText: widget.helper?.tr(),
-            alignLabelWithHint: true,
-            fillColor: theme.primaryColor,
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: theme.primaryColor),
-            ),
-            focusColor: theme.primaryColor,
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: theme.primaryColor),
-            ),
-            disabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: theme.hintColor),
-            ),
-          ),
-          inputFormatters: widget.inputFormatters,
-          keyboardType: widget.keyboardType,
-          style: TextStyle(fontSize: AppFontSize.subtitle),
-          cursorColor: theme.primaryColor,
-          cursorHeight: AppFontSize.subtitle,
-          autofillHints: widget.autofillHints,
-          focusNode: widget.focusNode,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: AppSpacing.s8),
-          child: widget.suffix,
-        ),
-        SizedBox(height: widget.bottomPadding),
-      ],
+    return Padding(
+      padding: EdgeInsets.only(bottom: widget.bottomPadding ?? 0),
+      child: DefaultUnderlineInputField(
+        controller: widget.controller,
+        labelText: widget.label,
+        hintText: widget.hint,
+        assistiveText: widget.helper,
+        keyboardType: widget.keyboardType,
+        autofillHints: widget.autofillHints,
+        onChanged: widget.onChanged,
+        isEnabled: widget.enabled ?? true,
+        suffix: widget.suffix is SizedBox ? null : widget.suffix,
+        maxLength: widget.maxLength,
+        inputFormatters: widget.inputFormatters,
+        policy: TextScalePolicy.cappedMedium,
+      ),
     );
   }
 }

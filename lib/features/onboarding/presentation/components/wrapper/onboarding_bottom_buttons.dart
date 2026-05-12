@@ -39,6 +39,7 @@ class OnboardingBottomButtons extends ConsumerWidget {
                   onPressed: () {
                     ref.read(onboardingCarouselProvider.notifier).next();
                   },
+                  variant: .fullWidth,
                 ),
               ),
             ],

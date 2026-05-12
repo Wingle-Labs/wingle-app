@@ -27,6 +27,7 @@ class SignupButton extends ConsumerWidget {
             onPressed: () => context.pushNamed(OnboardingRoutes.agreement.name),
             label: text,
             textStyle: typography.buttonLarge,
+            variant: .fullWidth,
           )
         : DefaultTextButton(
             onPressed: () => context.pushNamed(OnboardingRoutes.agreement.name),

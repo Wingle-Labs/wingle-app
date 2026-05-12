@@ -68,17 +68,19 @@ class DefaultBottomSheet {
               const SizedBox(height: AppPadding.bottomSheet),
 
               /// Main button
-              SizedBox(
-                width: double.infinity,
-                child: DefaultFilledButton(label: mainLabel, onPressed: onMain),
+              DefaultFilledButton(
+                label: mainLabel,
+                onPressed: onMain,
+                variant: .fullWidth,
               ),
 
               /// Sub Button
               if (onSub != null && subLabel != null) ...[
                 const SizedBox(height: AppPadding.bottomSheet),
-                SizedBox(
-                  width: double.infinity,
-                  child: DefaultTextButton(label: subLabel, onPressed: onSub),
+                DefaultTextButton(
+                  label: subLabel,
+                  onPressed: onSub,
+                  variant: .fullWidth,
                 ),
               ],
             ],
