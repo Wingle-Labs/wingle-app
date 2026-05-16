@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_floating_button.dart';
 import 'package:wingle/app/config/theme/components/states/default_bottom_sheet.dart';
 import 'package:wingle/app/config/theme/components/states/default_toast.dart';
-import 'package:wingle/app/config/theme/components/texts/default_intruction.dart';
+import 'package:wingle/app/config/theme/components/texts/default_page_header.dart';
 import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/components/wrappers/scrollable_scaffold.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
@@ -38,11 +38,13 @@ class _OnboardingPasswordPageState
       onPop: showOnPop,
       spacing: 0,
       body: [
-        DefaultInstruction('onboarding.password.title', textAlign: .left),
-        DefaultText('onboarding.password.instruction', policy: .cappedLarge),
-        SizedBox(height: AppSpacing.xl),
+        const DefaultPageHeader(
+          title: 'onboarding.password.title',
+          subtitle: 'onboarding.password.instruction',
+        ),
+        SizedBox(height: AppSpacing.s48),
         PhoneNumberReadOnlyField(phoneNumber: widget.phoneNumber),
-        SizedBox(height: AppSpacing.lg),
+        SizedBox(height: AppSpacing.s32),
         PasswordInputField(
           value: state.password,
           isVisible: state.isPasswordVisible,
@@ -50,7 +52,7 @@ class _OnboardingPasswordPageState
           onChanged: notifier.updatePassword,
           onToggleVisibility: notifier.togglePasswordVisibility,
         ),
-        SizedBox(height: AppSpacing.md),
+        SizedBox(height: AppSpacing.s24),
         PasswordInputField(
           value: state.confirmPassword,
           isVisible: state.isConfirmPasswordVisible,
@@ -85,9 +87,12 @@ class _OnboardingPasswordPageState
       body: Column(
         crossAxisAlignment: .start,
         children: [
-          DefaultInstruction('onboarding.password.bottomSheet.title'),
+          const DefaultPageHeader(
+            title: 'onboarding.password.bottomSheet.title',
+            padding: EdgeInsets.zero,
+          ),
           DefaultText('onboarding.password.bottomSheet.description'),
-          SizedBox(height: AppSpacing.sm),
+          SizedBox(height: AppSpacing.s16),
         ],
       ),
       onMain: () {

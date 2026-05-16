@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_floating_button.dart';
 import 'package:wingle/app/config/theme/components/cards/default_card.dart';
-import 'package:wingle/app/config/theme/components/texts/default_intruction.dart';
+import 'package:wingle/app/config/theme/components/texts/default_page_header.dart';
 import 'package:wingle/app/config/theme/components/wrappers/scrollable_scaffold.dart';
 import 'package:wingle/features/auth/domain/usecases/request_phone_code.dart';
 import 'package:wingle/features/auth/presentation/components/phone_textfield.dart';
@@ -30,7 +30,7 @@ class _PhoneAuthPageState extends ConsumerState<PhoneAuthPage> {
     return ScrollableScaffold(
       title: 'onboarding.phone.title',
       body: <Widget>[
-        DefaultInstruction('onboarding.phone.instruction'),
+        const DefaultPageHeader(title: 'onboarding.phone.instruction'),
         DefaultCard(child: PhoneTextField()),
       ],
       floatingActionButton: DefaultFloatingButton(

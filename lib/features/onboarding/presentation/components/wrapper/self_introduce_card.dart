@@ -27,7 +27,7 @@ class SelfIntroduceCard extends ConsumerWidget {
         crossAxisAlignment: .start,
         children: [
           DefaultText(title, style: TextStyle(fontSize: AppFontSize.subtitle)),
-          Padding(padding: .only(bottom: AppSpacing.md)),
+          Padding(padding: .only(bottom: AppSpacing.s24)),
           child,
         ],
       ),

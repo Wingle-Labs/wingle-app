@@ -15,7 +15,7 @@ class IntroduceCardGroup extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
-      spacing: AppSpacing.lg,
+      spacing: AppSpacing.s32,
       children: questions
           .map(
             (question) => SelfIntroduceCard(

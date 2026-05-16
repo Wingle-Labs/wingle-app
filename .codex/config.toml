@@ -1,0 +1,1 @@
+persistent_instructions = "Follow project AGENTS.md guidelines. Before reporting task completion after code/docs edits, stage only the current task scope so unrelated worktree changes remain unstaged."

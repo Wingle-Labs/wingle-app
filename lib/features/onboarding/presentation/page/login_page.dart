@@ -4,14 +4,15 @@ import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_filled_button.dart';
 import 'package:wingle/app/config/theme/components/dividers/default_vertical_divider.dart';
 import 'package:wingle/app/config/theme/components/states/default_toast.dart';
-import 'package:wingle/app/config/theme/components/texts/default_intruction.dart';
-import 'package:wingle/app/config/theme/components/texts/default_text.dart';
+import 'package:wingle/app/config/theme/components/texts/default_page_header.dart';
+import 'package:wingle/app/config/theme/components/texts/text_scale_policy.dart';
 import 'package:wingle/app/config/theme/components/wrappers/constrained_scrollable_scaffold.dart';
 import 'package:wingle/app/config/theme/components/wrappers/default_app_bar.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
-import 'package:wingle/common/constants/route_constants.dart';
+import 'package:wingle/app/router/onboarding_redirect_resolver.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
+import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 import 'package:wingle/features/onboarding/presentation/components/button/change_phone_number_button.dart';
 import 'package:wingle/features/onboarding/presentation/components/button/reset_password_button.dart';
 import 'package:wingle/features/onboarding/presentation/components/button/signup_button.dart';
@@ -41,6 +42,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       floatingActionButton: Padding(
         padding: .symmetric(horizontal: AppPadding.btnHorizontal),
         child: DefaultFilledButton(
+          variant: .fullWidth,
           isDisabled: !state.canLogin,
           onPressed: () async {
             final isSuccess = await notifier.submit();
@@ -48,7 +50,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
             if (isSuccess) {
               DefaultToast.show(context, 'onboarding.login.toast.success');
-              context.go(AppRoute.home.path);
+              final destination = resolveOnboardingDestination(
+                ref.read(loginPageProvider).profileStatus ??
+                    LoginProfileStatus.signupCompleted,
+              );
+              context.goNamed(destination.name);
               return;
             }
 
@@ -63,21 +69,17 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       child: Column(
         crossAxisAlignment: .start,
         children: [
-          // ! 로그인 안내
-          Container(
-            padding: .symmetric(horizontal: AppPadding.scaffold),
-            margin: .only(top: AppPadding.vertical, bottom: AppPadding.card),
-            child: Column(
-              crossAxisAlignment: .start,
-              children: [
-                DefaultInstruction('onboarding.login.title'),
-                DefaultText(
-                  'onboarding.login.instruction',
-                  style: typography.bodySub,
-                  policy: .cappedMedium,
-                ),
-              ],
+          DefaultPageHeader(
+            title: 'onboarding.login.title',
+            subtitle: 'onboarding.login.instruction',
+            padding: .only(
+              top: AppPadding.vertical,
+              bottom: AppPadding.card,
+              left: AppPadding.scaffold,
+              right: AppPadding.scaffold,
             ),
+            subtitleStyle: typography.bodySub,
+            subtitlePolicy: TextScalePolicy.cappedMedium,
           ),
 
           // ! 로그인 정보 입력
@@ -87,7 +89,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               horizontal: AppPadding.scaffold,
             ),
             child: Column(
-              spacing: AppSpacing.xs,
+              spacing: AppSpacing.s12,
               children: [
                 // ! 전화번호 입력
                 PhoneInputField(

@@ -1,13 +1,13 @@
 import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shared_preferences_platform_interface/in_memory_shared_preferences_async.dart';
 import 'package:shared_preferences_platform_interface/shared_preferences_async_platform_interface.dart';
-import 'package:wingle/app/config/app_localization_wrapper.dart';
 import 'package:wingle/app/app.dart';
+import 'package:wingle/app/config/app_localization_wrapper.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

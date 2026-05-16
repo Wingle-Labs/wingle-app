@@ -44,8 +44,8 @@ void main() {
   group('FileRepositoryImpl', () {
     test('프로필 이미지 presigned url을 발급한다', () async {
       final client = MockClient((request) async {
-        expect(request.method, 'POST');
-        expect(request.url.path, '/api/v1/files/presigned/profile');
+        expect(request.method, 'GET');
+        expect(request.url.path, '/api/v1/files/presigned/style');
         expect(request.url.queryParameters['contentType'], 'image/png');
         return http.Response(
           jsonEncode({
@@ -71,8 +71,8 @@ void main() {
 
     test('프로필 이미지 presigned url 기본 contentType을 사용한다', () async {
       final client = MockClient((request) async {
-        expect(request.method, 'POST');
-        expect(request.url.path, '/api/v1/files/presigned/profile');
+        expect(request.method, 'GET');
+        expect(request.url.path, '/api/v1/files/presigned/style');
         expect(
           request.url.queryParameters['contentType'],
           FileUploadConstants.defaultProfileImageContentType,
@@ -96,165 +96,64 @@ void main() {
       );
     });
 
-    test('업로드 url을 발급한다', () async {
-      late Map<String, dynamic> body;
-
+    test('presigned url 응답에 URL 또는 s3Key가 없으면 실패한다', () async {
       final client = MockClient((request) async {
-        expect(request.method, 'POST');
-        expect(request.url.path, '/api/v1/files/uploads/presign');
-        body = jsonDecode(request.body) as Map<String, dynamic>;
         return http.Response(
-          jsonEncode({
-            'uploadId': 'up_01',
-            'method': 'PUT',
-            'uploadUrl': 'https://mock-upload.example.com/up_01',
-            'headers': {'Content-Type': 'image/jpeg'},
-            'key': 'users/1/profile/original/profile.jpg',
-            'expiresAt': '2026-02-02T10:20:00+09:00',
-          }),
+          jsonEncode({'presignedUrl': '', 's3Key': ''}),
           200,
         );
       });
 
       final repository = FileRepositoryImpl(client: client, baseUrl: baseUrl);
 
-      final result = await repository.createUploadPresign(
-        fileName: 'profile.jpg',
-        contentType: 'image/jpeg',
-        size: 345678,
-        purpose: 'PROFILE_IMAGE',
-        checksum: 'checksum-123',
+      expect(() => repository.createStyleImagePresignedUrl(), throwsException);
+    });
+
+    test('Swagger에 없는 업로드 url 발급은 호출하지 않는다', () async {
+      final client = MockClient((_) async => http.Response('', 500));
+      final repository = FileRepositoryImpl(client: client, baseUrl: baseUrl);
+
+      expect(
+        () => repository.createUploadPresign(
+          fileName: 'profile.jpg',
+          contentType: 'image/jpeg',
+          size: 345678,
+          purpose: 'PROFILE_IMAGE',
+        ),
+        throwsUnsupportedError,
       );
-
-      expect(body, {
-        'fileName': 'profile.jpg',
-        'contentType': 'image/jpeg',
-        'size': 345678,
-        'purpose': 'PROFILE_IMAGE',
-        'checksum': 'checksum-123',
-      });
-      expect(result.uploadId, 'up_01');
-      expect(result.method, 'PUT');
-      expect(result.headers, {'Content-Type': 'image/jpeg'});
     });
 
-    test('업로드 완료를 통지한다', () async {
-      late Map<String, dynamic> body;
-
-      final client = MockClient((request) async {
-        expect(request.method, 'POST');
-        expect(request.url.path, '/api/v1/files/uploads/complete');
-        body = jsonDecode(request.body) as Map<String, dynamic>;
-        return http.Response(
-          jsonEncode({
-            'fileId': 'file_01',
-            'status': 'UPLOADED',
-            'key': 'users/1/profile/original/profile.jpg',
-            'createdAt': '2026-02-02T09:50:12+09:00',
-          }),
-          200,
-        );
-      });
-
+    test('Swagger에 없는 업로드 완료 통지는 호출하지 않는다', () async {
+      final client = MockClient((_) async => http.Response('', 500));
       final repository = FileRepositoryImpl(client: client, baseUrl: baseUrl);
 
-      final result = await repository.completeUpload(
-        uploadId: 'up_01',
-        key: 'users/1/profile/original/profile.jpg',
-        etag: '"etag"',
-        size: 345678,
-        contentType: 'image/jpeg',
+      expect(
+        () => repository.completeUpload(
+          uploadId: 'up_01',
+          key: 'users/1/profile/original/profile.jpg',
+          etag: '"etag"',
+          size: 345678,
+        ),
+        throwsUnsupportedError,
       );
-
-      expect(body, {
-        'uploadId': 'up_01',
-        'key': 'users/1/profile/original/profile.jpg',
-        'etag': '"etag"',
-        'size': 345678,
-        'contentType': 'image/jpeg',
-      });
-      expect(result.fileId, 'file_01');
-      expect(result.status, 'UPLOADED');
     });
 
-    test('이미지 조회용 presigned url을 발급한다', () async {
-      final client = MockClient((request) async {
-        expect(request.method, 'GET');
-        expect(request.url.path, '/api/v1/files/file_01/presigned-url');
-        expect(request.url.queryParameters['expiresIn'], '120');
-        return http.Response(
-          jsonEncode({
-            'fileId': 'file_01',
-            'url': 'https://mock-download.example.com/file_01',
-            'expiresAt': '2026-02-02T09:55:00+09:00',
-            'contentType': 'image/jpeg',
-            'size': 345678,
-          }),
-          200,
-        );
-      });
-
+    test('Swagger에 없는 이미지 조회용 presigned url은 호출하지 않는다', () async {
+      final client = MockClient((_) async => http.Response('', 500));
       final repository = FileRepositoryImpl(client: client, baseUrl: baseUrl);
 
-      final result = await repository.createPresignedUrl(
-        fileId: 'file_01',
-        expiresIn: 120,
+      expect(
+        () => repository.createPresignedUrl(fileId: 'file_01', expiresIn: 120),
+        throwsUnsupportedError,
       );
-
-      expect(result.fileId, 'file_01');
-      expect(result.url, 'https://mock-download.example.com/file_01');
-      expect(result.size, 345678);
     });
 
-    test('이미지 조회용 presigned url 기본 만료 시간을 사용한다', () async {
-      final client = MockClient((request) async {
-        expect(request.method, 'GET');
-        expect(request.url.path, '/api/v1/files/file_01/presigned-url');
-        expect(
-          request.url.queryParameters['expiresIn'],
-          FileUploadConstants.defaultPresignedUrlExpiresInSeconds.toString(),
-        );
-        return http.Response(
-          jsonEncode({
-            'fileId': 'file_01',
-            'url': 'https://mock-download.example.com/file_01',
-            'expiresAt': '2026-02-02T09:55:00+09:00',
-            'contentType': 'image/jpeg',
-            'size': 345678,
-          }),
-          200,
-        );
-      });
-
+    test('Swagger에 없는 파일 삭제는 호출하지 않는다', () async {
+      final client = MockClient((_) async => http.Response('', 500));
       final repository = FileRepositoryImpl(client: client, baseUrl: baseUrl);
 
-      final result = await repository.createPresignedUrl(fileId: 'file_01');
-
-      expect(result.fileId, 'file_01');
-      expect(result.url, 'https://mock-download.example.com/file_01');
-    });
-
-    test('파일을 삭제한다', () async {
-      final client = MockClient((request) async {
-        expect(request.method, 'DELETE');
-        expect(request.url.path, '/api/v1/files/file_01');
-        return http.Response(
-          jsonEncode({
-            'fileId': 'file_01',
-            'status': 'SOFT_DELETED',
-            'deletedAt': '2026-02-02T10:05:12+09:00',
-          }),
-          200,
-        );
-      });
-
-      final repository = FileRepositoryImpl(client: client, baseUrl: baseUrl);
-
-      final result = await repository.deleteFile('file_01');
-
-      expect(result.fileId, 'file_01');
-      expect(result.status, 'SOFT_DELETED');
-      expect(result.deletedAt, '2026-02-02T10:05:12+09:00');
+      expect(() => repository.deleteFile('file_01'), throwsUnsupportedError);
     });
   });
 }

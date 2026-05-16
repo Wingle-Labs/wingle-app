@@ -8,6 +8,7 @@ import 'package:http/testing.dart';
 import 'package:wingle/common/constants/hive_constants.dart';
 import 'package:wingle/common/utils/hive_util.dart';
 import 'package:wingle/features/onboarding/data/file_repository_impl.dart';
+import 'package:wingle/features/onboarding/data/mock/mock_profile_repository.dart';
 import 'package:wingle/features/onboarding/data/profile_repository_impl.dart';
 import 'package:wingle/features/onboarding/data/question_repository_impl.dart';
 import 'package:wingle/features/onboarding/data/signup_repository_impl.dart';
@@ -60,9 +61,9 @@ void main() {
     final client = MockClient((request) async {
       expect(request.headers['Authorization'], 'Bearer test-access-token');
       expect(request.method, 'GET');
-      expect(request.url.path, '/api/v1/signup/nickname/random');
+      expect(request.url.path, '/api/v1/auth/signup/nickname/random');
       return http.Response.bytes(
-        utf8.encode('{"nickname":"달콤한 사탕 멜론"}'),
+        utf8.encode('{"nickname":"${MockProfileRepository.mockNickname}"}'),
         200,
         headers: {'content-type': 'application/json; charset=utf-8'},
       );
@@ -72,7 +73,7 @@ void main() {
 
     final nickname = await repository.fetchRandomNickname();
 
-    expect(nickname, '달콤한 사탕 멜론');
+    expect(nickname, MockProfileRepository.mockNickname);
   });
 
   test('ProfileRepositoryImpl은 인증 헤더를 붙여 기본 프로필을 등록한다', () async {
@@ -81,7 +82,7 @@ void main() {
     final client = MockClient((request) async {
       expect(request.headers['Authorization'], 'Bearer test-access-token');
       expect(request.method, 'POST');
-      expect(request.url.path, '/api/v1/signup/profile');
+      expect(request.url.path, '/api/v1/auth/signup/profile');
       body = jsonDecode(request.body) as Map<String, dynamic>;
       return http.Response('', 200);
     });
@@ -89,7 +90,7 @@ void main() {
     final repository = ProfileRepositoryImpl(client: client, baseUrl: baseUrl);
 
     await repository.submitBasicProfile(
-      nickname: '달콤한 사탕 멜론',
+      nickname: MockProfileRepository.mockNickname,
       residence: const ResidenceCode(
         level1: '370',
         level2: '37080',
@@ -100,10 +101,10 @@ void main() {
     );
 
     expect(body, {
-      'nickname': '달콤한 사탕 멜론',
-      'residence': {'level1': '370', 'level2': '37080', 'level3': '37080412'},
+      'nickname': MockProfileRepository.mockNickname,
+      'residenceCode': '37080412',
       'height': 170,
-      'bodyType': '보통',
+      'bodyTypeCode': '보통',
     });
   });
 
@@ -111,23 +112,23 @@ void main() {
     final client = MockClient((request) async {
       expect(request.headers['Authorization'], 'Bearer test-access-token');
       expect(request.method, 'GET');
-      expect(request.url.path, '/api/v1/questions');
-      expect(request.url.queryParameters['type'], 'OBJECTIVE');
+      expect(request.url.path, '/api/v1/choice-questions/snapshot');
       return http.Response.bytes(
         utf8.encode(
           jsonEncode({
-            'questions': [
-              {
-                'id': '1',
-                'type': 'OBJECTIVE',
-                'category': 'love',
-                'content': '여름 vs 겨울',
-                'options': [
-                  {'id': 1, 'order': 1, 'content': '여름'},
-                  {'id': 2, 'order': 2, 'content': '겨울'},
-                ],
-              },
-            ],
+            'QC_LOVE': {
+              'version': 1,
+              'questions': [
+                {
+                  'id': 1,
+                  'content': '여름 vs 겨울',
+                  'options': [
+                    {'id': 1, 'content': '여름'},
+                    {'id': 2, 'content': '겨울'},
+                  ],
+                },
+              ],
+            },
           }),
         ),
         200,
@@ -151,7 +152,7 @@ void main() {
     final client = MockClient((request) async {
       expect(request.headers['Authorization'], 'Bearer test-access-token');
       expect(request.method, 'POST');
-      expect(request.url.path, '/api/v1/users/objective_questions/answer');
+      expect(request.url.path, '/api/v1/choice-questions/answers');
       body = jsonDecode(request.body) as Map<String, dynamic>;
       return http.Response('', 200);
     });
@@ -179,20 +180,12 @@ void main() {
     );
 
     expect(body, {
-      'datingAnswers': [
-        {'questionId': 1, 'selectedOptionId': 2},
-      ],
-      'lifeStyleAnswers': [
-        {'questionId': 5, 'selectedOptionId': 3},
-      ],
-      'careerFinanceAnswers': [
-        {'questionId': 11, 'selectedOptionId': 4},
-      ],
-      'personalityAnswers': [
-        {'questionId': 17, 'selectedOptionId': 2},
-      ],
-      'familyAnswers': [
-        {'questionId': 23, 'selectedOptionId': 5},
+      'answers': [
+        {'questionId': 1, 'optionId': 2},
+        {'questionId': 5, 'optionId': 3},
+        {'questionId': 11, 'optionId': 4},
+        {'questionId': 17, 'optionId': 2},
+        {'questionId': 23, 'optionId': 5},
       ],
     });
   });
@@ -200,8 +193,8 @@ void main() {
   test('FileRepositoryImpl은 인증 헤더를 붙여 프로필 이미지 presign을 발급한다', () async {
     final client = MockClient((request) async {
       expect(request.headers['Authorization'], 'Bearer test-access-token');
-      expect(request.method, 'POST');
-      expect(request.url.path, '/api/v1/files/presigned/profile');
+      expect(request.method, 'GET');
+      expect(request.url.path, '/api/v1/files/presigned/style');
       expect(request.url.queryParameters['contentType'], 'image/png');
       return http.Response(
         jsonEncode({
@@ -221,96 +214,35 @@ void main() {
     expect(result.presignedUrl, 'https://mock-upload.example.com/profile.png');
   });
 
-  test('FileRepositoryImpl은 인증 헤더를 붙여 업로드 presign을 발급한다', () async {
-    late Map<String, dynamic> body;
-
-    final client = MockClient((request) async {
-      expect(request.headers['Authorization'], 'Bearer test-access-token');
-      expect(request.method, 'POST');
-      expect(request.url.path, '/api/v1/files/uploads/presign');
-      body = jsonDecode(request.body) as Map<String, dynamic>;
-      return http.Response(
-        jsonEncode({
-          'uploadId': 'up_01',
-          'method': 'PUT',
-          'uploadUrl': 'https://mock-upload.example.com/up_01',
-          'headers': {'Content-Type': 'image/jpeg'},
-          'key': 'users/1/profile/original/profile.jpg',
-          'expiresAt': '2026-02-02T10:20:00+09:00',
-        }),
-        200,
-      );
-    });
-
+  test('FileRepositoryImpl은 Swagger에 없는 업로드 presign을 호출하지 않는다', () async {
+    final client = MockClient((_) async => http.Response('', 500));
     final repository = FileRepositoryImpl(client: client, baseUrl: baseUrl);
 
-    final result = await repository.createUploadPresign(
-      fileName: 'profile.jpg',
-      contentType: 'image/jpeg',
-      size: 345678,
-      purpose: 'PROFILE_IMAGE',
-      checksum: 'checksum-123',
+    expect(
+      () => repository.createUploadPresign(
+        fileName: 'profile.jpg',
+        contentType: 'image/jpeg',
+        size: 345678,
+        purpose: 'PROFILE_IMAGE',
+      ),
+      throwsUnsupportedError,
     );
-
-    expect(body, {
-      'fileName': 'profile.jpg',
-      'contentType': 'image/jpeg',
-      'size': 345678,
-      'purpose': 'PROFILE_IMAGE',
-      'checksum': 'checksum-123',
-    });
-    expect(result.uploadId, 'up_01');
   });
 
-  test('FileRepositoryImpl은 인증 헤더를 붙여 조회용 presigned url을 발급한다', () async {
-    final client = MockClient((request) async {
-      expect(request.headers['Authorization'], 'Bearer test-access-token');
-      expect(request.method, 'GET');
-      expect(request.url.path, '/api/v1/files/file_01/presigned-url');
-      expect(request.url.queryParameters['expiresIn'], '120');
-      return http.Response(
-        jsonEncode({
-          'fileId': 'file_01',
-          'url': 'https://mock-download.example.com/file_01',
-          'expiresAt': '2026-02-02T09:55:00+09:00',
-          'contentType': 'image/jpeg',
-          'size': 345678,
-        }),
-        200,
-      );
-    });
-
+  test('FileRepositoryImpl은 Swagger에 없는 조회용 presigned url을 호출하지 않는다', () async {
+    final client = MockClient((_) async => http.Response('', 500));
     final repository = FileRepositoryImpl(client: client, baseUrl: baseUrl);
 
-    final result = await repository.createPresignedUrl(
-      fileId: 'file_01',
-      expiresIn: 120,
+    expect(
+      () => repository.createPresignedUrl(fileId: 'file_01', expiresIn: 120),
+      throwsUnsupportedError,
     );
-
-    expect(result.fileId, 'file_01');
-    expect(result.url, 'https://mock-download.example.com/file_01');
   });
 
-  test('FileRepositoryImpl은 인증 헤더를 붙여 파일을 삭제한다', () async {
-    final client = MockClient((request) async {
-      expect(request.headers['Authorization'], 'Bearer test-access-token');
-      expect(request.method, 'DELETE');
-      expect(request.url.path, '/api/v1/files/file_01');
-      return http.Response(
-        jsonEncode({
-          'fileId': 'file_01',
-          'status': 'SOFT_DELETED',
-          'deletedAt': '2026-02-02T10:05:12+09:00',
-        }),
-        200,
-      );
-    });
-
+  test('FileRepositoryImpl은 Swagger에 없는 파일 삭제를 호출하지 않는다', () async {
+    final client = MockClient((_) async => http.Response('', 500));
     final repository = FileRepositoryImpl(client: client, baseUrl: baseUrl);
 
-    final result = await repository.deleteFile('file_01');
-
-    expect(result.fileId, 'file_01');
-    expect(result.status, 'SOFT_DELETED');
+    expect(() => repository.deleteFile('file_01'), throwsUnsupportedError);
   });
 }

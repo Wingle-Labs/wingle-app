@@ -12,6 +12,36 @@ class AppPadding {
   /// 버튼 내부 가로 패딩
   static const double btnHorizontal = 20;
 
+  /// 기본 버튼 내부 세로 패딩
+  static const double buttonVertical = 10;
+
+  /// 기본 버튼 내부 가로 패딩
+  static const double buttonHorizontal = 24;
+
+  /// 중간 버튼 내부 가로 패딩
+  static const double buttonMediumHorizontal = 16;
+
+  /// 작은 버튼 내부 세로 패딩
+  static const double buttonSmallVertical = 8;
+
+  /// 작은 버튼 내부 가로 패딩
+  static const double buttonSmallHorizontal = 14;
+
+  /// Chip 형태 버튼 내부 가로 패딩
+  static const double buttonChipHorizontal = 12;
+
+  /// Chip 버튼 내부 세로 패딩
+  static const double chipButtonVertical = 6;
+
+  /// Chip 버튼 내부 가로 패딩
+  static const double chipButtonHorizontal = 14;
+
+  /// Full Width Button 내부 세로 패딩
+  static const double fullWidthButtonVertical = 11;
+
+  /// Full Width Button 내부 가로 패딩
+  static const double fullWidthButtonHorizontal = 20;
+
   /// Scaffold 내부 패딩
   static const double scaffold = 24;
 
@@ -20,6 +50,9 @@ class AppPadding {
 
   /// TextField 내부 패딩
   static const double textfield = 16;
+
+  /// TextField 내부 세로 패딩
+  static const double textfieldVertical = 12;
 
   /// TextField와 suffix 간의 패딩
   static const double textfieldSuffix = 12;
@@ -53,4 +86,46 @@ class AppPadding {
 
   /// 작은 패딩
   static const double xxs = 4;
+
+  /// 페이지 헤더 외부 패딩
+  static const double pageHeaderExternal = 20;
+
+  /// 카드 가로 패딩
+  static const double cardHorizontal = 14;
+
+  /// 액션 버튼 마진
+  static const double actionMargin = 4;
+
+  /// Snackbar 내부 세로 패딩
+  static const double snackbarVertical = 14;
+
+  /// Snackbar 내부 가로 패딩
+  static const double snackbarHorizontal = 16;
+
+  /// Snackbar 액션 버튼 세로 패딩
+  static const double snackbarActionVertical = 9;
+
+  /// Snackbar 액션 버튼 가로 패딩
+  static const double snackbarActionHorizontal = 12;
+
+  /// 토글 스위치 내부 패딩
+  static const double toggleSwitchPadding = 2;
+
+  /// 배지 작은 내부 패딩
+  static const double badgeSmVertical = 4;
+
+  /// 배지 작은 내부 패딩
+  static const double badgeSmHorizontal = 6;
+
+  /// 배지 중간 내부 패딩
+  static const double badgeMdVertical = 6;
+
+  /// 배지 중간 내부 패딩
+  static const double badgeMdHorizontal = 8;
+
+  /// 배지 큰 내부 패딩
+  static const double badgeLgVertical = 8;
+
+  /// 배지 큰 내부 패딩
+  static const double badgeLgHorizontal = 10;
 }

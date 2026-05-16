@@ -22,21 +22,35 @@ class QuestionRepositoryImpl implements QuestionRepository {
 
   @override
   Future<List<QuestionDto>> fetchQuestions({required QuestionType type}) async {
-    final response = await _client.get(
-      Uri.parse('$_baseUrl${ApiEndpoints.questions(type.apiValue)}'),
-      headers: ApiRequestHeaders.auth(),
-    );
+    final uri = switch (type) {
+      QuestionType.objective =>
+        Uri.parse('$_baseUrl${ApiEndpoints.choiceQuestionsSnapshot}').replace(
+          queryParameters: {
+            'categories': [
+              'QC_LOVE',
+              'QC_LIFE',
+              'QC_CAREER',
+              'QC_PERSONALITY',
+              'QC_FAMILY',
+            ],
+          },
+        ),
+      QuestionType.subjective => Uri.parse(
+        '$_baseUrl${ApiEndpoints.essayQuestionsSnapshot}',
+      ),
+    };
+
+    final response = await _client.get(uri, headers: ApiRequestHeaders.auth());
 
     if (!_isSuccess(response)) {
       throw Exception(ApiErrorMessages.fetchQuestionsFailed);
     }
 
     final decoded = jsonDecode(response.body) as Map<String, dynamic>;
-    final rawQuestions = decoded['questions'] as List<dynamic>? ?? <dynamic>[];
-
-    return rawQuestions
-        .map((e) => QuestionDto.fromJson(e as Map<String, dynamic>))
-        .toList();
+    return switch (type) {
+      QuestionType.objective => _parseObjectiveQuestions(decoded),
+      QuestionType.subjective => _parseSubjectiveQuestions(decoded),
+    };
   }
 
   @override
@@ -44,7 +58,7 @@ class QuestionRepositoryImpl implements QuestionRepository {
     required ObjectiveQuestionAnswers answers,
   }) async {
     final response = await _client.post(
-      Uri.parse('$_baseUrl${ApiEndpoints.objectiveQuestionAnswers}'),
+      Uri.parse('$_baseUrl${ApiEndpoints.choiceQuestionAnswers}'),
       headers: ApiRequestHeaders.json(includeAuth: true),
       body: jsonEncode(answers.toJson()),
     );
@@ -59,7 +73,7 @@ class QuestionRepositoryImpl implements QuestionRepository {
     required List<SubjectiveQuestionAnswer> answers,
   }) async {
     final response = await _client.post(
-      Uri.parse('$_baseUrl${ApiEndpoints.subjectiveQuestionAnswers}'),
+      Uri.parse('$_baseUrl${ApiEndpoints.essayQuestionAnswers}'),
       headers: ApiRequestHeaders.json(includeAuth: true),
       body: jsonEncode({'answers': answers.map((e) => e.toJson()).toList()}),
     );
@@ -71,5 +85,45 @@ class QuestionRepositoryImpl implements QuestionRepository {
 
   bool _isSuccess(http.Response response) {
     return response.statusCode >= 200 && response.statusCode < 300;
+  }
+
+  List<QuestionDto> _parseObjectiveQuestions(Map<String, dynamic> decoded) {
+    final snapshots = decoded.values.whereType<Map<String, dynamic>>();
+    return snapshots.expand((snapshot) {
+      final rawQuestions =
+          snapshot['questions'] as List<dynamic>? ?? <dynamic>[];
+      return rawQuestions.map((e) {
+        final json = e as Map<String, dynamic>;
+        final rawOptions = json['options'] as List<dynamic>? ?? <dynamic>[];
+        return QuestionDto(
+          id: json['id']?.toString() ?? '',
+          type: QuestionType.objective,
+          category: null,
+          content: json['content']?.toString() ?? '',
+          options: rawOptions.asMap().entries.map((entry) {
+            final option = entry.value as Map<String, dynamic>;
+            return QuestionOptionDto(
+              id: (option['id'] as num?)?.toInt() ?? 0,
+              order: entry.key + 1,
+              content: option['content']?.toString() ?? '',
+            );
+          }).toList(),
+        );
+      });
+    }).toList();
+  }
+
+  List<QuestionDto> _parseSubjectiveQuestions(Map<String, dynamic> decoded) {
+    final rawQuestions = decoded['questions'] as List<dynamic>? ?? <dynamic>[];
+    return rawQuestions.map((e) {
+      final json = e as Map<String, dynamic>;
+      return QuestionDto(
+        id: json['id']?.toString() ?? '',
+        type: QuestionType.subjective,
+        category: null,
+        content: json['content']?.toString() ?? '',
+        options: null,
+      );
+    }).toList();
   }
 }

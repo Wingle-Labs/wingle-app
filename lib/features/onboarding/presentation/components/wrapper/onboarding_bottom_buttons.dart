@@ -30,7 +30,7 @@ class OnboardingBottomButtons extends ConsumerWidget {
         ? Column(
             children: [
               SizedBox(height: AppContainerSize.buttonMinimun),
-              SizedBox(height: AppSpacing.xxs),
+              SizedBox(height: AppSpacing.s8),
               SizedBox(
                 // height: AppContainerSize.xl,
                 width: double.infinity,
@@ -39,6 +39,7 @@ class OnboardingBottomButtons extends ConsumerWidget {
                   onPressed: () {
                     ref.read(onboardingCarouselProvider.notifier).next();
                   },
+                  variant: .fullWidth,
                 ),
               ),
             ],
@@ -46,7 +47,7 @@ class OnboardingBottomButtons extends ConsumerWidget {
         : Column(
             children: [
               PhoneLoginButton(),
-              SizedBox(height: AppSpacing.xxs),
+              SizedBox(height: AppSpacing.s8),
               SignupButton(),
             ],
           );

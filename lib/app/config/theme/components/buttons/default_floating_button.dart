@@ -44,7 +44,6 @@ class DefaultFloatingButton extends ConsumerWidget {
         onPressed: disabled == true || isLoading == true ? null : onPressed,
         shape: RoundedRectangleBorder(borderRadius: AppRadius.iosStyleRadius),
         label: LoadingTextButton(label: label, isLoading: isLoading),
-        autofocus: true,
         enableFeedback: true,
       ),
     );

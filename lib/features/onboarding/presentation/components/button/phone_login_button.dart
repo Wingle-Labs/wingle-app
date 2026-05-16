@@ -14,6 +14,7 @@ class PhoneLoginButton extends ConsumerWidget {
     return DefaultTextButton(
       onPressed: () => context.pushNamed(OnboardingRoutes.login.name),
       label: 'onboarding.button.login',
+      variant: .fullWidth,
     );
   }
 }

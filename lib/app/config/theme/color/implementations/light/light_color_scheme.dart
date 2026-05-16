@@ -280,6 +280,22 @@ class LightColorScheme implements AppColorScheme {
   Color get componentSecondaryFilledButtonDisabled =>
       AppColorPalette.neutral8.color;
 
+  // ! Component-Tertiary-FilledButton: TODO
+  /// - [componentTertiaryFilledButtonEnabled]: TODO
+  @override
+  Color get componentTertiaryFilledButtonEnabled =>
+      AppColorPalette.gray30.color;
+
+  /// - [componentTertiaryFilledButtonInactive]: TODO
+  @override
+  Color get componentTertiaryFilledButtonInactive =>
+      AppColorPalette.gray20.color;
+
+  /// - [componentTertiaryFilledButtonDisabled]: TODO
+  @override
+  Color get componentTertiaryFilledButtonDisabled =>
+      AppColorPalette.neutral10.color;
+
   // ! Component-Primary-OutlinedButton: TODO
   /// - [componentPrimaryOutlinedButtonEnabled]: TODO
   @override
@@ -386,4 +402,118 @@ class LightColorScheme implements AppColorScheme {
   /// - [componentInfoCardBackground]: TODO
   @override
   Color get componentInfoCardBackground => AppColorPalette.gray10.color;
+
+  // ! Component-Badge: 텍스트 배지에 사용합니다.
+  /// - [componentBadgePrimaryBackground]: badge primary 배경에 사용합니다.
+  @override
+  Color get componentBadgePrimaryBackground => AppColorPalette.brown50.color;
+
+  /// - [componentBadgePrimaryForeground]: badge primary 텍스트에 사용합니다.
+  @override
+  Color get componentBadgePrimaryForeground => AppColorPalette.common0.color;
+
+  /// - [componentBadgeSecondaryBackground]: badge secondary 배경에 사용합니다.
+  @override
+  Color get componentBadgeSecondaryBackground =>
+      AppColorPalette.asheBrown30.color;
+
+  /// - [componentBadgeSecondaryForeground]: badge secondary 텍스트에 사용합니다.
+  @override
+  Color get componentBadgeSecondaryForeground => AppColorPalette.brown50.color;
+
+  /// - [componentBadgeTertiaryBackground]: badge tertiary 배경에 사용합니다.
+  @override
+  Color get componentBadgeTertiaryBackground => AppColorPalette.green5.color;
+
+  /// - [componentBadgeTertiaryForeground]: badge tertiary 텍스트에 사용합니다.
+  @override
+  Color get componentBadgeTertiaryForeground => AppColorPalette.green50.color;
+
+  /// - [componentBadgeGrayBackground]: badge gray 배경에 사용합니다.
+  @override
+  Color get componentBadgeGrayBackground => AppColorPalette.neutral10.color;
+
+  /// - [componentBadgeGrayForeground]: badge gray 텍스트에 사용합니다.
+  @override
+  Color get componentBadgeGrayForeground => AppColorPalette.neutral30.color;
+
+  /// - [componentChipButtonPrimarySelectedBackground]: chip button primary selected 배경에 사용합니다.
+  @override
+  Color get componentChipButtonPrimarySelectedBackground =>
+      AppColorPalette.brown50.color;
+
+  /// - [componentChipButtonPrimarySelectedForeground]: chip button primary selected 텍스트에 사용합니다.
+  @override
+  Color get componentChipButtonPrimarySelectedForeground =>
+      AppColorPalette.common0.color;
+
+  /// - [componentChipButtonPrimaryUnselectedBackground]: chip button primary unselected 배경에 사용합니다.
+  @override
+  Color get componentChipButtonPrimaryUnselectedBackground =>
+      AppColorPalette.common0.color;
+
+  /// - [componentChipButtonPrimaryUnselectedForeground]: chip button primary unselected 텍스트에 사용합니다.
+  @override
+  Color get componentChipButtonPrimaryUnselectedForeground =>
+      AppColorPalette.brown50.color;
+
+  /// - [componentChipButtonPrimaryUnselectedBorder]: chip button primary unselected 테두리에 사용합니다.
+  @override
+  Color get componentChipButtonPrimaryUnselectedBorder =>
+      AppColorPalette.brown50.color;
+
+  /// - [componentChipButtonPrimaryDisabledBackground]: chip button primary disabled 배경에 사용합니다.
+  @override
+  Color get componentChipButtonPrimaryDisabledBackground =>
+      AppColorPalette.neutral10.color;
+
+  /// - [componentChipButtonPrimaryDisabledForeground]: chip button primary disabled 텍스트에 사용합니다.
+  @override
+  Color get componentChipButtonPrimaryDisabledForeground =>
+      AppColorPalette.neutral20.color;
+
+  /// - [componentChipButtonSecondaryDefaultBackground]: chip button secondary default 배경에 사용합니다.
+  @override
+  Color get componentChipButtonSecondaryDefaultBackground =>
+      AppColorPalette.neutral4.color;
+
+  /// - [componentChipButtonSecondaryDefaultForeground]: chip button secondary default 텍스트에 사용합니다.
+  @override
+  Color get componentChipButtonSecondaryDefaultForeground =>
+      AppColorPalette.neutral90.color;
+
+  /// - [componentChipButtonSecondarySelectedBackground]: chip button secondary selected 배경에 사용합니다.
+  @override
+  Color get componentChipButtonSecondarySelectedBackground =>
+      AppColorPalette.asheBrown30.color;
+
+  /// - [componentChipButtonSecondarySelectedForeground]: chip button secondary selected 텍스트에 사용합니다.
+  @override
+  Color get componentChipButtonSecondarySelectedForeground =>
+      AppColorPalette.asheBrown90.color;
+
+  /// - [componentChipButtonSecondaryUnselectedBackground]: chip button secondary unselected 배경에 사용합니다.
+  @override
+  Color get componentChipButtonSecondaryUnselectedBackground =>
+      AppColorPalette.common0.color;
+
+  /// - [componentChipButtonSecondaryUnselectedForeground]: chip button secondary unselected 텍스트에 사용합니다.
+  @override
+  Color get componentChipButtonSecondaryUnselectedForeground =>
+      AppColorPalette.neutral40.color;
+
+  /// - [componentChipButtonSecondaryUnselectedBorder]: chip button secondary unselected 테두리에 사용합니다.
+  @override
+  Color get componentChipButtonSecondaryUnselectedBorder =>
+      AppColorPalette.gray30.color;
+
+  /// - [componentChipButtonSecondaryDisabledBackground]: chip button secondary disabled 배경에 사용합니다.
+  @override
+  Color get componentChipButtonSecondaryDisabledBackground =>
+      AppColorPalette.neutral8.color;
+
+  /// - [componentChipButtonSecondaryDisabledForeground]: chip button secondary disabled 텍스트에 사용합니다.
+  @override
+  Color get componentChipButtonSecondaryDisabledForeground =>
+      AppColorPalette.neutral20.color;
 }

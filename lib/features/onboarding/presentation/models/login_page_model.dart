@@ -1,3 +1,4 @@
+import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 import 'package:wingle/features/auth/domain/models/password.dart';
 import 'package:wingle/features/auth/domain/models/phone_number.dart';
 
@@ -20,6 +21,9 @@ class LoginPageModel {
   /// 에러 메시지
   final String? errorMessage;
 
+  /// 로그인 시 프로필 진행 상태
+  final LoginProfileStatus? profileStatus;
+
   /// 생성자
   const LoginPageModel({
     this.phone = '',
@@ -27,6 +31,7 @@ class LoginPageModel {
     this.isPasswordVisible = false,
     this.isLoading = false,
     this.errorMessage,
+    this.profileStatus,
   });
 
   /// 전화번호 값 객체
@@ -63,6 +68,7 @@ class LoginPageModel {
     String? password,
     bool? isPasswordVisible,
     bool? isLoading,
+    Object? profileStatus = _unset,
     Object? errorMessage = _unset,
   }) {
     return LoginPageModel(
@@ -70,6 +76,9 @@ class LoginPageModel {
       password: password ?? this.password,
       isPasswordVisible: isPasswordVisible ?? this.isPasswordVisible,
       isLoading: isLoading ?? this.isLoading,
+      profileStatus: identical(profileStatus, _unset)
+          ? this.profileStatus
+          : profileStatus as LoginProfileStatus?,
       errorMessage: identical(errorMessage, _unset)
           ? this.errorMessage
           : errorMessage as String?,

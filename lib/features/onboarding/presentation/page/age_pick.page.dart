@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_floating_button.dart';
 import 'package:wingle/app/config/theme/components/cards/default_card.dart';
 import 'package:wingle/app/config/theme/components/pickers/date_picker.dart';
-import 'package:wingle/app/config/theme/components/texts/default_intruction.dart';
+import 'package:wingle/app/config/theme/components/texts/default_page_header.dart';
 import 'package:wingle/app/config/theme/components/wrappers/scrollable_scaffold.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
@@ -24,7 +24,7 @@ class _AgePickPageState extends ConsumerState<AgePickPage> {
     return ScrollableScaffold(
       title: 'onboarding.age.title',
       body: <Widget>[
-        DefaultInstruction('onboarding.age.instruction'),
+        const DefaultPageHeader(title: 'onboarding.age.instruction'),
         DefaultCard(
           child: Column(
             children: [
@@ -34,7 +34,7 @@ class _AgePickPageState extends ConsumerState<AgePickPage> {
                 minimumDate: .now().subtract(const Duration(days: 365 * 100)),
                 onDateTimeChanged: (date) {},
               ),
-              Padding(padding: .only(bottom: AppSpacing.lg)),
+              Padding(padding: .only(bottom: AppSpacing.s32)),
               Column(
                 mainAxisAlignment: .center,
                 children: [
@@ -44,7 +44,7 @@ class _AgePickPageState extends ConsumerState<AgePickPage> {
                   //   text: 'onboarding.age.checkbox.adult',
                   //   isTranslated: true,
                   // ),
-                  // Padding(padding: .only(bottom: AppSpacing.md)),
+                  // Padding(padding: .only(bottom: AppSpacing.s24)),
                   // AgreementGroup(
                   //   value: false,
                   //   onChanged: (value) {},

@@ -13,6 +13,69 @@ abstract final class OnboardingRoutes {
   static const signup = RouteNode(parent: root, name: 'signup');
 
   // ! 로그인 하위 루트
+  /// 기본 프로필 정보 등록
+  static const basicProfile = RouteNode(parent: login, name: 'basic-profile');
+
+  /// 거주지 입력
+  static const basicProfileResidence = RouteNode(
+    parent: login,
+    name: 'basic-profile-residence',
+  );
+
+  /// 키 입력
+  static const basicProfileHeight = RouteNode(
+    parent: login,
+    name: 'basic-profile-height',
+  );
+
+  /// 체형 입력
+  static const basicProfileBodyShape = RouteNode(
+    parent: login,
+    name: 'basic-profile-body-shape',
+  );
+
+  /// 회사 입력
+  static const basicProfileCompany = RouteNode(
+    parent: login,
+    name: 'basic-profile-company',
+  );
+
+  /// 학교 입력
+  static const basicProfileEducation = RouteNode(
+    parent: login,
+    name: 'basic-profile-education',
+  );
+
+  /// 상세 프로필 및 사진 입력
+  static const profileDetails = RouteNode(
+    parent: login,
+    name: 'profile-details',
+  );
+
+  /// 프로필 심사 요청
+  static const approvalRequest = RouteNode(
+    parent: login,
+    name: 'approval-request',
+  );
+
+  /// 프로필 심사 대기
+  static const approvalPending = RouteNode(
+    parent: login,
+    name: 'approval-pending',
+  );
+
+  /// 프로필 거절 사유 및 재심사
+  static const profileRejected = RouteNode(
+    parent: login,
+    name: 'profile-rejected',
+  );
+
+  /// 객관식 질문 답변
+  static const choiceQuestions = RouteNode(
+    parent: login,
+    name: 'choice-questions',
+  );
+
   /// 비밀번호 재설정
   static const resetPassword = RouteNode(parent: login, name: 'reset-password');
 

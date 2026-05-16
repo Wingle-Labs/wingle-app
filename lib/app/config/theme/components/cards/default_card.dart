@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/components/wrappers/smooth_rect.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
+import 'package:wingle/common/extensions/context_colors.dart';
 
 /// 기본 카드 컴포넌트
 class DefaultCard extends ConsumerWidget {
@@ -17,13 +18,13 @@ class DefaultCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
+    final theme = context.colors;
     return SmoothRectWrapper(
       child: Container(
         decoration: BoxDecoration(
-          color: theme.cardColor,
+          color: theme.backgroundNormal,
           borderRadius: .circular(AppRadius.iosStyle),
-          border: .all(color: theme.dividerColor),
+          border: .all(color: theme.strokeStructuralBorder),
         ),
         padding: .all(AppPadding.card),
         height: height,

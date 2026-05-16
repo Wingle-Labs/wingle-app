@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_checkbox.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_floating_button.dart';
+import 'package:wingle/app/config/theme/components/icons/default_icon.dart';
 import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/components/texts/text_scale_wrapper.dart';
 import 'package:wingle/app/config/theme/components/wrappers/default_app_bar.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
+import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
 
@@ -62,8 +64,9 @@ class AgreementItem extends StatelessWidget {
         trailing: content != null
             ? IconButton(
                 padding: .zero,
-                icon: Icon(
-                  Icons.arrow_forward_ios,
+                icon: DefaultIcon(
+                  icon: Icons.arrow_forward_ios,
+                  size: AppIconSize.md,
                   color: isDisabled ? disabledColor : colors.textNeutral,
                 ),
                 onPressed: () {
@@ -109,16 +112,12 @@ class _AgreementDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final typography = context.typography;
     final color = context.colors;
     return Scaffold(
       backgroundColor: color.backgroundNormal,
       appBar: DefaultAppBar(
-        child: DefaultText(
-          title,
-          style: typography.title,
-          isTranslationKey: title.contains('.'),
-        ),
+        title: title,
+        isTitleTranslationKey: title.contains('.'),
       ),
       floatingActionButton: DefaultFloatingButton(
         label: 'onboarding.agreement.button.agree',

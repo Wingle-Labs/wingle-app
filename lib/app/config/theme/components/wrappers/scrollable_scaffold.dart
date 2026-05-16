@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/components/wrappers/default_app_bar.dart';
 import 'package:wingle/app/config/theme/components/wrappers/smooth_rect.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
@@ -62,17 +61,13 @@ class _ScrollableScaffoldState extends ConsumerState<ScrollableScaffold> {
         }
       },
       child: Scaffold(
-        appBar: DefaultAppBar(
-          child: widget.title != null
-              ? DefaultText(widget.title as String)
-              : SizedBox.shrink(),
-        ),
+        appBar: DefaultAppBar(title: widget.title),
         backgroundColor: colorScheme.backgroundNormal,
         body: SingleChildScrollView(
           padding: .all(AppPadding.scaffold),
           child: Column(
             crossAxisAlignment: widget.crossAxisAlignment,
-            spacing: widget.spacing ?? AppSpacing.md,
+            spacing: widget.spacing ?? AppSpacing.s24,
             children: [
               ...widget.body,
               widget.addBottomSpacing ?? true

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_floating_button.dart';
 import 'package:wingle/app/config/theme/components/cards/default_card.dart';
-import 'package:wingle/app/config/theme/components/texts/default_intruction.dart';
+import 'package:wingle/app/config/theme/components/texts/default_page_header.dart';
 import 'package:wingle/app/config/theme/components/wrappers/scrollable_scaffold.dart';
 import 'package:wingle/features/auth/presentation/components/phone_otp_textfield.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
@@ -23,7 +23,7 @@ class _PhoneOtpPageState extends ConsumerState<PhoneOtpPage> {
     return ScrollableScaffold(
       title: 'onboarding.phone.otp.title',
       body: <Widget>[
-        DefaultInstruction('onboarding.phone.otp.instruction'),
+        const DefaultPageHeader(title: 'onboarding.phone.otp.instruction'),
         DefaultCard(child: PhoneOtpTextField()),
       ],
       floatingActionButton: DefaultFloatingButton(

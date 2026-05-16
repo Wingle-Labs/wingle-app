@@ -33,19 +33,19 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
       padding: .zero,
       appBar: DefaultAppBar(
         isActionVisible: currentIndex < lastIndex,
-        actions: [
-          IntrinsicWidth(
-            child: DefaultTextButton(
-              label: 'onboarding.button.skip',
-              onPressed: () {
-                ref
-                    .read(onboardingCarouselProvider.notifier)
-                    .skipToLast(lastIndex);
-              },
-              foregroundColor: context.colors.textAlternative,
-            ),
-          ),
-        ],
+        trailing: currentIndex < lastIndex
+            ? IntrinsicWidth(
+                child: DefaultTextButton(
+                  label: 'onboarding.button.skip',
+                  onPressed: () {
+                    ref
+                        .read(onboardingCarouselProvider.notifier)
+                        .skipToLast(lastIndex);
+                  },
+                  foregroundColor: context.colors.textAlternative,
+                ),
+              )
+            : null,
       ),
       body: SafeArea(
         child: Column(

@@ -24,7 +24,7 @@ void main() {
         uuid: 'device-uuid',
         user: PortoneVerifiedCustomerDto(
           name: '김민수',
-          phoneNumber: '010-1234-5678',
+          phoneNumber: '010-9256-6504',
           operator: PassOperator.skt,
           birthDate: DateTime(2001, 1, 1),
           gender: PassGender.male,
@@ -75,7 +75,7 @@ void main() {
 
       final user = PortoneVerifiedCustomerDto(
         name: '김민수',
-        phoneNumber: '010-1234-5678',
+        phoneNumber: '010-9256-6504',
         operator: PassOperator.skt,
         birthDate: DateTime(2001, 1, 1),
         gender: PassGender.male,
@@ -94,12 +94,50 @@ void main() {
       expect(body, {
         'name': '김민수',
         'isForeigner': false,
-        'phoneNumber': '010-1234-5678',
+        'phoneNumber': '010-9256-6504',
         'CI': 'CI123',
         'gender': '남',
         'UUID': 'device-uuid',
         'age': 26,
-        'impUid': 'imp_123',
+        'birth': '2001-01-01',
+      });
+    });
+
+    test('submitIdentityVerification은 하이픈 없는 휴대폰 번호를 API 형식으로 변환한다', () async {
+      late Map<String, dynamic> body;
+
+      final client = MockClient((request) async {
+        body = jsonDecode(request.body) as Map<String, dynamic>;
+        return http.Response('', 200);
+      });
+
+      final repository = SignupRepositoryImpl(client: client, baseUrl: baseUrl);
+
+      await repository.submitIdentityVerification(
+        uuid: 'device-uuid',
+        user: PortoneVerifiedCustomerDto(
+          name: '정민호',
+          phoneNumber: '01092566504',
+          operator: PassOperator.skt,
+          birthDate: DateTime(2000, 1, 1),
+          gender: PassGender.female,
+          isForeigner: false,
+          ci: 'testdGVzdENJaGFzaFZhbHVlMTIzNDU2Nzg5M',
+          di: 'DI123',
+        ),
+        age: 25,
+        impUid: 'imp_123',
+      );
+
+      expect(body, {
+        'name': '정민호',
+        'isForeigner': false,
+        'phoneNumber': '010-9256-6504',
+        'CI': 'testdGVzdENJaGFzaFZhbHVlMTIzNDU2Nzg5M',
+        'gender': '여',
+        'UUID': 'device-uuid',
+        'age': 25,
+        'birth': '2000-01-01',
       });
     });
   });

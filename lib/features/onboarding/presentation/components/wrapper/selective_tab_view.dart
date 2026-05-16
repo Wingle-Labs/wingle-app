@@ -15,7 +15,7 @@ class SelectiveTabView extends ConsumerWidget {
     return SingleChildScrollView(
       padding: const .all(AppPadding.scaffold),
       child: Column(
-        spacing: AppSpacing.md,
+        spacing: AppSpacing.s24,
         children: [
           ...selectiveSelfIntroQuestionMocks.map(
             (question) => SelectiveCardGroup(

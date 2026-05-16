@@ -13,6 +13,9 @@ class AppTypography extends ThemeExtension<AppTypography> {
   /// Title
   final TextStyle title;
 
+  /// App Bar Subtitle
+  final TextStyle appBarSubtitle;
+
   /// Subtitle
   final TextStyle subtitle;
 
@@ -57,6 +60,7 @@ class AppTypography extends ThemeExtension<AppTypography> {
   const AppTypography({
     required this.display,
     required this.title,
+    required this.appBarSubtitle,
     required this.subtitle,
     required this.main,
     required this.mainSub,
@@ -76,6 +80,7 @@ class AppTypography extends ThemeExtension<AppTypography> {
     display: AppTypographyToken.display,
     title: AppTypographyToken.title22,
     subtitle: AppTypographyToken.subTitle20,
+    appBarSubtitle: AppTypographyToken.appBarSubtitle12,
     main: AppTypographyToken.main18,
     mainSub: AppTypographyToken.main16,
     body: AppTypographyToken.nBody16,
@@ -95,6 +100,7 @@ class AppTypography extends ThemeExtension<AppTypography> {
     TextStyle? display,
     TextStyle? title,
     TextStyle? subtitle,
+    TextStyle? appBarSubtitle,
     TextStyle? main,
     TextStyle? mainSub,
     TextStyle? body,
@@ -111,6 +117,7 @@ class AppTypography extends ThemeExtension<AppTypography> {
       display: display ?? this.display,
       title: title ?? this.title,
       subtitle: subtitle ?? this.subtitle,
+      appBarSubtitle: appBarSubtitle ?? this.appBarSubtitle,
       main: main ?? this.main,
       mainSub: mainSub ?? this.mainSub,
       body: body ?? this.body,
@@ -134,6 +141,7 @@ class AppTypography extends ThemeExtension<AppTypography> {
       display: TextStyle.lerp(display, other.display, t)!,
       title: TextStyle.lerp(title, other.title, t)!,
       subtitle: TextStyle.lerp(subtitle, other.subtitle, t)!,
+      appBarSubtitle: TextStyle.lerp(appBarSubtitle, other.appBarSubtitle, t)!,
       main: TextStyle.lerp(main, other.main, t)!,
       mainSub: TextStyle.lerp(mainSub, other.mainSub, t)!,
       body: TextStyle.lerp(body, other.body, t)!,

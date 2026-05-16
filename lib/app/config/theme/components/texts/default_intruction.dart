@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wingle/app/config/theme/components/texts/default_text.dart';
+import 'package:wingle/app/config/theme/components/texts/default_page_header.dart';
 import 'package:wingle/app/config/theme/components/texts/text_scale_policy.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
-import 'package:wingle/common/extensions/context_typography.dart';
 
 /// 기본 설명 텍스트
-class DefaultInstruction extends ConsumerWidget {
+class DefaultInstruction extends StatelessWidget {
   /// localization 키
   final String text;
 
@@ -29,16 +27,12 @@ class DefaultInstruction extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final titleStyle = context.typography.title;
-    return Padding(
+  Widget build(BuildContext context) {
+    return DefaultPageHeader(
+      title: text,
       padding: padding,
-      child: DefaultText(
-        text,
-        style: titleStyle,
-        textAlign: textAlign,
-        policy: policy,
-      ),
+      titleTextAlign: textAlign,
+      titlePolicy: policy,
     );
   }
 }

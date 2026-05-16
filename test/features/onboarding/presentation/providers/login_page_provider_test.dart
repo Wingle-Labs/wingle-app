@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:wingle/common/constants/hive_constants.dart';
 import 'package:wingle/common/utils/hive_util.dart';
+import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 import 'package:wingle/features/onboarding/presentation/providers/login_page_provider.dart';
 
 void main() {
@@ -31,12 +32,12 @@ void main() {
 
       final notifier = container.read(loginPageProvider.notifier);
 
-      notifier.phoneController.text = '010-1234-5678';
+      notifier.phoneController.text = '010-9256-6504';
       notifier.passwordController.text = 'abc123!@';
 
       final state = container.read(loginPageProvider);
 
-      expect(state.phone, '010-1234-5678');
+      expect(state.phone, '010-9256-6504');
       expect(state.password, 'abc123!@');
       expect(state.canLogin, isTrue);
     });
@@ -47,7 +48,7 @@ void main() {
 
       final notifier = container.read(loginPageProvider.notifier);
 
-      notifier.updatePhone('010-1234-5678');
+      notifier.updatePhone('010-9256-6504');
       notifier.updatePassword('abc123!@');
       notifier.togglePasswordVisibility();
 
@@ -75,15 +76,20 @@ void main() {
 
       final notifier = container.read(loginPageProvider.notifier);
 
-      notifier.updatePhone('010-1234-5678');
+      notifier.updatePhone('010-9256-6504');
       notifier.updatePassword('!abc1010');
 
       final result = await notifier.submit();
 
       expect(result, isTrue);
-      expect(HiveUtil.read(HiveLoginBox.userId), '010-1234-5678');
+      expect(HiveUtil.read(HiveLoginBox.userId), '010-9256-6504');
       expect(HiveUtil.read(HiveLoginBox.accessToken), 'mock-access-token');
       expect(HiveUtil.read(HiveLoginBox.refreshToken), 'mock-refresh-token');
+      expect(HiveUtil.read(HiveLoginBox.gender), 'male');
+      expect(
+        HiveUtil.read(HiveLoginBox.profileStatus),
+        LoginProfileStatus.signupCompleted.apiValue,
+      );
     });
 
     test('submit 실패 시 에러 메시지를 보관한다', () async {
@@ -94,7 +100,7 @@ void main() {
 
       final notifier = container.read(loginPageProvider.notifier);
 
-      notifier.updatePhone('010-1234-5678');
+      notifier.updatePhone('010-9256-6504');
       notifier.updatePassword('abc123!@');
 
       final result = await notifier.submit();

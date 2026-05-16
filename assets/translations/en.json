@@ -14,7 +14,9 @@
         "fetchTermsFailed": "약관 정보를 불러오는 데 실패했습니다.",
         "submitTermsFailed": "약관 동의 처리에 실패했습니다.",
         "loginFailed": "로그인에 실패했습니다. 잠시 후 다시 시도해주세요.",
-        "invalidLoginCredentials": "전화번호 또는 비밀번호를 확인해주세요."
+        "invalidLoginCredentials": "전화번호 또는 비밀번호를 확인해주세요.",
+        "fetchRandomNicknameFailed": "랜덤 닉네임을 불러오지 못했어요. 다시 시도해주세요.",
+        "submitBasicProfileFailed": "기본 프로필 정보를 등록하지 못했어요. 다시 시도해주세요."
       }
     },
     "validation": {
@@ -59,6 +61,9 @@
   },
   "onboarding": {
     "title": "Wingle - 가치관으로 만나다.",
+    "profileInput": {
+      "title": "프로필 입력"
+    },
     "button": {
       "login": "이미 계정이 있어요",
       "signUp": "시작하기",
@@ -107,6 +112,38 @@
       },
       "toast": {
         "success": "로그인되었습니다."
+      }
+    },
+    "basicProfile": {
+      "nickname": {
+        "title": "앞으로 사용할\n닉네임을 정해볼까요?",
+        "subtitle": "프로필에서 보여지는 이름이에요\n마이페이지에서 언제든 변경이 가능해요",
+        "button": {
+          "change": "닉네임 변경"
+        },
+        "bottomSheet": {
+          "title": "로그아웃할까요?",
+          "description": "로그아웃하면 다시 로그인 화면으로 돌아가요.",
+          "mainLabel": "계속하기",
+          "subLabel": "로그아웃"
+        }
+      },
+      "residence": {
+        "title": "어느 지역에 거주하시나요?",
+        "subtitle": "거주지를 기반으로 매칭이 이루어져요",
+        "field": {
+          "hint": "주소를 입력하세요"
+        }
+      },
+      "height": {
+        "title": "키를 입력해볼까요?"
+      },
+      "bodyShape": {
+        "title": "Choose the option that best matches you."
+      },
+      "company": {
+        "title": "Let's enter your company.",
+        "placeholder": "Company input will be connected soon."
       }
     },
     "agreement": {

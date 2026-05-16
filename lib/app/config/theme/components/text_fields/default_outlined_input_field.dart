@@ -1,19 +1,18 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:wingle/app/config/theme/components/text_fields/default_input_field.dart';
 import 'package:wingle/app/config/theme/components/texts/text_scale_policy.dart';
-import 'package:wingle/app/config/theme/components/texts/text_scale_wrapper.dart';
-import 'package:wingle/app/config/theme/constants/padding.dart';
-import 'package:wingle/app/config/theme/constants/radius.dart';
-import 'package:wingle/app/config/theme/constants/size.dart';
-import 'package:wingle/app/config/theme/constants/weight.dart';
-import 'package:wingle/common/extensions/context_colors.dart';
-import 'package:wingle/common/extensions/context_typography.dart';
 
 /// Label + 아웃라인 입력 필드
-class DefaultOutlinedInputField extends StatefulWidget {
+class DefaultOutlinedInputField extends StatelessWidget {
   /// 힌트 텍스트
   final String? hintText;
+
+  /// 라벨 텍스트
+  final String? labelText;
+
+  /// 보조 텍스트
+  final String? assistiveText;
 
   /// 키보드 타입
   final TextInputType keyboardType;
@@ -39,8 +38,14 @@ class DefaultOutlinedInputField extends StatefulWidget {
   /// 입력 포맷터
   final List<TextInputFormatter>? inputFormatters;
 
+  /// Leading 위젯
+  final Widget? prefix;
+
   /// Trailing 위젯
   final Widget? suffix;
+
+  /// Assistive Action
+  final Widget? assistiveAction;
 
   /// Clear 버튼 클릭 시 Callback
   final VoidCallback? onClear;
@@ -51,16 +56,36 @@ class DefaultOutlinedInputField extends StatefulWidget {
   /// 비활성화 여부
   final bool isDisabled;
 
+  /// 읽기 전용 여부
+  final bool readOnly;
+
+  /// 탭 콜백
+  final VoidCallback? onTap;
+
   /// 초기 값
   final String? initialValue;
 
   /// Validator
   final String? Function(String?)? validator;
 
+  /// focus node
+  final FocusNode? focusNode;
+
+  /// max length
+  final int? maxLength;
+
+  /// 명시적 상태
+  final DefaultInputFieldState? state;
+
+  /// 타입
+  final DefaultInputFieldType type;
+
   /// 생성자
   const DefaultOutlinedInputField({
     super.key,
     this.hintText,
+    this.labelText,
+    this.assistiveText,
     this.keyboardType = TextInputType.text,
     this.obscureText = false,
     this.autofillHints,
@@ -69,153 +94,54 @@ class DefaultOutlinedInputField extends StatefulWidget {
     this.controller,
     this.policy = TextScalePolicy.system,
     this.inputFormatters,
+    this.prefix,
     this.suffix,
+    this.assistiveAction,
     this.onClear,
     this.showClearButton = false,
     this.isDisabled = false,
+    this.readOnly = false,
+    this.onTap,
     this.initialValue,
     this.validator,
+    this.focusNode,
+    this.maxLength,
+    this.state,
+    this.type = DefaultInputFieldType.inputSuffix,
   }) : assert(
          controller == null || initialValue == null,
          'controller와 initialValue는 동시에 사용할 수 없습니다.',
        );
 
   @override
-  State<DefaultOutlinedInputField> createState() =>
-      _DefaultOutlinedInputFieldState();
-}
-
-class _DefaultOutlinedInputFieldState extends State<DefaultOutlinedInputField> {
-  final FocusNode _focusNode = FocusNode();
-  bool _shouldShowValidation = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _focusNode.addListener(_handleFocusChange);
-  }
-
-  @override
-  void dispose() {
-    _focusNode
-      ..removeListener(_handleFocusChange)
-      ..dispose();
-    super.dispose();
-  }
-
-  void _handleFocusChange() {
-    if (!_focusNode.hasFocus) {
-      _showValidation();
-    }
-  }
-
-  void _showValidation() {
-    if (_shouldShowValidation) return;
-
-    setState(() {
-      _shouldShowValidation = true;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-    final typography = context.typography;
-
-    return TextScaleWrapper(
-      policy: widget.policy,
-      child: TextFormField(
-        focusNode: _focusNode,
-        controller: widget.controller,
-        inputFormatters: widget.inputFormatters,
-        initialValue: widget.controller == null ? widget.initialValue : null,
-        keyboardType: widget.keyboardType,
-        obscureText: widget.obscureText,
-        autofillHints: widget.autofillHints,
-        onChanged: widget.onChanged,
-        onEditingComplete: () {
-          _showValidation();
-          _focusNode.unfocus();
-        },
-        onTapOutside: (_) {
-          _focusNode.unfocus();
-        },
-        enabled: !widget.isDisabled,
-        textAlignVertical: TextAlignVertical.center,
-        autovalidateMode: _shouldShowValidation
-            ? AutovalidateMode.always
-            : AutovalidateMode.disabled,
-        cursorColor: colors.primaryNormal,
-        cursorErrorColor: colors.statusNegative,
-        cursorWidth: AppLineWidth.inputFieldCursor,
-        decoration: InputDecoration(
-          constraints: const BoxConstraints(
-            minHeight: AppContainerSize.inputFieldMinimun,
-          ),
-          isDense: true,
-          hintText: widget.hintText?.tr(),
-          hintStyle: typography.body.copyWith(color: colors.textAssistive),
-          filled: true,
-          fillColor: colors.backgroundNormal,
-          contentPadding: const EdgeInsets.all(AppPadding.textfield),
-          // 입력 가능 상태
-          enabledBorder: getBorder(colors.strokeStructuralBorder),
-          // 입력 중인 상태
-          focusedBorder: getBorder(colors.primaryNormal),
-          // 에러 상태
-          errorBorder: getBorder(colors.statusNegative),
-          // 에러 상태(입력 중)
-          focusedErrorBorder: getBorder(colors.statusNegative),
-          // 비활성화 상태
-          disabledBorder: getBorder(colors.strokeStructuralBorder),
-          errorText: _shouldShowValidation ? widget.errorText?.tr() : null,
-          suffixIconColor: colors.interactionInactive,
-          suffixIcon: widget.suffix != null
-              ? Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    widget.suffix as Widget,
-                    const SizedBox(width: AppPadding.textfieldSuffix),
-                  ],
-                )
-              : widget.onClear != null && widget.showClearButton
-              ? Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: Icon(
-                        Icons.clear,
-                        applyTextScaling: true,
-                        size: AppIconSize.large,
-                        fontWeight: AppFontWeight.regular,
-                        semanticLabel: 'common.action.clear'.tr(),
-                      ),
-                      onPressed: widget.onClear,
-                    ),
-                    const SizedBox(width: AppPadding.textfieldSuffix),
-                  ],
-                )
-              : null,
-        ),
-        validator: widget.validator == null
-            ? null
-            : (value) {
-                if (!_shouldShowValidation) return null;
-                return widget.validator?.call(value)?.tr();
-              },
-      ),
-    );
-  }
-
-  /// 입력 필드를 감싸는 테두리 스타일 반환 함수
-  OutlineInputBorder getBorder(Color color) {
-    return OutlineInputBorder(
-      borderRadius: AppRadius.iosStyleRadius,
-      borderSide: BorderSide(
-        color: color,
-        width: AppLineWidth.inputFieldOutline,
-        strokeAlign: BorderSide.strokeAlignOutside,
-      ),
+    return DefaultInputField(
+      variant: DefaultInputFieldVariant.outlined,
+      state: state,
+      type: type,
+      labelText: labelText,
+      hintText: hintText,
+      assistiveText: assistiveText,
+      errorText: errorText,
+      keyboardType: keyboardType,
+      obscureText: obscureText,
+      autofillHints: autofillHints,
+      onChanged: onChanged,
+      controller: controller,
+      policy: policy,
+      inputFormatters: inputFormatters,
+      prefix: prefix,
+      suffix: suffix,
+      assistiveAction: assistiveAction,
+      onClear: onClear,
+      showClearButton: showClearButton,
+      isDisabled: isDisabled,
+      readOnly: readOnly,
+      onTap: onTap,
+      initialValue: initialValue,
+      validator: validator,
+      focusNode: focusNode,
+      maxLength: maxLength,
     );
   }
 }

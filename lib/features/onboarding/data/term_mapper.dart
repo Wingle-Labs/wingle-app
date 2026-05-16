@@ -8,11 +8,12 @@ class TermMapper {
   /// DTO → Presentation 모델 변환
   static AgreementItemModel toAgreementItem(TermDto dto) {
     return AgreementItemModel(
-      id: dto.id,
-      title: dto.title,
+      id: dto.type.hashCode,
+      type: dto.type,
+      title: dto.type,
       content: dto.content,
-      isRequired: dto.isRequire,
-      version: dto.version,
+      isRequired: dto.isRequired,
+      version: dto.version.toString(),
     );
   }
 }

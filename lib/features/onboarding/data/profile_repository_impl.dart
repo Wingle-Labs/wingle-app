@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:wingle/common/constants/api_error_messages.dart';
 import 'package:wingle/common/constants/api_paths.dart';
 import 'package:wingle/common/utils/api_request_headers.dart';
+import 'package:wingle/features/onboarding/domain/model/profile/rejection_reason.dart';
 import 'package:wingle/features/onboarding/domain/model/profile/residence_code.dart';
 import 'package:wingle/features/onboarding/domain/repository/profile_repository.dart';
 
@@ -52,9 +53,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
       path: ApiEndpoints.signupProfile,
       body: {
         'nickname': nickname,
-        'residence': residence.toJson(),
+        'residenceCode': residence.level3,
         'height': height,
-        'bodyType': bodyType,
+        'bodyTypeCode': bodyType,
       },
       errorMessage: ApiErrorMessages.submitBasicProfileFailed,
     );
@@ -64,10 +65,21 @@ class ProfileRepositoryImpl implements ProfileRepository {
   Future<void> submitProfileDetails({
     required String mbti,
     required String selfIntroduction,
+    String? mainStylePhotoKey,
+    List<String> subStylePhotoKeys = const <String>[],
+    String? mainFacePhotoKey,
+    List<String> subFacePhotoKeys = const <String>[],
   }) async {
     await _postJson(
-      path: ApiEndpoints.signupProfileDetails,
-      body: {'MBTI': mbti, 'selfIntroduction': selfIntroduction},
+      path: ApiEndpoints.profileDetail,
+      body: {
+        'mbti': mbti,
+        'selfIntroduction': selfIntroduction,
+        if (mainStylePhotoKey != null) 'mainStylePhotoKey': mainStylePhotoKey,
+        'subStylePhotoKeys': subStylePhotoKeys,
+        if (mainFacePhotoKey != null) 'mainFacePhotoKey': mainFacePhotoKey,
+        'subFacePhotoKeys': subFacePhotoKeys,
+      },
       errorMessage: ApiErrorMessages.submitProfileDetailsFailed,
     );
   }
@@ -79,7 +91,11 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }) async {
     await _postJson(
       path: ApiEndpoints.profileEducation,
-      body: {'university': university, 'educationLevel': educationLevel},
+      body: {
+        'educationLevel': educationLevel,
+        if (university != null && university.trim().isNotEmpty)
+          'university': university,
+      },
       errorMessage: ApiErrorMessages.submitEducationFailed,
     );
   }
@@ -87,7 +103,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<void> verifyEducationEmail({required String email}) async {
     await _postJson(
-      path: ApiEndpoints.profileEducationVerification,
+      path: ApiEndpoints.profileEducationEmailVerifications,
       body: {'email': email},
       errorMessage: ApiErrorMessages.verifyEducationEmailFailed,
     );
@@ -108,9 +124,67 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<void> verifyJobEmail({required String email}) async {
     await _postJson(
-      path: ApiEndpoints.profileJobVerification,
+      path: ApiEndpoints.profileJobEmailVerifications,
       body: {'email': email},
       errorMessage: ApiErrorMessages.verifyJobEmailFailed,
+    );
+  }
+
+  @override
+  Future<void> confirmEducationEmail({
+    required String email,
+    required int verificationCode,
+  }) async {
+    await _postJson(
+      path: ApiEndpoints.profileEducationEmailVerificationsConfirm,
+      body: {'email': email, 'verificationCode': verificationCode},
+      errorMessage: ApiErrorMessages.verifyEducationEmailFailed,
+    );
+  }
+
+  @override
+  Future<void> confirmJobEmail({
+    required String email,
+    required int verificationCode,
+  }) async {
+    await _postJson(
+      path: ApiEndpoints.profileJobEmailVerificationsConfirm,
+      body: {'email': email, 'verificationCode': verificationCode},
+      errorMessage: ApiErrorMessages.verifyJobEmailFailed,
+    );
+  }
+
+  @override
+  Future<void> requestProfileApproval() async {
+    await _postJson(
+      path: ApiEndpoints.profileApprovalRequest,
+      body: const <String, dynamic>{},
+      errorMessage: ApiErrorMessages.requestProfileApprovalFailed,
+    );
+  }
+
+  @override
+  Future<void> requestProfileReapply() async {
+    await _postJson(
+      path: ApiEndpoints.profileReapply,
+      body: const <String, dynamic>{},
+      errorMessage: ApiErrorMessages.requestProfileReapplyFailed,
+    );
+  }
+
+  @override
+  Future<RejectionReason> fetchRejectionReason() async {
+    final response = await _client.get(
+      Uri.parse('$_baseUrl${ApiEndpoints.profileRejectionReason}'),
+      headers: ApiRequestHeaders.auth(),
+    );
+
+    if (!_isSuccess(response)) {
+      throw Exception(ApiErrorMessages.fetchRejectionReasonFailed);
+    }
+
+    return RejectionReason.fromJson(
+      jsonDecode(response.body) as Map<String, dynamic>,
     );
   }
 

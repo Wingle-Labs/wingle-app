@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:wingle/features/onboarding/domain/constants/file_upload_constants.dart';
 import 'package:wingle/features/onboarding/domain/model/file/file_models.dart';
 import 'package:wingle/features/onboarding/domain/repository/file_repository.dart';
 
@@ -14,6 +15,20 @@ class MockFileRepository implements FileRepository {
       presignedUrl: 'https://mock-upload.example.com/profile-image',
       s3Key: 'users/mock/profile/original/mock-profile.jpg',
     );
+  }
+
+  @override
+  Future<ProfileImagePresignResult> createStyleImagePresignedUrl({
+    String contentType = FileUploadConstants.defaultProfileImageContentType,
+  }) {
+    return createProfileImagePresignedUrl(contentType: contentType);
+  }
+
+  @override
+  Future<ProfileImagePresignResult> createFaceImagePresignedUrl({
+    String contentType = FileUploadConstants.defaultProfileImageContentType,
+  }) {
+    return createProfileImagePresignedUrl(contentType: contentType);
   }
 
   @override

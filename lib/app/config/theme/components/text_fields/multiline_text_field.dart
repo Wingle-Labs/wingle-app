@@ -1,10 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wingle/app/config/theme/components/wrappers/smooth_rect.dart';
-import 'package:wingle/app/config/theme/constants/color.dart';
-import 'package:wingle/app/config/theme/constants/padding.dart';
-import 'package:wingle/app/config/theme/constants/radius.dart';
+import 'package:wingle/app/config/theme/components/text_fields/default_multiline_input_field.dart';
+import 'package:wingle/app/config/theme/components/texts/text_scale_policy.dart';
 
 /// 다중 라인 TextField
 class MultilineTextField extends ConsumerWidget {
@@ -43,32 +40,15 @@ class MultilineTextField extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
-    return SmoothRectWrapper(
-      child: TextFormField(
-        minLines: minLines,
-        maxLines: maxLines,
-        cursorColor: AppColor.lightPrimary,
-        focusNode: focusNode,
-        onChanged: onChanged,
-        controller: controller,
-        decoration: InputDecoration(
-          hintText: hint?.tr(),
-          hintStyle: TextStyle(color: theme.hintColor),
-          helperText: helper?.tr(),
-          helperStyle: TextStyle(color: theme.hintColor),
-          focusColor: AppColor.lightPrimary,
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: theme.dividerColor, width: 2),
-            borderRadius: AppRadius.iosStyleRadius,
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: AppColor.lightPrimary, width: 2),
-            borderRadius: AppRadius.iosStyleRadius,
-          ),
-          contentPadding: .all(AppPadding.textfield),
-        ),
-      ),
+    return DefaultMultilineInputField(
+      minLines: minLines,
+      maxLines: maxLines,
+      focusNode: focusNode,
+      onChanged: onChanged,
+      controller: controller,
+      hintText: hint,
+      assistiveText: helper,
+      policy: TextScalePolicy.cappedMedium,
     );
   }
 }

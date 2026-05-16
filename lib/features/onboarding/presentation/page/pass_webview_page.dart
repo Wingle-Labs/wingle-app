@@ -5,11 +5,9 @@ import 'package:portone_flutter/Iamport_certification.dart';
 import 'package:portone_flutter/model/certification_data.dart';
 import 'package:wingle/app/config/theme/components/states/animation_progress_indicator.dart';
 import 'package:wingle/app/config/theme/components/states/default_toast.dart';
-import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/components/wrappers/default_app_bar.dart';
 import 'package:wingle/app/config/theme/components/wrappers/default_scaffold.dart';
 import 'package:wingle/common/constants/env_constants.dart';
-import 'package:wingle/common/extensions/context_typography.dart';
 import 'package:wingle/common/utils/env_util.dart';
 import 'package:wingle/features/onboarding/presentation/providers/pass_provider.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
@@ -26,13 +24,10 @@ class PassWebViewPage extends ConsumerStatefulWidget {
 class _PassWebViewPageState extends ConsumerState<PassWebViewPage> {
   @override
   Widget build(BuildContext context) {
-    final typography = context.typography;
     return IamportCertification(
       appBar: DefaultAppBar(
-        child: DefaultText(
-          'onboarding.pass.webview.title',
-          style: typography.title,
-        ),
+        layout: DefaultAppBarLayout.display,
+        title: 'onboarding.pass.webview.title',
       ),
       /* 웹뷰 로딩 컴포넌트 */
       initialChild: DefaultScaffold(

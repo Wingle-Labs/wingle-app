@@ -26,6 +26,9 @@ enum AppRoute {
 
   /// 선택형 자기소개 입력 화면 경로
   selectiveSelfIntro,
+
+  /// 기본 프로필 입력 화면 경로
+  basicProfile,
 }
 
 /// AppRoute enum을 실제 문자열 경로로 변환하는 확장
@@ -41,6 +44,8 @@ extension AppRoutePath on AppRoute {
         return 'login';
       case AppRoute.signup:
         return 'signup';
+      case AppRoute.basicProfile:
+        return 'basic-profile';
       case AppRoute.phone:
         return 'phone';
       case AppRoute.otp:

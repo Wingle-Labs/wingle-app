@@ -49,4 +49,30 @@ class RepositorySelector {
 
     return (source ?? currentSource()) == RepositorySource.mock;
   }
+
+  /// env source와 API 준비 여부를 모두 반영한 실제 선택값을 반환한다.
+  static RepositorySource effectiveSource({
+    required bool isApiReady,
+    RepositorySource? source,
+  }) {
+    return shouldUseMock(isApiReady: isApiReady, source: source)
+        ? RepositorySource.mock
+        : RepositorySource.live;
+  }
+
+  /// API 로그에 남길 Repository 선택 상태 라벨을 반환한다.
+  static String selectionLabel({
+    required bool isApiReady,
+    RepositorySource? source,
+  }) {
+    final configuredSource = source ?? currentSource();
+    final effective = effectiveSource(
+      isApiReady: isApiReady,
+      source: configuredSource,
+    );
+
+    return '${effective.name.toUpperCase()} '
+        '(API_SOURCE=${configuredSource.name.toUpperCase()}, '
+        'isApiReady=$isApiReady)';
+  }
 }

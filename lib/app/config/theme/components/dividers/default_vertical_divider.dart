@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:wingle/app/config/theme/components/dividers/default_divider.dart';
 import 'package:wingle/app/config/theme/components/texts/text_scale_policy.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
-import 'package:wingle/common/extensions/context_colors.dart';
 
 /// 앱 전역에서 사용하는 기본 세로 구분선 위젯
 class DefaultVerticalDivider extends StatelessWidget {
@@ -32,16 +32,16 @@ class DefaultVerticalDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final defaultColor = context.colors.strokeStructuralDivider;
     final textScale = MediaQuery.textScalerOf(context).scale(1.0);
     final cappedTextScale = textScalePolicy.getScaleFactor(textScale);
 
-    return Container(
-      width: width,
-      height:
+    return DefaultDivider(
+      vertical: true,
+      length:
           (fontSize != null ? (fontSize! * 0.9).toInt() : height) *
           cappedTextScale,
-      color: color ?? defaultColor,
+      thickness: width,
+      color: color,
     );
   }
 }

@@ -7,6 +7,9 @@ class AgreementItemModel {
   /// 약관 고유 식별자
   final int id;
 
+  /// 서버 약관 타입
+  final String? type;
+
   /// 약관 제목
   final String title;
 
@@ -25,6 +28,7 @@ class AgreementItemModel {
   /// 생성자
   AgreementItemModel({
     required this.id,
+    this.type,
     required this.title,
     this.content,
     required this.isRequired,
@@ -36,6 +40,7 @@ class AgreementItemModel {
   AgreementItemModel copyWith({bool? isChecked}) {
     return AgreementItemModel(
       id: id,
+      type: type,
       title: title,
       content: content,
       isRequired: isRequired,
@@ -46,6 +51,11 @@ class AgreementItemModel {
 
   /// 서버 전송용 DTO 변환
   Map<String, dynamic> toRequest() {
-    return {'id': id, 'version': version, 'isChecked': isChecked};
+    return {
+      'type': type ?? id.toString(),
+      'version': int.tryParse(version) ?? version,
+      'isRequired': isRequired,
+      'agreed': isChecked,
+    };
   }
 }
