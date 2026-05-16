@@ -30,7 +30,7 @@ WidgetbookFolder buildComponentFolder() {
     name: 'Components',
     children: [
       WidgetbookFolder(
-        name: 'Button',
+        name: 'Buttons',
         children: [
           WidgetbookComponent(
             name: 'Common',
@@ -77,118 +77,152 @@ WidgetbookFolder buildComponentFolder() {
               ),
             ],
           ),
-        ],
-      ),
-      WidgetbookComponent(
-        name: 'Chip Button',
-        useCases: [
-          WidgetbookUseCase(
-            name: 'Default',
-            builder: (context) => const ChipButtonPage(),
-          ),
-        ],
-      ),
-      WidgetbookComponent(
-        name: 'Badge',
-        useCases: [
-          WidgetbookUseCase(
-            name: 'Default',
-            builder: (context) => const BadgePage(),
-          ),
-        ],
-      ),
-      WidgetbookComponent(
-        name: 'Cards',
-        useCases: [
-          WidgetbookUseCase(
-            name: 'All States',
-            builder: (context) => const CardsPage(),
-          ),
-        ],
-      ),
-      WidgetbookComponent(
-        name: 'Input Field',
-        useCases: [
-          WidgetbookUseCase(
-            name: 'Normal',
-            builder: (context) => const InputFieldPage(),
-          ),
-        ],
-      ),
-      WidgetbookComponent(
-        name: 'Texts',
-        useCases: [
-          WidgetbookUseCase(
-            name: 'All States',
-            builder: (context) => const TextsPage(),
-          ),
-        ],
-      ),
-      WidgetbookComponent(
-        name: 'Divider',
-        useCases: [
-          WidgetbookUseCase(
-            name: 'Default',
-            builder: (context) => const DividerPage(),
-          ),
-        ],
-      ),
-      WidgetbookComponent(
-        name: 'Icon',
-        useCases: [
-          WidgetbookUseCase(
-            name: 'Default',
-            builder: (context) => const IconPage(),
-          ),
-        ],
-      ),
-      WidgetbookComponent(
-        name: 'States',
-        useCases: [
-          WidgetbookUseCase(
-            name: 'All States',
-            builder: (context) => const StatesPage(),
-          ),
-        ],
-      ),
-      WidgetbookComponent(
-        name: 'Snackbar',
-        useCases: [
-          WidgetbookUseCase(
-            name: 'Default',
-            builder: (context) => const SnackbarPage(),
-          ),
-        ],
-      ),
-      WidgetbookComponent(
-        name: 'Misc',
-        useCases: [
-          WidgetbookUseCase(
-            name: 'All States',
-            builder: (context) => const MiscComponentsPage(),
-          ),
-        ],
-      ),
-      WidgetbookComponent(
-        name: 'Wrappers',
-        useCases: [
-          WidgetbookUseCase(
-            name: 'All States',
-            builder: (context) => const WrappersPage(),
-          ),
-        ],
-      ),
-      WidgetbookComponent(
-        name: 'Pagination',
-        useCases: [
-          WidgetbookUseCase(
-            name: 'Default',
-            builder: (context) => const PaginationPage(),
+          WidgetbookComponent(
+            name: 'Chip Button',
+            useCases: [
+              WidgetbookUseCase(
+                name: 'Default',
+                builder: (context) => const ChipButtonPage(),
+              ),
+            ],
           ),
         ],
       ),
       WidgetbookFolder(
-        name: 'Selections',
+        name: 'Input',
+        children: [
+          WidgetbookComponent(
+            name: 'DefaultInputField',
+            useCases: [
+              WidgetbookUseCase(
+                name: 'Variants',
+                builder: (context) => const InputFieldPage(),
+              ),
+            ],
+          ),
+        ],
+      ),
+      WidgetbookFolder(
+        name: 'Navigation',
+        children: [
+          WidgetbookComponent(
+            name: 'DefaultAppBar',
+            useCases: [
+              WidgetbookUseCase(
+                name: 'Basic',
+                builder: (context) => const DefaultAppBarPage(
+                  initialLayout: DefaultAppBarLayout.basic,
+                  initialShowSubtitle: false,
+                ),
+              ),
+              WidgetbookUseCase(
+                name: 'Side',
+                builder: (context) => const DefaultAppBarPage(
+                  initialLayout: DefaultAppBarLayout.side,
+                  initialShowSubtitle: false,
+                ),
+              ),
+              WidgetbookUseCase(
+                name: 'Display',
+                builder: (context) => const DefaultAppBarPage(
+                  initialLayout: DefaultAppBarLayout.display,
+                  initialShowSubtitle: false,
+                ),
+              ),
+              WidgetbookUseCase(
+                name: 'Display With Subtitle',
+                builder: (context) => const DefaultAppBarPage(
+                  initialLayout: DefaultAppBarLayout.display,
+                  initialShowSubtitle: true,
+                ),
+              ),
+              WidgetbookUseCase(
+                name: 'Both Empty',
+                builder: (context) => const DefaultAppBarPage(
+                  initialLayout: DefaultAppBarLayout.basic,
+                  initialShowTitle: false,
+                  initialShowSubtitle: false,
+                ),
+              ),
+            ],
+          ),
+          WidgetbookComponent(
+            name: 'Pagination',
+            useCases: [
+              WidgetbookUseCase(
+                name: 'Default',
+                builder: (context) => const PaginationPage(),
+              ),
+            ],
+          ),
+        ],
+      ),
+      WidgetbookFolder(
+        name: 'Feedback',
+        children: [
+          WidgetbookComponent(
+            name: 'Badge',
+            useCases: [
+              WidgetbookUseCase(
+                name: 'Default',
+                builder: (context) => const BadgePage(),
+              ),
+            ],
+          ),
+          WidgetbookComponent(
+            name: 'States',
+            useCases: [
+              WidgetbookUseCase(
+                name: 'All States',
+                builder: (context) => const StatesPage(),
+              ),
+            ],
+          ),
+          WidgetbookComponent(
+            name: 'Snackbar',
+            useCases: [
+              WidgetbookUseCase(
+                name: 'Default',
+                builder: (context) => const SnackbarPage(),
+              ),
+            ],
+          ),
+        ],
+      ),
+      WidgetbookFolder(
+        name: 'Surfaces',
+        children: [
+          WidgetbookComponent(
+            name: 'Cards',
+            useCases: [
+              WidgetbookUseCase(
+                name: 'All States',
+                builder: (context) => const CardsPage(),
+              ),
+            ],
+          ),
+          WidgetbookComponent(
+            name: 'Divider',
+            useCases: [
+              WidgetbookUseCase(
+                name: 'Default',
+                builder: (context) => const DividerPage(),
+              ),
+            ],
+          ),
+          WidgetbookComponent(
+            name: 'Wrappers',
+            useCases: [
+              WidgetbookUseCase(
+                name: 'All States',
+                builder: (context) => const WrappersPage(),
+              ),
+            ],
+          ),
+        ],
+      ),
+      WidgetbookFolder(
+        name: 'Selection',
         children: [
           WidgetbookComponent(
             name: 'Check',
@@ -237,44 +271,45 @@ WidgetbookFolder buildComponentFolder() {
           ),
         ],
       ),
-      WidgetbookComponent(
-        name: 'DefaultAppBar',
-        useCases: [
-          WidgetbookUseCase(
-            name: 'Basic',
-            builder: (context) => const DefaultAppBarPage(
-              initialLayout: DefaultAppBarLayout.basic,
-              initialShowSubtitle: false,
-            ),
+      WidgetbookFolder(
+        name: 'Text',
+        children: [
+          WidgetbookComponent(
+            name: 'DefaultText',
+            useCases: [
+              WidgetbookUseCase(
+                name: 'All States',
+                builder: (context) => const TextsPage(),
+              ),
+            ],
           ),
-          WidgetbookUseCase(
-            name: 'Side',
-            builder: (context) => const DefaultAppBarPage(
-              initialLayout: DefaultAppBarLayout.side,
-              initialShowSubtitle: false,
-            ),
+        ],
+      ),
+      WidgetbookFolder(
+        name: 'Icons',
+        children: [
+          WidgetbookComponent(
+            name: 'Icon',
+            useCases: [
+              WidgetbookUseCase(
+                name: 'Default',
+                builder: (context) => const IconPage(),
+              ),
+            ],
           ),
-          WidgetbookUseCase(
-            name: 'Display',
-            builder: (context) => const DefaultAppBarPage(
-              initialLayout: DefaultAppBarLayout.display,
-              initialShowSubtitle: false,
-            ),
-          ),
-          WidgetbookUseCase(
-            name: 'Display With Subtitle',
-            builder: (context) => const DefaultAppBarPage(
-              initialLayout: DefaultAppBarLayout.display,
-              initialShowSubtitle: true,
-            ),
-          ),
-          WidgetbookUseCase(
-            name: 'Both Empty',
-            builder: (context) => const DefaultAppBarPage(
-              initialLayout: DefaultAppBarLayout.basic,
-              initialShowTitle: false,
-              initialShowSubtitle: false,
-            ),
+        ],
+      ),
+      WidgetbookFolder(
+        name: 'Misc',
+        children: [
+          WidgetbookComponent(
+            name: 'Date Picker and Shapes',
+            useCases: [
+              WidgetbookUseCase(
+                name: 'All States',
+                builder: (context) => const MiscComponentsPage(),
+              ),
+            ],
           ),
         ],
       ),

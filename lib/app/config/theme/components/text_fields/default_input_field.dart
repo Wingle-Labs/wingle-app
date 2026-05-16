@@ -5,10 +5,8 @@ import 'package:wingle/app/config/theme/color/contracts/app_color_scheme.dart';
 import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/components/texts/text_scale_policy.dart';
 import 'package:wingle/app/config/theme/components/texts/text_scale_wrapper.dart';
-import 'package:wingle/app/config/theme/constants/padding.dart';
-import 'package:wingle/app/config/theme/constants/radius.dart';
+import 'package:wingle/app/config/theme/constants/component_tokens.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
-import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/app/config/theme/text/app_typography.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
@@ -270,7 +268,7 @@ class _DefaultInputFieldState extends State<DefaultInputField> {
             style: typography.body.copyWith(color: colors.textAlternative),
             policy: widget.policy,
           ),
-          const SizedBox(height: AppSpacing.inputFieldLabelInternal),
+          const SizedBox(height: AppComponentSpacing.inputLabelGap),
         ],
         TextScaleWrapper(
           policy: widget.policy,
@@ -340,14 +338,14 @@ class _DefaultInputFieldState extends State<DefaultInputField> {
         ),
         if (_resolvedState == DefaultInputFieldState.error &&
             widget.errorText != null) ...[
-          const SizedBox(height: AppSpacing.s4),
+          const SizedBox(height: AppComponentSpacing.inputAssistiveGap),
           DefaultText(
             widget.errorText!,
             style: typography.caption.copyWith(color: colors.statusNegative),
             policy: widget.policy,
           ),
         ] else if (widget.assistiveText != null) ...[
-          const SizedBox(height: AppSpacing.s4),
+          const SizedBox(height: AppComponentSpacing.inputAssistiveGap),
           DefaultText(
             widget.assistiveText!,
             style: typography.caption.copyWith(color: colors.textAssistive),
@@ -356,7 +354,7 @@ class _DefaultInputFieldState extends State<DefaultInputField> {
         ],
         if (widget.type == DefaultInputFieldType.inputAssistiveAction &&
             widget.assistiveAction != null) ...[
-          const SizedBox(height: AppSpacing.s8),
+          const SizedBox(height: AppComponentSpacing.inputAssistiveActionGap),
           widget.assistiveAction!,
         ],
       ],
@@ -372,8 +370,9 @@ class _DefaultInputFieldState extends State<DefaultInputField> {
     return InputDecoration(
       constraints: BoxConstraints(
         minHeight: widget.variant == DefaultInputFieldVariant.multiline
-            ? AppContainerSize.inputFieldMinimun * 2
-            : AppContainerSize.inputFieldMinimun,
+            ? AppComponentSize.inputMinHeight *
+                  AppComponentSize.inputMultilineMinHeightMultiplier
+            : AppComponentSize.inputMinHeight,
       ),
       isDense: true,
       hintText: widget.hintText?.tr(),
@@ -383,17 +382,19 @@ class _DefaultInputFieldState extends State<DefaultInputField> {
           ? colors.backgroundAlternative
           : colors.backgroundNormal,
       contentPadding: widget.variant == DefaultInputFieldVariant.underline
-          ? const EdgeInsets.symmetric(vertical: AppPadding.xxs)
+          ? const EdgeInsets.symmetric(
+              vertical: AppComponentPadding.inputUnderlineVertical,
+            )
           : const EdgeInsets.symmetric(
-              horizontal: AppPadding.textfield,
-              vertical: AppPadding.textfieldVertical,
+              horizontal: AppComponentPadding.inputHorizontal,
+              vertical: AppComponentPadding.inputVertical,
             ),
       prefixIconColor: colors.interactionInactive,
       prefixIcon: widget.prefix != null
           ? Padding(
               padding: const EdgeInsets.only(
-                left: AppPadding.textfield,
-                right: AppPadding.textfieldSuffix,
+                left: AppComponentPadding.inputHorizontal,
+                right: AppComponentPadding.inputPrefixGap,
               ),
               child: widget.prefix,
             )
@@ -416,7 +417,7 @@ class _DefaultInputFieldState extends State<DefaultInputField> {
         mainAxisSize: MainAxisSize.min,
         children: [
           widget.suffix!,
-          const SizedBox(width: AppPadding.textfieldSuffix),
+          const SizedBox(width: AppComponentPadding.inputSuffixGap),
         ],
       );
     }
@@ -436,7 +437,7 @@ class _DefaultInputFieldState extends State<DefaultInputField> {
               ),
             ),
           ),
-          const SizedBox(width: AppPadding.textfieldSuffix),
+          const SizedBox(width: AppComponentPadding.inputSuffixGap),
         ],
       );
     }
@@ -469,7 +470,7 @@ class _DefaultInputFieldState extends State<DefaultInputField> {
     }
 
     return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppRadius.iosStyle),
+      borderRadius: BorderRadius.circular(AppComponentRadius.input),
       borderSide: side,
     );
   }

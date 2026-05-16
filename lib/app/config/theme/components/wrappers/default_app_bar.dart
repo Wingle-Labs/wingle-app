@@ -5,9 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_icon_button.dart';
 import 'package:wingle/app/config/theme/components/texts/default_text.dart';
-import 'package:wingle/app/config/theme/constants/padding.dart';
-import 'package:wingle/app/config/theme/constants/size.dart';
-import 'package:wingle/app/config/theme/constants/spacing.dart';
+import 'package:wingle/app/config/theme/constants/component_tokens.dart';
 import 'package:wingle/app/config/theme/text/app_typography.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
@@ -30,13 +28,13 @@ enum DefaultAppBarLayout {
 
 /// 기본 AppBar 위젯
 class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
-  static const double _actionSize = AppIconSize.xl;
-  static const double _actionHitSize = AppIconPixelGrid.xl;
-  static const double _actionGap = AppSpacing.s4;
-  static const double _titleHorizontalGap = AppSpacing.s12;
-  static const double _displayTextGap = AppSpacing.s6;
-  static const double _minimumToolbarHeight =
-      AppPadding.vertical * 2 + _actionHitSize;
+  static const double _actionSize = AppComponentSize.appBarAction;
+  static const double _actionHitSize = AppComponentSize.appBarActionHit;
+  static const double _actionGap = AppComponentSpacing.appBarActionGap;
+  static const double _titleHorizontalGap = AppComponentSpacing.appBarTitleGap;
+  static const double _displayTextGap =
+      AppComponentSpacing.appBarDisplayTextGap;
+  static const double _minimumToolbarHeight = AppComponentSize.appBarMinHeight;
 
   /// 좌측 액션 버튼
   final List<Widget>? leadingActions;
@@ -117,7 +115,9 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
     }
 
     final contentHeight = math.max(_actionHitSize, _displayTextBlockHeight);
-    return Size.fromHeight(AppPadding.vertical * 2 + contentHeight);
+    return Size.fromHeight(
+      AppComponentPadding.appBarVertical * 2 + contentHeight,
+    );
   }
 
   @override
@@ -137,8 +137,8 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(
-              horizontal: AppPadding.horizontal,
-              vertical: AppPadding.vertical,
+              horizontal: AppComponentPadding.appBarHorizontal,
+              vertical: AppComponentPadding.appBarVertical,
             ),
             child: switch (layout) {
               DefaultAppBarLayout.basic => _BasicAppBarContent(

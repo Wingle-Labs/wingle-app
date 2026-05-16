@@ -15,6 +15,32 @@ extension AppLayoutContext on BuildContext {
     return AppLayoutResolver.resolvePreset(preset);
   }
 
+  /// 현재 브레이크포인트에 대응하는 기본 그리드 프리셋을 반환합니다.
+  AppLayoutPreset get currentGridPreset {
+    return switch (breakpoint) {
+      AppBreakpoint.mobileSm => AppLayoutPreset.mobileSm,
+      AppBreakpoint.mobileMd => AppLayoutPreset.mobileMd,
+      AppBreakpoint.mobileLg => AppLayoutPreset.mobileLg,
+      AppBreakpoint.tabletSm => AppLayoutPreset.tabletSm,
+      AppBreakpoint.tabletMd => AppLayoutPreset.tabletMd,
+      AppBreakpoint.tabletLg => AppLayoutPreset.tabletLg,
+      AppBreakpoint.desktop => AppLayoutPreset.desktop,
+      AppBreakpoint.xs => AppLayoutPreset.xsMobile,
+      AppBreakpoint.md => AppLayoutPreset.mdTabletThreeCol,
+      AppBreakpoint.xl => AppLayoutPreset.xlDesktopTwelveCol,
+    };
+  }
+
+  /// 현재 브레이크포인트에 대응하는 기본 그리드 스펙을 반환합니다.
+  AppGridSpec get currentGridSpec {
+    return gridSpec(currentGridPreset);
+  }
+
+  /// 현재 브레이크포인트에 대응하는 기본 그리드 메트릭스를 반환합니다.
+  GridMetrics get currentGrid {
+    return grid(currentGridPreset);
+  }
+
   /// 주어진 프리셋에 맞는 그리드 메트릭스를 반환합니다.
   GridMetrics grid(AppLayoutPreset preset) {
     final width = MediaQuery.sizeOf(this).width;

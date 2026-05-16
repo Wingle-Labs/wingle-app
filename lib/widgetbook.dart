@@ -13,12 +13,14 @@ import 'package:wingle/common/utils/secure_key_manager.dart';
 import 'package:wingle/widgetbook/components/widgetbook_component_folder.dart';
 import 'package:wingle/widgetbook/foundations/color_page.dart';
 import 'package:wingle/widgetbook/foundations/elevation_page.dart';
+import 'package:wingle/widgetbook/foundations/foundation_usage_page.dart';
 import 'package:wingle/widgetbook/foundations/grid_page.dart';
 import 'package:wingle/widgetbook/foundations/padding_page.dart';
 import 'package:wingle/widgetbook/foundations/radius_page.dart';
 import 'package:wingle/widgetbook/foundations/size_page.dart';
 import 'package:wingle/widgetbook/foundations/spacing_page.dart';
 import 'package:wingle/widgetbook/foundations/typography_page.dart';
+import 'package:wingle/widgetbook/patterns/widgetbook_pattern_folders.dart';
 import 'package:wingle/widgetbook/screens/widgetbook_screen_folders.dart';
 
 Future<void> main() async {
@@ -52,6 +54,15 @@ class WingleWidgetbook extends StatelessWidget {
         WidgetbookFolder(
           name: 'Foundations',
           children: [
+            WidgetbookComponent(
+              name: 'Usage Guide',
+              useCases: [
+                WidgetbookUseCase(
+                  name: 'Token Policy',
+                  builder: (context) => const FoundationUsagePage(),
+                ),
+              ],
+            ),
             WidgetbookComponent(
               name: 'Typography',
               useCases: [
@@ -149,6 +160,7 @@ class WingleWidgetbook extends StatelessWidget {
           ],
         ),
         buildComponentFolder(),
+        buildPatternFolder(),
         buildScreenFolder(),
       ],
       lightTheme: Themes.light,
