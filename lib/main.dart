@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
+import 'package:wingle/app/bootstrap/bootstrap_initializer_provider.dart';
 import 'package:wingle/app/config/app_localization_wrapper.dart';
 import 'package:wingle/app/config/firebase_options.dart';
 import 'package:wingle/app/providers/device_uuid_provider.dart';
@@ -35,6 +36,9 @@ void main() async {
 
   /// 기기 UUID 초기화
   await container.read(deviceUuidProvider.notifier).initialize();
+
+  /// 코드북 bootstrap
+  await container.read(bootstrapInitializerProvider).initialize();
 
   runApp(
     UncontrolledProviderScope(

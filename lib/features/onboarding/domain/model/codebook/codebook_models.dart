@@ -1,3 +1,8 @@
+export 'codebook_entry.dart';
+export 'codebook_group.dart';
+export 'codebook_snapshot.dart';
+export 'codebook_version_map.dart';
+
 /// 현재 버전 응답.
 class CurrentVersionResponse {
   /// 현재 버전
