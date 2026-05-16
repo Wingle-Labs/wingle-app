@@ -109,6 +109,7 @@ class _BasicProfileNicknamePageState
                   alignment: Alignment.centerRight,
                   child: IntrinsicWidth(
                     child: DefaultTextButton(
+                      variant: .sm,
                       label: 'onboarding.basicProfile.nickname.button.change',
                       leadingIcon: Icons.autorenew_rounded,
                       onPressed: state.isNicknameLoading
