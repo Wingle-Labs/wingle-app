@@ -35,7 +35,7 @@ jobs:
       - name: Deploy preview
         id: deploy
         run: |
-          url="$(vercel deploy build/web --token "${{ secrets.VERCEL_TOKEN }}")"
+          url="$(vercel deploy build/web --yes --token "${{ secrets.VERCEL_TOKEN }}")"
           echo "url=$url" >> "$GITHUB_OUTPUT"
 
       - name: Comment preview URL
