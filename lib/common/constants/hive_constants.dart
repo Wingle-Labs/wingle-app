@@ -3,8 +3,26 @@ class HiveConstants {
   /// 사용자 로그인 정보 Box
   static final userLoginInfo = HiveLoginBox();
 
+  /// 코드북 메타데이터 Box
+  static final codebookMetadata = HiveCodebookMetadataBox();
+
+  /// 코드북 스냅샷 Box
+  static final codebookSnapshot = HiveCodebookSnapshotBox();
+
+  /// 객관식 질문 메타데이터 Box
+  static final choiceQuestionMetadata = HiveChoiceQuestionMetadataBox();
+
+  /// 객관식 질문 스냅샷 Box
+  static final choiceQuestionSnapshot = HiveChoiceQuestionSnapshotBox();
+
   /// 모든 Box 목록
-  static final boxes = <HiveBox>[userLoginInfo];
+  static final boxes = <HiveBox>[
+    userLoginInfo,
+    codebookMetadata,
+    codebookSnapshot,
+    choiceQuestionMetadata,
+    choiceQuestionSnapshot,
+  ];
 }
 
 /// Hive Key 타입 정의: Key 자체가 Box 정보를 포함한다.
@@ -64,4 +82,60 @@ class HiveLoginBox implements HiveBox {
 
   /// 내부 싱글턴 인스턴스 (HiveKey가 Box에 접근하기 위함)
   static final HiveLoginBox _instance = HiveLoginBox();
+}
+
+/// codebook_metadata Box 정의.
+class HiveCodebookMetadataBox implements HiveBox {
+  @override
+  String get name => 'codebook_metadata';
+
+  @override
+  bool get isEncrypted => false;
+
+  @override
+  HiveKey<String> create(String key) {
+    return HiveKey<String>(this, key);
+  }
+}
+
+/// codebook_snapshot Box 정의.
+class HiveCodebookSnapshotBox implements HiveBox {
+  @override
+  String get name => 'codebook_snapshot';
+
+  @override
+  bool get isEncrypted => false;
+
+  @override
+  HiveKey<String> create(String key) {
+    return HiveKey<String>(this, key);
+  }
+}
+
+/// choice_question_metadata Box 정의.
+class HiveChoiceQuestionMetadataBox implements HiveBox {
+  @override
+  String get name => 'choice_question_metadata';
+
+  @override
+  bool get isEncrypted => false;
+
+  @override
+  HiveKey<String> create(String key) {
+    return HiveKey<String>(this, key);
+  }
+}
+
+/// choice_question_snapshot Box 정의.
+class HiveChoiceQuestionSnapshotBox implements HiveBox {
+  @override
+  String get name => 'choice_question_snapshot';
+
+  @override
+  bool get isEncrypted => false;
+
+  @override
+  HiveKey<String> create(String key) {
+    return HiveKey<String>(this, key);
+  }
 }

@@ -9,8 +9,11 @@ class EnvConstants {
   /// Portone 환경 변수 파일
   static final portone = PortoneEnvFile();
 
+  /// Live API 테스트 환경 변수 파일
+  static final liveApi = LiveApiEnvFile();
+
   /// 기타 환경 변수 파일들
-  static final envs = <EnvFile>[firebase, api, portone];
+  static final envs = <EnvFile>[firebase, api, portone, liveApi];
 }
 
 /// 환경 변수 인터페이스
@@ -125,4 +128,69 @@ class PortoneEnvFile implements EnvFile {
 
   /// MOCK 여부
   static EnvKey<String> setting = _instance.create('PORTONE_SETTIN');
+}
+
+/// Live API 테스트 관련 Env 파일
+class LiveApiEnvFile implements EnvFile {
+  @override
+  String get path => 'lib/app/config/env/live_api.env';
+
+  @override
+  EnvKey<String> create(String key) {
+    return EnvKey<String>(path: path, name: key);
+  }
+
+  static final LiveApiEnvFile _instance = LiveApiEnvFile();
+
+  /// 테스트용 API base URL
+  static EnvKey<String> baseUrl = _instance.create('TEST_API_BASE_URL');
+
+  /// 테스트용 계정 ID
+  static EnvKey<String> accountId = _instance.create('TEST_API_ACCOUNT_ID');
+
+  /// 테스트용 계정 비밀번호
+  static EnvKey<String> accountPassword = _instance.create(
+    'TEST_API_ACCOUNT_PASSWORD',
+  );
+
+  /// 테스트용 access token
+  static EnvKey<String> accessToken = _instance.create('TEST_API_ACCESS_TOKEN');
+
+  /// 관리자 access token
+  static EnvKey<String> adminAccessToken = _instance.create(
+    'TEST_API_ADMIN_ACCESS_TOKEN',
+  );
+
+  /// 관리자 사용자 ID
+  static EnvKey<String> adminUserId = _instance.create(
+    'TEST_API_ADMIN_USER_ID',
+  );
+
+  /// 관리자 destructive 작업 허용 여부
+  static EnvKey<String> adminDestructiveOk = _instance.create(
+    'TEST_API_ADMIN_DESTRUCTIVE_OK',
+  );
+
+  /// 로그인용 전화번호
+  static EnvKey<String> loginPhoneNumber = _instance.create(
+    'TEST_API_LOGIN_PHONE_NUMBER',
+  );
+
+  /// 로그인용 비밀번호
+  static EnvKey<String> loginPassword = _instance.create(
+    'TEST_API_LOGIN_PASSWORD',
+  );
+
+  /// signup UUID
+  static EnvKey<String> signupUuid = _instance.create('TEST_API_SIGNUP_UUID');
+
+  /// signup 비밀번호
+  static EnvKey<String> signupPassword = _instance.create(
+    'TEST_API_SIGNUP_PASSWORD',
+  );
+
+  /// 연락처 업로드 대상
+  static EnvKey<String> contactPhoneNumbers = _instance.create(
+    'TEST_API_CONTACT_PHONE_NUMBERS',
+  );
 }

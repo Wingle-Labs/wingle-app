@@ -47,7 +47,7 @@ void main() {
       final client = MockClient((request) async {
         expect(request.method, 'GET');
         expect(request.url.path, '/api/v1/codebook/snapshot');
-        expect(request.url.queryParametersAll['groups'], ['BODY_TYPE']);
+        expect(request.url.queryParameters['groups'], 'BODY_TYPE');
         return http.Response.bytes(
           utf8.encode(
             jsonEncode({
@@ -84,7 +84,7 @@ void main() {
       final client = MockClient((request) async {
         expect(request.method, 'GET');
         expect(request.url.path, '/api/v1/choice-questions/snapshot');
-        expect(request.url.queryParametersAll['categories'], ['QC_LOVE']);
+        expect(request.url.queryParameters['categories'], 'QC_LOVE');
         return http.Response.bytes(
           utf8.encode(
             jsonEncode({

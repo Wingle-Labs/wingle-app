@@ -34,7 +34,9 @@ class MockCodebookRepository implements CodebookRepository {
       for (final group in groups)
         group: const CodeSnapshot(
           version: 1,
-          codes: [CommonCodeDetail(code: 'BT_F_001', codeName: '보통')],
+          codes: [
+            CommonCodeDetail(code: 'BT_F_001', codeName: '보통', displayOrder: 1),
+          ],
         ),
     };
   }

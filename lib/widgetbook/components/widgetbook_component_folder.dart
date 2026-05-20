@@ -8,6 +8,9 @@ import 'package:wingle/widgetbook/components/buttons/outlined_button_page.dart';
 import 'package:wingle/widgetbook/components/buttons/text_button_page.dart';
 import 'package:wingle/widgetbook/components/cards_page.dart';
 import 'package:wingle/widgetbook/components/chip_button_page.dart';
+import 'package:wingle/widgetbook/components/codebook/codebook_explorer_page.dart';
+import 'package:wingle/widgetbook/components/codebook/codebook_snapshot_page.dart';
+import 'package:wingle/widgetbook/components/codebook/codebook_story_specs.dart';
 import 'package:wingle/widgetbook/components/default_app_bar_page.dart';
 import 'package:wingle/widgetbook/components/divider_page.dart';
 import 'package:wingle/widgetbook/components/icon_page.dart';
@@ -309,6 +312,36 @@ WidgetbookFolder buildComponentFolder() {
                 name: 'All States',
                 builder: (context) => const MiscComponentsPage(),
               ),
+            ],
+          ),
+        ],
+      ),
+      WidgetbookFolder(
+        name: 'Codebook',
+        children: [
+          WidgetbookComponent(
+            name: 'Explorer',
+            useCases: [
+              WidgetbookUseCase(
+                name: 'Current Versions',
+                builder: (context) => const CodebookExplorerPage(),
+              ),
+            ],
+          ),
+          WidgetbookFolder(
+            name: 'Snapshots',
+            children: [
+              for (final spec in codebookStorySpecs)
+                WidgetbookComponent(
+                  name: spec.key,
+                  useCases: [
+                    WidgetbookUseCase(
+                      name: 'Snapshot',
+                      builder: (context) =>
+                          CodebookSnapshotPage(groupKey: spec.key),
+                    ),
+                  ],
+                ),
             ],
           ),
         ],

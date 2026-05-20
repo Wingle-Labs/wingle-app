@@ -37,7 +37,13 @@ class AuthenticatedApiClient extends http.BaseClient {
   Future<http.StreamedResponse> send(http.BaseRequest request) async {
     final retryRequest = _cloneRequest(request);
     _logRequest(request);
-    final response = await _inner.send(request);
+    late final http.StreamedResponse response;
+    try {
+      response = await _inner.send(request);
+    } catch (error, stackTrace) {
+      _logTransportError(request, error, stackTrace);
+      rethrow;
+    }
     final responseBody = await response.stream.toBytes();
     _logStreamedResponse(request, response, responseBody);
     final rebuiltResponse = _rebuildResponse(response, responseBody);
@@ -60,7 +66,13 @@ class AuthenticatedApiClient extends http.BaseClient {
       ..addAll(ApiRequestHeaders.auth());
 
     _logRequest(retryRequest);
-    final retryResponse = await _inner.send(retryRequest);
+    late final http.StreamedResponse retryResponse;
+    try {
+      retryResponse = await _inner.send(retryRequest);
+    } catch (error, stackTrace) {
+      _logTransportError(retryRequest, error, stackTrace);
+      rethrow;
+    }
     final retryResponseBody = await retryResponse.stream.toBytes();
     _logStreamedResponse(retryRequest, retryResponse, retryResponseBody);
 
@@ -221,6 +233,22 @@ class AuthenticatedApiClient extends http.BaseClient {
     final formattedBody = _formatLogBody(body);
     _logger(
       '[API] $method $uri -> $statusCode\n[API] response: $formattedBody\n',
+    );
+  }
+
+  void _logTransportError(
+    http.BaseRequest request,
+    Object error,
+    StackTrace stackTrace,
+  ) {
+    if (!_enableResponseLogging) {
+      return;
+    }
+
+    _logger(
+      '[API] ${request.method} ${request.url} -> transport error\n'
+      '[API] error: $error\n'
+      '[API] stackTrace: $stackTrace\n',
     );
   }
 

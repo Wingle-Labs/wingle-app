@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/v1/:path*",
+      "destination": "https://test.wingle.kr/api/v1/:path*"
+    }
+  ]
+}

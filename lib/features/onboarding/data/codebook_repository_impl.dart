@@ -3,9 +3,49 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:wingle/common/constants/api_error_messages.dart';
 import 'package:wingle/common/constants/api_paths.dart';
-import 'package:wingle/common/utils/api_request_headers.dart';
 import 'package:wingle/features/onboarding/domain/model/codebook/codebook_models.dart';
 import 'package:wingle/features/onboarding/domain/repository/codebook_repository.dart';
+
+/// 코드북 API 실패 예외.
+class CodebookApiException implements Exception {
+  /// 에러 메시지.
+  final String message;
+
+  /// 요청 URI.
+  final Uri uri;
+
+  /// HTTP 상태 코드.
+  final int? statusCode;
+
+  /// 응답 본문.
+  final String? responseBody;
+
+  /// 생성자.
+  const CodebookApiException({
+    required this.message,
+    required this.uri,
+    required this.statusCode,
+    required this.responseBody,
+  });
+
+  @override
+  String toString() {
+    final buffer = StringBuffer(message)..write('\nuri=$uri');
+    if (statusCode != null) {
+      buffer.write('\nstatusCode=$statusCode');
+    }
+    if (responseBody != null && responseBody!.isNotEmpty) {
+      buffer.write('\nresponseBody=${_truncate(responseBody!)}');
+    }
+    return buffer.toString();
+  }
+
+  String _truncate(String value) {
+    final trimmed = value.trim();
+    if (trimmed.length <= 400) return trimmed;
+    return '${trimmed.substring(0, 400)}...';
+  }
+}
 
 /// 코드북 Repository HTTP 구현.
 class CodebookRepositoryImpl implements CodebookRepository {
@@ -34,7 +74,7 @@ class CodebookRepositoryImpl implements CodebookRepository {
   }) async {
     final decoded = await _getJson(
       ApiEndpoints.codebookSnapshot,
-      queryParameters: {'groups': groups},
+      queryParameters: {'groups': groups.join(',')},
     );
     return decoded.map(
       (key, value) =>
@@ -53,7 +93,7 @@ class CodebookRepositoryImpl implements CodebookRepository {
   }) async {
     final decoded = await _getJson(
       ApiEndpoints.choiceQuestionsSnapshot,
-      queryParameters: {'categories': categories},
+      queryParameters: {'categories': categories.join(',')},
     );
     return decoded.map(
       (key, value) => MapEntry(
@@ -94,15 +134,30 @@ class CodebookRepositoryImpl implements CodebookRepository {
     String path, {
     Map<String, dynamic>? queryParameters,
   }) async {
-    final response = await _client.get(
-      Uri.parse('$_baseUrl$path').replace(queryParameters: queryParameters),
-      headers: ApiRequestHeaders.auth(),
-    );
+    final uri = Uri.parse(
+      '$_baseUrl$path',
+    ).replace(queryParameters: queryParameters);
+    final response = await _client.get(uri);
 
     if (response.statusCode < 200 || response.statusCode >= 300) {
-      throw Exception(ApiErrorMessages.fetchCodebookFailed);
+      throw CodebookApiException(
+        message: ApiErrorMessages.fetchCodebookFailed,
+        uri: uri,
+        statusCode: response.statusCode,
+        responseBody: response.body,
+      );
     }
 
-    return jsonDecode(response.body) as Map<String, dynamic>;
+    try {
+      return jsonDecode(response.body) as Map<String, dynamic>;
+    } catch (error) {
+      throw CodebookApiException(
+        message:
+            '${ApiErrorMessages.fetchCodebookFailed} (invalid json: $error)',
+        uri: uri,
+        statusCode: response.statusCode,
+        responseBody: response.body,
+      );
+    }
   }
 }

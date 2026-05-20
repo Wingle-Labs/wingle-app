@@ -1,3 +1,10 @@
+export 'codebook_entry.dart';
+export 'codebook_group.dart';
+export 'codebook_hierarchy_tree.dart';
+export 'codebook_snapshot.dart';
+export 'codebook_version_map.dart';
+export 'job_codebook_tree.dart';
+export 'region_codebook_tree.dart';
 /// 현재 버전 응답.
 class CurrentVersionResponse {
   /// 현재 버전
@@ -116,19 +123,27 @@ class CommonCodeDetail {
   /// 부모 코드
   final String? parentCode;
 
+  /// 표시 순서
+  final int displayOrder;
+
   /// 생성자
   const CommonCodeDetail({
     required this.code,
     required this.codeName,
+    required this.displayOrder,
     this.parentCode,
   });
 
   /// JSON에서 생성한다.
   factory CommonCodeDetail.fromJson(Map<String, dynamic> json) {
+    final rawDisplayOrder = json['displayOrder'];
     return CommonCodeDetail(
       code: json['code']?.toString() ?? '',
       codeName: json['codeName']?.toString() ?? '',
       parentCode: json['parentCode']?.toString(),
+      displayOrder: rawDisplayOrder is num
+          ? rawDisplayOrder.toInt()
+          : int.parse(rawDisplayOrder?.toString() ?? '0'),
     );
   }
 }
@@ -159,6 +174,14 @@ class ChoiceQuestionSetSnapshot {
           .map((e) => ChoiceQuestionDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
+  }
+
+  /// JSON으로 변환한다.
+  Map<String, dynamic> toJson() {
+    return {
+      'version': version,
+      'questions': questions.map((value) => value.toJson()).toList(),
+    };
   }
 }
 
@@ -192,6 +215,15 @@ class ChoiceQuestionDetail {
           .toList(),
     );
   }
+
+  /// JSON으로 변환한다.
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'content': content,
+      'options': options.map((value) => value.toJson()).toList(),
+    };
+  }
 }
 
 /// 객관식 질문 선택지.
@@ -212,6 +244,14 @@ class ChoiceQuestionOption {
       id: rawId is num ? rawId.toInt() : int.parse(rawId.toString()),
       content: json['content']?.toString() ?? '',
     );
+  }
+
+  /// JSON으로 변환한다.
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'content': content,
+    };
   }
 }
 
