@@ -1,3 +1,4 @@
+import 'codebook_group.dart';
 export 'codebook_entry.dart';
 export 'codebook_group.dart';
 export 'codebook_hierarchy_tree.dart';
@@ -5,6 +6,16 @@ export 'codebook_snapshot.dart';
 export 'codebook_version_map.dart';
 export 'job_codebook_tree.dart';
 export 'region_codebook_tree.dart';
+
+/// 코드북 상세 항목 별칭.
+typedef CodebookEntry = CommonCodeDetail;
+
+/// 코드북 스냅샷 별칭.
+typedef CodebookSnapshot = CodeSnapshot;
+
+/// 코드북 버전 맵 별칭.
+typedef CodebookVersionMap = VersionMap;
+
 /// 현재 버전 응답.
 class CurrentVersionResponse {
   /// 현재 버전
@@ -110,6 +121,23 @@ class CodeSnapshot {
           .toList(),
     );
   }
+
+  /// JSON으로 변환한다.
+  Map<String, dynamic> toJson() {
+    return {
+      'version': version,
+      'codes': codes
+          .map(
+            (value) => {
+              'code': value.code,
+              'codeName': value.codeName,
+              'parentCode': value.parentCode,
+              'displayOrder': value.displayOrder,
+            },
+          )
+          .toList(),
+    };
+  }
 }
 
 /// 공통 코드 상세.
@@ -145,6 +173,49 @@ class CommonCodeDetail {
           ? rawDisplayOrder.toInt()
           : int.parse(rawDisplayOrder?.toString() ?? '0'),
     );
+  }
+}
+
+/// 코드북 버전 맵.
+class VersionMap {
+  /// 그룹별 버전.
+  final Map<CodebookGroup, int> versions;
+
+  /// 생성자.
+  const VersionMap({required this.versions});
+
+  /// 빈 버전 맵.
+  const VersionMap.empty() : versions = const {};
+
+  /// 원격 응답에서 생성한다.
+  factory VersionMap.fromRemoteMap(Map<String, dynamic> json) {
+    final versions = <CodebookGroup, int>{};
+
+    for (final entry in json.entries) {
+      CodebookGroup? group;
+      for (final candidate in CodebookGroup.values) {
+        if (candidate.code == entry.key) {
+          group = candidate;
+          break;
+        }
+      }
+      if (group == null) continue;
+
+      final rawVersion = entry.value;
+      final version = rawVersion is num
+          ? rawVersion.toInt()
+          : int.tryParse(rawVersion.toString()) ?? 0;
+      if (version > 0) {
+        versions[group] = version;
+      }
+    }
+
+    return VersionMap(versions: versions);
+  }
+
+  /// JSON으로 변환한다.
+  Map<String, dynamic> toJson() {
+    return {for (final entry in versions.entries) entry.key.code: entry.value};
   }
 }
 
@@ -248,10 +319,7 @@ class ChoiceQuestionOption {
 
   /// JSON으로 변환한다.
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'content': content,
-    };
+    return {'id': id, 'content': content};
   }
 }
 

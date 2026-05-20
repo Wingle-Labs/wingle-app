@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:wingle/common/constants/env_constants.dart';
 import 'package:wingle/common/utils/env_util.dart';
 import 'package:wingle/common/utils/repository_selector.dart';
+import 'package:wingle/features/onboarding/data/cached_codebook_repository.dart';
 import 'package:wingle/features/onboarding/data/codebook_repository_impl.dart';
 import 'package:wingle/features/onboarding/data/mock/mock_codebook_repository.dart';
 import 'package:wingle/features/onboarding/domain/repository/codebook_repository.dart';
@@ -19,5 +20,7 @@ final codebookRepositoryProvider = Provider<CodebookRepository>((ref) {
   final client = http.Client();
   ref.onDispose(client.close);
 
-  return CodebookRepositoryImpl(client: client, baseUrl: baseUrl);
+  return CachedCodebookRepository(
+    remoteRepository: CodebookRepositoryImpl(client: client, baseUrl: baseUrl),
+  );
 });
