@@ -33,11 +33,7 @@ class _ToggleSwitchPageState extends State<ToggleSwitchPage> {
       initialOption: false,
     );
     final resolvedSpec = <WidgetbookResolvedSpecEntry>[
-      WidgetbookResolvedSpecEntry(
-        label: 'Track size',
-        value:
-            '${AppContainerSize.toggleSwitchWidth.toInt()}×${AppContainerSize.toggleSwitchHeight.toInt()}px',
-      ),
+      WidgetbookResolvedSpecEntry(label: 'Track size', value: _trackSizeLabel),
       WidgetbookResolvedSpecEntry(
         label: 'Thumb size',
         value: '${AppContainerSize.toggleSwitchThumb.toInt()}px',
@@ -56,19 +52,23 @@ class _ToggleSwitchPageState extends State<ToggleSwitchPage> {
       ),
       WidgetbookResolvedSpecEntry(
         label: 'Active track',
-        value: 'primaryNormal (${widgetbookColorToHex(colors.primaryNormal)})',
+        value: widgetbookTokenValue('primaryNormal', colors.primaryNormal),
         swatchColor: colors.primaryNormal,
       ),
       WidgetbookResolvedSpecEntry(
         label: 'Inactive track',
-        value:
-            'strokeStructuralBorder (${widgetbookColorToHex(colors.strokeStructuralBorder)})',
+        value: widgetbookTokenValue(
+          'strokeStructuralBorder',
+          colors.strokeStructuralBorder,
+        ),
         swatchColor: colors.strokeStructuralBorder,
       ),
       WidgetbookResolvedSpecEntry(
         label: 'Disabled track',
-        value:
-            'interactionDisable (${widgetbookColorToHex(colors.interactionDisable)})',
+        value: widgetbookTokenValue(
+          'interactionDisable',
+          colors.interactionDisable,
+        ),
         swatchColor: colors.interactionDisable,
       ),
     ];
@@ -156,6 +156,11 @@ class _ToggleSwitchPageState extends State<ToggleSwitchPage> {
       ),
     );
   }
+}
+
+String get _trackSizeLabel {
+  return '${AppContainerSize.toggleSwitchWidth.toInt()}×'
+      '${AppContainerSize.toggleSwitchHeight.toInt()}px';
 }
 
 class _SpecRow extends StatelessWidget {

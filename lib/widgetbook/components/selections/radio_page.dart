@@ -55,13 +55,15 @@ class _RadioPageState extends State<RadioPage> {
       ),
       WidgetbookResolvedSpecEntry(
         label: 'Active fill',
-        value: 'primaryNormal (${widgetbookColorToHex(colors.primaryNormal)})',
+        value: widgetbookTokenValue('primaryNormal', colors.primaryNormal),
         swatchColor: colors.primaryNormal,
       ),
       WidgetbookResolvedSpecEntry(
         label: 'Inactive border',
-        value:
-            'strokeStructuralBorder (${widgetbookColorToHex(colors.strokeStructuralBorder)})',
+        value: widgetbookTokenValue(
+          'strokeStructuralBorder',
+          colors.strokeStructuralBorder,
+        ),
         swatchColor: colors.strokeStructuralBorder,
       ),
     ];

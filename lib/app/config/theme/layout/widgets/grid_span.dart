@@ -19,7 +19,7 @@ class GridSpan extends StatelessWidget {
     required this.span,
     required this.child,
   });
- 
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(width: grid.span(span), child: child);

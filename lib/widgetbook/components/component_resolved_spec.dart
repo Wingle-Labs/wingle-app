@@ -117,5 +117,13 @@ String widgetbookColorToHex(Color color) {
     return '#${red.toUpperCase()}${green.toUpperCase()}${blue.toUpperCase()}';
   }
 
-  return '#${alpha.toUpperCase()}${red.toUpperCase()}${green.toUpperCase()}${blue.toUpperCase()}';
+  return '#${alpha.toUpperCase()}'
+      '${red.toUpperCase()}'
+      '${green.toUpperCase()}'
+      '${blue.toUpperCase()}';
+}
+
+/// Widgetbook resolved spec에서 semantic color token과 hex를 함께 표시한다.
+String widgetbookTokenValue(String tokenName, Color color) {
+  return '$tokenName (${widgetbookColorToHex(color)})';
 }

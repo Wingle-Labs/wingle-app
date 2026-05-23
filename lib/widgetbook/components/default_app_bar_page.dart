@@ -128,14 +128,16 @@ class DefaultAppBarPage extends StatelessWidget {
       ),
       WidgetbookResolvedSpecEntry(
         label: 'Background',
-        value:
-            'backgroundNormal (${widgetbookColorToHex(colors.backgroundNormal)})',
+        value: widgetbookTokenValue(
+          'backgroundNormal',
+          colors.backgroundNormal,
+        ),
         swatchColor: colors.backgroundNormal,
       ),
       WidgetbookResolvedSpecEntry(
         label: 'Bottom border',
         value: showBottomBorder
-            ? 'strokeNeutral (${widgetbookColorToHex(colors.strokeNeutral)})'
+            ? widgetbookTokenValue('strokeNeutral', colors.strokeNeutral)
             : 'none',
         swatchColor: showBottomBorder ? colors.strokeNeutral : null,
       ),

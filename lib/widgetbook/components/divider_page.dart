@@ -48,13 +48,14 @@ class DividerPage extends StatelessWidget {
       ),
       WidgetbookResolvedSpecEntry(
         label: 'Thickness',
-        value:
-            '${(variant == DefaultDividerVariant.normal ? AppLineWidth.dividerNormal : AppLineWidth.dividerThick).toStringAsFixed(0)}px',
+        value: '${_thicknessFor(variant).toStringAsFixed(0)}px',
       ),
       WidgetbookResolvedSpecEntry(
         label: 'Color',
-        value:
-            'strokeStructuralDivider (${widgetbookColorToHex(colors.strokeStructuralDivider)})',
+        value: widgetbookTokenValue(
+          'strokeStructuralDivider',
+          colors.strokeStructuralDivider,
+        ),
         swatchColor: colors.strokeStructuralDivider,
       ),
       WidgetbookResolvedSpecEntry(
@@ -139,6 +140,12 @@ class DividerPage extends StatelessWidget {
       ),
     );
   }
+}
+
+double _thicknessFor(DefaultDividerVariant variant) {
+  return variant == DefaultDividerVariant.normal
+      ? AppLineWidth.dividerNormal
+      : AppLineWidth.dividerThick;
 }
 
 class _DividerCard extends StatelessWidget {

@@ -50,8 +50,7 @@ class _PaginationPageState extends State<PaginationPage> {
         value: switch (variant) {
           PaginationVariant.dot =>
             '${AppContainerSize.paginationDot.toInt()}px',
-          PaginationVariant.line =>
-            '${AppContainerSize.paginationLineWidth.toInt()}×${AppContainerSize.paginationLine.toInt()}px',
+          PaginationVariant.line => _lineSizeLabel,
         },
       ),
       WidgetbookResolvedSpecEntry(
@@ -60,13 +59,15 @@ class _PaginationPageState extends State<PaginationPage> {
       ),
       WidgetbookResolvedSpecEntry(
         label: 'Active color',
-        value: 'primaryNormal (${widgetbookColorToHex(colors.primaryNormal)})',
+        value: widgetbookTokenValue('primaryNormal', colors.primaryNormal),
         swatchColor: colors.primaryNormal,
       ),
       WidgetbookResolvedSpecEntry(
         label: 'Inactive color',
-        value:
-            'interactionDisable (${widgetbookColorToHex(colors.interactionDisable)})',
+        value: widgetbookTokenValue(
+          'interactionDisable',
+          colors.interactionDisable,
+        ),
         swatchColor: colors.interactionDisable,
       ),
     ];
@@ -184,6 +185,11 @@ class _PaginationPageState extends State<PaginationPage> {
       ),
     );
   }
+}
+
+String get _lineSizeLabel {
+  return '${AppContainerSize.paginationLineWidth.toInt()}×'
+      '${AppContainerSize.paginationLine.toInt()}px';
 }
 
 class _PrincipleCard extends StatelessWidget {

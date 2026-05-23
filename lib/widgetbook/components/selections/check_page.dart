@@ -48,8 +48,14 @@ class _CheckPageState extends State<CheckPage> {
       WidgetbookResolvedSpecEntry(
         label: 'Icon color',
         value: disabled
-            ? 'componentCheckDisabled (${widgetbookColorToHex(colors.interactionDisable)})'
-            : 'componentCheckEnabled (${widgetbookColorToHex(colors.primaryNormal)})',
+            ? widgetbookTokenValue(
+                'componentCheckDisabled',
+                colors.interactionDisable,
+              )
+            : widgetbookTokenValue(
+                'componentCheckEnabled',
+                colors.primaryNormal,
+              ),
         swatchColor: disabled
             ? colors.interactionDisable
             : colors.primaryNormal,

@@ -96,27 +96,33 @@ class _SnackbarSpecCard extends StatelessWidget {
       ),
       WidgetbookResolvedSpecEntry(
         label: 'Background',
-        value:
-            'backgroundElevatedNormal (${widgetbookColorToHex(colors.backgroundElevatedNormal)})',
+        value: widgetbookTokenValue(
+          'backgroundElevatedNormal',
+          colors.backgroundElevatedNormal,
+        ),
         swatchColor: colors.backgroundElevatedNormal,
       ),
       WidgetbookResolvedSpecEntry(
         label: 'Text',
-        value: 'textStrong (${widgetbookColorToHex(colors.textStrong)})',
+        value: widgetbookTokenValue('textStrong', colors.textStrong),
         swatchColor: colors.textStrong,
       ),
       if (withAction)
         WidgetbookResolvedSpecEntry(
           label: 'Action bg',
-          value:
-              'secondaryNormal (${widgetbookColorToHex(colors.secondaryNormal)})',
+          value: widgetbookTokenValue(
+            'secondaryNormal',
+            colors.secondaryNormal,
+          ),
           swatchColor: colors.secondaryNormal,
         ),
       if (withAction)
         WidgetbookResolvedSpecEntry(
           label: 'Action fg',
-          value:
-              'onSecondaryNormal (${widgetbookColorToHex(colors.onSecondaryNormal)})',
+          value: widgetbookTokenValue(
+            'onSecondaryNormal',
+            colors.onSecondaryNormal,
+          ),
           swatchColor: colors.onSecondaryNormal,
         ),
     ];

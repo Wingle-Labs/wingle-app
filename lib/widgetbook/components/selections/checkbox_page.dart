@@ -51,25 +51,31 @@ class _CheckboxPageState extends State<CheckboxPage> {
       ),
       WidgetbookResolvedSpecEntry(
         label: 'Background',
-        value:
-            'backgroundElevatedNormal (${widgetbookColorToHex(colors.backgroundElevatedNormal)})',
+        value: widgetbookTokenValue(
+          'backgroundElevatedNormal',
+          colors.backgroundElevatedNormal,
+        ),
         swatchColor: colors.backgroundElevatedNormal,
       ),
       WidgetbookResolvedSpecEntry(
         label: 'Border',
-        value:
-            'strokeStructuralBorder (${widgetbookColorToHex(colors.strokeStructuralBorder)})',
+        value: widgetbookTokenValue(
+          'strokeStructuralBorder',
+          colors.strokeStructuralBorder,
+        ),
         swatchColor: colors.strokeStructuralBorder,
       ),
       WidgetbookResolvedSpecEntry(
         label: 'Active fill',
-        value: 'primaryNormal (${widgetbookColorToHex(colors.primaryNormal)})',
+        value: widgetbookTokenValue('primaryNormal', colors.primaryNormal),
         swatchColor: colors.primaryNormal,
       ),
       WidgetbookResolvedSpecEntry(
         label: 'Disabled icon',
-        value:
-            'componentCheckboxIconDisabled (${widgetbookColorToHex(colors.componentCheckboxIconDisabled)})',
+        value: widgetbookTokenValue(
+          'componentCheckboxIconDisabled',
+          colors.componentCheckboxIconDisabled,
+        ),
         swatchColor: colors.componentCheckboxIconDisabled,
       ),
     ];
