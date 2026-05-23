@@ -39,70 +39,96 @@ class _RegionPickerSheetState extends State<_RegionPickerSheet> {
       return item.codeName.toLowerCase().contains(query);
     }).toList();
 
-    return FractionallySizedBox(
-      heightFactor: _RegionPickerSheet._heightFactor,
-      child: Container(
-        margin: const EdgeInsets.all(AppPadding.scaffold),
-        padding: const EdgeInsets.all(AppPadding.bottomSheet),
-        decoration: BoxDecoration(
-          color: colors.backgroundElevatedNormal,
-          borderRadius: BorderRadius.circular(AppRadius.bottomSheetTopRadius),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: colors.strokeStructuralDivider,
-                  borderRadius: BorderRadius.circular(AppRadius.xs),
-                ),
-                child: const SizedBox(
-                  width: AppContainerSize.bottomSheetHandleWidth,
-                  height: AppLineWidth.bottomSheetHandleHeight,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final mediaQuery = MediaQuery.of(context);
+        final viewportHeight = constraints.hasBoundedHeight
+            ? constraints.maxHeight
+            : mediaQuery.size.height;
+        final availableHeight = math.max(
+          0.0,
+          viewportHeight - mediaQuery.padding.top - AppPadding.scaffold * 2,
+        );
+        final sheetHeight = math.min(
+          mediaQuery.size.height * _RegionPickerSheet._heightFactor,
+          availableHeight,
+        );
+
+        return Align(
+          alignment: Alignment.bottomCenter,
+          child: SizedBox(
+            height: sheetHeight,
+            child: Container(
+              margin: const EdgeInsets.all(AppPadding.scaffold),
+              padding: const EdgeInsets.all(AppPadding.bottomSheet),
+              decoration: BoxDecoration(
+                color: colors.backgroundElevatedNormal,
+                borderRadius: BorderRadius.circular(
+                  AppRadius.bottomSheetTopRadius,
                 ),
               ),
-            ),
-            const SizedBox(height: AppSpacing.s16),
-            DefaultText(
-              widget.title,
-              style: typography.subtitle.copyWith(color: colors.textStrong),
-              isTranslationKey: false,
-            ),
-            const SizedBox(height: AppSpacing.s16),
-            ProfileInputSearchField(
-              hintText: widget.searchHintText,
-              controller: _searchController,
-              onChanged: (value) => setState(() => _query = value),
-              showClearButton: _searchController.text.isNotEmpty,
-              onClear: () {
-                _searchController.clear();
-                setState(() => _query = '');
-              },
-            ),
-            const SizedBox(height: AppSpacing.s12),
-            Expanded(
-              child: filteredItems.isEmpty
-                  ? _RegionEmptySearchResult(query: _query)
-                  : ListView.separated(
-                      itemCount: filteredItems.length,
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(height: AppSpacing.s4),
-                      itemBuilder: (context, index) {
-                        final item = filteredItems[index];
-                        final isSelected = item.code == widget.selectedCode;
-
-                        return _RegionOptionTile(
-                          item: item,
-                          isSelected: isSelected,
-                          onTap: () => Navigator.of(context).pop(item.code),
-                        );
-                      },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: colors.strokeStructuralDivider,
+                        borderRadius: BorderRadius.circular(AppRadius.xs),
+                      ),
+                      child: const SizedBox(
+                        width: AppContainerSize.bottomSheetHandleWidth,
+                        height: AppLineWidth.bottomSheetHandleHeight,
+                      ),
                     ),
+                  ),
+                  const SizedBox(height: AppSpacing.s16),
+                  DefaultText(
+                    widget.title,
+                    style: typography.subtitle.copyWith(
+                      color: colors.textStrong,
+                    ),
+                    isTranslationKey: false,
+                  ),
+                  const SizedBox(height: AppSpacing.s16),
+                  ProfileInputSearchField(
+                    hintText: widget.searchHintText,
+                    controller: _searchController,
+                    onChanged: (value) => setState(() => _query = value),
+                    showClearButton: _searchController.text.isNotEmpty,
+                    onClear: () {
+                      _searchController.clear();
+                      setState(() => _query = '');
+                    },
+                  ),
+                  const SizedBox(height: AppSpacing.s12),
+                  Expanded(
+                    child: filteredItems.isEmpty
+                        ? _RegionEmptySearchResult(query: _query)
+                        : ListView.separated(
+                            itemCount: filteredItems.length,
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(height: AppSpacing.s4),
+                            itemBuilder: (context, index) {
+                              final item = filteredItems[index];
+                              final isSelected =
+                                  item.code == widget.selectedCode;
+
+                              return _RegionOptionTile(
+                                item: item,
+                                isSelected: isSelected,
+                                onTap: () =>
+                                    Navigator.of(context).pop(item.code),
+                              );
+                            },
+                          ),
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

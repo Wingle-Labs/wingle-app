@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_filled_button.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_text_button.dart';
+import 'package:wingle/app/config/theme/components/states/keyboard_avoiding_popup.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
@@ -23,67 +24,72 @@ class DefaultBottomSheet {
     return showModalBottomSheet<T>(
       useSafeArea: true,
       context: context,
+      isScrollControlled: true,
       isDismissible: false,
       showDragHandle: false,
       enableDrag: isHandleContained == true,
       backgroundColor: Colors.transparent,
       builder: (context) {
-        return Container(
-          margin: .all(AppPadding.scaffold),
-          padding: .all(AppPadding.bottomSheet),
-          decoration: BoxDecoration(
-            color: color.staticWhite,
-            borderRadius: .all(Radius.circular(AppRadius.bottomSheetTopRadius)),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: .start,
-            children: [
-              /// handle
-              isHandleContained == true
-                  ? Column(
-                      children: [
-                        Container(
-                          width: .infinity,
-                          alignment: .center,
-                          child: Container(
-                            width: AppContainerSize.bottomSheetHandleWidth,
-                            height: AppLineWidth.bottomSheetHandleHeight,
-                            decoration: BoxDecoration(
-                              color: color.componentBottomSheetHandle,
-                              borderRadius: .circular(AppRadius.xs),
+        return KeyboardAvoidingPopup(
+          child: Container(
+            margin: .all(AppPadding.scaffold),
+            padding: .all(AppPadding.bottomSheet),
+            decoration: BoxDecoration(
+              color: color.staticWhite,
+              borderRadius: .all(
+                Radius.circular(AppRadius.bottomSheetTopRadius),
+              ),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: .start,
+              children: [
+                /// handle
+                isHandleContained == true
+                    ? Column(
+                        children: [
+                          Container(
+                            width: .infinity,
+                            alignment: .center,
+                            child: Container(
+                              width: AppContainerSize.bottomSheetHandleWidth,
+                              height: AppLineWidth.bottomSheetHandleHeight,
+                              decoration: BoxDecoration(
+                                color: color.componentBottomSheetHandle,
+                                borderRadius: .circular(AppRadius.xs),
+                              ),
                             ),
                           ),
-                        ),
 
-                        const SizedBox(height: AppPadding.vertical),
-                      ],
-                    )
-                  : SizedBox.shrink(),
-              const SizedBox(height: AppPadding.vertical),
+                          const SizedBox(height: AppPadding.vertical),
+                        ],
+                      )
+                    : SizedBox.shrink(),
+                const SizedBox(height: AppPadding.vertical),
 
-              /// Body
-              body,
+                /// Body
+                body,
 
-              const SizedBox(height: AppPadding.bottomSheet),
-
-              /// Main button
-              DefaultFilledButton(
-                label: mainLabel,
-                onPressed: onMain,
-                variant: .fullWidth,
-              ),
-
-              /// Sub Button
-              if (onSub != null && subLabel != null) ...[
                 const SizedBox(height: AppPadding.bottomSheet),
-                DefaultTextButton(
-                  label: subLabel,
-                  onPressed: onSub,
+
+                /// Main button
+                DefaultFilledButton(
+                  label: mainLabel,
+                  onPressed: onMain,
                   variant: .fullWidth,
                 ),
+
+                /// Sub Button
+                if (onSub != null && subLabel != null) ...[
+                  const SizedBox(height: AppPadding.bottomSheet),
+                  DefaultTextButton(
+                    label: subLabel,
+                    onPressed: onSub,
+                    variant: .fullWidth,
+                  ),
+                ],
               ],
-            ],
+            ),
           ),
         );
       },

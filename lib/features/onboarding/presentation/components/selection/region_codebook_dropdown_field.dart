@@ -42,11 +42,13 @@ class _RegionDropdownField extends StatelessWidget {
                 isScrollControlled: true,
                 showDragHandle: false,
                 backgroundColor: Colors.transparent,
-                builder: (context) => _RegionPickerSheet(
-                  title: label,
-                  searchHintText: '$label 검색',
-                  items: items,
-                  selectedCode: value,
+                builder: (context) => KeyboardAvoidingPopup(
+                  child: _RegionPickerSheet(
+                    title: label,
+                    searchHintText: '$label 검색',
+                    items: items,
+                    selectedCode: value,
+                  ),
                 ),
               );
 

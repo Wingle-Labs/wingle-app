@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wingle/app/config/theme/components/states/animation_progress_indicator.dart';
+import 'package:wingle/app/config/theme/components/states/keyboard_avoiding_popup.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 
 /// 기본 로딩 다이얼로그
@@ -10,7 +11,9 @@ class DefaultLoaddingDialog {
       context: context,
       barrierDismissible: false,
       barrierColor: context.colors.overlayLoading,
-      builder: (_) => const Center(child: AnimationProgressIndicator()),
+      builder: (_) => const KeyboardAvoidingPopup(
+        child: Center(child: AnimationProgressIndicator()),
+      ),
     );
   }
 
