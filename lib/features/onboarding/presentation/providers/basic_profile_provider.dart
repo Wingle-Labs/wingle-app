@@ -114,13 +114,16 @@ class BasicProfile extends _$BasicProfile {
     final bodyShapeCode = state.bodyShapeCode;
     final gender = ref.read(currentUserGenderProvider);
     final codebook = ref.read(bodyShapeCodebookProvider);
-    final bodyType = codebook.labelForGenderAndCode(gender, bodyShapeCode);
+    final bodyShapeOption = codebook.optionForGenderAndCode(
+      gender,
+      bodyShapeCode,
+    );
 
     if (nickname.isEmpty ||
         residence == null ||
         height.length != 3 ||
         bodyShapeCode == null ||
-        bodyType == null) {
+        bodyShapeOption == null) {
       state = state.copyWith(
         isSubmitting: false,
         submitErrorMessage: ApiErrorMessages.submitBasicProfileFailed,
@@ -136,7 +139,7 @@ class BasicProfile extends _$BasicProfile {
         nickname: nickname,
         residence: residence,
         height: int.parse(height),
-        bodyType: bodyType,
+        bodyTypeCode: bodyShapeCode,
       );
 
       await HiveUtil.write(

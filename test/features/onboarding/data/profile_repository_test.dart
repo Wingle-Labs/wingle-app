@@ -30,7 +30,7 @@ void main() {
           level3: '37080412',
         ),
         height: 170,
-        bodyType: '보통',
+        bodyTypeCode: 'BT_M_002',
       );
       await repository.submitProfileDetails(
         mbti: 'ISFP',
@@ -91,14 +91,14 @@ void main() {
           level3: '37080412',
         ),
         height: 170,
-        bodyType: '보통',
+        bodyTypeCode: 'BT_M_002',
       );
 
       expect(body, {
         'nickname': MockProfileRepository.mockNickname,
         'residenceCode': '37080412',
         'height': 170,
-        'bodyTypeCode': '보통',
+        'bodyTypeCode': 'BT_M_002',
       });
     });
 

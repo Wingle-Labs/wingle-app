@@ -11,7 +11,7 @@ abstract class ProfileRepository {
     required String nickname,
     required ResidenceCode residence,
     required int height,
-    required String bodyType,
+    required String bodyTypeCode,
   });
 
   /// 세부 프로필 정보를 등록한다.

@@ -20,7 +20,7 @@ class MockProfileRepository implements ProfileRepository {
     required String nickname,
     required ResidenceCode residence,
     required int height,
-    required String bodyType,
+    required String bodyTypeCode,
   }) async {
     await Future<void>.delayed(const Duration(milliseconds: 500));
   }

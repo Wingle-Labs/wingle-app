@@ -35,13 +35,16 @@ class BasicProfileCompletion extends _$BasicProfileCompletion {
     final bodyShapeCode = ref.read(basicProfileBodyShapeProvider);
     final gender = ref.read(currentUserGenderProvider);
     final codebook = ref.read(bodyShapeCodebookProvider);
-
-    final bodyType = codebook.labelForGenderAndCode(gender, bodyShapeCode);
+    final bodyShapeOption = codebook.optionForGenderAndCode(
+      gender,
+      bodyShapeCode,
+    );
 
     if (nickname.isEmpty ||
         residence == null ||
         height.length != 3 ||
-        bodyType == null) {
+        bodyShapeCode == null ||
+        bodyShapeOption == null) {
       state = state.copyWith(
         isLoading: false,
         errorMessage: ApiErrorMessages.submitBasicProfileFailed,
@@ -57,7 +60,7 @@ class BasicProfileCompletion extends _$BasicProfileCompletion {
         nickname: nickname,
         residence: residence,
         height: int.parse(height),
-        bodyType: bodyType,
+        bodyTypeCode: bodyShapeCode,
       );
 
       await HiveUtil.write(

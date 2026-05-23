@@ -47,7 +47,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
     required String nickname,
     required ResidenceCode residence,
     required int height,
-    required String bodyType,
+    required String bodyTypeCode,
   }) async {
     await _postJson(
       path: ApiEndpoints.signupProfile,
@@ -55,7 +55,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
         'nickname': nickname,
         'residenceCode': residence.level3,
         'height': height,
-        'bodyTypeCode': bodyType,
+        'bodyTypeCode': bodyTypeCode,
       },
       errorMessage: ApiErrorMessages.submitBasicProfileFailed,
     );

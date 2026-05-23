@@ -16,19 +16,19 @@ class _RecordingProfileRepository extends MockProfileRepository {
   String? nickname;
   ResidenceCode? residence;
   int? height;
-  String? bodyType;
+  String? bodyTypeCode;
 
   @override
   Future<void> submitBasicProfile({
     required String nickname,
     required ResidenceCode residence,
     required int height,
-    required String bodyType,
+    required String bodyTypeCode,
   }) async {
     this.nickname = nickname;
     this.residence = residence;
     this.height = height;
-    this.bodyType = bodyType;
+    this.bodyTypeCode = bodyTypeCode;
   }
 }
 
@@ -77,7 +77,7 @@ void main() {
     expect(repository.nickname, MockProfileRepository.mockNickname);
     expect(repository.residence, isNotNull);
     expect(repository.height, 175);
-    expect(repository.bodyType, '슬림');
+    expect(repository.bodyTypeCode, 'slim');
     expect(
       HiveUtil.read(HiveLoginBox.profileStatus),
       LoginProfileStatus.basicInfoCompleted.apiValue,
