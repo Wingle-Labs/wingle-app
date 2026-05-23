@@ -14,7 +14,7 @@ import 'package:wingle/features/onboarding/presentation/providers/onboarding_pas
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// Onboarding에서 Password를 입력하는 페이지
-class OnboardingPasswordPage extends ConsumerStatefulWidget {
+class OnboardingPasswordPage extends ConsumerWidget {
   /// 인증된 유저 전화번호
   final String phoneNumber;
 
@@ -22,20 +22,13 @@ class OnboardingPasswordPage extends ConsumerStatefulWidget {
   const OnboardingPasswordPage({super.key, required this.phoneNumber});
 
   @override
-  ConsumerState<OnboardingPasswordPage> createState() =>
-      _OnboardingPasswordPageState();
-}
-
-class _OnboardingPasswordPageState
-    extends ConsumerState<OnboardingPasswordPage> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(onboardingPasswordInputPageProvider);
     final notifier = ref.watch(onboardingPasswordInputPageProvider.notifier);
 
     return ScrollableScaffold(
       canPop: false,
-      onPop: showOnPop,
+      onPop: () => _showOnPop(context),
       spacing: 0,
       body: [
         const DefaultPageHeader(
@@ -43,7 +36,7 @@ class _OnboardingPasswordPageState
           subtitle: 'onboarding.password.instruction',
         ),
         SizedBox(height: AppSpacing.s48),
-        PhoneNumberReadOnlyField(phoneNumber: widget.phoneNumber),
+        PhoneNumberReadOnlyField(phoneNumber: phoneNumber),
         SizedBox(height: AppSpacing.s32),
         PasswordInputField(
           value: state.password,
@@ -80,7 +73,7 @@ class _OnboardingPasswordPageState
     );
   }
 
-  void showOnPop() {
+  void _showOnPop(BuildContext context) {
     DefaultBottomSheet.show(
       context,
       isHandleContained: true,

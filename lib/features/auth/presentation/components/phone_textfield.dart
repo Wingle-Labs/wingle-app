@@ -18,6 +18,12 @@ class _PhoneTextFieldState extends ConsumerState<PhoneTextField> {
   final TextEditingController _phoneController = TextEditingController();
 
   @override
+  void dispose() {
+    _phoneController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final isSent = ref.watch(phoneAuthProvider.select((state) => state.isSent));
     final isSending = ref.watch(

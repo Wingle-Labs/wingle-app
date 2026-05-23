@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/components/wrappers/default_app_bar.dart';
 import 'package:wingle/app/config/theme/components/wrappers/smooth_rect.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
@@ -7,7 +6,7 @@ import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 
 /// 스크롤 가능한 Scaffold
-class ScrollableScaffold extends ConsumerStatefulWidget {
+class ScrollableScaffold extends StatelessWidget {
   /// 제목
   final String? title;
 
@@ -46,39 +45,34 @@ class ScrollableScaffold extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<ScrollableScaffold> createState() => _ScrollableScaffoldState();
-}
-
-class _ScrollableScaffoldState extends ConsumerState<ScrollableScaffold> {
-  @override
   Widget build(BuildContext context) {
     final colorScheme = context.colors;
     return PopScope(
-      canPop: widget.canPop ?? true,
+      canPop: canPop ?? true,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) {
-          widget.onPop?.call();
+          onPop?.call();
         }
       },
       child: Scaffold(
-        appBar: DefaultAppBar(title: widget.title),
+        appBar: DefaultAppBar(title: title),
         backgroundColor: colorScheme.backgroundNormal,
         body: SingleChildScrollView(
           padding: .all(AppPadding.scaffold),
           child: Column(
-            crossAxisAlignment: widget.crossAxisAlignment,
-            spacing: widget.spacing ?? AppSpacing.s24,
+            crossAxisAlignment: crossAxisAlignment,
+            spacing: spacing ?? AppSpacing.s24,
             children: [
-              ...widget.body,
-              widget.addBottomSpacing ?? true
+              ...body,
+              addBottomSpacing ?? true
                   ? Padding(padding: .only(bottom: AppSpacing.bottom))
                   : const SizedBox.shrink(),
             ],
           ),
         ),
         floatingActionButtonLocation: .centerFloat,
-        floatingActionButton: widget.floatingActionButton != null
-            ? SmoothRectWrapper(child: widget.floatingActionButton as Widget)
+        floatingActionButton: floatingActionButton != null
+            ? SmoothRectWrapper(child: floatingActionButton!)
             : null,
         floatingActionButtonAnimator: FloatingActionButtonAnimator.noAnimation,
       ),

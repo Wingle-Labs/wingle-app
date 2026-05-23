@@ -13,17 +13,12 @@ import 'package:wingle/features/onboarding/presentation/providers/pass_provider.
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// PASS 인증 웹뷰 페이지
-class PassWebViewPage extends ConsumerStatefulWidget {
+class PassWebViewPage extends ConsumerWidget {
   /// 생성자
   const PassWebViewPage({super.key});
 
   @override
-  ConsumerState<PassWebViewPage> createState() => _PassWebViewPageState();
-}
-
-class _PassWebViewPageState extends ConsumerState<PassWebViewPage> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return IamportCertification(
       appBar: DefaultAppBar(
         layout: DefaultAppBarLayout.display,

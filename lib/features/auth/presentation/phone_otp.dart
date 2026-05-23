@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_floating_button.dart';
 import 'package:wingle/app/config/theme/components/cards/default_card.dart';
@@ -9,15 +8,10 @@ import 'package:wingle/features/auth/presentation/components/phone_otp_textfield
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// 전화번호 인증 페이지
-class PhoneOtpPage extends ConsumerStatefulWidget {
+class PhoneOtpPage extends StatelessWidget {
   /// 생성자
   const PhoneOtpPage({super.key});
 
-  @override
-  ConsumerState<PhoneOtpPage> createState() => _PhoneOtpPageState();
-}
-
-class _PhoneOtpPageState extends ConsumerState<PhoneOtpPage> {
   @override
   Widget build(BuildContext context) {
     return ScrollableScaffold(

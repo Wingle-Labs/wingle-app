@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/components/text_fields/underline_text_field.dart';
 
 /// 전화번호 입력 TextField
-class PhoneOtpTextField extends ConsumerStatefulWidget {
+class PhoneOtpTextField extends StatefulWidget {
   /// 생성자
   const PhoneOtpTextField({super.key});
 
   @override
-  ConsumerState<PhoneOtpTextField> createState() => _PhoneOtpTextFieldState();
+  State<PhoneOtpTextField> createState() => _PhoneOtpTextFieldState();
 }
 
-class _PhoneOtpTextFieldState extends ConsumerState<PhoneOtpTextField> {
+class _PhoneOtpTextFieldState extends State<PhoneOtpTextField> {
   final TextEditingController _phoneOtpController = TextEditingController();
+
+  @override
+  void dispose() {
+    _phoneOtpController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

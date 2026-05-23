@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_floating_button.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
@@ -9,15 +8,10 @@ import 'package:wingle/features/onboarding/presentation/components/wrapper/selec
 import 'package:wingle/features/onboarding/presentation/data/selective_self_intro_mock_data.dart';
 
 /// 선택형 자기소개 페이지
-class SelectiveSelfIntro extends ConsumerStatefulWidget {
+class SelectiveSelfIntro extends StatelessWidget {
   /// 생성자
   const SelectiveSelfIntro({super.key});
 
-  @override
-  ConsumerState<SelectiveSelfIntro> createState() => _SelectiveSelfIntroState();
-}
-
-class _SelectiveSelfIntroState extends ConsumerState<SelectiveSelfIntro> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

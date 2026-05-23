@@ -10,17 +10,12 @@ import 'package:wingle/features/auth/presentation/providers/phone_auth_provider.
 import 'package:wingle/features/auth/presentation/states/phone_auth_state.dart';
 
 /// 전화번호 인증 페이지
-class PhoneAuthPage extends ConsumerStatefulWidget {
+class PhoneAuthPage extends ConsumerWidget {
   /// 생성자
   const PhoneAuthPage({super.key});
 
   @override
-  ConsumerState<PhoneAuthPage> createState() => _PhoneAuthPageState();
-}
-
-class _PhoneAuthPageState extends ConsumerState<PhoneAuthPage> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     ref.listen<PhoneAuthState>(phoneAuthProvider, (previous, next) {
       if (next.pushOtpCondition()) {
         RequestPhoneCode.navigateToOtp(context);

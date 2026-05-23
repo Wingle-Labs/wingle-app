@@ -32,7 +32,6 @@ class OnboardingBottomButtons extends ConsumerWidget {
               SizedBox(height: AppContainerSize.buttonMinimun),
               SizedBox(height: AppSpacing.s8),
               SizedBox(
-                // height: AppContainerSize.xl,
                 width: double.infinity,
                 child: DefaultFilledButton(
                   label: 'onboarding.button.next',

@@ -21,17 +21,12 @@ import 'package:wingle/features/onboarding/presentation/components/input/phone_i
 import 'package:wingle/features/onboarding/presentation/providers/login_page_provider.dart';
 
 /// 로그인 페이지
-class LoginPage extends ConsumerStatefulWidget {
+class LoginPage extends ConsumerWidget {
   /// const 생성자
   const LoginPage({super.key});
 
   @override
-  ConsumerState<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends ConsumerState<LoginPage> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final typography = context.typography;
     final state = ref.watch(loginPageProvider);
     final notifier = ref.read(loginPageProvider.notifier);

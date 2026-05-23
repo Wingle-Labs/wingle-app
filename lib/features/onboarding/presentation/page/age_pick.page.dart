@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_floating_button.dart';
 import 'package:wingle/app/config/theme/components/cards/default_card.dart';
@@ -10,15 +9,10 @@ import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// 나이 선택 페이지
-class AgePickPage extends ConsumerStatefulWidget {
+class AgePickPage extends StatelessWidget {
   /// 생성자
   const AgePickPage({super.key});
 
-  @override
-  ConsumerState<AgePickPage> createState() => _AgePickPageState();
-}
-
-class _AgePickPageState extends ConsumerState<AgePickPage> {
   @override
   Widget build(BuildContext context) {
     return ScrollableScaffold(

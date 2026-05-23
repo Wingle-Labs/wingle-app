@@ -12,17 +12,12 @@ import 'package:wingle/features/onboarding/presentation/data/onboarding_carousel
 import 'package:wingle/features/onboarding/presentation/providers/carousel_index_provider.dart';
 
 /// Onboarding 페이지
-class OnboardingPage extends ConsumerStatefulWidget {
+class OnboardingPage extends ConsumerWidget {
   /// 초기 화면으로 사용자에게 앱을 소개하는 페이지
   const OnboardingPage({super.key});
 
   @override
-  ConsumerState<OnboardingPage> createState() => _OnboardingPageState();
-}
-
-class _OnboardingPageState extends ConsumerState<OnboardingPage> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = ref.watch(onboardingCarouselProvider);
     final controller = ref
         .watch(onboardingCarouselProvider.notifier)

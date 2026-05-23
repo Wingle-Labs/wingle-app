@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wingle/app/config/theme/components/text_fields/default_underline_input_field.dart';
 import 'package:wingle/app/config/theme/components/texts/text_scale_policy.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 
 /// 밑줄이 그어진 텍스트 필드
-class UnderlineField extends ConsumerStatefulWidget {
+class UnderlineField extends StatelessWidget {
   /// Controller
   final TextEditingController controller;
 
@@ -65,26 +64,23 @@ class UnderlineField extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<UnderlineField> createState() => _UnderlineFieldState();
-}
-
-class _UnderlineFieldState extends ConsumerState<UnderlineField> {
-  @override
   Widget build(BuildContext context) {
+    final suffixWidget = suffix;
+
     return Padding(
-      padding: EdgeInsets.only(bottom: widget.bottomPadding ?? 0),
+      padding: EdgeInsets.only(bottom: bottomPadding ?? 0),
       child: DefaultUnderlineInputField(
-        controller: widget.controller,
-        labelText: widget.label,
-        hintText: widget.hint,
-        assistiveText: widget.helper,
-        keyboardType: widget.keyboardType,
-        autofillHints: widget.autofillHints,
-        onChanged: widget.onChanged,
-        isEnabled: widget.enabled ?? true,
-        suffix: widget.suffix is SizedBox ? null : widget.suffix,
-        maxLength: widget.maxLength,
-        inputFormatters: widget.inputFormatters,
+        controller: controller,
+        labelText: label,
+        hintText: hint,
+        assistiveText: helper,
+        keyboardType: keyboardType,
+        autofillHints: autofillHints,
+        onChanged: onChanged,
+        isEnabled: enabled ?? true,
+        suffix: suffixWidget is SizedBox ? null : suffixWidget,
+        maxLength: maxLength,
+        inputFormatters: inputFormatters,
         policy: TextScalePolicy.cappedMedium,
       ),
     );
