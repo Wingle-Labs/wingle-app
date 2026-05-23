@@ -239,7 +239,8 @@ class _RegionSnapshotPreviewState extends State<_RegionSnapshotPreview> {
             RegionCodebookSelectionPanel(
               tree: tree,
               selectedCode: _selectedCode,
-              onSelected: (code) => setState(() => _selectedCode = code),
+              onSelected: (selection) =>
+                  setState(() => _selectedCode = selection.code),
             ),
           ],
         ),

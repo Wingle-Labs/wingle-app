@@ -495,7 +495,7 @@ class _RegionPreviewState extends State<_RegionPreview> {
     return RegionCodebookSelectionPanel(
       tree: widget.tree,
       selectedCode: _selectedCode,
-      onSelected: (code) => setState(() => _selectedCode = code),
+      onSelected: (selection) => setState(() => _selectedCode = selection.code),
     );
   }
 }

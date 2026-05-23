@@ -1,6 +1,27 @@
 import 'codebook_entry.dart';
 import 'codebook_snapshot.dart';
 
+/// 코드북 항목의 부모 코드를 보정하는 함수.
+typedef CodebookParentCodeResolver =
+    String? Function(
+      CodebookEntry entry,
+      Map<String, CodebookEntry> entriesByCode,
+    );
+
+/// 코드북 항목 포함 여부를 결정하는 함수.
+typedef CodebookEntryPredicate =
+    bool Function(
+      CodebookEntry entry,
+      Map<String, CodebookEntry> entriesByCode,
+    );
+
+/// 코드북 항목 표시명을 보정하는 함수.
+typedef CodebookEntryCodeNameResolver =
+    String Function(
+      CodebookEntry entry,
+      Map<String, CodebookEntry> entriesByCode,
+    );
+
 /// parentCode 기반 계층형 코드북 노드.
 class CodebookHierarchyNode {
   /// 코드.
@@ -41,11 +62,36 @@ class CodebookHierarchyTree {
   }) : _index = index;
 
   /// 스냅샷으로부터 트리를 생성한다.
-  factory CodebookHierarchyTree.fromSnapshot(CodebookSnapshot snapshot) {
+  factory CodebookHierarchyTree.fromSnapshot(
+    CodebookSnapshot snapshot, {
+    CodebookParentCodeResolver? resolveParentCode,
+    CodebookEntryPredicate? includeEntry,
+    CodebookEntryCodeNameResolver? resolveCodeName,
+  }) {
+    final originalEntriesByCode = {
+      for (final entry in snapshot.codes) entry.code: entry,
+    };
+    final entries = [
+      for (final entry in snapshot.codes)
+        if (includeEntry?.call(entry, originalEntriesByCode) ?? true)
+          CodebookEntry(
+            code: entry.code,
+            codeName:
+                resolveCodeName?.call(entry, originalEntriesByCode) ??
+                entry.codeName,
+            parentCode: entry.parentCode,
+            displayOrder: entry.displayOrder,
+          ),
+    ];
+    final parentByCode = <String, String?>{};
     final childrenByParent = <String, List<CodebookEntry>>{};
 
-    for (final entry in snapshot.codes) {
-      final parentCode = entry.parentCode;
+    for (final entry in entries) {
+      final parentCode = _normalizeParentCode(
+        resolveParentCode?.call(entry, originalEntriesByCode) ??
+            entry.parentCode,
+      );
+      parentByCode[entry.code] = parentCode;
       if (parentCode == null || parentCode.isEmpty) continue;
       childrenByParent
           .putIfAbsent(parentCode, () => <CodebookEntry>[])
@@ -61,7 +107,7 @@ class CodebookHierarchyTree {
       final node = CodebookHierarchyNode(
         code: entry.code,
         codeName: entry.codeName,
-        parentCode: entry.parentCode,
+        parentCode: parentByCode[entry.code],
         children: [for (final child in children) buildNode(child)],
       );
       index[entry.code] = node;
@@ -69,8 +115,8 @@ class CodebookHierarchyTree {
     }
 
     final roots = [
-      for (final entry in snapshot.codes.where(
-        (entry) => entry.parentCode == null,
+      for (final entry in entries.where(
+        (entry) => parentByCode[entry.code] == null,
       ))
         entry,
     ]..sort(_compareEntries);
@@ -107,5 +153,10 @@ class CodebookHierarchyTree {
     final nameCompare = left.codeName.compareTo(right.codeName);
     if (nameCompare != 0) return nameCompare;
     return left.code.compareTo(right.code);
+  }
+
+  static String? _normalizeParentCode(String? parentCode) {
+    if (parentCode == null || parentCode.isEmpty) return null;
+    return parentCode;
   }
 }
