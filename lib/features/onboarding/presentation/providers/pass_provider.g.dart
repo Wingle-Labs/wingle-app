@@ -52,7 +52,7 @@ final class PassRepositoryProvider
   }
 }
 
-String _$passRepositoryHash() => r'0934d47e1ed5925f346dee72353b1a108332849e';
+String _$passRepositoryHash() => r'1db659e01876747e31b3bd483760dbc809464487';
 
 /// PASS 인증 Provider
 
@@ -83,7 +83,7 @@ final class PassVerificationProvider
   PassVerification create() => PassVerification();
 }
 
-String _$passVerificationHash() => r'c3e30cd28f597bcc73617f77e7937c90410a08b1';
+String _$passVerificationHash() => r'beb33a49e36c67aeb0bea6dc66e54636ba42f3bc';
 
 /// PASS 인증 Provider
 

@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wingle/app/providers/current_user_gender_provider.dart';
 import 'package:wingle/common/constants/api_error_messages.dart';
 import 'package:wingle/common/constants/hive_constants.dart';
@@ -11,14 +11,11 @@ import 'package:wingle/features/onboarding/presentation/models/basic_profile_mod
 import 'package:wingle/features/onboarding/presentation/providers/body_shape_repository_provider.dart';
 import 'package:wingle/features/onboarding/presentation/providers/profile_repository_provider.dart';
 
-/// 기본 프로필 입력 상태를 관리하는 Provider.
-final basicProfileProvider =
-    NotifierProvider<BasicProfileNotifier, BasicProfileModel>(
-      BasicProfileNotifier.new,
-    );
+part 'basic_profile_provider.g.dart';
 
 /// 기본 프로필 입력 상태를 관리하는 Notifier.
-class BasicProfileNotifier extends Notifier<BasicProfileModel> {
+@Riverpod(keepAlive: true)
+class BasicProfile extends _$BasicProfile {
   @override
   BasicProfileModel build() => const BasicProfileModel();
 

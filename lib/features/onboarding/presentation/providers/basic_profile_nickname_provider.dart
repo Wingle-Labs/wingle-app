@@ -1,16 +1,13 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wingle/common/constants/api_error_messages.dart';
 import 'package:wingle/features/onboarding/presentation/models/basic_profile_nickname_model.dart';
 import 'package:wingle/features/onboarding/presentation/providers/profile_repository_provider.dart';
 
-/// 기본 프로필 랜덤 닉네임 상태를 관리하는 Provider.
-final basicProfileNicknameProvider =
-    NotifierProvider<BasicProfileNicknameNotifier, BasicProfileNicknameModel>(
-      BasicProfileNicknameNotifier.new,
-    );
+part 'basic_profile_nickname_provider.g.dart';
 
 /// 기본 프로필 랜덤 닉네임 상태 관리 Notifier.
-class BasicProfileNicknameNotifier extends Notifier<BasicProfileNicknameModel> {
+@Riverpod(keepAlive: true)
+class BasicProfileNickname extends _$BasicProfileNickname {
   @override
   BasicProfileNicknameModel build() {
     return const BasicProfileNicknameModel(isLoading: true);

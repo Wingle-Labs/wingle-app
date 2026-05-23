@@ -1,18 +1,14 @@
 import 'dart:math' as math;
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wingle/features/onboarding/domain/model/profile/residence_code.dart';
 import 'package:wingle/features/onboarding/presentation/models/basic_profile_residence_model.dart';
 
-/// 기본 프로필 거주지 입력 상태를 보관하는 Provider.
-final basicProfileResidenceProvider =
-    NotifierProvider<BasicProfileResidenceNotifier, BasicProfileResidenceModel>(
-      BasicProfileResidenceNotifier.new,
-    );
+part 'basic_profile_residence_provider.g.dart';
 
 /// 기본 프로필 거주지 입력 상태 관리 Notifier.
-class BasicProfileResidenceNotifier
-    extends Notifier<BasicProfileResidenceModel> {
+@Riverpod(keepAlive: true)
+class BasicProfileResidence extends _$BasicProfileResidence {
   @override
   BasicProfileResidenceModel build() => const BasicProfileResidenceModel();
 

@@ -1,5 +1,5 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wingle/common/constants/env_constants.dart';
 import 'package:wingle/common/utils/authenticated_api_client.dart';
 import 'package:wingle/common/utils/env_util.dart';
@@ -8,8 +8,11 @@ import 'package:wingle/features/onboarding/data/mock/mock_question_repository.da
 import 'package:wingle/features/onboarding/data/question_repository_impl.dart';
 import 'package:wingle/features/onboarding/domain/repository/question_repository.dart';
 
+part 'question_repository_provider.g.dart';
+
 /// [QuestionRepository] 구현체를 제공하는 Provider.
-final questionRepositoryProvider = Provider<QuestionRepository>((ref) {
+@Riverpod(keepAlive: true)
+QuestionRepository questionRepository(Ref ref) {
   const isApiReady = true;
 
   if (RepositorySelector.shouldUseMock(isApiReady: isApiReady)) {
@@ -27,4 +30,4 @@ final questionRepositoryProvider = Provider<QuestionRepository>((ref) {
   ref.onDispose(client.close);
 
   return QuestionRepositoryImpl(client: client, baseUrl: baseUrl);
-});
+}

@@ -1,13 +1,10 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-/// 기본 프로필 체형 선택 상태를 보관하는 Provider.
-final basicProfileBodyShapeProvider =
-    NotifierProvider<BasicProfileBodyShapeNotifier, String?>(
-      BasicProfileBodyShapeNotifier.new,
-    );
+part 'basic_profile_body_shape_provider.g.dart';
 
 /// 기본 프로필 체형 선택 상태 관리 Notifier.
-class BasicProfileBodyShapeNotifier extends Notifier<String?> {
+@Riverpod(keepAlive: true)
+class BasicProfileBodyShape extends _$BasicProfileBodyShape {
   @override
   String? build() => null;
 

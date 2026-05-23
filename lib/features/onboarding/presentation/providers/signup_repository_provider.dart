@@ -1,5 +1,5 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wingle/common/constants/env_constants.dart';
 import 'package:wingle/common/utils/authenticated_api_client.dart';
 import 'package:wingle/common/utils/env_util.dart';
@@ -8,8 +8,11 @@ import 'package:wingle/features/onboarding/data/mock/mock_signup_repository.dart
 import 'package:wingle/features/onboarding/data/signup_repository_impl.dart';
 import 'package:wingle/features/onboarding/domain/repository/signup_repository.dart';
 
+part 'signup_repository_provider.g.dart';
+
 /// [SignupRepository] 구현체를 제공하는 Provider.
-final signupRepositoryProvider = Provider<SignupRepository>((ref) {
+@Riverpod(keepAlive: true)
+SignupRepository signupRepository(Ref ref) {
   const isApiReady = true;
 
   if (RepositorySelector.shouldUseMock(isApiReady: isApiReady)) {
@@ -27,4 +30,4 @@ final signupRepositoryProvider = Provider<SignupRepository>((ref) {
   ref.onDispose(client.close);
 
   return SignupRepositoryImpl(client: client, baseUrl: baseUrl);
-});
+}

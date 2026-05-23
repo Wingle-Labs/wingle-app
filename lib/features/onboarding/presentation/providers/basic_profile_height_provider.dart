@@ -1,13 +1,10 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-/// 기본 프로필 키 입력 상태를 보관하는 Provider.
-final basicProfileHeightProvider =
-    NotifierProvider<BasicProfileHeightNotifier, String>(
-      BasicProfileHeightNotifier.new,
-    );
+part 'basic_profile_height_provider.g.dart';
 
 /// 기본 프로필 키 입력 상태 관리 Notifier.
-class BasicProfileHeightNotifier extends Notifier<String> {
+@Riverpod(keepAlive: true)
+class BasicProfileHeight extends _$BasicProfileHeight {
   @override
   String build() => '';
 

@@ -1,4 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wingle/app/providers/current_user_gender_provider.dart';
 import 'package:wingle/common/constants/api_error_messages.dart';
 import 'package:wingle/common/constants/hive_constants.dart';
@@ -12,16 +12,11 @@ import 'package:wingle/features/onboarding/presentation/providers/basic_profile_
 import 'package:wingle/features/onboarding/presentation/providers/body_shape_repository_provider.dart';
 import 'package:wingle/features/onboarding/presentation/providers/profile_repository_provider.dart';
 
-/// 기본 프로필 업로드 상태를 관리하는 Provider.
-final basicProfileCompletionProvider =
-    NotifierProvider<
-      BasicProfileCompletionNotifier,
-      BasicProfileCompletionModel
-    >(BasicProfileCompletionNotifier.new);
+part 'basic_profile_completion_provider.g.dart';
 
 /// 기본 프로필 업로드 상태 관리 Notifier.
-class BasicProfileCompletionNotifier
-    extends Notifier<BasicProfileCompletionModel> {
+@Riverpod(keepAlive: true)
+class BasicProfileCompletion extends _$BasicProfileCompletion {
   @override
   BasicProfileCompletionModel build() => const BasicProfileCompletionModel();
 

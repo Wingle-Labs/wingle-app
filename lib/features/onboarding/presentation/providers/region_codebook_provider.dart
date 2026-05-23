@@ -1,9 +1,12 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wingle/features/onboarding/data/codebook/codebook_local_datasource.dart';
 import 'package:wingle/features/onboarding/domain/model/codebook/codebook_models.dart';
 
+part 'region_codebook_provider.g.dart';
+
 /// REGION 코드북 트리를 제공하는 Provider.
-final regionCodebookTreeProvider = Provider<RegionCodebookTree>((ref) {
+@Riverpod(keepAlive: true)
+RegionCodebookTree regionCodebookTree(Ref ref) {
   final localDataSource = CodebookLocalDataSource();
   final codes = localDataSource.loadCodes(CodebookGroup.region);
   final version =
@@ -16,4 +19,4 @@ final regionCodebookTreeProvider = Provider<RegionCodebookTree>((ref) {
   return RegionCodebookTree.fromSnapshot(
     CodebookSnapshot(version: version, codes: codes),
   );
-});
+}

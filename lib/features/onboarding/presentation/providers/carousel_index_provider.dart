@@ -1,14 +1,11 @@
 import 'package:carousel_slider/carousel_controller.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-/// Carousel의 현재 인덱스를 관리하는 Provider
-final onboardingCarouselProvider =
-    NotifierProvider<OnboardingCarouselNotifier, int>(
-      OnboardingCarouselNotifier.new,
-    );
+part 'carousel_index_provider.g.dart';
 
 /// Carousel의 현재 인덱스를 관리하는 Notifier
-class OnboardingCarouselNotifier extends Notifier<int> {
+@Riverpod(keepAlive: true)
+class OnboardingCarousel extends _$OnboardingCarousel {
   /// CarouselSliderController
   late final CarouselSliderController controller;
 
