@@ -1,0 +1,7 @@
+interface:
+  display_name: "Riverpod Advanced Practices"
+  short_description: "Riverpod 3.x generated provider 설계, 구현, 테스트 기준을 고도화합니다."
+  default_prompt: "Use $riverpod-advanced-practices for Flutter Riverpod @riverpod code generation, provider graph design, implementation, refactoring, review, and tests."
+
+policy:
+  allow_implicit_invocation: true
