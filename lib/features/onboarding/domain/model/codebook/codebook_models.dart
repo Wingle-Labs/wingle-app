@@ -54,9 +54,7 @@ class TermSnapshot {
       version: rawVersion is num
           ? rawVersion.toInt()
           : int.parse(rawVersion.toString()),
-      terms: rawTerms
-          .map((e) => TermDetail.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      terms: rawTerms.map((e) => TermDetail.fromJson(_asJsonMap(e))).toList(),
     );
   }
 }
@@ -117,7 +115,7 @@ class CodeSnapshot {
           ? rawVersion.toInt()
           : int.parse(rawVersion.toString()),
       codes: rawCodes
-          .map((e) => CommonCodeDetail.fromJson(e as Map<String, dynamic>))
+          .map((e) => CommonCodeDetail.fromJson(_asJsonMap(e)))
           .toList(),
     );
   }
@@ -242,7 +240,7 @@ class ChoiceQuestionSetSnapshot {
           ? rawVersion.toInt()
           : int.parse(rawVersion.toString()),
       questions: rawQuestions
-          .map((e) => ChoiceQuestionDetail.fromJson(e as Map<String, dynamic>))
+          .map((e) => ChoiceQuestionDetail.fromJson(_asJsonMap(e)))
           .toList(),
     );
   }
@@ -282,7 +280,7 @@ class ChoiceQuestionDetail {
       id: rawId is num ? rawId.toInt() : int.parse(rawId.toString()),
       content: json['content']?.toString() ?? '',
       options: rawOptions
-          .map((e) => ChoiceQuestionOption.fromJson(e as Map<String, dynamic>))
+          .map((e) => ChoiceQuestionOption.fromJson(_asJsonMap(e)))
           .toList(),
     );
   }
@@ -343,7 +341,7 @@ class EssayQuestionSnapshot {
           ? rawVersion.toInt()
           : int.parse(rawVersion.toString()),
       questions: rawQuestions
-          .map((e) => EssayQuestionDetail.fromJson(e as Map<String, dynamic>))
+          .map((e) => EssayQuestionDetail.fromJson(_asJsonMap(e)))
           .toList(),
     );
   }
@@ -384,4 +382,16 @@ class EssayQuestionDetail {
           : int.parse(rawSortOrder.toString()),
     );
   }
+}
+
+Map<String, dynamic> _asJsonMap(Object? value) {
+  if (value is Map<String, dynamic>) {
+    return value;
+  }
+
+  if (value is Map) {
+    return Map<String, dynamic>.from(value);
+  }
+
+  throw FormatException('Expected JSON object, got ${value.runtimeType}.');
 }

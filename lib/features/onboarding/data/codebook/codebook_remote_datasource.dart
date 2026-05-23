@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:wingle/common/constants/api_error_messages.dart';
 import 'package:wingle/common/constants/api_paths.dart';
-import 'package:wingle/common/utils/api_request_headers.dart';
 import 'package:wingle/features/onboarding/domain/model/codebook/codebook_models.dart';
 
 /// 코드북 원격 데이터소스.
@@ -101,12 +100,22 @@ class CodebookRemoteDataSource {
     String path, {
     Map<String, dynamic>? queryParameters,
   }) async {
-    final response = await _dio.get<Map<String, dynamic>>(
+    final response = await _sendGet(path, queryParameters: queryParameters);
+    return _readJsonBody(response);
+  }
+
+  Future<Response<dynamic>> _sendGet(
+    String path, {
+    Map<String, dynamic>? queryParameters,
+  }) {
+    return _dio.get<dynamic>(
       '$_baseUrl$path',
       queryParameters: queryParameters,
-      options: Options(headers: ApiRequestHeaders.auth()),
+      options: Options(validateStatus: _isNonServerErrorStatus),
     );
+  }
 
+  Map<String, dynamic> _readJsonBody(Response<dynamic> response) {
     final data = response.data;
     if (response.statusCode == null ||
         response.statusCode! < 200 ||
@@ -115,7 +124,19 @@ class CodebookRemoteDataSource {
       throw Exception(ApiErrorMessages.fetchCodebookFailed);
     }
 
-    return data;
+    if (data is Map<String, dynamic>) {
+      return data;
+    }
+
+    if (data is Map) {
+      return Map<String, dynamic>.from(data);
+    }
+
+    throw Exception(ApiErrorMessages.fetchCodebookFailed);
+  }
+
+  bool _isNonServerErrorStatus(int? status) {
+    return status != null && status < 500;
   }
 
   void _log(String message) {

@@ -4,20 +4,20 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:wingle/common/constants/hive_constants.dart';
 import 'package:wingle/common/utils/hive_util.dart';
+import 'package:wingle/features/onboarding/data/codebook/choice_question_local_datasource.dart';
 import 'package:wingle/features/onboarding/data/codebook/codebook_local_datasource.dart';
-import 'package:wingle/features/onboarding/domain/model/codebook/codebook_entry.dart';
-import 'package:wingle/features/onboarding/domain/model/codebook/codebook_group.dart';
-import 'package:wingle/features/onboarding/domain/model/codebook/codebook_snapshot.dart';
+import 'package:wingle/features/onboarding/domain/model/codebook/codebook_models.dart';
 
 void main() {
   late Directory tempDir;
   late CodebookLocalDataSource dataSource;
+  late HiveAesCipher cipher;
 
   setUp(() async {
     TestWidgetsFlutterBinding.ensureInitialized();
     tempDir = await Directory.systemTemp.createTemp();
     Hive.init(tempDir.path);
-    final cipher = HiveAesCipher(Hive.generateSecureKey());
+    cipher = HiveAesCipher(Hive.generateSecureKey());
     await HiveUtil.initialize(cipher);
     dataSource = CodebookLocalDataSource();
   });
@@ -93,5 +93,61 @@ void main() {
     final codes = dataSource.loadCodes(CodebookGroup.region);
 
     expect(codes.map((value) => value.code), ['R_11', 'R_11230', 'R_11220']);
+  });
+
+  test('Hive 재오픈 후 dynamic key map으로 복원된 snapshot도 조회한다', () async {
+    await dataSource.replaceSnapshots({
+      CodebookGroup.region: CodebookSnapshot(
+        version: 1,
+        codes: [
+          const CodebookEntry(
+            code: 'R_11',
+            codeName: '서울특별시',
+            parentCode: null,
+            displayOrder: 0,
+          ),
+          const CodebookEntry(
+            code: 'R_11230',
+            codeName: '강남구',
+            parentCode: 'R_11',
+            displayOrder: 0,
+          ),
+        ],
+      ),
+    });
+
+    await Hive.close();
+    Hive.init(tempDir.path);
+    await HiveUtil.initialize(cipher);
+    dataSource = CodebookLocalDataSource();
+
+    final codes = dataSource.loadCodes(CodebookGroup.region);
+
+    expect(codes.map((value) => value.code), ['R_11', 'R_11230']);
+  });
+
+  test('Hive 재오픈 후 dynamic key map으로 복원된 객관식 질문 snapshot도 조회한다', () async {
+    final choiceDataSource = ChoiceQuestionLocalDataSource();
+    await choiceDataSource.replaceSnapshots({
+      'QC_LOVE': const ChoiceQuestionSetSnapshot(
+        version: 1,
+        questions: [
+          ChoiceQuestionDetail(
+            id: 1,
+            content: '질문',
+            options: [ChoiceQuestionOption(id: 2, content: '선택지')],
+          ),
+        ],
+      ),
+    });
+
+    await Hive.close();
+    Hive.init(tempDir.path);
+    await HiveUtil.initialize(cipher);
+
+    final snapshot = ChoiceQuestionLocalDataSource().loadSnapshot('QC_LOVE');
+
+    expect(snapshot?.version, 1);
+    expect(snapshot?.questions.single.options.single.content, '선택지');
   });
 }

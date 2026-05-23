@@ -15,4 +15,3 @@ void main() {
     expect(codebook.optionsForGender('female').last.code, 'hidden');
   });
 }
-
