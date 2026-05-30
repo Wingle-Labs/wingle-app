@@ -34,10 +34,22 @@ abstract final class OnboardingRoutes {
     name: 'basic-profile-body-shape',
   );
 
-  /// 회사 입력
+  /// 직종 선택
   static const basicProfileCompany = RouteNode(
     parent: login,
     name: 'basic-profile-company',
+  );
+
+  /// 회사명 입력
+  static const basicProfileCompanyName = RouteNode(
+    parent: login,
+    name: 'basic-profile-company-name',
+  );
+
+  /// 회사 이메일 인증
+  static const basicProfileCompanyEmail = RouteNode(
+    parent: login,
+    name: 'basic-profile-company-email',
   );
 
   /// 학교 입력

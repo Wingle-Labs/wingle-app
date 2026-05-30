@@ -76,8 +76,16 @@ WidgetbookFolder _buildOnboardingFolder() {
         showGenderKnob: true,
       ),
       _screenComponent(
-        name: 'Basic Profile Company',
+        name: 'Basic Profile Occupation',
         initialLocation: OnboardingRoutes.basicProfileCompany.fullPath,
+      ),
+      _screenComponent(
+        name: 'Basic Profile Company',
+        initialLocation: OnboardingRoutes.basicProfileCompanyName.fullPath,
+      ),
+      _screenComponent(
+        name: 'Basic Profile Company Email',
+        initialLocation: OnboardingRoutes.basicProfileCompanyEmail.fullPath,
       ),
       _screenComponent(
         name: 'Pass',

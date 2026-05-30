@@ -5,9 +5,11 @@ import 'package:wingle/features/auth/presentation/phone_otp.dart';
 import 'package:wingle/features/onboarding/presentation/page/age_pick.page.dart';
 import 'package:wingle/features/onboarding/presentation/page/agreement_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_body_shape_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/basic_profile_company_email_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_company_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_height_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_nickname_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/basic_profile_occupation_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_residence_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/login_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/onboarding_page.dart';
@@ -72,7 +74,17 @@ final List<GoRoute> loginRoutes = [
   GoRoute(
     name: OnboardingRoutes.basicProfileCompany.name,
     path: OnboardingRoutes.basicProfileCompany.path,
+    builder: (context, state) => const BasicProfileOccupationPage(),
+  ),
+  GoRoute(
+    name: OnboardingRoutes.basicProfileCompanyName.name,
+    path: OnboardingRoutes.basicProfileCompanyName.path,
     builder: (context, state) => const BasicProfileCompanyPage(),
+  ),
+  GoRoute(
+    name: OnboardingRoutes.basicProfileCompanyEmail.name,
+    path: OnboardingRoutes.basicProfileCompanyEmail.path,
+    builder: (context, state) => const BasicProfileCompanyEmailPage(),
   ),
   GoRoute(
     name: OnboardingRoutes.basicProfileEducation.name,

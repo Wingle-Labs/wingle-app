@@ -16,7 +16,9 @@
         "loginFailed": "로그인에 실패했습니다. 잠시 후 다시 시도해주세요.",
         "invalidLoginCredentials": "전화번호 또는 비밀번호를 확인해주세요.",
         "fetchRandomNicknameFailed": "랜덤 닉네임을 불러오지 못했어요. 다시 시도해주세요.",
-        "submitBasicProfileFailed": "기본 프로필 정보를 등록하지 못했어요. 다시 시도해주세요."
+        "submitBasicProfileFailed": "기본 프로필 정보를 등록하지 못했어요. 다시 시도해주세요.",
+        "submitJobFailed": "직장 정보를 등록하지 못했어요. 다시 시도해주세요.",
+        "verifyJobEmailFailed": "회사 이메일 인증에 실패했어요. 다시 시도해주세요."
       }
     },
     "validation": {
@@ -141,9 +143,25 @@
       "bodyShape": {
         "title": "Choose the option that best matches you."
       },
+      "occupation": {
+        "title": "What kind of work do you do?",
+        "detailTitle": "Choose your detailed job."
+      },
       "company": {
-        "title": "Let's enter your company.",
-        "placeholder": "Company input will be connected soon."
+        "title": "Which company do you work at?",
+        "subtitle": "Please enter the exact company name.",
+        "companyLabel": "Company",
+        "companyHint": "Enter your company name"
+      },
+      "companyEmail": {
+        "title": "Verify your company email\nto receive a level 2 badge.",
+        "subtitle": "Matching conditions vary by verification level.",
+        "emailLabel": "Company email",
+        "emailHint": "name@company.com",
+        "emailAssistive": "Use your company email, not a personal email.",
+        "codeLabel": "Verification code",
+        "codeHint": "Enter the verification code",
+        "codeSent": "Verification code sent."
       }
     },
     "agreement": {

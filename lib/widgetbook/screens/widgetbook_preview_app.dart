@@ -12,9 +12,11 @@ import 'package:wingle/features/home/route/home_router.dart';
 import 'package:wingle/features/onboarding/presentation/page/age_pick.page.dart';
 import 'package:wingle/features/onboarding/presentation/page/agreement_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_body_shape_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/basic_profile_company_email_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_company_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_height_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_nickname_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/basic_profile_occupation_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_residence_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/login_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/onboarding_page.dart';
@@ -130,7 +132,17 @@ class _WidgetbookPreviewAppState extends State<WidgetbookPreviewApp> {
         GoRoute(
           path: OnboardingRoutes.basicProfileCompany.fullPath,
           name: OnboardingRoutes.basicProfileCompany.name,
+          builder: (context, state) => const BasicProfileOccupationPage(),
+        ),
+        GoRoute(
+          path: OnboardingRoutes.basicProfileCompanyName.fullPath,
+          name: OnboardingRoutes.basicProfileCompanyName.name,
           builder: (context, state) => const BasicProfileCompanyPage(),
+        ),
+        GoRoute(
+          path: OnboardingRoutes.basicProfileCompanyEmail.fullPath,
+          name: OnboardingRoutes.basicProfileCompanyEmail.name,
+          builder: (context, state) => const BasicProfileCompanyEmailPage(),
         ),
         GoRoute(
           path: OnboardingRoutes.login.fullPath,
