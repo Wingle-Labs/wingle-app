@@ -126,8 +126,24 @@ enum LoginProfileStatus {
   /// 기본 프로필 입력이 필요한 상태인지 확인한다.
   bool get needsBasicProfile => this == LoginProfileStatus.signupCompleted;
 
+  /// 기본 프로필 입력이 완료된 상태인지 확인한다.
+  bool get hasCompletedBasicInfo =>
+      index >= LoginProfileStatus.basicInfoCompleted.index;
+
   /// 회사 정보 입력이 필요한 상태인지 확인한다.
   bool get needsJobInfo => this == LoginProfileStatus.basicInfoCompleted;
+
+  /// 회사 정보 입력이 완료된 상태인지 확인한다.
+  bool get hasCompletedJobInfo =>
+      index >= LoginProfileStatus.jobInfoCompleted.index;
+
+  /// 학교 정보 입력이 완료된 상태인지 확인한다.
+  bool get hasCompletedEducationInfo =>
+      index >= LoginProfileStatus.educationInfoCompleted.index;
+
+  /// 상세 프로필 입력이 완료된 상태인지 확인한다.
+  bool get hasCompletedProfileDetails =>
+      index >= LoginProfileStatus.profileCompleted.index;
 
   /// 심사 대기 상태인지 확인한다.
   bool get isPendingApproval => this == LoginProfileStatus.awaitingApproval;

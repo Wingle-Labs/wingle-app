@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:wingle/common/constants/api_error_messages.dart';
 import 'package:wingle/common/constants/api_paths.dart';
 import 'package:wingle/common/utils/api_request_headers.dart';
+import 'package:wingle/features/auth/domain/models/login_basic_profile.dart';
+import 'package:wingle/features/auth/domain/models/my_profile_snapshot.dart';
 import 'package:wingle/features/onboarding/domain/model/profile/rejection_reason.dart';
 import 'package:wingle/features/onboarding/domain/model/profile/residence_code.dart';
 import 'package:wingle/features/onboarding/domain/repository/profile_repository.dart';
@@ -43,6 +45,33 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }
 
   @override
+  Future<MyProfileSnapshot?> fetchMyProfile() async {
+    final response = await _client.get(
+      Uri.parse('$_baseUrl${ApiEndpoints.meProfile}'),
+      headers: ApiRequestHeaders.auth(),
+    );
+
+    if (!_isSuccess(response)) {
+      throw Exception(ApiErrorMessages.fetchMyProfileFailed);
+    }
+
+    final decoded = _decodeResponseBody(response.body);
+    final profileJson = _extractProfileJson(decoded);
+    if (profileJson == null) {
+      return null;
+    }
+
+    final snapshot = MyProfileSnapshot.fromJson(profileJson);
+    return snapshot.hasAnyValue ? snapshot : null;
+  }
+
+  @override
+  Future<LoginBasicProfile?> fetchMyBasicProfile() async {
+    final snapshot = await fetchMyProfile();
+    return snapshot?.basicProfile;
+  }
+
+  @override
   Future<void> submitBasicProfile({
     required String nickname,
     required ResidenceCode residence,
@@ -51,12 +80,31 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }) async {
     await _postJson(
       path: ApiEndpoints.signupProfile,
-      body: {
-        'nickname': nickname,
-        'residenceCode': residence.level3,
-        'height': height,
-        'bodyTypeCode': bodyTypeCode,
-      },
+      body: _basicProfileBody(
+        nickname: nickname,
+        residence: residence,
+        height: height,
+        bodyTypeCode: bodyTypeCode,
+      ),
+      errorMessage: ApiErrorMessages.submitBasicProfileFailed,
+    );
+  }
+
+  @override
+  Future<void> updateBasicProfile({
+    required String nickname,
+    required ResidenceCode residence,
+    required int height,
+    required String bodyTypeCode,
+  }) async {
+    await _putJson(
+      path: ApiEndpoints.userProfile,
+      body: _basicProfileBody(
+        nickname: nickname,
+        residence: residence,
+        height: height,
+        bodyTypeCode: bodyTypeCode,
+      ),
       errorMessage: ApiErrorMessages.submitBasicProfileFailed,
     );
   }
@@ -72,6 +120,29 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }) async {
     await _postJson(
       path: ApiEndpoints.profileDetail,
+      body: {
+        'mbti': mbti,
+        'selfIntroduction': selfIntroduction,
+        if (mainStylePhotoKey != null) 'mainStylePhotoKey': mainStylePhotoKey,
+        'subStylePhotoKeys': subStylePhotoKeys,
+        if (mainFacePhotoKey != null) 'mainFacePhotoKey': mainFacePhotoKey,
+        'subFacePhotoKeys': subFacePhotoKeys,
+      },
+      errorMessage: ApiErrorMessages.submitProfileDetailsFailed,
+    );
+  }
+
+  @override
+  Future<void> updateProfileDetails({
+    required String mbti,
+    required String selfIntroduction,
+    String? mainStylePhotoKey,
+    List<String> subStylePhotoKeys = const <String>[],
+    String? mainFacePhotoKey,
+    List<String> subFacePhotoKeys = const <String>[],
+  }) async {
+    await _putJson(
+      path: ApiEndpoints.profileDetailReapply,
       body: {
         'mbti': mbti,
         'selfIntroduction': selfIntroduction,
@@ -101,6 +172,22 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }
 
   @override
+  Future<void> updateEducation({
+    required String? university,
+    required String educationLevel,
+  }) async {
+    await _putJson(
+      path: ApiEndpoints.profileEducationReapply,
+      body: {
+        'educationLevel': educationLevel,
+        if (university != null && university.trim().isNotEmpty)
+          'university': university,
+      },
+      errorMessage: ApiErrorMessages.submitEducationFailed,
+    );
+  }
+
+  @override
   Future<void> verifyEducationEmail({required String email}) async {
     await _postJson(
       path: ApiEndpoints.profileEducationEmailVerifications,
@@ -110,13 +197,19 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }
 
   @override
-  Future<void> submitJob({
-    required String company,
-    required String occupation,
-  }) async {
+  Future<void> submitJob({String? company, required String occupation}) async {
     await _postJson(
       path: ApiEndpoints.profileJob,
-      body: {'company': company, 'occupation': occupation},
+      body: _jobProfileBody(company: company, occupation: occupation),
+      errorMessage: ApiErrorMessages.submitJobFailed,
+    );
+  }
+
+  @override
+  Future<void> updateJob({String? company, required String occupation}) async {
+    await _putJson(
+      path: ApiEndpoints.profileJobReapply,
+      body: _jobProfileBody(company: company, occupation: occupation),
       errorMessage: ApiErrorMessages.submitJobFailed,
     );
   }
@@ -204,7 +297,102 @@ class ProfileRepositoryImpl implements ProfileRepository {
     }
   }
 
+  Future<void> _putJson({
+    required String path,
+    required Map<String, dynamic> body,
+    required String errorMessage,
+  }) async {
+    final response = await _client.put(
+      Uri.parse('$_baseUrl$path'),
+      headers: ApiRequestHeaders.json(includeAuth: true),
+      body: jsonEncode(body),
+    );
+
+    if (!_isSuccess(response)) {
+      throw Exception(errorMessage);
+    }
+  }
+
+  Map<String, dynamic> _basicProfileBody({
+    required String nickname,
+    required ResidenceCode residence,
+    required int height,
+    required String bodyTypeCode,
+  }) {
+    return {
+      'nickname': nickname,
+      'residenceCode': residence.level3,
+      'height': height,
+      'bodyTypeCode': bodyTypeCode,
+    };
+  }
+
+  Map<String, dynamic> _jobProfileBody({
+    required String? company,
+    required String occupation,
+  }) {
+    final normalizedCompany = company?.trim();
+
+    return {
+      'company': normalizedCompany == null || normalizedCompany.isEmpty
+          ? null
+          : normalizedCompany,
+      'occupation': occupation,
+    };
+  }
+
   bool _isSuccess(http.Response response) {
     return response.statusCode >= 200 && response.statusCode < 300;
+  }
+
+  Object? _decodeResponseBody(String body) {
+    if (body.trim().isEmpty) {
+      return null;
+    }
+    return jsonDecode(body);
+  }
+
+  Map<String, dynamic>? _extractProfileJson(Object? decoded) {
+    if (decoded is! Map) {
+      return null;
+    }
+
+    final json = decoded.map((key, value) => MapEntry(key.toString(), value));
+    final candidates = <Object?>[
+      json,
+      json['data'],
+      json['profile'],
+      json['basicProfile'],
+      json['basic_profile'],
+    ];
+
+    for (final candidate in candidates) {
+      final profileJson = _asStringKeyedMap(candidate);
+      if (profileJson == null) continue;
+      if (_hasProfileField(profileJson)) {
+        return profileJson;
+      }
+    }
+
+    return null;
+  }
+
+  Map<String, dynamic>? _asStringKeyedMap(Object? value) {
+    if (value is! Map) {
+      return null;
+    }
+    return value.map((key, value) => MapEntry(key.toString(), value));
+  }
+
+  bool _hasProfileField(Map<String, dynamic> json) {
+    return json.containsKey('nickname') ||
+        json.containsKey('residenceCode') ||
+        json.containsKey('residence_code') ||
+        json.containsKey('height') ||
+        json.containsKey('bodyTypeCode') ||
+        json.containsKey('body_type_code') ||
+        json.containsKey('onboardingStatus') ||
+        json.containsKey('onboarding_status') ||
+        json.containsKey('job');
   }
 }

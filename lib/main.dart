@@ -41,6 +41,9 @@ void main() async {
   final bootstrapResult = await container
       .read(bootstrapInitializerProvider)
       .initialize();
+  debugPrint(
+    '[Bootstrap] auth session: ${bootstrapResult.authSession.status.name}',
+  );
   if (!bootstrapResult.success) {
     debugPrint(
       '[Bootstrap] initialize failed: '

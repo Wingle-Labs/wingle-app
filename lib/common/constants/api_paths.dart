@@ -43,6 +43,9 @@ class ApiEndpoints {
   /// PUT /api/v1/user/profile
   static const String userProfile = '/api/v1/user/profile';
 
+  /// GET /api/v1/profiles/me
+  static const String meProfile = '/api/v1/profiles/me';
+
   /// POST /api/v1/user/profile/job
   static const String profileJob = '/api/v1/user/profile/job';
 

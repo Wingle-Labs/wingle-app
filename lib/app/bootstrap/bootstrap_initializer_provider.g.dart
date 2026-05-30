@@ -59,4 +59,4 @@ final class BootstrapInitializerProvider
 }
 
 String _$bootstrapInitializerHash() =>
-    r'c1f4b2489a9e193d27882c7db0bc9b1f67ccb0cc';
+    r'f9d772cbf08d10ef27980d202a65725bc6f6f602';

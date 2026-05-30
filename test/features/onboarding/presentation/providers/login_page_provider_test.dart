@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,8 +6,15 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:wingle/common/constants/hive_constants.dart';
 import 'package:wingle/common/utils/hive_util.dart';
+import 'package:wingle/features/auth/data/mock/mock_login_repository.dart';
+import 'package:wingle/features/auth/domain/models/login_basic_profile.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
+import 'package:wingle/features/auth/domain/models/my_profile_snapshot.dart';
+import 'package:wingle/features/auth/presentation/providers/login_repository_provider.dart';
+import 'package:wingle/features/onboarding/data/mock/mock_profile_repository.dart';
+import 'package:wingle/features/onboarding/presentation/providers/basic_profile_provider.dart';
 import 'package:wingle/features/onboarding/presentation/providers/login_page_provider.dart';
+import 'package:wingle/features/onboarding/presentation/providers/profile_repository_provider.dart';
 
 void main() {
   late Directory tempDir;
@@ -27,7 +35,13 @@ void main() {
 
   group('LoginPageProvider', () {
     test('controller 변경이 provider state에 반영된다', () {
-      final container = ProviderContainer();
+      final container = ProviderContainer(
+        overrides: [
+          profileRepositoryProvider.overrideWithValue(
+            const MockProfileRepository(),
+          ),
+        ],
+      );
       addTearDown(container.dispose);
 
       final notifier = container.read(loginPageProvider.notifier);
@@ -69,7 +83,13 @@ void main() {
     });
 
     test('submit 성공 시 토큰을 저장한다', () async {
-      final container = ProviderContainer();
+      final container = ProviderContainer(
+        overrides: [
+          profileRepositoryProvider.overrideWithValue(
+            const MockProfileRepository(),
+          ),
+        ],
+      );
       addTearDown(container.dispose);
       final subscription = container.listen(loginPageProvider, (_, _) {});
       addTearDown(subscription.close);
@@ -90,6 +110,129 @@ void main() {
         HiveUtil.read(HiveLoginBox.profileStatus),
         LoginProfileStatus.signupCompleted.apiValue,
       );
+    });
+
+    test('submit 성공 시 로그인 응답의 기본 프로필 정보를 복원한다', () async {
+      final container = ProviderContainer(
+        overrides: [
+          loginRepositoryProvider.overrideWithValue(
+            const MockLoginRepository(
+              profileStatus: LoginProfileStatus.basicInfoCompleted,
+              basicProfile: LoginBasicProfile(
+                nickname: '설레는 크리스탈',
+                residenceCode: 'R_11060840',
+                height: 168,
+                bodyTypeCode: 'BT_F_002',
+              ),
+              gender: 'female',
+            ),
+          ),
+          profileRepositoryProvider.overrideWithValue(
+            const MockProfileRepository(),
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+      final subscription = container.listen(loginPageProvider, (_, _) {});
+      addTearDown(subscription.close);
+
+      final notifier = container.read(loginPageProvider.notifier);
+
+      notifier.updatePhone('010-9256-6504');
+      notifier.updatePassword('!abc1010');
+
+      final result = await notifier.submit();
+      final basicProfile = container.read(basicProfileProvider);
+
+      expect(result, isTrue);
+      expect(basicProfile.nickname, '설레는 크리스탈');
+      expect(basicProfile.residenceCode?.level3, 'R_11060840');
+      expect(basicProfile.height, '168');
+      expect(basicProfile.bodyShapeCode, 'BT_F_002');
+      expect(HiveUtil.read(HiveLoginBox.gender), 'female');
+
+      final persistedProfile =
+          jsonDecode(HiveUtil.read(HiveLoginBox.basicProfile)!) as Map;
+      expect(persistedProfile['nickname'], '설레는 크리스탈');
+      expect(persistedProfile['residenceCode'], 'R_11060840');
+      expect(persistedProfile['height'], 168);
+      expect(persistedProfile['bodyTypeCode'], 'BT_F_002');
+    });
+
+    test('submit 성공 응답에 기본 프로필이 없으면 같은 사용자의 로컬 스냅샷을 유지한다', () async {
+      await HiveUtil.write(key: HiveLoginBox.userId, value: '010-9256-6504');
+      await HiveUtil.write(
+        key: HiveLoginBox.basicProfile,
+        value: jsonEncode({
+          'userId': '010-9256-6504',
+          'nickname': '저장된 닉네임',
+          'residenceCode': 'R_31193620',
+          'height': 175,
+          'bodyTypeCode': 'BT_M_001',
+        }),
+      );
+
+      final container = ProviderContainer(
+        overrides: [
+          profileRepositoryProvider.overrideWithValue(
+            const MockProfileRepository(),
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+      final subscription = container.listen(loginPageProvider, (_, _) {});
+      addTearDown(subscription.close);
+
+      final notifier = container.read(loginPageProvider.notifier);
+
+      notifier.updatePhone('010-9256-6504');
+      notifier.updatePassword('!abc1010');
+
+      final result = await notifier.submit();
+      final persistedProfile =
+          jsonDecode(HiveUtil.read(HiveLoginBox.basicProfile)!) as Map;
+
+      expect(result, isTrue);
+      expect(persistedProfile['nickname'], '저장된 닉네임');
+      expect(persistedProfile['residenceCode'], 'R_31193620');
+      expect(persistedProfile['height'], 175);
+      expect(persistedProfile['bodyTypeCode'], 'BT_M_001');
+    });
+
+    test('submit 성공 후 /profiles/me 스냅샷이 있으면 기본 프로필을 복원한다', () async {
+      final container = ProviderContainer(
+        overrides: [
+          profileRepositoryProvider.overrideWithValue(
+            const MockProfileRepository(
+              profileSnapshot: MyProfileSnapshot(
+                basicProfile: LoginBasicProfile(
+                  nickname: '서버 닉네임',
+                  residenceCode: 'R_31193620',
+                  height: 175,
+                  bodyTypeCode: 'BT_M_001',
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+      final subscription = container.listen(loginPageProvider, (_, _) {});
+      addTearDown(subscription.close);
+
+      final notifier = container.read(loginPageProvider.notifier);
+
+      notifier.updatePhone('010-9256-6504');
+      notifier.updatePassword('!abc1010');
+
+      final result = await notifier.submit();
+      final basicProfile = container.read(basicProfileProvider);
+
+      expect(result, isTrue);
+      expect(basicProfile.nickname, '서버 닉네임');
+      expect(basicProfile.residenceCode?.level3, 'R_31193620');
+      expect(basicProfile.height, '175');
+      expect(basicProfile.bodyShapeCode, 'BT_M_001');
     });
 
     test('submit 실패 시 에러 메시지를 보관한다', () async {

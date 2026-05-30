@@ -61,4 +61,40 @@ void main() {
 
     expect(dto.profileStatus, LoginProfileStatus.signupCompleted);
   });
+
+  test('LoginResponseDto는 로그인 응답의 기본 프로필 정보를 파싱한다', () {
+    final dto = LoginResponseDto.fromJson({
+      'accessToken': 'access-token',
+      'refreshToken': 'refresh-token',
+      'onboardingStatus': 'BASIC_INFO_COMPLETED',
+      'nickname': '반반한 라벤더',
+      'residenceCode': 'R_31193620',
+      'height': 175,
+      'bodyTypeCode': 'BT_M_001',
+    });
+
+    expect(dto.basicProfile?.nickname, '반반한 라벤더');
+    expect(dto.basicProfile?.residenceCode, 'R_31193620');
+    expect(dto.basicProfile?.height, 175);
+    expect(dto.basicProfile?.bodyTypeCode, 'BT_M_001');
+    expect(dto.toDomain().basicProfile?.bodyTypeCode, 'BT_M_001');
+  });
+
+  test('LoginResponseDto는 nested profile 기본 프로필 정보도 파싱한다', () {
+    final dto = LoginResponseDto.fromJson({
+      'accessToken': 'access-token',
+      'refreshToken': 'refresh-token',
+      'profile': {
+        'nickname': '설레는 크리스탈',
+        'residence_code': 'R_11060840',
+        'height': '168',
+        'body_type_code': 'BT_F_002',
+      },
+    });
+
+    expect(dto.basicProfile?.nickname, '설레는 크리스탈');
+    expect(dto.basicProfile?.residenceCode, 'R_11060840');
+    expect(dto.basicProfile?.height, 168);
+    expect(dto.basicProfile?.bodyTypeCode, 'BT_F_002');
+  });
 }

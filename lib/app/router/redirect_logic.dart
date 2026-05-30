@@ -5,12 +5,23 @@ import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// 앱의 로그인 상태에 따른 라우트 리디렉션 로직
-String? appRedirectLogic(bool loggedIn, String currentPath) {
+String? appRedirectLogic(
+  bool loggedIn,
+  String currentPath, {
+  bool forceLogin = false,
+}) {
   // currentPath가 Home 하위인데 로그인되지 않은 경우 onboarding으로 리디렉션
   final isInOnboarding = currentPath.startsWith(OnboardingRoutes.root.path);
-  if (!loggedIn && !isInOnboarding) return OnboardingRoutes.root.path;
 
-  if (!loggedIn) return null;
+  if (!loggedIn) {
+    if (forceLogin && currentPath != OnboardingRoutes.login.fullPath) {
+      return OnboardingRoutes.login.fullPath;
+    }
+
+    if (!isInOnboarding) return OnboardingRoutes.root.path;
+    if (_isPublicOnboardingPath(currentPath)) return null;
+    return OnboardingRoutes.login.fullPath;
+  }
 
   final profileStatus = _readLoginProfileStatus();
 
@@ -28,6 +39,16 @@ String? appRedirectLogic(bool loggedIn, String currentPath) {
 
   if (!isInOnboarding) return destination.path;
   return null;
+}
+
+bool _isPublicOnboardingPath(String currentPath) {
+  if (currentPath == OnboardingRoutes.root.path) return true;
+  if (currentPath == OnboardingRoutes.login.fullPath) return true;
+  if (currentPath == OnboardingRoutes.resetPassword.fullPath) return true;
+  if (currentPath == OnboardingRoutes.changePhoneNumber.fullPath) return true;
+
+  return currentPath == OnboardingRoutes.signup.fullPath ||
+      currentPath.startsWith('${OnboardingRoutes.signup.fullPath}/');
 }
 
 LoginProfileStatus? _readLoginProfileStatus() {

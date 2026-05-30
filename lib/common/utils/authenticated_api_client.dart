@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:wingle/common/constants/api_paths.dart';
 import 'package:wingle/common/constants/hive_constants.dart';
 import 'package:wingle/common/utils/api_request_headers.dart';
+import 'package:wingle/common/utils/auth_session_state.dart';
 import 'package:wingle/common/utils/hive_util.dart';
 import 'package:wingle/common/utils/repository_selector.dart';
 import 'package:wingle/features/auth/domain/models/auth_token.dart';
@@ -48,33 +49,42 @@ class AuthenticatedApiClient extends http.BaseClient {
     _logStreamedResponse(request, response, responseBody);
     final rebuiltResponse = _rebuildResponse(response, responseBody);
 
-    if (response.statusCode != 401 ||
-        retryRequest == null ||
-        !_hasBearerAuth(retryRequest) ||
-        _isReissueRequest(retryRequest)) {
+    final requestToRetry = retryRequest;
+    if (requestToRetry == null ||
+        !_shouldAttemptRefresh(
+          response: response,
+          body: responseBody,
+          retryRequest: requestToRetry,
+        )) {
       return rebuiltResponse;
     }
 
-    final refreshed = await _refreshToken();
+    final refreshResult = await _refreshToken();
 
-    if (!refreshed) {
-      return rebuiltResponse;
+    switch (refreshResult) {
+      case _RefreshTokenResult.refreshed:
+        break;
+      case _RefreshTokenResult.invalid:
+        await AuthSessionState.clearLoginInfo();
+        return rebuiltResponse;
+      case _RefreshTokenResult.failed:
+        return rebuiltResponse;
     }
 
-    retryRequest.headers
+    requestToRetry.headers
       ..remove(ApiRequestHeaders.authorizationHeader)
       ..addAll(ApiRequestHeaders.auth());
 
-    _logRequest(retryRequest);
+    _logRequest(requestToRetry);
     late final http.StreamedResponse retryResponse;
     try {
-      retryResponse = await _inner.send(retryRequest);
+      retryResponse = await _inner.send(requestToRetry);
     } catch (error, stackTrace) {
-      _logTransportError(retryRequest, error, stackTrace);
+      _logTransportError(requestToRetry, error, stackTrace);
       rethrow;
     }
     final retryResponseBody = await retryResponse.stream.toBytes();
-    _logStreamedResponse(retryRequest, retryResponse, retryResponseBody);
+    _logStreamedResponse(requestToRetry, retryResponse, retryResponseBody);
 
     return _rebuildResponse(retryResponse, retryResponseBody);
   }
@@ -110,28 +120,68 @@ class AuthenticatedApiClient extends http.BaseClient {
     return request.url.path == ApiEndpoints.authReissue;
   }
 
-  Future<bool> _refreshToken() async {
+  bool _shouldAttemptRefresh({
+    required http.StreamedResponse response,
+    required List<int> body,
+    required http.BaseRequest retryRequest,
+  }) {
+    if (!_hasBearerAuth(retryRequest) || _isReissueRequest(retryRequest)) {
+      return false;
+    }
+
+    if (response.statusCode == 401) {
+      return true;
+    }
+
+    return response.statusCode == 400 && _isInvalidTokenBody(body);
+  }
+
+  bool _isInvalidTokenBody(List<int> body) {
+    final bodyText = utf8.decode(body, allowMalformed: true);
+    if (bodyText.isEmpty) {
+      return false;
+    }
+
+    try {
+      final decoded = jsonDecode(bodyText);
+      if (decoded is Map) {
+        final message = decoded['message']?.toString() ?? '';
+        return _isInvalidTokenMessage(message);
+      }
+    } catch (_) {
+      return _isInvalidTokenMessage(bodyText);
+    }
+
+    return false;
+  }
+
+  bool _isInvalidTokenMessage(String message) {
+    final normalized = message.toLowerCase();
+    return message.contains('유효하지 않은 토큰') ||
+        normalized.contains('invalid token');
+  }
+
+  Future<_RefreshTokenResult> _refreshToken() async {
     try {
       final refreshToken = HiveUtil.read(HiveLoginBox.refreshToken)?.trim();
       if (refreshToken == null || refreshToken.isEmpty) {
-        return false;
+        return _RefreshTokenResult.invalid;
       }
 
       final uri = Uri.parse('$_baseUrl${ApiEndpoints.authReissue}');
-      _logRequestDetails(
-        method: 'POST',
-        uri: uri,
-        headers: {ApiRequestHeaders.authorizationHeader: refreshToken},
-        body: '',
-      );
-      final response = await _inner.post(
-        uri,
-        headers: {ApiRequestHeaders.authorizationHeader: refreshToken},
-      );
+      final headers = ApiRequestHeaders.bearer(refreshToken);
+      if (headers.isEmpty) {
+        return _RefreshTokenResult.invalid;
+      }
+
+      _logRequestDetails(method: 'POST', uri: uri, headers: headers, body: '');
+      final response = await _inner.post(uri, headers: headers);
       _logResponse(method: 'POST', uri: uri, response: response);
 
       if (response.statusCode < 200 || response.statusCode >= 300) {
-        return false;
+        return _isInvalidRefreshResponse(response)
+            ? _RefreshTokenResult.invalid
+            : _RefreshTokenResult.failed;
       }
 
       final token = AuthToken.fromJson(
@@ -139,7 +189,7 @@ class AuthenticatedApiClient extends http.BaseClient {
       );
 
       if (token.accessToken.isEmpty || token.refreshToken.isEmpty) {
-        return false;
+        return _RefreshTokenResult.invalid;
       }
 
       await HiveUtil.write(
@@ -151,10 +201,20 @@ class AuthenticatedApiClient extends http.BaseClient {
         value: token.refreshToken,
       );
 
-      return true;
+      AuthSessionState.notifyChanged();
+      return _RefreshTokenResult.refreshed;
     } catch (_) {
-      return false;
+      return _RefreshTokenResult.failed;
     }
+  }
+
+  bool _isInvalidRefreshResponse(http.Response response) {
+    if (response.statusCode == 401 || response.statusCode == 403) {
+      return true;
+    }
+
+    return response.statusCode == 400 &&
+        _isInvalidTokenBody(response.bodyBytes);
   }
 
   void _logRequest(http.BaseRequest request) {
@@ -309,3 +369,5 @@ class AuthenticatedApiClient extends http.BaseClient {
     );
   }
 }
+
+enum _RefreshTokenResult { refreshed, invalid, failed }

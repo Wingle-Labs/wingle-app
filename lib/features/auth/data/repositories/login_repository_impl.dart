@@ -70,7 +70,7 @@ class LoginRepositoryImpl implements LoginRepository {
   Future<AuthToken> reissue({required String refreshToken}) async {
     final response = await _client.post(
       Uri.parse('$_baseUrl${ApiEndpoints.authReissue}'),
-      headers: {ApiRequestHeaders.authorizationHeader: refreshToken},
+      headers: ApiRequestHeaders.bearer(refreshToken),
     );
 
     if (response.statusCode < 200 || response.statusCode >= 300) {

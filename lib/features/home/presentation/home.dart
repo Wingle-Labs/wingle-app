@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_filled_button.dart';
 import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/components/wrappers/scrollable_scaffold.dart';
-import 'package:wingle/common/constants/hive_constants.dart';
-import 'package:wingle/common/utils/hive_util.dart';
+import 'package:wingle/common/utils/auth_session_state.dart';
 
 /// 홈 화면
 class Home extends StatelessWidget {
@@ -23,7 +22,7 @@ class Home extends StatelessWidget {
             DefaultFilledButton(
               label: "로그아웃",
               onPressed: () {
-                unawaited(HiveUtil.clearBox(HiveConstants.userLoginInfo));
+                unawaited(AuthSessionState.clearLoginInfo());
               },
             ),
           ],

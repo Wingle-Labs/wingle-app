@@ -14,10 +14,9 @@ import 'package:wingle/app/config/theme/components/wrappers/constrained_scrollab
 import 'package:wingle/app/config/theme/components/wrappers/profile_input_app_bar.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
-import 'package:wingle/common/constants/hive_constants.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
-import 'package:wingle/common/utils/hive_util.dart';
+import 'package:wingle/common/utils/auth_session_state.dart';
 import 'package:wingle/features/onboarding/presentation/providers/basic_profile_provider.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
@@ -171,7 +170,7 @@ class _BasicProfileNicknamePageState
   }
 
   Future<void> _logoutAndGoToLogin() async {
-    await HiveUtil.clearBox(HiveConstants.userLoginInfo);
+    await AuthSessionState.clearLoginInfo();
     if (!mounted) return;
 
     context.goNamed(OnboardingRoutes.login.name);

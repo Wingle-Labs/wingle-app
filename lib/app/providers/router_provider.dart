@@ -5,6 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wingle/app/router/app_router.dart';
 import 'package:wingle/app/router/redirect_logic.dart';
 import 'package:wingle/common/constants/hive_constants.dart';
+import 'package:wingle/common/utils/auth_session_state.dart';
 import 'package:wingle/common/utils/hive_util.dart';
 import 'package:wingle/features/home/route/home_routes.dart';
 
@@ -20,8 +21,13 @@ GoRouter router(Ref ref) {
     navigatorKey: rootNavigatorKey,
     // initialLocation: designSystemRoute.path,
     initialLocation: HomeRoutes.root.path,
+    refreshListenable: AuthSessionState.listenable,
     redirect: (context, state) {
-      return appRedirectLogic(_isLoggedIn(), state.uri.path);
+      return appRedirectLogic(
+        _isLoggedIn(),
+        state.uri.path,
+        forceLogin: AuthSessionState.shouldRedirectToLogin,
+      );
     },
     routes: AppRouter.routes,
     // TODO: 에러 페이지 구현

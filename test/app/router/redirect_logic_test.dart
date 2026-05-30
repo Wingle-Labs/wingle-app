@@ -34,6 +34,29 @@ void main() {
     );
   });
 
+  test('무효화된 세션은 현재 위치와 무관하게 login으로 리디렉션된다', () {
+    expect(
+      appRedirectLogic(
+        false,
+        OnboardingRoutes.basicProfileCompany.fullPath,
+        forceLogin: true,
+      ),
+      OnboardingRoutes.login.fullPath,
+    );
+  });
+
+  test('로그인하지 않은 사용자는 보호된 온보딩 경로에서 login으로 리디렉션된다', () {
+    expect(
+      appRedirectLogic(false, OnboardingRoutes.basicProfileCompany.fullPath),
+      OnboardingRoutes.login.fullPath,
+    );
+  });
+
+  test('로그인하지 않은 사용자는 공개 회원가입 경로에 머무를 수 있다', () {
+    expect(appRedirectLogic(false, OnboardingRoutes.signup.fullPath), isNull);
+    expect(appRedirectLogic(false, OnboardingRoutes.phone.fullPath), isNull);
+  });
+
   test('온보딩 완료 사용자는 onboarding에서 home으로 이동한다', () async {
     await HiveUtil.write(
       key: HiveLoginBox.profileStatus,

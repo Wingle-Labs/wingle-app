@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wingle/common/constants/api_error_messages.dart';
-import 'package:wingle/common/constants/hive_constants.dart';
-import 'package:wingle/common/utils/hive_util.dart';
+import 'package:wingle/common/utils/auth_session_persistence.dart';
+import 'package:wingle/common/utils/auth_session_state.dart';
 import 'package:wingle/features/auth/domain/exceptions/auth_exception.dart';
 import 'package:wingle/features/auth/presentation/providers/login_repository_provider.dart';
 import 'package:wingle/features/onboarding/presentation/models/login_page_model.dart';
@@ -80,31 +80,22 @@ class LoginPage extends _$LoginPage {
 
       if (!ref.mounted) return false;
 
-      await HiveUtil.write(
-        key: HiveLoginBox.userId,
-        value: state.phoneNumber.apiValue,
+      final basicProfile = result.basicProfile;
+      await AuthSessionPersistence.saveLoginResult(
+        userId: state.phoneNumber.apiValue,
+        password: state.passwordValue.value,
+        result: result,
       );
-      await HiveUtil.write(
-        key: HiveLoginBox.accessToken,
-        value: result.accessToken,
-      );
-      await HiveUtil.write(
-        key: HiveLoginBox.refreshToken,
-        value: result.refreshToken,
-      );
-      await HiveUtil.write(
-        key: HiveLoginBox.profileStatus,
-        value: result.profileStatus.apiValue,
-      );
-      if (result.gender != null) {
-        await HiveUtil.write(key: HiveLoginBox.gender, value: result.gender!);
-      } else {
-        await HiveUtil.delete(HiveLoginBox.gender);
-      }
+      AuthSessionState.markAuthenticated();
 
       if (!ref.mounted) return false;
 
-      ref.read(basicProfileProvider.notifier).reset();
+      ref.read(basicProfileProvider.notifier).restoreFromLogin(basicProfile);
+      await ref
+          .read(basicProfileProvider.notifier)
+          .restoreFromServerProfileIfAvailable();
+
+      if (!ref.mounted) return false;
 
       state = state.copyWith(
         isLoading: false,

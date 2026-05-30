@@ -43,7 +43,7 @@ void main() {
       final client = MockClient((request) async {
         expect(request.method, 'POST');
         expect(request.url.path, '/api/v1/auth/reissue');
-        expect(request.headers['Authorization'], 'refresh-token');
+        expect(request.headers['Authorization'], 'Bearer refresh-token');
         return http.Response(
           jsonEncode({
             'accessToken': 'new-access-token',

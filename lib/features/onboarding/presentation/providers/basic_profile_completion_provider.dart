@@ -52,21 +52,36 @@ class BasicProfileCompletion extends _$BasicProfileCompletion {
       return false;
     }
 
+    final shouldUpdate = _readProfileStatus().hasCompletedBasicInfo;
+
     state = state.copyWith(isLoading: true, errorMessage: null);
 
     try {
       final repository = ref.read(profileRepositoryProvider);
-      await repository.submitBasicProfile(
-        nickname: nickname,
-        residence: residence,
-        height: int.parse(height),
-        bodyTypeCode: bodyShapeCode,
-      );
+      final parsedHeight = int.parse(height);
 
-      await HiveUtil.write(
-        key: HiveLoginBox.profileStatus,
-        value: LoginProfileStatus.basicInfoCompleted.apiValue,
-      );
+      if (shouldUpdate) {
+        await repository.updateBasicProfile(
+          nickname: nickname,
+          residence: residence,
+          height: parsedHeight,
+          bodyTypeCode: bodyShapeCode,
+        );
+      } else {
+        await repository.submitBasicProfile(
+          nickname: nickname,
+          residence: residence,
+          height: parsedHeight,
+          bodyTypeCode: bodyShapeCode,
+        );
+      }
+
+      if (!shouldUpdate) {
+        await HiveUtil.write(
+          key: HiveLoginBox.profileStatus,
+          value: LoginProfileStatus.basicInfoCompleted.apiValue,
+        );
+      }
 
       if (!ref.mounted) return false;
 
@@ -80,6 +95,15 @@ class BasicProfileCompletion extends _$BasicProfileCompletion {
         errorMessage: ApiErrorMessages.submitBasicProfileFailed,
       );
       return false;
+    }
+  }
+
+  LoginProfileStatus _readProfileStatus() {
+    try {
+      final rawValue = HiveUtil.read(HiveLoginBox.profileStatus);
+      return LoginProfileStatus.fromApiValue(rawValue);
+    } catch (_) {
+      return LoginProfileStatus.signupCompleted;
     }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:wingle/features/auth/domain/models/login_basic_profile.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 
 /// 로그인 성공 결과
@@ -14,11 +15,15 @@ class LoginResult {
   /// 로그인 시점의 성별
   final String? gender;
 
+  /// 로그인 시점의 기본 프로필 정보
+  final LoginBasicProfile? basicProfile;
+
   /// 생성자
   const LoginResult({
     required this.accessToken,
     required this.refreshToken,
     required this.profileStatus,
     this.gender,
+    this.basicProfile,
   });
 }

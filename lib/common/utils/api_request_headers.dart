@@ -43,9 +43,32 @@ class ApiRequestHeaders {
         return const <String, String>{};
       }
 
-      return {authorizationHeader: '$bearerPrefix$token'};
+      return bearer(token);
     } catch (_) {
       return const <String, String>{};
     }
+  }
+
+  /// 주어진 토큰으로 Bearer Authorization 헤더를 생성한다.
+  static Map<String, String> bearer(String token) {
+    final normalized = _normalizeBearerToken(token);
+    if (normalized == null) {
+      return const <String, String>{};
+    }
+
+    return {authorizationHeader: normalized};
+  }
+
+  static String? _normalizeBearerToken(String token) {
+    final trimmed = token.trim();
+    if (trimmed.isEmpty) {
+      return null;
+    }
+
+    if (trimmed.startsWith(bearerPrefix)) {
+      return trimmed;
+    }
+
+    return '$bearerPrefix$trimmed';
   }
 }

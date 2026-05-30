@@ -41,6 +41,10 @@ class ApiErrorMessages {
   static const String submitBasicProfileFailed =
       'common.error.api.submitBasicProfileFailed';
 
+  /// 내 기본 프로필 조회 실패 메시지
+  static const String fetchMyProfileFailed =
+      'common.error.api.fetchMyProfileFailed';
+
   /// 세부 프로필 정보 등록 실패 메시지
   static const String submitProfileDetailsFailed =
       'common.error.api.submitProfileDetailsFailed';
