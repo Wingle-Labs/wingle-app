@@ -11,6 +11,12 @@ Sources: `API 명세서 2` (`2f9406c3-c488-80bf-9499-d396752ee0c9`), `그룹별 
 ## Public API Entry Points
 
 - Swagger UI: `https://test.wingle.kr/api/v1/swagger-ui/index.html`
+- Swagger config: `https://test.wingle.kr/api/v1/v3/api-docs/swagger-config`
+- Swagger OpenAPI groups:
+  - `onboarding`: `/api/v1/v3/api-docs/onboarding`
+  - `card`: `/api/v1/v3/api-docs/card`
+  - `common`: `/api/v1/v3/api-docs/common`
+  - `admin`: `/api/v1/v3/api-docs/admin`
 - Admin page: `https://test.wingle.kr/api/v1/admin.html`
 - Codebook snapshot: `GET /api/v1/codebook/snapshot?groups=BODY_TYPE,REGION`
 - Codebook current versions: `GET /api/v1/codebook/current-versions`

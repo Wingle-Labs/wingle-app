@@ -19,8 +19,12 @@ Trigger this skill when the task involves:
 ## Sources
 
 - Swagger UI: `https://test.wingle.kr/api/v1/swagger-ui/index.html`
-- OpenAPI JSON: `https://test.wingle.kr/api/v1/v3/api-docs`
 - Swagger config: `https://test.wingle.kr/api/v1/v3/api-docs/swagger-config`
+- OpenAPI JSON groups:
+  - `onboarding`: `https://test.wingle.kr/api/v1/v3/api-docs/onboarding`
+  - `card`: `https://test.wingle.kr/api/v1/v3/api-docs/card`
+  - `common`: `https://test.wingle.kr/api/v1/v3/api-docs/common`
+  - `admin`: `https://test.wingle.kr/api/v1/v3/api-docs/admin`
 - Admin page: `https://test.wingle.kr/api/v1/admin.html`
 - Notion API docs: `https://myknow.notion.site/API-2-2f9406c3c48880bf9499d396752ee0c9?source=copy_link`
 
@@ -28,10 +32,11 @@ Read [references/sources.md](references/sources.md) before using these sources i
 
 ## Required Workflow
 
-1. Check Swagger UI first. If the UI does not expose enough detail, fetch the OpenAPI JSON or swagger-config endpoint directly.
-2. Check the Notion API docs for business rules, naming conventions, onboarding policy, or field semantics that Swagger does not explain.
-3. Use the admin page only when the task needs operational confirmation, approval-state inspection, or behavior validation against live-like data.
-4. Only after those checks, design repository interfaces, DTOs, mock/real API switching points, or integration code.
+1. Check Swagger UI first. Select the matching definition group before inspecting endpoints: `onboarding`, `card`, `common`, or `admin`.
+2. If the UI does not expose enough detail, fetch the matching grouped OpenAPI JSON directly. Use swagger-config first when group availability needs confirmation.
+3. Check the Notion API docs for business rules, naming conventions, onboarding policy, or field semantics that Swagger does not explain.
+4. Use the admin page only when the task needs operational confirmation, approval-state inspection, or behavior validation against live-like data.
+5. Only after those checks, design repository interfaces, DTOs, mock/real API switching points, or integration code.
 
 ## Working Rules
 
@@ -45,4 +50,9 @@ Read [references/sources.md](references/sources.md) before using these sources i
 ## Notes
 
 - The discovered OpenAPI server base is `https://test.wingle.kr/api/v1`.
-- The current OpenAPI document advertises bearer token auth via `bearerAuth`.
+- The current Swagger UI is grouped because the API surface is large:
+  - `onboarding`: onboarding, auth, profile, answers, file presign APIs used by the mobile app onboarding flow.
+  - `card`: card recommendation/filter APIs and contact upload.
+  - `common`: codebook, terms, questions, and healthcheck APIs used before service start or by shared flows.
+  - `admin`: admin-page-only APIs; mobile app should not use these.
+- The current OpenAPI documents advertise bearer token auth via `bearerAuth`.

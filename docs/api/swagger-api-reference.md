@@ -4,7 +4,14 @@ Source: [Swagger UI](https://test.wingle.kr/api/v1/swagger-ui/index.html)
 
 OpenAPI base: `https://test.wingle.kr/api/v1`
 
-## Auth
+Swagger definitions are grouped through
+`https://test.wingle.kr/api/v1/v3/api-docs/swagger-config`.
+
+## Definition Groups
+
+### `onboarding`
+
+온보딩, 인증, 프로필, 답변, 파일 presign 등 모바일 온보딩 플로우에서 사용하는 API.
 
 - `POST /auth/login`
 - `POST /auth/logout`
@@ -14,10 +21,8 @@ OpenAPI base: `https://test.wingle.kr/api/v1`
 - `POST /auth/signup/password`
 - `POST /auth/signup/identity-verification`
 - `GET /auth/signup/nickname/random`
-
-## Profile
-
 - `PUT /user/profile`
+- `GET /profiles/me`
 - `PUT /user/profile/job`
 - `POST /user/profile/job`
 - `POST /user/profile/job/email-verifications`
@@ -32,8 +37,25 @@ OpenAPI base: `https://test.wingle.kr/api/v1`
 - `POST /profiles/approval/request`
 - `POST /profiles/reapply`
 - `GET /profiles/rejection-reason`
+- `GET /choice-questions/answers`
+- `POST /choice-questions/answers`
+- `GET /essay-questions/answers`
+- `POST /essay-questions/answers`
+- `GET /files/presigned/style`
+- `GET /files/presigned/face`
+- `GET /files/presigned/certification`
 
-## Codebook
+### `card`
+
+카드 추천/필터 및 연락처 업로드 관련 API.
+
+- `GET /card/filter`
+- `PUT /card/filter`
+- `POST /contacts`
+
+### `common`
+
+서비스 시작 전/공통 흐름에서 사용하는 코드북, 약관, 질문, healthcheck API.
 
 - `GET /terms/current-versions`
 - `GET /terms/snapshot`
@@ -43,29 +65,11 @@ OpenAPI base: `https://test.wingle.kr/api/v1`
 - `GET /choice-questions/snapshot`
 - `GET /essay-questions/current-versions`
 - `GET /essay-questions/snapshot`
-
-## Answers
-
-- `GET /choice-questions/answers`
-- `POST /choice-questions/answers`
-- `GET /essay-questions/answers`
-- `POST /essay-questions/answers`
-
-## File
-
-- `GET /files/presigned/style`
-- `GET /files/presigned/face`
-- `GET /files/presigned/certification`
-
-## Contact
-
-- `POST /contacts`
-
-## Health
-
 - `GET /healthcheck`
 
-## Admin
+### `admin`
+
+관리자 페이지에서만 사용하는 API. 모바일 앱에서 직접 사용하지 않는다.
 
 - `GET /admin/approvals`
 - `POST /admin/approvals/{approvalId}/approve`
@@ -79,8 +83,8 @@ OpenAPI base: `https://test.wingle.kr/api/v1`
 
 ## Auth Policy
 
-- Swagger OpenAPI declares global `bearerAuth`.
-- No per-path public override was found in the document.
+- Swagger OpenAPI documents declare global `bearerAuth`.
+- No per-path public override was found in the grouped documents.
 - Implementation may still treat some endpoints as public, but Swagger currently does not mark them that way.
 
 ## Implementation Coverage
