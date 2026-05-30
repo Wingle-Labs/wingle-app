@@ -11,7 +11,7 @@ void main() {
 
     final codebook = repository.fetchBodyShapeCodebook();
 
-    expect(codebook.optionsForGender('male').first.code, 'slim');
-    expect(codebook.optionsForGender('female').last.code, 'hidden');
+    expect(codebook.optionsForGender('male').first.code, 'BT_M_001');
+    expect(codebook.optionsForGender('female').last.code, 'BT_F_005');
   });
 }

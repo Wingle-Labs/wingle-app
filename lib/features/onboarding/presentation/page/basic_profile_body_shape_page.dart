@@ -24,12 +24,12 @@ class BasicProfileBodyShapePage extends ConsumerWidget {
     final gender = ref.watch(currentUserGenderProvider);
     final options = codebook.optionsForGender(gender);
     final selectedCode = state.bodyShapeCode;
-    final bodyType = codebook.labelForGenderAndCode(gender, selectedCode);
-    final canSubmit =
-        state.canSubmit &&
-        selectedCode != null &&
-        bodyType != null &&
+    final canContinue =
+        state.canContinueBodyShape &&
         options.any((option) => option.code == selectedCode);
+    void navigateToPreviousBasicProfileStep() {
+      context.goNamed(OnboardingRoutes.basicProfileHeight.name);
+    }
 
     return BasicProfileInputScaffold(
       currentStep: BasicProfileInputConstants.bodyShapeStep,
@@ -38,7 +38,14 @@ class BasicProfileBodyShapePage extends ConsumerWidget {
       subtitle: null,
       buttonLabel: 'common.button.next',
       isLoading: state.isSubmitting,
-      disabled: state.isSubmitting || !canSubmit,
+      disabled: state.isSubmitting || !canContinue,
+      canPop: false,
+      forceBackButton: true,
+      onBackPressed: navigateToPreviousBasicProfileStep,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        navigateToPreviousBasicProfileStep();
+      },
       onPressed: () async {
         final success = await notifier.submit();
         if (!context.mounted) return;

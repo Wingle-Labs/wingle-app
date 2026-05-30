@@ -111,4 +111,4 @@ final class BodyShapeCodebookProvider
   }
 }
 
-String _$bodyShapeCodebookHash() => r'46589ae08d44a85aa5237f8ca25c46d27818ca5a';
+String _$bodyShapeCodebookHash() => r'122aaa45aa563aa0fc4e28470d95c3231b2ddc6f';

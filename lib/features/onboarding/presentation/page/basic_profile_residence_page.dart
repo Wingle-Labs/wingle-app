@@ -17,6 +17,9 @@ class BasicProfileResidencePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(basicProfileProvider);
     final notifier = ref.read(basicProfileProvider.notifier);
+    void navigateToPreviousBasicProfileStep() {
+      context.goNamed(OnboardingRoutes.basicProfile.name);
+    }
 
     return BasicProfileInputScaffold(
       currentStep: BasicProfileInputConstants.residenceStep,
@@ -25,6 +28,13 @@ class BasicProfileResidencePage extends ConsumerWidget {
       subtitle: 'onboarding.basicProfile.residence.subtitle',
       buttonLabel: 'common.button.next',
       disabled: !state.canContinueResidence,
+      canPop: false,
+      forceBackButton: true,
+      onBackPressed: navigateToPreviousBasicProfileStep,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        navigateToPreviousBasicProfileStep();
+      },
       onPressed: () {
         context.pushNamed(OnboardingRoutes.basicProfileHeight.name);
       },

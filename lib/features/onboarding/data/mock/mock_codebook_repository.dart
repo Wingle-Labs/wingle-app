@@ -32,12 +32,82 @@ class MockCodebookRepository implements CodebookRepository {
   }) async {
     return {
       for (final group in groups)
-        group: const CodeSnapshot(
-          version: 1,
-          codes: [
-            CommonCodeDetail(code: 'BT_F_001', codeName: '보통', displayOrder: 1),
-          ],
-        ),
+        group: group == 'BODY_TYPE'
+            ? const CodeSnapshot(
+                version: 1,
+                codes: [
+                  CommonCodeDetail(
+                    code: 'BT_F_001',
+                    codeName: '슬림',
+                    parentCode: 'BT_FEMALE',
+                    displayOrder: 1,
+                  ),
+                  CommonCodeDetail(
+                    code: 'BT_F_002',
+                    codeName: '보통',
+                    parentCode: 'BT_FEMALE',
+                    displayOrder: 2,
+                  ),
+                  CommonCodeDetail(
+                    code: 'BT_F_003',
+                    codeName: '볼륨',
+                    parentCode: 'BT_FEMALE',
+                    displayOrder: 3,
+                  ),
+                  CommonCodeDetail(
+                    code: 'BT_F_004',
+                    codeName: '체구 있음',
+                    parentCode: 'BT_FEMALE',
+                    displayOrder: 4,
+                  ),
+                  CommonCodeDetail(
+                    code: 'BT_F_005',
+                    codeName: '공개 안함',
+                    parentCode: 'BT_FEMALE',
+                    displayOrder: 5,
+                  ),
+                  CommonCodeDetail(
+                    code: 'BT_M_001',
+                    codeName: '슬림',
+                    parentCode: 'BT_MALE',
+                    displayOrder: 1,
+                  ),
+                  CommonCodeDetail(
+                    code: 'BT_M_002',
+                    codeName: '보통',
+                    parentCode: 'BT_MALE',
+                    displayOrder: 2,
+                  ),
+                  CommonCodeDetail(
+                    code: 'BT_M_003',
+                    codeName: '탄탄',
+                    parentCode: 'BT_MALE',
+                    displayOrder: 3,
+                  ),
+                  CommonCodeDetail(
+                    code: 'BT_M_004',
+                    codeName: '체격 있음',
+                    parentCode: 'BT_MALE',
+                    displayOrder: 4,
+                  ),
+                  CommonCodeDetail(
+                    code: 'BT_M_005',
+                    codeName: '공개 안함',
+                    parentCode: 'BT_MALE',
+                    displayOrder: 5,
+                  ),
+                ],
+              )
+            : const CodeSnapshot(
+                version: 1,
+                codes: [
+                  CommonCodeDetail(
+                    code: 'CODE_001',
+                    codeName: '목업 코드',
+                    displayOrder: 1,
+                  ),
+                ],
+              ),
     };
   }
 

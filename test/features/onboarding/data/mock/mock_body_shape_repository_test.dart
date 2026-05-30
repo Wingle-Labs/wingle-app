@@ -6,12 +6,26 @@ void main() {
     final repository = MockBodyShapeRepository();
     final codebook = repository.fetchBodyShapeCodebook();
 
+    expect(codebook.optionsForGender('male').map((e) => e.code).toList(), [
+      'BT_M_001',
+      'BT_M_002',
+      'BT_M_003',
+      'BT_M_004',
+      'BT_M_005',
+    ]);
     expect(codebook.optionsForGender('male').map((e) => e.label).toList(), [
       '슬림',
       '보통',
       '탄탄',
       '체격 있음',
       '공개 안함',
+    ]);
+    expect(codebook.optionsForGender('female').map((e) => e.code).toList(), [
+      'BT_F_001',
+      'BT_F_002',
+      'BT_F_003',
+      'BT_F_004',
+      'BT_F_005',
     ]);
     expect(codebook.optionsForGender('female').map((e) => e.label).toList(), [
       '슬림',

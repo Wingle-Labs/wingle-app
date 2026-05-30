@@ -16,6 +16,9 @@ class BasicProfileHeightPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final height = ref.watch(basicProfileProvider).height;
     final notifier = ref.read(basicProfileProvider.notifier);
+    void navigateToPreviousBasicProfileStep() {
+      context.goNamed(OnboardingRoutes.basicProfileResidence.name);
+    }
 
     return BasicProfileInputScaffold(
       currentStep: BasicProfileInputConstants.heightStep,
@@ -24,6 +27,13 @@ class BasicProfileHeightPage extends ConsumerWidget {
       subtitle: null,
       buttonLabel: 'common.button.next',
       disabled: height.length != 3,
+      canPop: false,
+      forceBackButton: true,
+      onBackPressed: navigateToPreviousBasicProfileStep,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        navigateToPreviousBasicProfileStep();
+      },
       onPressed: () {
         context.pushNamed(OnboardingRoutes.basicProfileBodyShape.name);
       },
