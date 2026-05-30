@@ -77,4 +77,7 @@ class AppSpacing {
 
   /// Instruction과 텍스트 간의 간격
   static const double instructionInternal = 4;
+
+  /// 선택 버튼 간 세로 간격
+  static const double selectionButtonGap = 6;
 }

@@ -403,6 +403,15 @@ class LightColorScheme implements AppColorScheme {
   @override
   Color get componentInfoCardBackground => AppColorPalette.gray10.color;
 
+  /// - [componentSelectionButtonBackground]: 선택 버튼 배경에 사용합니다.
+  @override
+  Color get componentSelectionButtonBackground => AppColorPalette.gray30.color;
+
+  /// - [componentSelectionButtonForeground]: 선택 버튼 전경에 사용합니다.
+  @override
+  Color get componentSelectionButtonForeground =>
+      AppColorPalette.neutral60.color;
+
   // ! Component-Badge: 텍스트 배지에 사용합니다.
   /// - [componentBadgePrimaryBackground]: badge primary 배경에 사용합니다.
   @override

@@ -42,11 +42,23 @@ class BasicProfileInputScaffold extends StatelessWidget {
   /// 뒤로가기 가능 여부
   final bool canPop;
 
+  /// 뒤로가기 버튼 클릭 시 실행할 콜백
+  final VoidCallback? onBackPressed;
+
+  /// 이전 라우트가 없어도 뒤로가기 버튼을 강제로 표시할지 여부
+  final bool forceBackButton;
+
   /// 뒤로가기 시 콜백
   final void Function(bool didPop, Object? result)? onPopInvokedWithResult;
 
   /// 상단 AppBar 제목
   final String appBarTitle;
+
+  /// 상단 AppBar 우측 액션
+  final Widget? appBarTrailing;
+
+  /// 하단 버튼 표시 여부
+  final bool showFloatingButton;
 
   /// 생성자
   const BasicProfileInputScaffold({
@@ -61,8 +73,12 @@ class BasicProfileInputScaffold extends StatelessWidget {
     this.isLoading = false,
     this.disabled = false,
     this.canPop = true,
+    this.onBackPressed,
+    this.forceBackButton = false,
     this.onPopInvokedWithResult,
     this.appBarTitle = 'onboarding.profileInput.title',
+    this.appBarTrailing,
+    this.showFloatingButton = true,
   });
 
   @override
@@ -72,13 +88,20 @@ class BasicProfileInputScaffold extends StatelessWidget {
       onPopInvokedWithResult: onPopInvokedWithResult,
       textScalePolicy: TextScalePolicy.cappedLarge,
       padding: EdgeInsets.zero,
-      appBar: ProfileInputAppBar(title: appBarTitle),
-      floatingActionButton: DefaultFloatingButton(
-        label: buttonLabel,
-        isLoading: isLoading,
-        disabled: disabled,
-        onPressed: onPressed,
+      appBar: ProfileInputAppBar(
+        title: appBarTitle,
+        onBackPressed: onBackPressed,
+        forceBackButton: forceBackButton,
+        trailing: appBarTrailing,
       ),
+      floatingActionButton: showFloatingButton
+          ? DefaultFloatingButton(
+              label: buttonLabel,
+              isLoading: isLoading,
+              disabled: disabled,
+              onPressed: onPressed,
+            )
+          : null,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

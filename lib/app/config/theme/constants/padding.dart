@@ -93,6 +93,12 @@ class AppPadding {
   /// 카드 가로 패딩
   static const double cardHorizontal = 14;
 
+  /// 선택 버튼 내부 세로 패딩
+  static const double selectionButtonVertical = 14;
+
+  /// 선택 버튼 내부 가로 패딩
+  static const double selectionButtonHorizontal = 16;
+
   /// 액션 버튼 마진
   static const double actionMargin = 4;
 

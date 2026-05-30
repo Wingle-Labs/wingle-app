@@ -42,6 +42,9 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   /// 뒤로갈 수 있는 화면에서 자동으로 뒤로가기 버튼을 표시할지 여부
   final bool automaticallyImplyLeading;
 
+  /// 이전 라우트가 없어도 뒤로가기 버튼을 강제로 표시할지 여부
+  final bool forceImplyLeading;
+
   /// 자동 뒤로가기 버튼 클릭 시 실행할 콜백
   final VoidCallback? onBackPressed;
 
@@ -91,6 +94,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
     Size preferredSize = const Size.fromHeight(_minimumToolbarHeight),
     this.leadingActions,
     this.automaticallyImplyLeading = true,
+    this.forceImplyLeading = false,
     this.onBackPressed,
     this.isActionVisible = true,
     this.actions,
@@ -204,7 +208,8 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
       return SizedBox(width: leadingWidth, child: leading);
     }
 
-    if (automaticallyImplyLeading && Navigator.canPop(context)) {
+    if (automaticallyImplyLeading &&
+        (forceImplyLeading || Navigator.canPop(context))) {
       final backAction = _AppBarIconAction(
         icon: const Icon(Icons.arrow_back_ios_new_rounded),
         onPressed: onBackPressed ?? () => Navigator.maybePop(context),

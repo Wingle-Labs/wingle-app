@@ -675,6 +675,9 @@ class AppContainerSize {
   /// Card 최소 높이
   static const double cardMinHeight = 48;
 
+  /// 선택 버튼 최소 높이
+  static const double selectionButtonHeight = 48;
+
   /// Toggle Switch 너비
   static const double toggleSwitchWidth = 58;
 

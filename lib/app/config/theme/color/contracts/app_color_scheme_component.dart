@@ -89,6 +89,12 @@ abstract interface class AppColorComponentScheme {
   /// info card 배경에 사용합니다.
   Color get componentInfoCardBackground;
 
+  /// 선택 버튼 배경에 사용합니다.
+  Color get componentSelectionButtonBackground;
+
+  /// 선택 버튼 전경에 사용합니다.
+  Color get componentSelectionButtonForeground;
+
   /// badge primary 배경에 사용합니다.
   Color get componentBadgePrimaryBackground;
 
