@@ -19,6 +19,7 @@ import 'package:wingle/features/onboarding/presentation/page/pass_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/pass_webview_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/required_self_intro.dart';
 import 'package:wingle/features/onboarding/presentation/page/selective_self_intro.dart';
+import 'package:wingle/features/onboarding/route/onboarding_route_chain.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// ! 온보딩 라우트
@@ -93,6 +94,8 @@ final List<GoRoute> loginRoutes = [
       title: '학교 정보 입력',
       description: '학교 정보와 학교 이메일 인증 화면을 연결할 단계입니다.',
       status: 'JOB_INFO_COMPLETED',
+      routeFlow: OnboardingRouteFlow.profileInput,
+      currentRoute: OnboardingRoutes.basicProfileEducation,
     ),
   ),
   GoRoute(
@@ -102,6 +105,8 @@ final List<GoRoute> loginRoutes = [
       title: '상세 프로필 입력',
       description: '상세 프로필과 스타일/얼굴 사진 업로드 화면을 연결할 단계입니다.',
       status: 'EDUCATION_INFO_COMPLETED',
+      routeFlow: OnboardingRouteFlow.profileInput,
+      currentRoute: OnboardingRoutes.profileDetails,
     ),
   ),
   GoRoute(
@@ -111,6 +116,8 @@ final List<GoRoute> loginRoutes = [
       title: '프로필 심사 요청',
       description: '작성한 프로필을 관리자 심사로 제출하는 화면을 연결할 단계입니다.',
       status: 'PROFILE_COMPLETED',
+      routeFlow: OnboardingRouteFlow.profileInput,
+      currentRoute: OnboardingRoutes.approvalRequest,
     ),
   ),
   GoRoute(
@@ -120,6 +127,8 @@ final List<GoRoute> loginRoutes = [
       title: '프로필 심사 대기',
       description: '관리자 승인 전까지 대기 상태를 안내하는 화면입니다.',
       status: 'AWAITING_APPROVAL',
+      routeFlow: OnboardingRouteFlow.profileInput,
+      currentRoute: OnboardingRoutes.approvalPending,
     ),
   ),
   GoRoute(
@@ -129,6 +138,8 @@ final List<GoRoute> loginRoutes = [
       title: '프로필 재심사',
       description: '거절 사유 확인과 재심사 요청 화면을 연결할 단계입니다.',
       status: 'PROFILE_REJECTED',
+      routeFlow: OnboardingRouteFlow.profileInput,
+      currentRoute: OnboardingRoutes.profileRejected,
     ),
   ),
   GoRoute(
@@ -138,6 +149,8 @@ final List<GoRoute> loginRoutes = [
       title: '객관식 질문 답변',
       description: '승인된 사용자가 객관식 질문에 답변하는 화면을 연결할 단계입니다.',
       status: 'PROFILE_APPROVED',
+      routeFlow: OnboardingRouteFlow.profileInput,
+      currentRoute: OnboardingRoutes.choiceQuestions,
     ),
   ),
   GoRoute(
