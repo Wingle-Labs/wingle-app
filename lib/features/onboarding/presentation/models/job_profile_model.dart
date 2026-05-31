@@ -48,6 +48,9 @@ class JobProfileModel {
   /// 이메일 인증 실패 메시지.
   final String? emailVerificationErrorMessage;
 
+  /// 이메일 인증번호 확인 실패 메시지.
+  final String? verificationCodeErrorMessage;
+
   /// 생성자.
   const JobProfileModel({
     this.company = '',
@@ -60,6 +63,7 @@ class JobProfileModel {
     this.verificationCode = '',
     this.isVerificationCodeSent = false,
     this.emailVerificationErrorMessage,
+    this.verificationCodeErrorMessage,
   });
 
   /// 직종 선택 완료 여부.
@@ -98,6 +102,7 @@ class JobProfileModel {
     String? verificationCode,
     bool? isVerificationCodeSent,
     String? emailVerificationErrorMessage,
+    String? verificationCodeErrorMessage,
   }) {
     return JobProfileModel(
       company: company ?? this.company,
@@ -111,6 +116,7 @@ class JobProfileModel {
       isVerificationCodeSent:
           isVerificationCodeSent ?? this.isVerificationCodeSent,
       emailVerificationErrorMessage: emailVerificationErrorMessage,
+      verificationCodeErrorMessage: verificationCodeErrorMessage,
     );
   }
 

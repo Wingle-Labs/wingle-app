@@ -44,6 +44,7 @@ class JobProfile extends _$JobProfile {
       emailVerified: false,
       isVerificationCodeSent: false,
       emailVerificationErrorMessage: null,
+      verificationCodeErrorMessage: null,
     );
   }
 
@@ -53,7 +54,7 @@ class JobProfile extends _$JobProfile {
     if (state.verificationCode == sanitized) return;
     state = state.copyWith(
       verificationCode: sanitized,
-      emailVerificationErrorMessage: null,
+      verificationCodeErrorMessage: null,
     );
   }
 
@@ -70,6 +71,7 @@ class JobProfile extends _$JobProfile {
       isVerificationCodeSent: false,
       submitErrorMessage: null,
       emailVerificationErrorMessage: null,
+      verificationCodeErrorMessage: null,
     );
     _persistCurrentState();
   }
@@ -177,6 +179,7 @@ class JobProfile extends _$JobProfile {
       state = state.copyWith(
         isSubmitting: false,
         emailVerificationErrorMessage: ApiErrorMessages.verifyJobEmailFailed,
+        verificationCodeErrorMessage: null,
       );
       return false;
     }
@@ -184,6 +187,7 @@ class JobProfile extends _$JobProfile {
     state = state.copyWith(
       isSubmitting: true,
       emailVerificationErrorMessage: null,
+      verificationCodeErrorMessage: null,
     );
 
     try {
@@ -197,6 +201,7 @@ class JobProfile extends _$JobProfile {
         isSubmitting: false,
         isVerificationCodeSent: true,
         emailVerificationErrorMessage: null,
+        verificationCodeErrorMessage: null,
       );
       return true;
     } catch (_) {
@@ -205,6 +210,7 @@ class JobProfile extends _$JobProfile {
       state = state.copyWith(
         isSubmitting: false,
         emailVerificationErrorMessage: ApiErrorMessages.verifyJobEmailFailed,
+        verificationCodeErrorMessage: null,
       );
       return false;
     }
@@ -218,7 +224,8 @@ class JobProfile extends _$JobProfile {
     if (!state.canConfirmVerificationCode || code == null) {
       state = state.copyWith(
         isSubmitting: false,
-        emailVerificationErrorMessage: ApiErrorMessages.verifyJobEmailFailed,
+        emailVerificationErrorMessage: null,
+        verificationCodeErrorMessage: ApiErrorMessages.verifyJobEmailFailed,
       );
       return false;
     }
@@ -226,6 +233,7 @@ class JobProfile extends _$JobProfile {
     state = state.copyWith(
       isSubmitting: true,
       emailVerificationErrorMessage: null,
+      verificationCodeErrorMessage: null,
     );
 
     try {
@@ -247,6 +255,7 @@ class JobProfile extends _$JobProfile {
         emailVerified: true,
         isSubmitting: false,
         emailVerificationErrorMessage: null,
+        verificationCodeErrorMessage: null,
       );
       return true;
     } catch (_) {
@@ -254,7 +263,8 @@ class JobProfile extends _$JobProfile {
 
       state = state.copyWith(
         isSubmitting: false,
-        emailVerificationErrorMessage: ApiErrorMessages.verifyJobEmailFailed,
+        emailVerificationErrorMessage: null,
+        verificationCodeErrorMessage: ApiErrorMessages.verifyJobEmailFailed,
       );
       return false;
     }

@@ -78,7 +78,8 @@ class BasicProfileCompanyEmailPage extends ConsumerWidget {
 
         DefaultToast.show(
           context,
-          ref.read(jobProfileProvider).emailVerificationErrorMessage ??
+          ref.read(jobProfileProvider).verificationCodeErrorMessage ??
+              ref.read(jobProfileProvider).emailVerificationErrorMessage ??
               ApiErrorMessages.verifyJobEmailFailed,
         );
       },
@@ -104,6 +105,7 @@ class BasicProfileCompanyEmailPage extends ConsumerWidget {
               keyboardType: TextInputType.number,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               onChanged: notifier.updateVerificationCode,
+              errorText: state.verificationCodeErrorMessage,
             ),
           ],
         ],

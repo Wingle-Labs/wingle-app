@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wingle/app/config/theme/components/text_fields/default_input_field.dart';
 import 'package:wingle/app/config/theme/themes.dart';
+import 'package:wingle/common/constants/api_error_messages.dart';
 import 'package:wingle/common/constants/localization_constants.dart';
 import 'package:wingle/features/onboarding/data/mock/mock_profile_repository.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_company_email_page.dart';
@@ -79,15 +81,38 @@ void main() {
       OnboardingRoutes.basicProfileCompanyName.fullPath,
     );
   });
+
+  testWidgets('인증번호 확인 실패는 인증번호 입력 필드에 오류를 표시한다', (tester) async {
+    await tester.pumpWidget(
+      _testApp(repository: const _ConfirmFailingProfileRepository()),
+    );
+    await tester.pump();
+
+    await tester.enterText(find.byType(TextFormField), 'name@samsung.com');
+    await tester.pump();
+    await tester.tap(find.byType(FloatingActionButton));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(find.byType(TextFormField).last, '123456');
+    await tester.pump();
+    await tester.tap(find.byType(FloatingActionButton));
+    await tester.pumpAndSettle();
+
+    final fields = tester
+        .widgetList<DefaultInputField>(find.byType(DefaultInputField))
+        .toList();
+
+    expect(fields, hasLength(2));
+    expect(fields.first.errorText, isNull);
+    expect(fields.last.errorText, ApiErrorMessages.verifyJobEmailFailed);
+  });
 }
 
-Widget _testApp() {
+Widget _testApp({
+  MockProfileRepository repository = const MockProfileRepository(),
+}) {
   return ProviderScope(
-    overrides: [
-      profileRepositoryProvider.overrideWithValue(
-        const MockProfileRepository(),
-      ),
-    ],
+    overrides: [profileRepositoryProvider.overrideWithValue(repository)],
     child: EasyLocalization(
       supportedLocales: AppLocalization.supportedLocales,
       path: AppLocalization.path,
@@ -118,4 +143,19 @@ Widget _testRouterApp(GoRouter router) {
       child: MaterialApp.router(theme: Themes.light, routerConfig: router),
     ),
   );
+}
+
+class _ConfirmFailingProfileRepository extends MockProfileRepository {
+  const _ConfirmFailingProfileRepository();
+
+  @override
+  Future<void> verifyJobEmail({required String email}) async {}
+
+  @override
+  Future<void> confirmJobEmail({
+    required String email,
+    required int verificationCode,
+  }) async {
+    throw Exception('invalid code');
+  }
 }
