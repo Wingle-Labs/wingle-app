@@ -158,7 +158,7 @@
         "subtitle": "Matching conditions vary by verification level.",
         "emailLabel": "Company email",
         "emailHint": "name@company.com",
-        "emailAssistive": "Use your company email, not a personal email.",
+        "emailAssistive": "Personal email domains such as gmail and naver are not allowed.",
         "codeLabel": "Verification code",
         "codeHint": "Enter the verification code",
         "codeSent": "Verification code sent."

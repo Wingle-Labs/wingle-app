@@ -1,5 +1,21 @@
 import 'package:wingle/features/onboarding/domain/model/profile/job_occupation_policy.dart';
 
+const Set<String> _personalEmailDomains = {
+  'gmail.com',
+  'googlemail.com',
+  'naver.com',
+  'hanmail.net',
+  'daum.net',
+  'kakao.com',
+  'nate.com',
+  'outlook.com',
+  'hotmail.com',
+  'icloud.com',
+  'yahoo.com',
+  'proton.me',
+  'protonmail.com',
+};
+
 /// 직장 정보 입력 상태.
 class JobProfileModel {
   /// 회사명.
@@ -63,8 +79,7 @@ class JobProfileModel {
       hasOccupation && (!requiresCompany || company.trim().isNotEmpty);
 
   /// 이메일 인증번호 전송 가능 여부.
-  bool get canSendVerificationEmail =>
-      email.trim().contains('@') && email.trim().contains('.');
+  bool get canSendVerificationEmail => _isCompanyEmail(email);
 
   /// 이메일 인증 확인 가능 여부.
   bool get canConfirmVerificationCode =>
@@ -97,5 +112,16 @@ class JobProfileModel {
           isVerificationCodeSent ?? this.isVerificationCodeSent,
       emailVerificationErrorMessage: emailVerificationErrorMessage,
     );
+  }
+
+  bool _isCompanyEmail(String value) {
+    final trimmed = value.trim().toLowerCase();
+    final emailPattern = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
+    if (!emailPattern.hasMatch(trimmed)) {
+      return false;
+    }
+
+    final domain = trimmed.split('@').last;
+    return !_personalEmailDomains.contains(domain);
   }
 }
