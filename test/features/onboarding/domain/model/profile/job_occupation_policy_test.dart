@@ -3,6 +3,14 @@ import 'package:wingle/features/onboarding/domain/model/profile/job_occupation_p
 
 void main() {
   group('JobOccupationPolicy', () {
+    test('무직은 직업 선택 첫 화면에 노출하는 코드다', () {
+      expect(JobOccupationPolicy.topLevelOccupationCodes, contains('J101'));
+      expect(
+        JobOccupationPolicy.topLevelOccupationCodes,
+        isNot(contains('J102')),
+      );
+    });
+
     test('무직과 학생은 회사 입력과 이메일 인증을 건너뛴다', () {
       expect(JobOccupationPolicy.skipsCompanyAndEmail('J101'), isTrue);
       expect(JobOccupationPolicy.skipsCompanyAndEmail('J102'), isTrue);

@@ -87,10 +87,10 @@ class CodebookHierarchyTree {
     final childrenByParent = <String, List<CodebookEntry>>{};
 
     for (final entry in entries) {
-      final parentCode = _normalizeParentCode(
-        resolveParentCode?.call(entry, originalEntriesByCode) ??
-            entry.parentCode,
-      );
+      final rawParentCode = resolveParentCode == null
+          ? entry.parentCode
+          : resolveParentCode(entry, originalEntriesByCode);
+      final parentCode = _normalizeParentCode(rawParentCode);
       parentByCode[entry.code] = parentCode;
       if (parentCode == null || parentCode.isEmpty) continue;
       childrenByParent

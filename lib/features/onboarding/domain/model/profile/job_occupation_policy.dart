@@ -1,5 +1,10 @@
 /// 직업 코드별 회사 입력/이메일 인증 정책.
 abstract final class JobOccupationPolicy {
+  /// 직업 선택 첫 화면에서 루트로 노출할 직업 코드.
+  static const Set<String> topLevelOccupationCodes = {
+    'J101', // 무직
+  };
+
   /// 회사명과 회사 이메일 인증을 받을 수 없는 직업 코드.
   static const Set<String> companyUnavailableCodes = {
     'J101', // 무직
