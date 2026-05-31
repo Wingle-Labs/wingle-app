@@ -9,6 +9,7 @@ import 'package:wingle/features/onboarding/presentation/components/wrapper/basic
 import 'package:wingle/features/onboarding/presentation/constants/basic_profile_input_constants.dart';
 import 'package:wingle/features/onboarding/presentation/providers/basic_profile_provider.dart';
 import 'package:wingle/features/onboarding/presentation/providers/body_shape_repository_provider.dart';
+import 'package:wingle/features/onboarding/route/onboarding_route_chain.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// 기본 프로필 입력의 체형 선택 페이지.
@@ -28,7 +29,11 @@ class BasicProfileBodyShapePage extends ConsumerWidget {
         state.canContinueBodyShape &&
         options.any((option) => option.code == selectedCode);
     void navigateToPreviousBasicProfileStep() {
-      context.goNamed(OnboardingRoutes.basicProfileHeight.name);
+      OnboardingRouteChain.goPrevious(
+        context,
+        OnboardingRouteFlow.profileInput,
+        OnboardingRoutes.basicProfileBodyShape,
+      );
     }
 
     return BasicProfileInputScaffold(

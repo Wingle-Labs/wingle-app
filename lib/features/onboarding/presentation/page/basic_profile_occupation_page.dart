@@ -16,6 +16,7 @@ import 'package:wingle/features/onboarding/presentation/components/wrapper/basic
 import 'package:wingle/features/onboarding/presentation/constants/basic_profile_input_constants.dart';
 import 'package:wingle/features/onboarding/presentation/providers/job_codebook_provider.dart';
 import 'package:wingle/features/onboarding/presentation/providers/job_profile_provider.dart';
+import 'package:wingle/features/onboarding/route/onboarding_route_chain.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// 직종 선택 페이지.
@@ -45,7 +46,11 @@ class _BasicProfileOccupationPageState
         setState(() => _selectedRoot = null);
         return;
       }
-      context.goNamed(OnboardingRoutes.basicProfileBodyShape.name);
+      OnboardingRouteChain.goPrevious(
+        context,
+        OnboardingRouteFlow.profileInput,
+        OnboardingRoutes.basicProfileCompany,
+      );
     }
 
     return BasicProfileInputScaffold(

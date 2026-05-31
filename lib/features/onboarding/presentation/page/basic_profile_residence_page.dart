@@ -6,6 +6,7 @@ import 'package:wingle/features/onboarding/presentation/components/selection/reg
 import 'package:wingle/features/onboarding/presentation/components/wrapper/basic_profile_input_scaffold.dart';
 import 'package:wingle/features/onboarding/presentation/constants/basic_profile_input_constants.dart';
 import 'package:wingle/features/onboarding/presentation/providers/basic_profile_provider.dart';
+import 'package:wingle/features/onboarding/route/onboarding_route_chain.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// 기본 프로필 입력의 첫 단계인 거주지 입력 페이지.
@@ -18,7 +19,11 @@ class BasicProfileResidencePage extends ConsumerWidget {
     final state = ref.watch(basicProfileProvider);
     final notifier = ref.read(basicProfileProvider.notifier);
     void navigateToPreviousBasicProfileStep() {
-      context.goNamed(OnboardingRoutes.basicProfile.name);
+      OnboardingRouteChain.goPrevious(
+        context,
+        OnboardingRouteFlow.profileInput,
+        OnboardingRoutes.basicProfileResidence,
+      );
     }
 
     return BasicProfileInputScaffold(

@@ -10,6 +10,7 @@ import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/features/onboarding/presentation/components/wrapper/basic_profile_input_scaffold.dart';
 import 'package:wingle/features/onboarding/presentation/constants/basic_profile_input_constants.dart';
 import 'package:wingle/features/onboarding/presentation/providers/job_profile_provider.dart';
+import 'package:wingle/features/onboarding/route/onboarding_route_chain.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// 기본 프로필 입력의 회사명 입력 페이지.
@@ -56,7 +57,11 @@ class _BasicProfileCompanyPageState
     });
 
     void navigateToPreviousBasicProfileStep() {
-      context.goNamed(OnboardingRoutes.basicProfileCompany.name);
+      OnboardingRouteChain.goPrevious(
+        context,
+        OnboardingRouteFlow.profileInput,
+        OnboardingRoutes.basicProfileCompanyName,
+      );
     }
 
     return BasicProfileInputScaffold(

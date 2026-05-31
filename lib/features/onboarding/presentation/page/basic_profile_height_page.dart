@@ -5,6 +5,7 @@ import 'package:wingle/features/onboarding/presentation/components/input/basic_p
 import 'package:wingle/features/onboarding/presentation/components/wrapper/basic_profile_input_scaffold.dart';
 import 'package:wingle/features/onboarding/presentation/constants/basic_profile_input_constants.dart';
 import 'package:wingle/features/onboarding/presentation/providers/basic_profile_provider.dart';
+import 'package:wingle/features/onboarding/route/onboarding_route_chain.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// 기본 프로필 입력의 키 입력 페이지.
@@ -17,7 +18,11 @@ class BasicProfileHeightPage extends ConsumerWidget {
     final height = ref.watch(basicProfileProvider).height;
     final notifier = ref.read(basicProfileProvider.notifier);
     void navigateToPreviousBasicProfileStep() {
-      context.goNamed(OnboardingRoutes.basicProfileResidence.name);
+      OnboardingRouteChain.goPrevious(
+        context,
+        OnboardingRouteFlow.profileInput,
+        OnboardingRoutes.basicProfileHeight,
+      );
     }
 
     return BasicProfileInputScaffold(
