@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
@@ -161,6 +162,87 @@ void main() {
     expect(persistence.profile?.mainFacePhotoKey, 'users/1/face/face.webp');
   });
 
+  test('사진 순서 변경 시 첫 번째 사진을 대표 사진으로 저장한다', () async {
+    final persistence = _MemoryProfileDetailsPersistence();
+    final container = ProviderContainer(
+      overrides: [
+        profileDetailsPersistenceProvider.overrideWithValue(persistence),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    final notifier = container.read(profileDetailsProvider.notifier);
+    final success = await notifier.replacePhotos(
+      type: ProfilePhotoType.style,
+      photos: const [
+        ProfilePhotoInput(
+          s3Key: 'users/1/style/sub.jpg',
+          name: 'sub.jpg',
+          contentType: 'image/jpeg',
+        ),
+        ProfilePhotoInput(
+          s3Key: 'users/1/style/main.jpg',
+          name: 'main.jpg',
+          contentType: 'image/jpeg',
+        ),
+      ],
+    );
+    final state = container.read(profileDetailsProvider);
+
+    expect(success, isTrue);
+    expect(state.mainStylePhotoKey, 'users/1/style/sub.jpg');
+    expect(state.subStylePhotoKeys, ['users/1/style/main.jpg']);
+    expect(persistence.profile?.mainStylePhotoKey, 'users/1/style/sub.jpg');
+    expect(persistence.profile?.subStylePhotoKeys, ['users/1/style/main.jpg']);
+  });
+
+  test('사진 파일 업로드 중이어도 다른 사진 presigned URL 발급을 시작할 수 있다', () async {
+    final fileRepository = _BlockingProfilePhotoFileRepository();
+    final container = ProviderContainer(
+      overrides: [fileRepositoryProvider.overrideWithValue(fileRepository)],
+    );
+    addTearDown(container.dispose);
+
+    final notifier = container.read(profileDetailsProvider.notifier);
+    final firstUpload = notifier.uploadPhotoFile(
+      type: ProfilePhotoType.style,
+      name: 'first.webp',
+      contentType: 'image/webp',
+      bytes: Uint8List.fromList([1]),
+    );
+    final secondUpload = notifier.uploadPhotoFile(
+      type: ProfilePhotoType.style,
+      name: 'second.webp',
+      contentType: 'image/webp',
+      bytes: Uint8List.fromList([2]),
+    );
+
+    expect(fileRepository.stylePresignRequestCount, 2);
+    expect(container.read(profileDetailsProvider).isSubmitting, isFalse);
+
+    fileRepository.completeStylePresign(
+      index: 1,
+      s3Key: 'users/1/style/second.webp',
+    );
+    await Future<void>.delayed(Duration.zero);
+    fileRepository.completeStylePresign(
+      index: 0,
+      s3Key: 'users/1/style/first.webp',
+    );
+    await Future<void>.delayed(Duration.zero);
+
+    expect(fileRepository.uploadRequestCount, 2);
+
+    fileRepository.completeRawUpload(index: 1);
+    fileRepository.completeRawUpload(index: 0);
+
+    final firstPhoto = await firstUpload;
+    final secondPhoto = await secondUpload;
+
+    expect(firstPhoto?.s3Key, 'users/1/style/first.webp');
+    expect(secondPhoto?.s3Key, 'users/1/style/second.webp');
+  });
+
   test('로컬 상세 프로필의 사진 key를 provider 상태로 복원한다', () {
     final persistence = _MemoryProfileDetailsPersistence(
       LoginProfileDetails(
@@ -235,5 +317,47 @@ class _RecordingProfilePhotoFileRepository extends MockFileRepository {
     required String contentType,
   }) async {
     uploadedBytes = List<int>.from(bytes);
+  }
+}
+
+class _BlockingProfilePhotoFileRepository extends MockFileRepository {
+  final List<Completer<ProfileImagePresignResult>> _stylePresignCompleters = [];
+  final List<Completer<void>> _uploadCompleters = [];
+
+  int get stylePresignRequestCount => _stylePresignCompleters.length;
+
+  int get uploadRequestCount => _uploadCompleters.length;
+
+  @override
+  Future<ProfileImagePresignResult> createStyleImagePresignedUrl({
+    String contentType = 'image/jpeg',
+  }) {
+    final completer = Completer<ProfileImagePresignResult>();
+    _stylePresignCompleters.add(completer);
+    return completer.future;
+  }
+
+  @override
+  Future<void> uploadBytesToPresignedUrl({
+    required String presignedUrl,
+    required List<int> bytes,
+    required String contentType,
+  }) {
+    final completer = Completer<void>();
+    _uploadCompleters.add(completer);
+    return completer.future;
+  }
+
+  void completeStylePresign({required int index, required String s3Key}) {
+    _stylePresignCompleters[index].complete(
+      ProfileImagePresignResult(
+        presignedUrl: 'https://mock-upload.example.com/$index.webp',
+        s3Key: s3Key,
+      ),
+    );
+  }
+
+  void completeRawUpload({required int index}) {
+    _uploadCompleters[index].complete();
   }
 }

@@ -50,6 +50,8 @@ final profileDetailsPersistenceProvider = Provider<ProfileDetailsPersistence>(
 /// 상세 프로필 입력 상태를 관리하는 Notifier.
 @Riverpod(keepAlive: true)
 class ProfileDetails extends _$ProfileDetails {
+  Future<void> _profilePersistenceQueue = Future<void>.value();
+
   @override
   ProfileDetailsModel build() {
     final persistedProfile = ref
@@ -98,9 +100,7 @@ class ProfileDetails extends _$ProfileDetails {
     state = state.copyWith(isSubmitting: true, submitErrorMessage: null);
 
     try {
-      await ref
-          .read(profileDetailsPersistenceProvider)
-          .saveProfileDetails(_profileFromState());
+      await _saveProfileDetails(_profileFromState());
       if (!ref.mounted) return false;
 
       state = state.copyWith(isSubmitting: false, submitErrorMessage: null);
@@ -116,28 +116,25 @@ class ProfileDetails extends _$ProfileDetails {
     }
   }
 
-  /// 사진을 업로드하고 S3 key를 로컬 상세 프로필에 저장한다.
-  Future<bool> uploadPhoto({
+  /// 사진 파일을 업로드하고 업로드 결과를 반환한다.
+  Future<ProfilePhotoInput?> uploadPhotoFile({
     required ProfilePhotoType type,
-    required int slotIndex,
     required String name,
     required String contentType,
     required Uint8List bytes,
   }) async {
     final normalizedContentType = contentType.trim().toLowerCase();
-    if (slotIndex < 0 ||
-        slotIndex >= _maxProfilePhotoCount ||
-        !FileUploadConstants.supportedImageContentTypes.contains(
-          normalizedContentType,
-        )) {
+    if (!FileUploadConstants.supportedImageContentTypes.contains(
+      normalizedContentType,
+    )) {
       state = state.copyWith(
         isSubmitting: false,
         submitErrorMessage: _unsupportedProfilePhotoKey,
       );
-      return false;
+      return null;
     }
 
-    state = state.copyWith(isSubmitting: true, submitErrorMessage: null);
+    state = state.copyWith(submitErrorMessage: null);
 
     try {
       final repository = ref.read(fileRepositoryProvider);
@@ -156,34 +153,19 @@ class ProfileDetails extends _$ProfileDetails {
         contentType: normalizedContentType,
       );
 
-      if (!ref.mounted) return false;
+      if (!ref.mounted) return null;
 
-      final uploadedPhoto = ProfilePhotoInput(
+      return ProfilePhotoInput(
         s3Key: presignedUrl.s3Key,
         name: name,
         contentType: normalizedContentType,
         previewBytes: bytes,
       );
-      final nextState = _replacePhotoInState(
-        state,
-        type: type,
-        slotIndex: slotIndex,
-        photo: uploadedPhoto,
-      );
-
-      await ref
-          .read(profileDetailsPersistenceProvider)
-          .saveProfileDetails(_profileFromModel(nextState));
-      if (!ref.mounted) return false;
-
-      state = nextState.copyWith(isSubmitting: false, submitErrorMessage: null);
-      return true;
     } catch (error, stackTrace) {
-      if (!ref.mounted) return false;
+      if (!ref.mounted) return null;
 
       _logProfilePhotoUploadFailure(
         type: type,
-        slotIndex: slotIndex,
         name: name,
         contentType: normalizedContentType,
         bytesLength: bytes.length,
@@ -193,6 +175,74 @@ class ProfileDetails extends _$ProfileDetails {
       state = state.copyWith(
         isSubmitting: false,
         submitErrorMessage: ApiErrorMessages.uploadFileFailed,
+      );
+      return null;
+    }
+  }
+
+  /// 사진을 업로드하고 S3 key를 로컬 상세 프로필에 저장한다.
+  Future<bool> uploadPhoto({
+    required ProfilePhotoType type,
+    required int slotIndex,
+    required String name,
+    required String contentType,
+    required Uint8List bytes,
+  }) async {
+    if (slotIndex < 0 || slotIndex >= _maxProfilePhotoCount) {
+      state = state.copyWith(
+        isSubmitting: false,
+        submitErrorMessage: _unsupportedProfilePhotoKey,
+      );
+      return false;
+    }
+
+    final uploadedPhoto = await uploadPhotoFile(
+      type: type,
+      name: name,
+      contentType: contentType,
+      bytes: bytes,
+    );
+    if (!ref.mounted || uploadedPhoto == null) return false;
+
+    final nextState = _replacePhotoInState(
+      state,
+      type: type,
+      slotIndex: slotIndex,
+      photo: uploadedPhoto,
+    );
+
+    return replacePhotos(type: type, photos: _photosFor(nextState, type));
+  }
+
+  /// 사진 목록 순서를 로컬 상세 프로필에 저장한다.
+  Future<bool> replacePhotos({
+    required ProfilePhotoType type,
+    required List<ProfilePhotoInput> photos,
+  }) async {
+    final normalizedPhotos = List<ProfilePhotoInput>.unmodifiable(
+      photos.take(_maxProfilePhotoCount),
+    );
+    final nextState = switch (type) {
+      ProfilePhotoType.style => state.copyWith(
+        stylePhotos: normalizedPhotos,
+        submitErrorMessage: null,
+      ),
+      ProfilePhotoType.face => state.copyWith(
+        facePhotos: normalizedPhotos,
+        submitErrorMessage: null,
+      ),
+    };
+
+    state = nextState;
+
+    try {
+      await _saveProfileDetails(_profileFromModel(nextState));
+      return ref.mounted;
+    } catch (_) {
+      if (!ref.mounted) return false;
+
+      state = state.copyWith(
+        submitErrorMessage: ApiErrorMessages.submitProfileDetailsFailed,
       );
       return false;
     }
@@ -244,11 +294,7 @@ class ProfileDetails extends _$ProfileDetails {
   }
 
   void _persistCurrentState() {
-    _ignorePersistenceFailure(
-      ref
-          .read(profileDetailsPersistenceProvider)
-          .saveProfileDetails(_profileFromState()),
-    );
+    _ignorePersistenceFailure(_saveProfileDetails(_profileFromState()));
   }
 
   LoginProfileDetails _profileFromState() {
@@ -322,9 +368,7 @@ class ProfileDetails extends _$ProfileDetails {
     state = nextState.copyWith(isSubmitting: true, submitErrorMessage: null);
 
     try {
-      await ref
-          .read(profileDetailsPersistenceProvider)
-          .saveProfileDetails(_profileFromModel(nextState));
+      await _saveProfileDetails(_profileFromModel(nextState));
       if (!ref.mounted) return false;
 
       state = nextState.copyWith(isSubmitting: false, submitErrorMessage: null);
@@ -359,9 +403,18 @@ class ProfileDetails extends _$ProfileDetails {
     unawaited(future.catchError((_) {}));
   }
 
+  Future<void> _saveProfileDetails(LoginProfileDetails profile) {
+    final operation = _profilePersistenceQueue.then((_) {
+      return ref
+          .read(profileDetailsPersistenceProvider)
+          .saveProfileDetails(profile);
+    });
+    _profilePersistenceQueue = operation.catchError((_) {});
+    return operation;
+  }
+
   void _logProfilePhotoUploadFailure({
     required ProfilePhotoType type,
-    required int slotIndex,
     required String name,
     required String contentType,
     required int bytesLength,
@@ -372,7 +425,7 @@ class ProfileDetails extends _$ProfileDetails {
 
     debugPrint(
       'Failed to upload profile photo: '
-      'type=${type.name}, slotIndex=$slotIndex, name=$name, '
+      'type=${type.name}, name=$name, '
       'contentType=$contentType, bytes=$bytesLength, error=$error',
     );
     debugPrintStack(stackTrace: stackTrace);

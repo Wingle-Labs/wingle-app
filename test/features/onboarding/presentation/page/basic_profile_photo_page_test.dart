@@ -41,6 +41,39 @@ void main() {
     expect(button.onPressed, isNull);
   });
 
+  testWidgets('스타일 사진을 드래그하면 첫 번째 사진을 대표 사진으로 저장한다', (tester) async {
+    _setMobileViewport(tester);
+    final persistence = _MemoryProfileDetailsPersistence(
+      const LoginProfileDetails(
+        mainStylePhotoKey: 'users/1/style/main.jpg',
+        subStylePhotoKeys: ['users/1/style/sub.jpg'],
+      ),
+    );
+
+    await tester.pumpWidget(
+      _testApp(
+        home: const BasicProfileStylePhotoPage(),
+        persistence: persistence,
+      ),
+    );
+    await tester.pump();
+
+    final checkIcons = find.byIcon(Icons.check_rounded);
+    expect(checkIcons, findsNWidgets(2));
+
+    final gesture = await tester.startGesture(
+      tester.getCenter(checkIcons.at(1)),
+    );
+    await tester.pump(const Duration(milliseconds: 700));
+    await gesture.moveTo(tester.getCenter(checkIcons.first));
+    await tester.pump();
+    await gesture.up();
+    await _pumpAsyncWork(tester);
+
+    expect(persistence.profile?.mainStylePhotoKey, 'users/1/style/sub.jpg');
+    expect(persistence.profile?.subStylePhotoKeys, ['users/1/style/main.jpg']);
+  });
+
   testWidgets('스타일 사진 화면의 앱바 뒤로가기는 MBTI 화면으로 이동한다', (tester) async {
     _setMobileViewport(tester);
     final router = _styleRouter();
@@ -129,11 +162,14 @@ void _setMobileViewport(WidgetTester tester) {
   addTearDown(tester.view.resetDevicePixelRatio);
 }
 
-Widget _testApp({required Widget home}) {
+Widget _testApp({
+  required Widget home,
+  _MemoryProfileDetailsPersistence? persistence,
+}) {
   return ProviderScope(
     overrides: [
       profileDetailsPersistenceProvider.overrideWithValue(
-        _MemoryProfileDetailsPersistence(),
+        persistence ?? _MemoryProfileDetailsPersistence(),
       ),
     ],
     child: EasyLocalization(
