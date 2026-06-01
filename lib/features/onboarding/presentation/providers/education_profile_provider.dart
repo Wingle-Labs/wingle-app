@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wingle/common/constants/api_error_messages.dart';
 import 'package:wingle/common/constants/hive_constants.dart';
 import 'package:wingle/common/utils/hive_util.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 import 'package:wingle/features/onboarding/domain/constants/file_upload_constants.dart';
+import 'package:wingle/features/onboarding/domain/model/file/file_models.dart';
 import 'package:wingle/features/onboarding/presentation/models/education_profile_model.dart';
 import 'package:wingle/features/onboarding/presentation/providers/file_repository_provider.dart';
 import 'package:wingle/features/onboarding/presentation/providers/profile_repository_provider.dart';
@@ -127,40 +129,59 @@ class EducationProfile extends _$EducationProfile {
 
     state = state.copyWith(isSubmitting: true, certificationErrorMessage: null);
 
+    final fileRepository = ref.read(fileRepositoryProvider);
+
+    late final ProfileImagePresignResult presign;
     try {
-      final fileRepository = ref.read(fileRepositoryProvider);
-      final presign = await fileRepository.createCertificationPresignedUrl(
+      presign = await fileRepository.createCertificationPresignedUrl(
         contentType: file.contentType,
       );
+    } catch (error, stackTrace) {
+      return _failCertification(
+        message: ApiErrorMessages.createCertificationPresignedUrlFailed,
+        stage: 'presign',
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    try {
       await fileRepository.uploadBytesToPresignedUrl(
         presignedUrl: presign.presignedUrl,
         bytes: file.bytes,
         contentType: file.contentType,
       );
+    } catch (error, stackTrace) {
+      return _failCertification(
+        message: ApiErrorMessages.uploadFileFailed,
+        stage: 'upload',
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    try {
       await ref
           .read(profileRepositoryProvider)
           .submitEducationCertification(certificationKey: presign.s3Key);
-
-      if (!ref.mounted) return false;
-
-      state = state.copyWith(
-        isSubmitting: false,
-        certificationSubmitted: true,
-        certificationKey: presign.s3Key,
-        certificationErrorMessage: null,
+    } catch (error, stackTrace) {
+      return _failCertification(
+        message: ApiErrorMessages.submitEducationCertificationFailed,
+        stage: 'register',
+        error: error,
+        stackTrace: stackTrace,
       );
-      return true;
-    } catch (_) {
-      if (!ref.mounted) return false;
-
-      state = state.copyWith(
-        isSubmitting: false,
-        certificationSubmitted: false,
-        certificationErrorMessage:
-            ApiErrorMessages.submitEducationCertificationFailed,
-      );
-      return false;
     }
+
+    if (!ref.mounted) return false;
+
+    state = state.copyWith(
+      isSubmitting: false,
+      certificationSubmitted: true,
+      certificationKey: presign.s3Key,
+      certificationErrorMessage: null,
+    );
+    return true;
   }
 
   /// 학교 정보를 서버에 업로드한다.
@@ -344,5 +365,24 @@ class EducationProfile extends _$EducationProfile {
     } catch (_) {
       return LoginProfileStatus.signupCompleted;
     }
+  }
+
+  bool _failCertification({
+    required String message,
+    required String stage,
+    required Object error,
+    required StackTrace stackTrace,
+  }) {
+    debugPrint('Failed to submit education certification at $stage: $error');
+    debugPrintStack(stackTrace: stackTrace);
+
+    if (!ref.mounted) return false;
+
+    state = state.copyWith(
+      isSubmitting: false,
+      certificationSubmitted: false,
+      certificationErrorMessage: message,
+    );
+    return false;
   }
 }

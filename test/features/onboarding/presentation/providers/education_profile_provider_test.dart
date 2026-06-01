@@ -119,6 +119,28 @@ void main() {
     );
     expect(state.certificationSubmitted, isTrue);
   });
+
+  test('학적 증명서 파일 업로드 실패는 업로드 오류로 저장한다', () async {
+    final repository = _RecordingProfileRepository();
+    final fileRepository = _RecordingFileRepository(failUpload: true);
+    final container = _container(repository, fileRepository: fileRepository);
+    addTearDown(container.dispose);
+
+    final notifier = container.read(educationProfileProvider.notifier);
+    notifier.selectCertificationFile(
+      name: 'certification.png',
+      contentType: 'image/png',
+      bytes: const [1, 2, 3],
+    );
+
+    final success = await notifier.submitCertification();
+    final state = container.read(educationProfileProvider);
+
+    expect(success, isFalse);
+    expect(repository.certificationKey, isNull);
+    expect(state.certificationSubmitted, isFalse);
+    expect(state.certificationErrorMessage, ApiErrorMessages.uploadFileFailed);
+  });
 }
 
 ProviderContainer _container(
@@ -180,8 +202,12 @@ class _RecordingProfileRepository extends MockProfileRepository {
 }
 
 class _RecordingFileRepository extends MockFileRepository {
+  final bool failUpload;
+
   List<int>? uploadedBytes;
   String? uploadedContentType;
+
+  _RecordingFileRepository({this.failUpload = false});
 
   @override
   Future<ProfileImagePresignResult> createCertificationPresignedUrl({
@@ -199,6 +225,10 @@ class _RecordingFileRepository extends MockFileRepository {
     required List<int> bytes,
     required String contentType,
   }) async {
+    if (failUpload) {
+      throw Exception(ApiErrorMessages.uploadFileFailed);
+    }
+
     uploadedBytes = List<int>.from(bytes);
     uploadedContentType = contentType;
   }
