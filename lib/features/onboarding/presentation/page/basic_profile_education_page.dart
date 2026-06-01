@@ -23,6 +23,7 @@ import 'package:wingle/features/onboarding/presentation/constants/basic_profile_
 import 'package:wingle/features/onboarding/presentation/models/education_profile_model.dart';
 import 'package:wingle/features/onboarding/presentation/providers/education_profile_provider.dart';
 import 'package:wingle/features/onboarding/presentation/providers/university_codebook_provider.dart';
+import 'package:wingle/features/onboarding/presentation/utils/upload_image_compressor.dart';
 import 'package:wingle/features/onboarding/route/onboarding_route_chain.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
@@ -307,17 +308,18 @@ class _BasicProfileEducationPageState
       );
       if (image == null || !context.mounted) return;
 
-      final contentType = _resolveImageContentType(
-        fileName: image.name,
-        mimeType: image.mimeType,
+      final originalBytes = await image.readAsBytes();
+      final uploadImage = await UploadImageCompressor.compressToWebp(
+        bytes: originalBytes,
+        originalName: image.name,
+        options: FileUploadConstants.documentImageCompressionOptions,
       );
-      final bytes = await image.readAsBytes();
       if (!context.mounted) return;
 
       final success = notifier.selectCertificationFile(
-        name: image.name,
-        contentType: contentType,
-        bytes: bytes,
+        name: uploadImage.name,
+        contentType: uploadImage.contentType,
+        bytes: uploadImage.bytes,
       );
 
       if (!success) {
@@ -335,27 +337,6 @@ class _BasicProfileEducationPageState
         'onboarding.basicProfile.educationCertification.pickFailed',
       );
     }
-  }
-
-  String _resolveImageContentType({
-    required String fileName,
-    String? mimeType,
-  }) {
-    final normalizedMimeType = mimeType?.trim().toLowerCase();
-    if (normalizedMimeType != null &&
-        FileUploadConstants.supportedImageContentTypes.contains(
-          normalizedMimeType,
-        )) {
-      return normalizedMimeType;
-    }
-
-    final extension = fileName.split('.').last.toLowerCase();
-    return switch (extension) {
-      'jpg' || 'jpeg' => 'image/jpeg',
-      'png' => 'image/png',
-      'webp' => 'image/webp',
-      _ => '',
-    };
   }
 }
 

@@ -8,12 +8,12 @@ import 'package:wingle/features/onboarding/domain/repository/file_repository.dar
 class MockFileRepository implements FileRepository {
   @override
   Future<ProfileImagePresignResult> createProfileImagePresignedUrl({
-    String contentType = 'image/jpeg',
+    String contentType = FileUploadConstants.defaultProfileImageContentType,
   }) async {
     await Future<void>.delayed(const Duration(milliseconds: 10));
     return const ProfileImagePresignResult(
       presignedUrl: 'https://mock-upload.example.com/profile-image',
-      s3Key: 'users/mock/profile/original/mock-profile.jpg',
+      s3Key: 'users/mock/profile/original/mock-profile.webp',
     );
   }
 
@@ -38,7 +38,7 @@ class MockFileRepository implements FileRepository {
     await Future<void>.delayed(const Duration(milliseconds: 10));
     return const ProfileImagePresignResult(
       presignedUrl: 'https://mock-upload.example.com/certification',
-      s3Key: 'users/mock/certification/mock-certification.jpg',
+      s3Key: 'users/mock/certification/mock-certification.webp',
     );
   }
 
@@ -97,7 +97,7 @@ class MockFileRepository implements FileRepository {
       fileId: fileId,
       url: 'https://mock-download.example.com/$fileId?expiresIn=$expiresIn',
       expiresAt: '2026-02-02T09:55:00+09:00',
-      contentType: 'image/jpeg',
+      contentType: FileUploadConstants.webpImageContentType,
       size: 345678,
     );
   }
