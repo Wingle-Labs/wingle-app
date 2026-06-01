@@ -41,7 +41,42 @@ void main() {
           OnboardingRouteFlow.profileInput,
           OnboardingRoutes.profileDetails,
         ),
+        OnboardingRoutes.profileStylePhotos,
+      );
+      expect(
+        OnboardingRouteChain.previousOf(
+          OnboardingRouteFlow.profileInput,
+          OnboardingRoutes.profileStylePhotos,
+        ),
+        OnboardingRoutes.profileDetails,
+      );
+      expect(
+        OnboardingRouteChain.nextOf(
+          OnboardingRouteFlow.profileInput,
+          OnboardingRoutes.profileStylePhotos,
+        ),
+        OnboardingRoutes.profileFacePhotos,
+      );
+      expect(
+        OnboardingRouteChain.previousOf(
+          OnboardingRouteFlow.profileInput,
+          OnboardingRoutes.profileFacePhotos,
+        ),
+        OnboardingRoutes.profileStylePhotos,
+      );
+      expect(
+        OnboardingRouteChain.nextOf(
+          OnboardingRouteFlow.profileInput,
+          OnboardingRoutes.profileFacePhotos,
+        ),
         OnboardingRoutes.approvalRequest,
+      );
+      expect(
+        OnboardingRouteChain.previousOf(
+          OnboardingRouteFlow.profileInput,
+          OnboardingRoutes.approvalRequest,
+        ),
+        OnboardingRoutes.profileFacePhotos,
       );
     });
 

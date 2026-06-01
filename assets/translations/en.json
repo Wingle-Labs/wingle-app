@@ -18,6 +18,7 @@
         "fetchRandomNicknameFailed": "랜덤 닉네임을 불러오지 못했어요. 다시 시도해주세요.",
         "submitBasicProfileFailed": "기본 프로필 정보를 등록하지 못했어요. 다시 시도해주세요.",
         "submitProfileDetailsFailed": "We couldn't save your profile details. Please try again.",
+        "createProfileImagePresignedUrlFailed": "We couldn't prepare your profile photo upload. Please try again.",
         "submitEducationFailed": "We couldn't save your school information. Please try again.",
         "verifyEducationEmailFailed": "School email verification failed. Please try again.",
         "submitEducationCertificationFailed": "We couldn't submit your school document. Please try again.",
@@ -208,6 +209,19 @@
       },
       "profileDetails": {
         "mbtiTitle": "What is your MBTI?"
+      },
+      "profilePhoto": {
+        "appBarTitle": "Photo upload",
+        "styleTitle": "Upload at least 1 photo\nthat shows your style",
+        "faceTitle": "Upload at least 1 photo\nthat clearly shows your face",
+        "faceSubtitle": "Face photos will not be shown on your profile.",
+        "requiredBadge": "Required",
+        "styleLabel": "Style",
+        "faceLabel": "Front face",
+        "guide": "Photo upload guide",
+        "guideUnavailable": "Photo upload guide is coming soon.",
+        "unsupportedFile": "This image type is not supported.",
+        "pickFailed": "We couldn't select the photo. Please try again."
       }
     },
     "agreement": {

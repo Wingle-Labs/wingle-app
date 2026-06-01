@@ -18,6 +18,7 @@
         "fetchRandomNicknameFailed": "랜덤 닉네임을 불러오지 못했어요. 다시 시도해주세요.",
         "submitBasicProfileFailed": "기본 프로필 정보를 등록하지 못했어요. 다시 시도해주세요.",
         "submitProfileDetailsFailed": "상세 프로필 정보를 저장하지 못했어요. 다시 시도해주세요.",
+        "createProfileImagePresignedUrlFailed": "프로필 사진 업로드 준비에 실패했어요. 다시 시도해주세요.",
         "submitEducationFailed": "학교 정보를 등록하지 못했어요. 다시 시도해주세요.",
         "verifyEducationEmailFailed": "학교 이메일 인증에 실패했어요. 다시 시도해주세요.",
         "submitEducationCertificationFailed": "학적 증명서를 등록하지 못했어요. 다시 시도해주세요.",
@@ -208,6 +209,19 @@
       },
       "profileDetails": {
         "mbtiTitle": "MBTI가 뭔가요?"
+      },
+      "profilePhoto": {
+        "appBarTitle": "사진 등록",
+        "styleTitle": "본인의 스타일이 잘 보이는 사진을\n최소 1장 이상 등록해주세요",
+        "faceTitle": "얼굴이 잘 보이는 사진을\n최소 1장 이상 등록해주세요",
+        "faceSubtitle": "얼굴 사진은 프로필에 노출되지 않아요",
+        "requiredBadge": "필수",
+        "styleLabel": "스타일",
+        "faceLabel": "얼굴 정면",
+        "guide": "사진 등록 가이드",
+        "guideUnavailable": "사진 등록 가이드는 준비 중이에요.",
+        "unsupportedFile": "지원하지 않는 이미지 형식이에요.",
+        "pickFailed": "사진을 선택하지 못했어요. 다시 시도해주세요."
       }
     },
     "agreement": {

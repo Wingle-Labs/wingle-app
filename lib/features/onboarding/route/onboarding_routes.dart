@@ -58,10 +58,22 @@ abstract final class OnboardingRoutes {
     name: 'basic-profile-education',
   );
 
-  /// 상세 프로필 및 사진 입력
+  /// 상세 프로필 MBTI 입력
   static const profileDetails = RouteNode(
     parent: login,
     name: 'profile-details',
+  );
+
+  /// 상세 프로필 스타일 사진 입력
+  static const profileStylePhotos = RouteNode(
+    parent: login,
+    name: 'profile-style-photos',
+  );
+
+  /// 상세 프로필 얼굴 사진 입력
+  static const profileFacePhotos = RouteNode(
+    parent: login,
+    name: 'profile-face-photos',
   );
 
   /// 프로필 심사 요청

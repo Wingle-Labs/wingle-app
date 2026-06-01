@@ -44,7 +44,7 @@ final class ProfileDetailsProvider
   }
 }
 
-String _$profileDetailsHash() => r'd5b8697e9c5de1e4ea9e0bb2b1d95b4e375c6450';
+String _$profileDetailsHash() => r'b46b56a36ecdc341cd27e04a972605fbcf9b9e8a';
 
 /// 상세 프로필 입력 상태를 관리하는 Notifier.
 

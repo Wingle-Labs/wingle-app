@@ -1,13 +1,20 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wingle/common/constants/api_error_messages.dart';
 import 'package:wingle/common/utils/auth_session_persistence.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_details.dart';
+import 'package:wingle/features/onboarding/domain/constants/file_upload_constants.dart';
 import 'package:wingle/features/onboarding/presentation/models/profile_details_model.dart';
+import 'package:wingle/features/onboarding/presentation/providers/file_repository_provider.dart';
 
 part 'profile_details_provider.g.dart';
+
+const int _maxProfilePhotoCount = 3;
+const String _unsupportedProfilePhotoKey =
+    'onboarding.basicProfile.profilePhoto.unsupportedFile';
 
 /// 상세 프로필 로컬 저장소.
 abstract interface class ProfileDetailsPersistence {
@@ -109,6 +116,124 @@ class ProfileDetails extends _$ProfileDetails {
     }
   }
 
+  /// 사진을 업로드하고 S3 key를 로컬 상세 프로필에 저장한다.
+  Future<bool> uploadPhoto({
+    required ProfilePhotoType type,
+    required int slotIndex,
+    required String name,
+    required String contentType,
+    required Uint8List bytes,
+  }) async {
+    final normalizedContentType = contentType.trim().toLowerCase();
+    if (slotIndex < 0 ||
+        slotIndex >= _maxProfilePhotoCount ||
+        !FileUploadConstants.supportedImageContentTypes.contains(
+          normalizedContentType,
+        )) {
+      state = state.copyWith(
+        isSubmitting: false,
+        submitErrorMessage: _unsupportedProfilePhotoKey,
+      );
+      return false;
+    }
+
+    state = state.copyWith(isSubmitting: true, submitErrorMessage: null);
+
+    try {
+      final repository = ref.read(fileRepositoryProvider);
+      final presignedUrl = switch (type) {
+        ProfilePhotoType.style => await repository.createStyleImagePresignedUrl(
+          contentType: normalizedContentType,
+        ),
+        ProfilePhotoType.face => await repository.createFaceImagePresignedUrl(
+          contentType: normalizedContentType,
+        ),
+      };
+
+      await repository.uploadBytesToPresignedUrl(
+        presignedUrl: presignedUrl.presignedUrl,
+        bytes: bytes,
+        contentType: normalizedContentType,
+      );
+
+      if (!ref.mounted) return false;
+
+      final uploadedPhoto = ProfilePhotoInput(
+        s3Key: presignedUrl.s3Key,
+        name: name,
+        contentType: normalizedContentType,
+        previewBytes: bytes,
+      );
+      final nextState = _replacePhotoInState(
+        state,
+        type: type,
+        slotIndex: slotIndex,
+        photo: uploadedPhoto,
+      );
+
+      await ref
+          .read(profileDetailsPersistenceProvider)
+          .saveProfileDetails(_profileFromModel(nextState));
+      if (!ref.mounted) return false;
+
+      state = nextState.copyWith(isSubmitting: false, submitErrorMessage: null);
+      return true;
+    } catch (_) {
+      if (!ref.mounted) return false;
+
+      state = state.copyWith(
+        isSubmitting: false,
+        submitErrorMessage: ApiErrorMessages.uploadFileFailed,
+      );
+      return false;
+    }
+  }
+
+  /// 사진을 제거하고 로컬 상세 프로필에 반영한다.
+  Future<bool> removePhoto({
+    required ProfilePhotoType type,
+    required int slotIndex,
+  }) async {
+    final photos = _photosFor(state, type);
+    if (slotIndex < 0 || slotIndex >= photos.length) {
+      return true;
+    }
+
+    final nextPhotos = List<ProfilePhotoInput>.of(photos)..removeAt(slotIndex);
+    final nextState = switch (type) {
+      ProfilePhotoType.style => state.copyWith(stylePhotos: nextPhotos),
+      ProfilePhotoType.face => state.copyWith(facePhotos: nextPhotos),
+    };
+
+    return _saveProfileState(nextState);
+  }
+
+  /// 스타일 사진 단계 입력값을 저장한다.
+  Future<bool> saveStylePhotos() {
+    if (!state.canContinueStylePhotos) {
+      state = state.copyWith(
+        isSubmitting: false,
+        submitErrorMessage: ApiErrorMessages.submitProfileDetailsFailed,
+      );
+      return Future.value(false);
+    }
+
+    return _saveProfileState(state);
+  }
+
+  /// 얼굴 사진 단계 입력값을 저장한다.
+  Future<bool> saveFacePhotos() {
+    if (!state.canContinueFacePhotos) {
+      state = state.copyWith(
+        isSubmitting: false,
+        submitErrorMessage: ApiErrorMessages.submitProfileDetailsFailed,
+      );
+      return Future.value(false);
+    }
+
+    return _saveProfileState(state);
+  }
+
   void _persistCurrentState() {
     _ignorePersistenceFailure(
       ref
@@ -118,9 +243,17 @@ class ProfileDetails extends _$ProfileDetails {
   }
 
   LoginProfileDetails _profileFromState() {
+    return _profileFromModel(state);
+  }
+
+  LoginProfileDetails _profileFromModel(ProfileDetailsModel model) {
     return LoginProfileDetails(
-      mbti: state.mbti,
-      selfIntroduction: _nonEmpty(state.selfIntroduction),
+      mbti: model.mbti,
+      selfIntroduction: _nonEmpty(model.selfIntroduction),
+      mainStylePhotoKey: model.mainStylePhotoKey,
+      subStylePhotoKeys: model.subStylePhotoKeys,
+      mainFacePhotoKey: model.mainFacePhotoKey,
+      subFacePhotoKeys: model.subFacePhotoKeys,
     );
   }
 
@@ -132,6 +265,84 @@ class ProfileDetails extends _$ProfileDetails {
       decision: mbti == null ? null : mbti[2],
       lifestyle: mbti == null ? null : mbti[3],
       selfIntroduction: profile.selfIntroduction?.trim() ?? '',
+      stylePhotos: _photoInputsFromKeys([
+        if (_nonEmpty(profile.mainStylePhotoKey) != null)
+          profile.mainStylePhotoKey!,
+        ...profile.subStylePhotoKeys,
+      ]),
+      facePhotos: _photoInputsFromKeys([
+        if (_nonEmpty(profile.mainFacePhotoKey) != null)
+          profile.mainFacePhotoKey!,
+        ...profile.subFacePhotoKeys,
+      ]),
+    );
+  }
+
+  ProfileDetailsModel _replacePhotoInState(
+    ProfileDetailsModel currentState, {
+    required ProfilePhotoType type,
+    required int slotIndex,
+    required ProfilePhotoInput photo,
+  }) {
+    final nextPhotos = List<ProfilePhotoInput>.of(
+      _photosFor(currentState, type),
+    );
+    if (slotIndex < nextPhotos.length) {
+      nextPhotos[slotIndex] = photo;
+    } else {
+      nextPhotos.add(photo);
+    }
+
+    return switch (type) {
+      ProfilePhotoType.style => currentState.copyWith(stylePhotos: nextPhotos),
+      ProfilePhotoType.face => currentState.copyWith(facePhotos: nextPhotos),
+    };
+  }
+
+  List<ProfilePhotoInput> _photosFor(
+    ProfileDetailsModel currentState,
+    ProfilePhotoType type,
+  ) {
+    return switch (type) {
+      ProfilePhotoType.style => currentState.stylePhotos,
+      ProfilePhotoType.face => currentState.facePhotos,
+    };
+  }
+
+  Future<bool> _saveProfileState(ProfileDetailsModel nextState) async {
+    state = nextState.copyWith(isSubmitting: true, submitErrorMessage: null);
+
+    try {
+      await ref
+          .read(profileDetailsPersistenceProvider)
+          .saveProfileDetails(_profileFromModel(nextState));
+      if (!ref.mounted) return false;
+
+      state = nextState.copyWith(isSubmitting: false, submitErrorMessage: null);
+      return true;
+    } catch (_) {
+      if (!ref.mounted) return false;
+
+      state = state.copyWith(
+        isSubmitting: false,
+        submitErrorMessage: ApiErrorMessages.submitProfileDetailsFailed,
+      );
+      return false;
+    }
+  }
+
+  List<ProfilePhotoInput> _photoInputsFromKeys(List<String> keys) {
+    return List<ProfilePhotoInput>.unmodifiable(
+      keys
+          .map(_nonEmpty)
+          .whereType<String>()
+          .map(
+            (key) => ProfilePhotoInput(
+              s3Key: key,
+              name: key.split('/').last,
+              contentType: FileUploadConstants.defaultProfileImageContentType,
+            ),
+          ),
     );
   }
 

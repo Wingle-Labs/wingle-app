@@ -6,23 +6,32 @@ import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/themes.dart';
 import 'package:wingle/common/constants/localization_constants.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_details.dart';
-import 'package:wingle/features/onboarding/presentation/page/basic_profile_mbti_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/basic_profile_photo_page.dart';
 import 'package:wingle/features/onboarding/presentation/providers/profile_details_provider.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets('MBTI 선택 전 다음 버튼을 비활성화한다', (tester) async {
+  testWidgets('스타일 사진 등록 전에는 다음 버튼을 비활성화한다', (tester) async {
     _setMobileViewport(tester);
-    await tester.pumpWidget(_testApp());
+
+    await tester.pumpWidget(_testApp(home: const BasicProfileStylePhotoPage()));
     await tester.pump();
 
     expect(
       _textEither(
-        'onboarding.basicProfile.profileDetails.mbtiTitle',
-        'MBTI가 뭔가요?',
+        'onboarding.basicProfile.profilePhoto.styleTitle',
+        '본인의 스타일이 잘 보이는 사진을\n최소 1장 이상 등록해주세요',
       ),
+      findsOneWidget,
+    );
+    expect(
+      _textEither('onboarding.basicProfile.profilePhoto.styleLabel', '스타일'),
+      findsOneWidget,
+    );
+    expect(
+      _textEither('onboarding.basicProfile.profilePhoto.guide', '사진 등록 가이드'),
       findsOneWidget,
     );
 
@@ -32,19 +41,34 @@ void main() {
     expect(button.onPressed, isNull);
   });
 
-  testWidgets('MBTI 네 축을 선택하면 로컬 저장 후 다음 체인으로 이동한다', (tester) async {
+  testWidgets('스타일 사진 화면의 앱바 뒤로가기는 MBTI 화면으로 이동한다', (tester) async {
     _setMobileViewport(tester);
-    final persistence = _MemoryProfileDetailsPersistence();
-    final router = _mbtiRouter();
+    final router = _styleRouter();
     addTearDown(router.dispose);
+
+    await tester.pumpWidget(_testRouterApp(router));
+    await tester.pump();
+
+    await tester.tap(find.byIcon(Icons.arrow_back_ios_new_rounded));
+    await tester.pumpAndSettle();
+
+    expect(find.text('mbti-target'), findsOneWidget);
+    expect(
+      router.routeInformationProvider.value.uri.path,
+      OnboardingRoutes.profileDetails.fullPath,
+    );
+  });
+
+  testWidgets('스타일 사진 저장 후 다음 체인으로 이동한다', (tester) async {
+    _setMobileViewport(tester);
+    final router = _styleRouter();
+    addTearDown(router.dispose);
+    final persistence = _MemoryProfileDetailsPersistence(
+      const LoginProfileDetails(mainStylePhotoKey: 'users/1/style/main.jpg'),
+    );
 
     await tester.pumpWidget(_testRouterApp(router, persistence: persistence));
     await tester.pump();
-
-    for (final letter in ['E', 'S', 'T', 'J']) {
-      await tester.tap(find.text(letter));
-      await tester.pump();
-    }
 
     final button = tester.widget<FloatingActionButton>(
       find.byType(FloatingActionButton),
@@ -55,47 +79,44 @@ void main() {
     await _pumpAsyncWork(tester);
     await tester.pumpAndSettle();
 
-    expect(persistence.profile?.mbti, 'ESTJ');
-    expect(find.text('style-photo-target'), findsOneWidget);
+    expect(find.text('face-photo-target'), findsOneWidget);
     expect(
       router.routeInformationProvider.value.uri.path,
-      OnboardingRoutes.profileStylePhotos.fullPath,
+      OnboardingRoutes.profileFacePhotos.fullPath,
     );
   });
 
-  testWidgets('MBTI 화면의 앱바 뒤로가기는 학교 정보 입력으로 이동한다', (tester) async {
+  testWidgets('얼굴 사진 화면의 뒤로가기와 다음 체인을 따른다', (tester) async {
     _setMobileViewport(tester);
-    final router = _mbtiRouter();
+    final router = _faceRouter();
     addTearDown(router.dispose);
+    final persistence = _MemoryProfileDetailsPersistence(
+      const LoginProfileDetails(mainFacePhotoKey: 'users/1/face/main.jpg'),
+    );
 
-    await tester.pumpWidget(_testRouterApp(router));
+    await tester.pumpWidget(_testRouterApp(router, persistence: persistence));
     await tester.pump();
 
     await tester.tap(find.byIcon(Icons.arrow_back_ios_new_rounded));
     await tester.pumpAndSettle();
 
-    expect(find.text('education-target'), findsOneWidget);
+    expect(find.text('style-photo-target'), findsOneWidget);
     expect(
       router.routeInformationProvider.value.uri.path,
-      OnboardingRoutes.basicProfileEducation.fullPath,
+      OnboardingRoutes.profileStylePhotos.fullPath,
     );
-  });
 
-  testWidgets('MBTI 화면의 시스템 뒤로가기도 학교 정보 입력으로 이동한다', (tester) async {
-    _setMobileViewport(tester);
-    final router = _mbtiRouter();
-    addTearDown(router.dispose);
-
-    await tester.pumpWidget(_testRouterApp(router));
-    await tester.pump();
-
-    await tester.binding.handlePopRoute();
+    router.goNamed(OnboardingRoutes.profileFacePhotos.name);
     await tester.pumpAndSettle();
 
-    expect(find.text('education-target'), findsOneWidget);
+    await tester.tap(find.byType(FloatingActionButton));
+    await _pumpAsyncWork(tester);
+    await tester.pumpAndSettle();
+
+    expect(find.text('approval-request-target'), findsOneWidget);
     expect(
       router.routeInformationProvider.value.uri.path,
-      OnboardingRoutes.basicProfileEducation.fullPath,
+      OnboardingRoutes.approvalRequest.fullPath,
     );
   });
 }
@@ -108,11 +129,11 @@ void _setMobileViewport(WidgetTester tester) {
   addTearDown(tester.view.resetDevicePixelRatio);
 }
 
-Widget _testApp({_MemoryProfileDetailsPersistence? persistence}) {
+Widget _testApp({required Widget home}) {
   return ProviderScope(
     overrides: [
       profileDetailsPersistenceProvider.overrideWithValue(
-        persistence ?? _MemoryProfileDetailsPersistence(),
+        _MemoryProfileDetailsPersistence(),
       ),
     ],
     child: EasyLocalization(
@@ -121,10 +142,7 @@ Widget _testApp({_MemoryProfileDetailsPersistence? persistence}) {
       fallbackLocale: AppLocalization.fallbackLocale,
       startLocale: AppLocalization.fallbackLocale,
       saveLocale: false,
-      child: MaterialApp(
-        theme: Themes.light,
-        home: const BasicProfileMbtiPage(),
-      ),
+      child: MaterialApp(theme: Themes.light, home: home),
     ),
   );
 }
@@ -150,24 +168,47 @@ Widget _testRouterApp(
   );
 }
 
-GoRouter _mbtiRouter() {
+GoRouter _styleRouter() {
   return GoRouter(
-    initialLocation: OnboardingRoutes.profileDetails.fullPath,
+    initialLocation: OnboardingRoutes.profileStylePhotos.fullPath,
     routes: [
+      GoRoute(
+        name: OnboardingRoutes.profileStylePhotos.name,
+        path: OnboardingRoutes.profileStylePhotos.fullPath,
+        builder: (context, state) => const BasicProfileStylePhotoPage(),
+      ),
       GoRoute(
         name: OnboardingRoutes.profileDetails.name,
         path: OnboardingRoutes.profileDetails.fullPath,
-        builder: (context, state) => const BasicProfileMbtiPage(),
+        builder: (context, state) => const Text('mbti-target'),
       ),
       GoRoute(
-        name: OnboardingRoutes.basicProfileEducation.name,
-        path: OnboardingRoutes.basicProfileEducation.fullPath,
-        builder: (context, state) => const Text('education-target'),
+        name: OnboardingRoutes.profileFacePhotos.name,
+        path: OnboardingRoutes.profileFacePhotos.fullPath,
+        builder: (context, state) => const Text('face-photo-target'),
+      ),
+    ],
+  );
+}
+
+GoRouter _faceRouter() {
+  return GoRouter(
+    initialLocation: OnboardingRoutes.profileFacePhotos.fullPath,
+    routes: [
+      GoRoute(
+        name: OnboardingRoutes.profileFacePhotos.name,
+        path: OnboardingRoutes.profileFacePhotos.fullPath,
+        builder: (context, state) => const BasicProfileFacePhotoPage(),
       ),
       GoRoute(
         name: OnboardingRoutes.profileStylePhotos.name,
         path: OnboardingRoutes.profileStylePhotos.fullPath,
         builder: (context, state) => const Text('style-photo-target'),
+      ),
+      GoRoute(
+        name: OnboardingRoutes.approvalRequest.name,
+        path: OnboardingRoutes.approvalRequest.fullPath,
+        builder: (context, state) => const Text('approval-request-target'),
       ),
     ],
   );
@@ -188,6 +229,8 @@ Finder _textEither(String key, String translated) {
 
 class _MemoryProfileDetailsPersistence implements ProfileDetailsPersistence {
   LoginProfileDetails? profile;
+
+  _MemoryProfileDetailsPersistence([this.profile]);
 
   @override
   LoginProfileDetails? readProfileDetails() => profile;

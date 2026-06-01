@@ -32,6 +32,14 @@ void main() {
         OnboardingRoutes.profileDetails.fullPath,
       );
       expect(
+        router.namedLocation(OnboardingRoutes.profileStylePhotos.name),
+        OnboardingRoutes.profileStylePhotos.fullPath,
+      );
+      expect(
+        router.namedLocation(OnboardingRoutes.profileFacePhotos.name),
+        OnboardingRoutes.profileFacePhotos.fullPath,
+      );
+      expect(
         router.namedLocation(OnboardingRoutes.approvalPending.name),
         OnboardingRoutes.approvalPending.fullPath,
       );

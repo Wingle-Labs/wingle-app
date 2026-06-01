@@ -12,6 +12,7 @@ import 'package:wingle/features/onboarding/presentation/page/basic_profile_heigh
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_mbti_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_nickname_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_occupation_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/basic_profile_photo_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_residence_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/login_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/onboarding_page.dart';
@@ -98,6 +99,16 @@ final List<GoRoute> loginRoutes = [
     name: OnboardingRoutes.profileDetails.name,
     path: OnboardingRoutes.profileDetails.path,
     builder: (context, state) => const BasicProfileMbtiPage(),
+  ),
+  GoRoute(
+    name: OnboardingRoutes.profileStylePhotos.name,
+    path: OnboardingRoutes.profileStylePhotos.path,
+    builder: (context, state) => const BasicProfileStylePhotoPage(),
+  ),
+  GoRoute(
+    name: OnboardingRoutes.profileFacePhotos.name,
+    path: OnboardingRoutes.profileFacePhotos.path,
+    builder: (context, state) => const BasicProfileFacePhotoPage(),
   ),
   GoRoute(
     name: OnboardingRoutes.approvalRequest.name,
