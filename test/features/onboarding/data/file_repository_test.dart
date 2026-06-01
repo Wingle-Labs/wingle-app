@@ -22,6 +22,12 @@ void main() {
         size: 345678,
         purpose: 'PROFILE_IMAGE',
       );
+      final certification = await repository.createCertificationPresignedUrl();
+      await repository.uploadBytesToPresignedUrl(
+        presignedUrl: certification.presignedUrl,
+        bytes: const [1, 2, 3],
+        contentType: 'image/jpeg',
+      );
       final completed = await repository.completeUpload(
         uploadId: uploadPresign.uploadId,
         key: uploadPresign.key,
@@ -34,6 +40,7 @@ void main() {
       final deleted = await repository.deleteFile(completed.fileId);
 
       expect(profileImage, isA<ProfileImagePresignResult>());
+      expect(certification.s3Key, contains('/certification/'));
       expect(uploadPresign.method, 'PUT');
       expect(completed.status, 'UPLOADED');
       expect(downloadUrl.fileId, completed.fileId);
@@ -93,6 +100,52 @@ void main() {
       expect(
         result.presignedUrl,
         'https://mock-upload.example.com/profile.jpg',
+      );
+    });
+
+    test('학적 증명서 presigned url을 발급한다', () async {
+      final client = MockClient((request) async {
+        expect(request.method, 'GET');
+        expect(request.url.path, '/api/v1/files/presigned/certification');
+        expect(request.url.queryParameters['contentType'], 'image/webp');
+        return http.Response(
+          jsonEncode({
+            'presignedUrl':
+                'https://mock-upload.example.com/certification.webp',
+            's3Key': 'users/1/certification/certification.webp',
+          }),
+          200,
+        );
+      });
+
+      final repository = FileRepositoryImpl(client: client, baseUrl: baseUrl);
+
+      final result = await repository.createCertificationPresignedUrl(
+        contentType: 'image/webp',
+      );
+
+      expect(
+        result.presignedUrl,
+        'https://mock-upload.example.com/certification.webp',
+      );
+      expect(result.s3Key, 'users/1/certification/certification.webp');
+    });
+
+    test('presigned url로 파일 바이트를 업로드한다', () async {
+      final client = MockClient((request) async {
+        expect(request.method, 'PUT');
+        expect(request.url.toString(), 'https://mock-upload.example.com/file');
+        expect(request.headers['Content-Type'], 'image/png');
+        expect(request.bodyBytes, const [1, 2, 3]);
+        return http.Response('', 200);
+      });
+
+      final repository = FileRepositoryImpl(client: client, baseUrl: baseUrl);
+
+      await repository.uploadBytesToPresignedUrl(
+        presignedUrl: 'https://mock-upload.example.com/file',
+        bytes: const [1, 2, 3],
+        contentType: 'image/png',
       );
     });
 

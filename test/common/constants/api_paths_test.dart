@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:wingle/common/constants/api_paths.dart';
 
 void main() {
-  test('앱에서 사용하는 Swagger API 39개 경로를 관리한다', () {
+  test('앱에서 사용하는 Swagger API 41개 경로를 관리한다', () {
     final operations = <String>[
       'POST ${ApiEndpoints.authLogin}',
       'POST ${ApiEndpoints.authLogout}',
@@ -22,6 +22,7 @@ void main() {
       'PUT ${ApiEndpoints.profileEducationReapply}',
       'POST ${ApiEndpoints.profileEducationEmailVerifications}',
       'POST ${ApiEndpoints.profileEducationEmailVerificationsConfirm}',
+      'POST ${ApiEndpoints.profileEducationCertification}',
       'POST ${ApiEndpoints.profileDetail}',
       'PUT ${ApiEndpoints.profileDetailReapply}',
       'POST ${ApiEndpoints.profileApprovalRequest}',
@@ -41,11 +42,12 @@ void main() {
       'POST ${ApiEndpoints.essayQuestionAnswers}',
       'GET ${ApiEndpoints.styleImagePresign}',
       'GET ${ApiEndpoints.faceImagePresign}',
+      'GET ${ApiEndpoints.certificationPresign}',
       'POST ${ApiEndpoints.contacts}',
       'GET ${ApiEndpoints.healthcheck}',
     ];
 
-    expect(operations, hasLength(39));
+    expect(operations, hasLength(41));
     expect(operations.every((op) => op.contains(' /api/v1/')), isTrue);
   });
 }

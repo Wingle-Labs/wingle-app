@@ -71,10 +71,14 @@ void main() {
         selfIntroduction: '안녕하세요.',
       );
       await repository.submitEducation(
-        university: '한국대학교',
-        educationLevel: '대학교',
+        university: 'U001',
+        customUniversityName: null,
+        educationLevel: 'UNIVERSITY',
       );
       await repository.verifyEducationEmail(email: 'sdfdd123@jnu.ac.kr');
+      await repository.submitEducationCertification(
+        certificationKey: 'users/1/certification/certification.jpg',
+      );
       await repository.submitJob(company: '삼성전자', occupation: 'J103');
       await repository.verifyJobEmail(email: 'asd123@samsung.co.kr');
     });
@@ -222,7 +226,7 @@ void main() {
       });
     });
 
-    test('학교 정보를 등록한다', () async {
+    test('코드북 학교 정보를 등록한다', () async {
       late Map<String, dynamic> body;
 
       final client = MockClient((request) async {
@@ -238,11 +242,39 @@ void main() {
       );
 
       await repository.submitEducation(
-        university: '한국대학교',
-        educationLevel: '대학교',
+        university: 'U001',
+        customUniversityName: null,
+        educationLevel: 'UNIVERSITY',
       );
 
-      expect(body, {'university': '한국대학교', 'educationLevel': '대학교'});
+      expect(body, {'university': 'U001', 'educationLevel': 'UNIVERSITY'});
+    });
+
+    test('코드북에 없는 학교는 직접 입력명으로 등록한다', () async {
+      late Map<String, dynamic> body;
+
+      final client = MockClient((request) async {
+        expect(request.method, 'POST');
+        expect(request.url.path, '/api/v1/user/profile/education');
+        body = jsonDecode(request.body) as Map<String, dynamic>;
+        return http.Response('', 200);
+      });
+
+      final repository = ProfileRepositoryImpl(
+        client: client,
+        baseUrl: baseUrl,
+      );
+
+      await repository.submitEducation(
+        university: null,
+        customUniversityName: '한국대학교',
+        educationLevel: 'UNIVERSITY',
+      );
+
+      expect(body, {
+        'customUniversityName': '한국대학교',
+        'educationLevel': 'UNIVERSITY',
+      });
     });
 
     test('기타 학교는 university 없이 등록한다', () async {
@@ -262,6 +294,7 @@ void main() {
 
       await repository.submitEducation(
         university: null,
+        customUniversityName: null,
         educationLevel: 'OTHER',
       );
 
@@ -289,6 +322,33 @@ void main() {
       await repository.verifyEducationEmail(email: 'sdfdd123@jnu.ac.kr');
 
       expect(body, {'email': 'sdfdd123@jnu.ac.kr'});
+    });
+
+    test('학적 증명서를 등록한다', () async {
+      late Map<String, dynamic> body;
+
+      final client = MockClient((request) async {
+        expect(request.method, 'POST');
+        expect(
+          request.url.path,
+          '/api/v1/user/profile/education/certification',
+        );
+        body = jsonDecode(request.body) as Map<String, dynamic>;
+        return http.Response('', 200);
+      });
+
+      final repository = ProfileRepositoryImpl(
+        client: client,
+        baseUrl: baseUrl,
+      );
+
+      await repository.submitEducationCertification(
+        certificationKey: 'users/1/certification/certification.jpg',
+      );
+
+      expect(body, {
+        'certificationKey': 'users/1/certification/certification.jpg',
+      });
     });
 
     test('회사 정보를 등록한다', () async {
