@@ -424,6 +424,10 @@ class ProfileRepositoryImpl implements ProfileRepository {
         json.containsKey('body_type_code') ||
         json.containsKey('onboardingStatus') ||
         json.containsKey('onboarding_status') ||
-        json.containsKey('job');
+        json.containsKey('job') ||
+        json.containsKey('education') ||
+        json.containsKey('mbti') ||
+        json.containsKey('selfIntroduction') ||
+        json.containsKey('self_introduction');
   }
 }

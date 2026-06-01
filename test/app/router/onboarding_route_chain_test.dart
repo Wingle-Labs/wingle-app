@@ -36,6 +36,13 @@ void main() {
         ),
         OnboardingRoutes.basicProfileEducation,
       );
+      expect(
+        OnboardingRouteChain.nextOf(
+          OnboardingRouteFlow.profileInput,
+          OnboardingRoutes.profileDetails,
+        ),
+        OnboardingRoutes.approvalRequest,
+      );
     });
 
     test('같은 라우트도 flow에 따라 다른 다음 라우트를 반환한다', () {

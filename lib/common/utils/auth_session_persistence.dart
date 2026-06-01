@@ -6,6 +6,7 @@ import 'package:wingle/features/auth/domain/models/auth_token.dart';
 import 'package:wingle/features/auth/domain/models/login_basic_profile.dart';
 import 'package:wingle/features/auth/domain/models/login_education_profile.dart';
 import 'package:wingle/features/auth/domain/models/login_job_profile.dart';
+import 'package:wingle/features/auth/domain/models/login_profile_details.dart';
 import 'package:wingle/features/auth/domain/models/login_result.dart';
 import 'package:wingle/features/auth/domain/models/my_profile_snapshot.dart';
 
@@ -22,6 +23,7 @@ abstract final class AuthSessionPersistence {
       await HiveUtil.delete(HiveLoginBox.basicProfile);
       await HiveUtil.delete(HiveLoginBox.jobProfile);
       await HiveUtil.delete(HiveLoginBox.educationProfile);
+      await HiveUtil.delete(HiveLoginBox.profileDetails);
     }
 
     await HiveUtil.write(key: HiveLoginBox.userId, value: userId);
@@ -120,6 +122,7 @@ abstract final class AuthSessionPersistence {
     await saveBasicProfile(snapshot.basicProfile);
     await saveJobProfile(snapshot.jobProfile);
     await saveEducationProfile(snapshot.educationProfile);
+    await saveProfileDetails(snapshot.profileDetails);
   }
 
   /// 직장 프로필 정보를 저장한다.
@@ -194,6 +197,44 @@ abstract final class AuthSessionPersistence {
       }
 
       final profile = LoginEducationProfile.fromJson(json);
+      return profile.hasAnyValue ? profile : null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// 상세 프로필 정보를 저장한다.
+  static Future<void> saveProfileDetails(LoginProfileDetails? profile) async {
+    if (profile == null || !profile.hasAnyValue) {
+      await HiveUtil.delete(HiveLoginBox.profileDetails);
+      return;
+    }
+
+    await HiveUtil.write(
+      key: HiveLoginBox.profileDetails,
+      value: jsonEncode({...profile.toJson(), ..._currentUserScopeJson()}),
+    );
+  }
+
+  /// 저장된 상세 프로필 정보를 읽는다.
+  static LoginProfileDetails? readProfileDetails() {
+    try {
+      final raw = HiveUtil.read(HiveLoginBox.profileDetails);
+      if (raw == null || raw.trim().isEmpty) {
+        return null;
+      }
+
+      final decoded = jsonDecode(raw);
+      if (decoded is! Map) {
+        return null;
+      }
+
+      final json = decoded.map((key, value) => MapEntry(key.toString(), value));
+      if (!_isCurrentUserScopedJson(json)) {
+        return null;
+      }
+
+      final profile = LoginProfileDetails.fromJson(json);
       return profile.hasAnyValue ? profile : null;
     } catch (_) {
       return null;

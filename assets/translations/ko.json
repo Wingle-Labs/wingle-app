@@ -17,6 +17,7 @@
         "invalidLoginCredentials": "전화번호 또는 비밀번호를 확인해주세요.",
         "fetchRandomNicknameFailed": "랜덤 닉네임을 불러오지 못했어요. 다시 시도해주세요.",
         "submitBasicProfileFailed": "기본 프로필 정보를 등록하지 못했어요. 다시 시도해주세요.",
+        "submitProfileDetailsFailed": "상세 프로필 정보를 저장하지 못했어요. 다시 시도해주세요.",
         "submitEducationFailed": "학교 정보를 등록하지 못했어요. 다시 시도해주세요.",
         "verifyEducationEmailFailed": "학교 이메일 인증에 실패했어요. 다시 시도해주세요.",
         "submitEducationCertificationFailed": "학적 증명서를 등록하지 못했어요. 다시 시도해주세요.",
@@ -204,6 +205,9 @@
         "notice": "학생증은 사용할 수 없어요. 학교명과 본인 이름이 보이는 문서를 권장해요.",
         "unsupportedFile": "지원하지 않는 파일 형식이에요.",
         "pickFailed": "이미지를 선택하지 못했어요. 다시 시도해주세요."
+      },
+      "profileDetails": {
+        "mbtiTitle": "MBTI가 뭔가요?"
       }
     },
     "agreement": {

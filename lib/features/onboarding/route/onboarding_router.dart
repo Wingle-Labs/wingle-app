@@ -9,6 +9,7 @@ import 'package:wingle/features/onboarding/presentation/page/basic_profile_compa
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_company_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_education_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_height_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/basic_profile_mbti_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_nickname_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_occupation_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_residence_page.dart';
@@ -96,13 +97,7 @@ final List<GoRoute> loginRoutes = [
   GoRoute(
     name: OnboardingRoutes.profileDetails.name,
     path: OnboardingRoutes.profileDetails.path,
-    builder: (context, state) => const OnboardingStatusPlaceholderPage(
-      title: '상세 프로필 입력',
-      description: '상세 프로필과 스타일/얼굴 사진 업로드 화면을 연결할 단계입니다.',
-      status: 'EDUCATION_INFO_COMPLETED',
-      routeFlow: OnboardingRouteFlow.profileInput,
-      currentRoute: OnboardingRoutes.profileDetails,
-    ),
+    builder: (context, state) => const BasicProfileMbtiPage(),
   ),
   GoRoute(
     name: OnboardingRoutes.approvalRequest.name,

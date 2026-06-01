@@ -6,6 +6,7 @@ import 'package:http/testing.dart';
 import 'package:wingle/features/auth/domain/models/login_basic_profile.dart';
 import 'package:wingle/features/auth/domain/models/login_education_profile.dart';
 import 'package:wingle/features/auth/domain/models/login_job_profile.dart';
+import 'package:wingle/features/auth/domain/models/login_profile_details.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 import 'package:wingle/features/auth/domain/models/my_profile_snapshot.dart';
 import 'package:wingle/features/onboarding/data/mock/mock_profile_repository.dart';
@@ -45,6 +46,7 @@ void main() {
             schoolName: '한국대학교',
             universityCode: 'U001',
           ),
+          profileDetails: LoginProfileDetails(mbti: 'ESTJ'),
         ),
       );
 
@@ -55,6 +57,7 @@ void main() {
       expect(snapshot?.jobProfile?.occupationCode, 'J103');
       expect(snapshot?.educationProfile?.educationLevel, 'UNIVERSITY');
       expect(snapshot?.educationProfile?.schoolName, '한국대학교');
+      expect(snapshot?.profileDetails?.mbti, 'ESTJ');
       expect(profile?.nickname, '저장된 닉네임');
       expect(profile?.residenceCode, 'R_31193620');
       expect(profile?.height, 175);
@@ -159,6 +162,8 @@ void main() {
               'residenceCode': 'R_31193620',
               'height': 175,
               'bodyTypeCode': 'BT_M_001',
+              'mbti': 'INFP',
+              'selfIntroduction': '안녕하세요.',
               'onboardingStatus': 'JOB_INFO_COMPLETED',
               'job': {
                 'company': '삼성전자',
@@ -194,6 +199,8 @@ void main() {
       expect(snapshot?.educationProfile?.educationLevel, 'UNIVERSITY');
       expect(snapshot?.educationProfile?.schoolName, '한국대학교');
       expect(snapshot?.educationProfile?.universityCode, 'U001');
+      expect(snapshot?.profileDetails?.mbti, 'INFP');
+      expect(snapshot?.profileDetails?.selfIntroduction, '안녕하세요.');
       expect(profile?.nickname, '서버 닉네임');
       expect(profile?.residenceCode, 'R_31193620');
       expect(profile?.height, 175);

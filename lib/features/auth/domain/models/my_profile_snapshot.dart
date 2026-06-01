@@ -1,6 +1,7 @@
 import 'package:wingle/features/auth/domain/models/login_basic_profile.dart';
 import 'package:wingle/features/auth/domain/models/login_education_profile.dart';
 import 'package:wingle/features/auth/domain/models/login_job_profile.dart';
+import 'package:wingle/features/auth/domain/models/login_profile_details.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 
 /// `GET /api/v1/profiles/me` 응답에서 온보딩 복원에 필요한 프로필 스냅샷.
@@ -17,12 +18,16 @@ class MyProfileSnapshot {
   /// 학교 프로필 정보.
   final LoginEducationProfile? educationProfile;
 
+  /// 상세 프로필 정보.
+  final LoginProfileDetails? profileDetails;
+
   /// 생성자.
   const MyProfileSnapshot({
     this.onboardingStatus,
     this.basicProfile,
     this.jobProfile,
     this.educationProfile,
+    this.profileDetails,
   });
 
   /// JSON 객체에서 프로필 스냅샷을 만든다.
@@ -33,6 +38,7 @@ class MyProfileSnapshot {
         ? null
         : LoginJobProfile.fromJson(jobJson);
     final educationProfile = LoginEducationProfile.fromJson(json);
+    final profileDetails = LoginProfileDetails.fromJson(json);
     final rawStatus =
         json['onboardingStatus'] ?? json['onboarding_status'] ?? json['status'];
 
@@ -45,6 +51,7 @@ class MyProfileSnapshot {
           ? jobProfile
           : null,
       educationProfile: educationProfile.hasAnyValue ? educationProfile : null,
+      profileDetails: profileDetails.hasAnyValue ? profileDetails : null,
     );
   }
 
@@ -53,7 +60,8 @@ class MyProfileSnapshot {
       onboardingStatus != null ||
       basicProfile != null ||
       jobProfile != null ||
-      educationProfile != null;
+      educationProfile != null ||
+      profileDetails != null;
 
   static Map<String, dynamic>? _asStringKeyedMap(Object? value) {
     if (value is! Map) return null;
