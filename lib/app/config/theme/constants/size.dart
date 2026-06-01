@@ -687,6 +687,9 @@ class AppContainerSize {
   /// 프로필 사진 슬롯 점선 공백
   static const double profilePhotoSlotDashGap = 6;
 
+  /// 프로필 사진 등록 가이드 버튼 너비
+  static const double profilePhotoGuideButtonWidth = 120;
+
   /// 선택 버튼 최소 높이
   static const double selectionButtonHeight = 48;
 

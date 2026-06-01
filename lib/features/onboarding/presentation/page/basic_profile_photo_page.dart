@@ -786,44 +786,68 @@ class _PhotoRemoveButton extends StatelessWidget {
 class _PhotoGuideButton extends StatelessWidget {
   const _PhotoGuideButton();
 
+  static const double _width = AppContainerSize.profilePhotoGuideButtonWidth;
+  static const double _height = AppContainerSize.buttonChipHeight;
+  static const double _iconSize = AppIconSize.xs;
+  static const double _horizontalPadding = AppPadding.buttonChipHorizontal;
+  static const double _labelIconGap = AppSpacing.s6;
+  static const double _labelMaxWidth =
+      _width - (_horizontalPadding * 2) - _labelIconGap - _iconSize;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final typography = context.typography;
 
-    return Material(
-      color: colors.componentSecondaryFilledButtonEnabled,
-      borderRadius: BorderRadius.circular(AppRadius.iosStyle),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppRadius.iosStyle),
-        onTap: () {
-          DefaultToast.show(
-            context,
-            'onboarding.basicProfile.profilePhoto.guideUnavailable',
-          );
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppPadding.buttonMediumHorizontal,
-            vertical: AppPadding.buttonSmallVertical,
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _ScaledText(
-                text: 'onboarding.basicProfile.profilePhoto.guide',
-                maxWidth: 232,
-                style: typography.bodySub.copyWith(
-                  color: colors.textAlternative,
+    return SizedBox(
+      width: _width,
+      height: _height,
+      child: Material(
+        color: colors.secondaryNormal,
+        borderRadius: BorderRadius.circular(AppRadius.md),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(AppRadius.md),
+          overlayColor: WidgetStateProperty.resolveWith<Color?>((states) {
+            if (states.contains(WidgetState.pressed)) {
+              return colors.overlayPressed;
+            }
+
+            if (states.contains(WidgetState.hovered) ||
+                states.contains(WidgetState.focused)) {
+              return colors.overlayInactive;
+            }
+
+            return null;
+          }),
+          onTap: () {
+            DefaultToast.show(
+              context,
+              'onboarding.basicProfile.profilePhoto.guideUnavailable',
+            );
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: _horizontalPadding,
+              vertical: AppPadding.buttonSmallVertical,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _ScaledText(
+                  text: 'onboarding.basicProfile.profilePhoto.guide',
+                  maxWidth: _labelMaxWidth,
+                  style: typography.buttonSmall.copyWith(
+                    color: colors.onSecondaryNormal,
+                  ),
                 ),
-              ),
-              const SizedBox(width: AppSpacing.s8),
-              DefaultIcon(
-                icon: Icons.chevron_right_rounded,
-                size: AppIconSize.md,
-                color: colors.textAlternative,
-              ),
-            ],
+                const SizedBox(width: _labelIconGap),
+                DefaultIcon(
+                  icon: Icons.chevron_right_rounded,
+                  size: _iconSize,
+                  color: colors.onSecondaryNormal,
+                ),
+              ],
+            ),
           ),
         ),
       ),
