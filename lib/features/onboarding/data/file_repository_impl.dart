@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:wingle/common/constants/api_error_messages.dart';
 import 'package:wingle/common/constants/api_paths.dart';
@@ -107,13 +108,32 @@ class FileRepositoryImpl implements FileRepository {
     required List<int> bytes,
     required String contentType,
   }) async {
-    final response = await _uploadClient.put(
-      Uri.parse(presignedUrl),
-      headers: {ApiRequestHeaders.contentTypeHeader: contentType},
-      body: bytes,
-    );
+    final uri = Uri.parse(presignedUrl);
+    late final http.Response response;
+    try {
+      response = await _uploadClient.put(
+        uri,
+        headers: {ApiRequestHeaders.contentTypeHeader: contentType},
+        body: bytes,
+      );
+    } catch (error, stackTrace) {
+      _logPresignedUploadTransportError(
+        uri: uri,
+        bytesLength: bytes.length,
+        contentType: contentType,
+        error: error,
+        stackTrace: stackTrace,
+      );
+      rethrow;
+    }
 
     if (!_isSuccess(response)) {
+      _logPresignedUploadFailure(
+        uri: uri,
+        bytesLength: bytes.length,
+        contentType: contentType,
+        response: response,
+      );
       throw Exception(ApiErrorMessages.uploadFileFailed);
     }
   }
@@ -174,6 +194,58 @@ class FileRepositoryImpl implements FileRepository {
 
   bool _isSuccess(http.Response response) {
     return response.statusCode >= 200 && response.statusCode < 300;
+  }
+
+  void _logPresignedUploadFailure({
+    required Uri uri,
+    required int bytesLength,
+    required String contentType,
+    required http.Response response,
+  }) {
+    if (kReleaseMode) return;
+
+    debugPrint(
+      '[FILE] presigned upload failed\n'
+      '[FILE] url: ${_redactedPresignedUri(uri)}\n'
+      '[FILE] contentType: $contentType\n'
+      '[FILE] bytes: $bytesLength\n'
+      '[FILE] status: ${response.statusCode}\n'
+      '[FILE] response: ${_formatUploadResponseBody(response.body)}',
+    );
+  }
+
+  void _logPresignedUploadTransportError({
+    required Uri uri,
+    required int bytesLength,
+    required String contentType,
+    required Object error,
+    required StackTrace stackTrace,
+  }) {
+    if (kReleaseMode) return;
+
+    debugPrint(
+      '[FILE] presigned upload transport error\n'
+      '[FILE] url: ${_redactedPresignedUri(uri)}\n'
+      '[FILE] contentType: $contentType\n'
+      '[FILE] bytes: $bytesLength\n'
+      '[FILE] error: $error\n'
+      '[FILE] stackTrace: $stackTrace',
+    );
+  }
+
+  String _redactedPresignedUri(Uri uri) {
+    final port = uri.hasPort ? ':${uri.port}' : '';
+    final base = '${uri.scheme}://${uri.host}$port${uri.path}';
+    return uri.hasQuery ? '$base?<redacted>' : base;
+  }
+
+  String _formatUploadResponseBody(String body) {
+    if (body.isEmpty) return '<empty>';
+
+    const maxLength = 1200;
+    if (body.length <= maxLength) return body;
+
+    return '${body.substring(0, maxLength)}...<truncated>';
   }
 
   ProfileImagePresignResult _validateProfileImagePresignResult(

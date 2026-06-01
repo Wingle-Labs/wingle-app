@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wingle/common/constants/api_error_messages.dart';
@@ -178,9 +178,18 @@ class ProfileDetails extends _$ProfileDetails {
 
       state = nextState.copyWith(isSubmitting: false, submitErrorMessage: null);
       return true;
-    } catch (_) {
+    } catch (error, stackTrace) {
       if (!ref.mounted) return false;
 
+      _logProfilePhotoUploadFailure(
+        type: type,
+        slotIndex: slotIndex,
+        name: name,
+        contentType: normalizedContentType,
+        bytesLength: bytes.length,
+        error: error,
+        stackTrace: stackTrace,
+      );
       state = state.copyWith(
         isSubmitting: false,
         submitErrorMessage: ApiErrorMessages.uploadFileFailed,
@@ -348,6 +357,25 @@ class ProfileDetails extends _$ProfileDetails {
 
   void _ignorePersistenceFailure(Future<void> future) {
     unawaited(future.catchError((_) {}));
+  }
+
+  void _logProfilePhotoUploadFailure({
+    required ProfilePhotoType type,
+    required int slotIndex,
+    required String name,
+    required String contentType,
+    required int bytesLength,
+    required Object error,
+    required StackTrace stackTrace,
+  }) {
+    if (kReleaseMode) return;
+
+    debugPrint(
+      'Failed to upload profile photo: '
+      'type=${type.name}, slotIndex=$slotIndex, name=$name, '
+      'contentType=$contentType, bytes=$bytesLength, error=$error',
+    );
+    debugPrintStack(stackTrace: stackTrace);
   }
 
   String? _nonEmpty(String? value) {
