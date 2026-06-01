@@ -158,15 +158,16 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<void> submitEducation({
     required String? university,
+    required String? customUniversityName,
     required String educationLevel,
   }) async {
     await _postJson(
       path: ApiEndpoints.profileEducation,
-      body: {
-        'educationLevel': educationLevel,
-        if (university != null && university.trim().isNotEmpty)
-          'university': university,
-      },
+      body: _educationProfileBody(
+        university: university,
+        customUniversityName: customUniversityName,
+        educationLevel: educationLevel,
+      ),
       errorMessage: ApiErrorMessages.submitEducationFailed,
     );
   }
@@ -174,15 +175,16 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<void> updateEducation({
     required String? university,
+    required String? customUniversityName,
     required String educationLevel,
   }) async {
     await _putJson(
       path: ApiEndpoints.profileEducationReapply,
-      body: {
-        'educationLevel': educationLevel,
-        if (university != null && university.trim().isNotEmpty)
-          'university': university,
-      },
+      body: _educationProfileBody(
+        university: university,
+        customUniversityName: customUniversityName,
+        educationLevel: educationLevel,
+      ),
       errorMessage: ApiErrorMessages.submitEducationFailed,
     );
   }
@@ -232,6 +234,17 @@ class ProfileRepositoryImpl implements ProfileRepository {
       path: ApiEndpoints.profileEducationEmailVerificationsConfirm,
       body: {'email': email, 'verificationCode': verificationCode},
       errorMessage: ApiErrorMessages.verifyEducationEmailFailed,
+    );
+  }
+
+  @override
+  Future<void> submitEducationCertification({
+    required String certificationKey,
+  }) async {
+    await _postJson(
+      path: ApiEndpoints.profileEducationCertification,
+      body: {'certificationKey': certificationKey.trim()},
+      errorMessage: ApiErrorMessages.submitEducationCertificationFailed,
     );
   }
 
@@ -338,6 +351,24 @@ class ProfileRepositoryImpl implements ProfileRepository {
           ? null
           : normalizedCompany,
       'occupation': occupation,
+    };
+  }
+
+  Map<String, dynamic> _educationProfileBody({
+    required String? university,
+    required String? customUniversityName,
+    required String educationLevel,
+  }) {
+    final normalizedUniversity = university?.trim();
+    final normalizedCustomUniversityName = customUniversityName?.trim();
+
+    return {
+      'educationLevel': educationLevel,
+      if (normalizedUniversity != null && normalizedUniversity.isNotEmpty)
+        'university': normalizedUniversity
+      else if (normalizedCustomUniversityName != null &&
+          normalizedCustomUniversityName.isNotEmpty)
+        'customUniversityName': normalizedCustomUniversityName,
     };
   }
 

@@ -53,12 +53,14 @@ abstract class ProfileRepository {
   /// 학교 정보를 등록한다.
   Future<void> submitEducation({
     required String? university,
+    required String? customUniversityName,
     required String educationLevel,
   });
 
   /// 학교 정보를 수정한다.
   Future<void> updateEducation({
     required String? university,
+    required String? customUniversityName,
     required String educationLevel,
   });
 
@@ -70,6 +72,9 @@ abstract class ProfileRepository {
     required String email,
     required int verificationCode,
   });
+
+  /// 학적 증명서를 등록한다.
+  Future<void> submitEducationCertification({required String certificationKey});
 
   /// 회사 정보를 등록한다.
   Future<void> submitJob({String? company, required String occupation});

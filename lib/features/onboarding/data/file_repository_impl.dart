@@ -73,6 +73,45 @@ class FileRepositoryImpl implements FileRepository {
   }
 
   @override
+  Future<ProfileImagePresignResult> createCertificationPresignedUrl({
+    String contentType = FileUploadConstants.defaultCertificationContentType,
+  }) async {
+    final response = await _client.get(
+      Uri.parse(
+        '$_baseUrl${ApiEndpoints.certificationPresign}',
+      ).replace(queryParameters: {'contentType': contentType}),
+      headers: ApiRequestHeaders.auth(),
+    );
+
+    if (!_isSuccess(response)) {
+      throw Exception(ApiErrorMessages.createCertificationPresignedUrlFailed);
+    }
+
+    final result = ProfileImagePresignResult.fromJson(
+      jsonDecode(response.body) as Map<String, dynamic>,
+    );
+
+    return _validateCertificationPresignResult(result);
+  }
+
+  @override
+  Future<void> uploadBytesToPresignedUrl({
+    required String presignedUrl,
+    required List<int> bytes,
+    required String contentType,
+  }) async {
+    final response = await _client.put(
+      Uri.parse(presignedUrl),
+      headers: {ApiRequestHeaders.contentTypeHeader: contentType},
+      body: bytes,
+    );
+
+    if (!_isSuccess(response)) {
+      throw Exception(ApiErrorMessages.uploadFileFailed);
+    }
+  }
+
+  @override
   Future<FileUploadPresignResult> createUploadPresign({
     required String fileName,
     required String contentType,
@@ -135,6 +174,16 @@ class FileRepositoryImpl implements FileRepository {
   ) {
     if (result.presignedUrl.isEmpty || result.s3Key.isEmpty) {
       throw Exception(ApiErrorMessages.createProfileImagePresignedUrlFailed);
+    }
+
+    return result;
+  }
+
+  ProfileImagePresignResult _validateCertificationPresignResult(
+    ProfileImagePresignResult result,
+  ) {
+    if (result.presignedUrl.isEmpty || result.s3Key.isEmpty) {
+      throw Exception(ApiErrorMessages.createCertificationPresignedUrlFailed);
     }
 
     return result;

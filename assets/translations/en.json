@@ -17,6 +17,11 @@
         "invalidLoginCredentials": "전화번호 또는 비밀번호를 확인해주세요.",
         "fetchRandomNicknameFailed": "랜덤 닉네임을 불러오지 못했어요. 다시 시도해주세요.",
         "submitBasicProfileFailed": "기본 프로필 정보를 등록하지 못했어요. 다시 시도해주세요.",
+        "submitEducationFailed": "We couldn't save your school information. Please try again.",
+        "verifyEducationEmailFailed": "School email verification failed. Please try again.",
+        "submitEducationCertificationFailed": "We couldn't submit your school document. Please try again.",
+        "createCertificationPresignedUrlFailed": "We couldn't prepare your school document upload. Please try again.",
+        "uploadFileFailed": "File upload failed. Please try again.",
         "submitJobFailed": "직장 정보를 등록하지 못했어요. 다시 시도해주세요.",
         "verifyJobEmailFailed": "회사 이메일 인증에 실패했어요. 다시 시도해주세요."
       }
@@ -162,6 +167,43 @@
         "codeLabel": "Verification code",
         "codeHint": "Enter the verification code",
         "codeSent": "Verification code sent."
+      },
+      "education": {
+        "levelTitle": "Are you currently in school?",
+        "levelSubtitle": "Includes colleges and graduate schools",
+        "schoolTitle": "Which school are you from\nor currently attending?",
+        "schoolSubtitle": "If it is a branch campus, include the campus name.",
+        "schoolHint": "Enter your school name",
+        "option": {
+          "highSchool": "High school",
+          "juniorCollege": "Junior college",
+          "university": "University",
+          "master": "Master's",
+          "doctorate": "Doctorate",
+          "other": "Other"
+        }
+      },
+      "educationEmail": {
+        "title": "Verify your school email\nto receive a level 2 badge",
+        "subtitle": "Matching conditions vary by verification level.",
+        "emailLabel": "School email",
+        "emailHint": "name@school.ac.kr",
+        "emailAssistive": "Personal email domains such as gmail and naver are not allowed.",
+        "codeLabel": "Verification code",
+        "codeHint": "Enter the verification code",
+        "codeSent": "Verification code sent.",
+        "certificationGuide": "How to verify when your email has expired",
+        "certificationGuideUnavailable": "School document upload is coming soon."
+      },
+      "educationCertification": {
+        "title": "Upload your\nschool document",
+        "subtitle": "Upload a document that shows your school and enrollment status, such as an enrollment or transcript certificate.",
+        "uploadLabel": "Upload document image",
+        "uploadAssistive": "JPG, PNG, or WEBP only",
+        "changeLabel": "Choose another file",
+        "notice": "Student IDs are not accepted. Use a document that shows your school and name.",
+        "unsupportedFile": "This file type is not supported.",
+        "pickFailed": "We couldn't select the image. Please try again."
       }
     },
     "agreement": {

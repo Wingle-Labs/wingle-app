@@ -32,6 +32,26 @@ class MockFileRepository implements FileRepository {
   }
 
   @override
+  Future<ProfileImagePresignResult> createCertificationPresignedUrl({
+    String contentType = FileUploadConstants.defaultCertificationContentType,
+  }) async {
+    await Future<void>.delayed(const Duration(milliseconds: 10));
+    return const ProfileImagePresignResult(
+      presignedUrl: 'https://mock-upload.example.com/certification',
+      s3Key: 'users/mock/certification/mock-certification.jpg',
+    );
+  }
+
+  @override
+  Future<void> uploadBytesToPresignedUrl({
+    required String presignedUrl,
+    required List<int> bytes,
+    required String contentType,
+  }) async {
+    await Future<void>.delayed(const Duration(milliseconds: 10));
+  }
+
+  @override
   Future<FileUploadPresignResult> createUploadPresign({
     required String fileName,
     required String contentType,

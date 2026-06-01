@@ -7,6 +7,7 @@ import 'package:wingle/features/onboarding/presentation/page/agreement_page.dart
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_body_shape_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_company_email_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_company_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/basic_profile_education_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_height_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_nickname_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_occupation_page.dart';
@@ -90,13 +91,7 @@ final List<GoRoute> loginRoutes = [
   GoRoute(
     name: OnboardingRoutes.basicProfileEducation.name,
     path: OnboardingRoutes.basicProfileEducation.path,
-    builder: (context, state) => const OnboardingStatusPlaceholderPage(
-      title: '학교 정보 입력',
-      description: '학교 정보와 학교 이메일 인증 화면을 연결할 단계입니다.',
-      status: 'JOB_INFO_COMPLETED',
-      routeFlow: OnboardingRouteFlow.profileInput,
-      currentRoute: OnboardingRoutes.basicProfileEducation,
-    ),
+    builder: (context, state) => const BasicProfileEducationPage(),
   ),
   GoRoute(
     name: OnboardingRoutes.profileDetails.name,

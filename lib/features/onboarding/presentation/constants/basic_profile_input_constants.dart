@@ -14,4 +14,7 @@ abstract final class BasicProfileInputConstants {
 
   /// 회사 입력 단계
   static const int companyStep = 4;
+
+  /// 학교 입력 단계
+  static const int educationStep = 5;
 }

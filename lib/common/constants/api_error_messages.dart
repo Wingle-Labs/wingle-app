@@ -57,6 +57,10 @@ class ApiErrorMessages {
   static const String verifyEducationEmailFailed =
       'common.error.api.verifyEducationEmailFailed';
 
+  /// 학적 증명서 등록 실패 메시지
+  static const String submitEducationCertificationFailed =
+      'common.error.api.submitEducationCertificationFailed';
+
   /// 회사 정보 등록 실패 메시지
   static const String submitJobFailed = 'common.error.api.submitJobFailed';
 
@@ -79,6 +83,13 @@ class ApiErrorMessages {
   /// 프로필 이미지 presigned url 발급 실패 메시지
   static const String createProfileImagePresignedUrlFailed =
       'common.error.api.createProfileImagePresignedUrlFailed';
+
+  /// 학적 증명서 presigned url 발급 실패 메시지
+  static const String createCertificationPresignedUrlFailed =
+      'common.error.api.createCertificationPresignedUrlFailed';
+
+  /// presigned url 파일 업로드 실패 메시지
+  static const String uploadFileFailed = 'common.error.api.uploadFileFailed';
 
   /// 업로드 url 발급 실패 메시지
   static const String createUploadPresignFailed =

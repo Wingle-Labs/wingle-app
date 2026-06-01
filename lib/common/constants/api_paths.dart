@@ -75,6 +75,10 @@ class ApiEndpoints {
   static const String profileEducationEmailVerificationsConfirm =
       '/api/v1/user/profile/education/email-verifications/confirm';
 
+  /// POST /api/v1/user/profile/education/certification
+  static const String profileEducationCertification =
+      '/api/v1/user/profile/education/certification';
+
   /// POST /api/v1/profiles/detail
   static const String profileDetail = '/api/v1/profiles/detail';
 
@@ -145,6 +149,10 @@ class ApiEndpoints {
 
   /// GET /api/v1/files/presigned/face
   static const String faceImagePresign = '/api/v1/files/presigned/face';
+
+  /// GET /api/v1/files/presigned/certification
+  static const String certificationPresign =
+      '/api/v1/files/presigned/certification';
 
   // ! -------------------------------------------------------------------------
   // ! Contact Domain

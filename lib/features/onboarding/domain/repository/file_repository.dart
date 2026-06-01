@@ -18,6 +18,18 @@ abstract class FileRepository {
     String contentType = FileUploadConstants.defaultProfileImageContentType,
   });
 
+  /// 학적 증명서 presigned URL을 발급한다.
+  Future<ProfileImagePresignResult> createCertificationPresignedUrl({
+    String contentType = FileUploadConstants.defaultCertificationContentType,
+  });
+
+  /// presigned URL에 바이트 파일을 업로드한다.
+  Future<void> uploadBytesToPresignedUrl({
+    required String presignedUrl,
+    required List<int> bytes,
+    required String contentType,
+  });
+
   /// 업로드 URL을 발급한다.
   Future<FileUploadPresignResult> createUploadPresign({
     required String fileName,

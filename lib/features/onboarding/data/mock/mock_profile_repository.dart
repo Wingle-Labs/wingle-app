@@ -85,6 +85,7 @@ class MockProfileRepository implements ProfileRepository {
   @override
   Future<void> submitEducation({
     required String? university,
+    required String? customUniversityName,
     required String educationLevel,
   }) async {
     await Future<void>.delayed(const Duration(milliseconds: 500));
@@ -93,6 +94,7 @@ class MockProfileRepository implements ProfileRepository {
   @override
   Future<void> updateEducation({
     required String? university,
+    required String? customUniversityName,
     required String educationLevel,
   }) async {
     await Future<void>.delayed(const Duration(milliseconds: 500));
@@ -107,6 +109,13 @@ class MockProfileRepository implements ProfileRepository {
   Future<void> confirmEducationEmail({
     required String email,
     required int verificationCode,
+  }) async {
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+  }
+
+  @override
+  Future<void> submitEducationCertification({
+    required String certificationKey,
   }) async {
     await Future<void>.delayed(const Duration(milliseconds: 500));
   }

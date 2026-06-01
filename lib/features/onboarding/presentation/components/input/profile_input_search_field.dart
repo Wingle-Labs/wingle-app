@@ -16,6 +16,9 @@ class ProfileInputSearchField extends StatelessWidget {
   /// 입력 컨트롤러
   final TextEditingController? controller;
 
+  /// focus node
+  final FocusNode? focusNode;
+
   /// 입력 필드 초기값
   final String? initialValue;
 
@@ -46,6 +49,7 @@ class ProfileInputSearchField extends StatelessWidget {
     required this.hintText,
     this.onChanged,
     this.controller,
+    this.focusNode,
     this.initialValue,
     this.errorText,
     this.inputFormatters,
@@ -62,6 +66,7 @@ class ProfileInputSearchField extends StatelessWidget {
 
     return DefaultOutlinedInputField(
       controller: controller,
+      focusNode: focusNode,
       initialValue: initialValue,
       hintText: hintText,
       errorText: errorText,
