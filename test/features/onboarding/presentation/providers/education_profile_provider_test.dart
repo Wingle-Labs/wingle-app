@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -51,6 +52,11 @@ void main() {
     expect(repository.university, 'U001');
     expect(repository.customUniversityName, isNull);
     expect(repository.educationLevel, 'UNIVERSITY');
+    final persistedProfile =
+        jsonDecode(HiveUtil.read(HiveLoginBox.educationProfile)!) as Map;
+    expect(persistedProfile['educationLevel'], 'UNIVERSITY');
+    expect(persistedProfile['schoolName'], '한국대학교');
+    expect(persistedProfile['universityCode'], 'U001');
     expect(
       HiveUtil.read(HiveLoginBox.profileStatus),
       LoginProfileStatus.educationInfoCompleted.apiValue,
@@ -72,6 +78,32 @@ void main() {
     expect(repository.university, isNull);
     expect(repository.customUniversityName, '새로운대학교');
     expect(repository.educationLevel, 'UNIVERSITY');
+  });
+
+  test('학교 정보 제출 시 선택한 학력과 학교명은 로컬 학교 프로필로 저장된다', () async {
+    final repository = _RecordingProfileRepository();
+    final container = _container(repository);
+
+    final notifier = container.read(educationProfileProvider.notifier);
+    notifier.selectEducationLevel(EducationLevel.master);
+    notifier.updateSchoolName('한국대학원');
+
+    final success = await notifier.submitEducation();
+
+    expect(success, isTrue);
+
+    final persistedProfile =
+        jsonDecode(HiveUtil.read(HiveLoginBox.educationProfile)!) as Map;
+    expect(persistedProfile['educationLevel'], 'MASTER');
+    expect(persistedProfile['schoolName'], '한국대학원');
+
+    container.dispose();
+    final restoredContainer = _container(repository);
+    addTearDown(restoredContainer.dispose);
+
+    final restoredState = restoredContainer.read(educationProfileProvider);
+    expect(restoredState.educationLevel, EducationLevel.master);
+    expect(restoredState.schoolName, '한국대학원');
   });
 
   test('인증번호 확인 실패는 인증번호 입력 오류로 저장한다', () async {

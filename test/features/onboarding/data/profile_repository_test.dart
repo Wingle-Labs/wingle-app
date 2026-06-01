@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:wingle/features/auth/domain/models/login_basic_profile.dart';
+import 'package:wingle/features/auth/domain/models/login_education_profile.dart';
 import 'package:wingle/features/auth/domain/models/login_job_profile.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 import 'package:wingle/features/auth/domain/models/my_profile_snapshot.dart';
@@ -39,6 +40,11 @@ void main() {
             occupationName: '사무직',
             emailVerified: true,
           ),
+          educationProfile: LoginEducationProfile(
+            educationLevel: 'UNIVERSITY',
+            schoolName: '한국대학교',
+            universityCode: 'U001',
+          ),
         ),
       );
 
@@ -47,6 +53,8 @@ void main() {
 
       expect(snapshot?.onboardingStatus, LoginProfileStatus.jobInfoCompleted);
       expect(snapshot?.jobProfile?.occupationCode, 'J103');
+      expect(snapshot?.educationProfile?.educationLevel, 'UNIVERSITY');
+      expect(snapshot?.educationProfile?.schoolName, '한국대학교');
       expect(profile?.nickname, '저장된 닉네임');
       expect(profile?.residenceCode, 'R_31193620');
       expect(profile?.height, 175);
@@ -158,6 +166,12 @@ void main() {
                 'occupationName': '사무직',
                 'emailVerified': true,
               },
+              'education': {
+                'educationLevel': 'UNIVERSITY',
+                'schoolName': '한국대학교',
+                'universityCode': 'U001',
+                'emailVerified': true,
+              },
             }),
           ),
           200,
@@ -177,6 +191,9 @@ void main() {
       expect(snapshot?.jobProfile?.company, '삼성전자');
       expect(snapshot?.jobProfile?.occupationCode, 'J103');
       expect(snapshot?.jobProfile?.emailVerified, isTrue);
+      expect(snapshot?.educationProfile?.educationLevel, 'UNIVERSITY');
+      expect(snapshot?.educationProfile?.schoolName, '한국대학교');
+      expect(snapshot?.educationProfile?.universityCode, 'U001');
       expect(profile?.nickname, '서버 닉네임');
       expect(profile?.residenceCode, 'R_31193620');
       expect(profile?.height, 175);

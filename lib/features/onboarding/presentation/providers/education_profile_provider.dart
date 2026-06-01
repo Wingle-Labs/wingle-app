@@ -1,8 +1,11 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wingle/common/constants/api_error_messages.dart';
 import 'package:wingle/common/constants/hive_constants.dart';
+import 'package:wingle/common/utils/auth_session_persistence.dart';
 import 'package:wingle/common/utils/hive_util.dart';
+import 'package:wingle/features/auth/domain/models/login_education_profile.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 import 'package:wingle/features/onboarding/domain/constants/file_upload_constants.dart';
 import 'package:wingle/features/onboarding/domain/model/file/file_models.dart';
@@ -13,12 +16,51 @@ import 'package:wingle/features/onboarding/presentation/providers/university_cod
 
 part 'education_profile_provider.g.dart';
 
+/// 학교 프로필 로컬 저장소.
+abstract interface class EducationProfilePersistence {
+  /// 저장된 학교 프로필 정보를 읽는다.
+  LoginEducationProfile? readEducationProfile();
+
+  /// 학교 프로필 정보를 저장한다.
+  Future<void> saveEducationProfile(LoginEducationProfile? profile);
+}
+
+/// Hive 기반 학교 프로필 로컬 저장소.
+class AuthSessionEducationProfilePersistence
+    implements EducationProfilePersistence {
+  /// 생성자.
+  const AuthSessionEducationProfilePersistence();
+
+  @override
+  LoginEducationProfile? readEducationProfile() {
+    return AuthSessionPersistence.readEducationProfile();
+  }
+
+  @override
+  Future<void> saveEducationProfile(LoginEducationProfile? profile) {
+    return AuthSessionPersistence.saveEducationProfile(profile);
+  }
+}
+
+/// 학교 프로필 로컬 저장소 provider.
+final educationProfilePersistenceProvider =
+    Provider<EducationProfilePersistence>(
+      (ref) => const AuthSessionEducationProfilePersistence(),
+    );
+
 /// 학교 정보 입력 상태를 관리하는 Notifier.
 @Riverpod(keepAlive: true)
 class EducationProfile extends _$EducationProfile {
   @override
   EducationProfileModel build() {
-    return const EducationProfileModel();
+    final persistedProfile = ref
+        .read(educationProfilePersistenceProvider)
+        .readEducationProfile();
+    if (persistedProfile == null || !persistedProfile.hasAnyValue) {
+      return const EducationProfileModel();
+    }
+
+    return _modelFromLoginProfile(persistedProfile);
   }
 
   /// 학력 수준을 선택한다.
@@ -237,6 +279,17 @@ class EducationProfile extends _$EducationProfile {
           value: LoginProfileStatus.educationInfoCompleted.apiValue,
         );
       }
+      await ref
+          .read(educationProfilePersistenceProvider)
+          .saveEducationProfile(
+            LoginEducationProfile(
+              educationLevel: educationLevel.apiValue,
+              schoolName: schoolName,
+              universityCode: university,
+              customUniversityName: customUniversityName,
+              emailVerified: shouldUpdate ? false : state.emailVerified,
+            ),
+          );
 
       if (!ref.mounted) return false;
 
@@ -365,6 +418,39 @@ class EducationProfile extends _$EducationProfile {
     } catch (_) {
       return LoginProfileStatus.signupCompleted;
     }
+  }
+
+  EducationProfileModel _modelFromLoginProfile(LoginEducationProfile profile) {
+    return EducationProfileModel(
+      educationLevel: _educationLevelFromApiValue(profile.educationLevel),
+      schoolName: profile.schoolName?.trim() ?? '',
+      universityCode: _nonEmpty(profile.universityCode),
+      emailVerified: profile.emailVerified ?? false,
+    );
+  }
+
+  EducationLevel? _educationLevelFromApiValue(String? value) {
+    final apiValue = _nonEmpty(value);
+    if (apiValue == null) {
+      return null;
+    }
+
+    for (final level in EducationLevel.values) {
+      if (level.apiValue == apiValue) {
+        return level;
+      }
+    }
+
+    return null;
+  }
+
+  String? _nonEmpty(String? value) {
+    final trimmed = value?.trim();
+    if (trimmed == null || trimmed.isEmpty) {
+      return null;
+    }
+
+    return trimmed;
   }
 
   bool _failCertification({

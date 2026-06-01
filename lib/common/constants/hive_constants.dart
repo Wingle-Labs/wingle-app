@@ -86,6 +86,9 @@ class HiveLoginBox implements HiveBox {
   /// 로그인 시 직장 프로필 정보
   static final jobProfile = _instance.create('job_profile');
 
+  /// 로그인 시 학교 프로필 정보
+  static final educationProfile = _instance.create('education_profile');
+
   /// 내부 싱글턴 인스턴스 (HiveKey가 Box에 접근하기 위함)
   static final HiveLoginBox _instance = HiveLoginBox();
 }

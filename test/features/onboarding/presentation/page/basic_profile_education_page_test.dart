@@ -12,6 +12,7 @@ import 'package:wingle/common/constants/api_error_messages.dart';
 import 'package:wingle/common/constants/hive_constants.dart';
 import 'package:wingle/common/constants/localization_constants.dart';
 import 'package:wingle/common/utils/hive_util.dart';
+import 'package:wingle/features/auth/domain/models/login_education_profile.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 import 'package:wingle/features/onboarding/data/mock/mock_profile_repository.dart';
 import 'package:wingle/features/onboarding/domain/model/codebook/codebook_models.dart';
@@ -99,7 +100,7 @@ void main() {
     await tester.enterText(find.byType(TextFormField), '한국대학교');
     await tester.pump();
     await tester.tap(find.byType(FloatingActionButton));
-    await tester.pump();
+    await _pumpAsyncWork(tester);
 
     expect(repository.university, 'U001');
     final container = ProviderScope.containerOf(
@@ -136,7 +137,7 @@ void main() {
     await tester.enterText(find.byType(TextFormField), '한국대학교');
     await tester.pump();
     await tester.tap(find.byType(FloatingActionButton));
-    await tester.pump();
+    await _pumpAsyncWork(tester);
 
     await tester.enterText(find.byType(TextFormField), 'name@snu.ac.kr');
     await tester.pump();
@@ -171,7 +172,7 @@ void main() {
     await tester.enterText(find.byType(TextFormField), '한국대학교');
     await tester.pump();
     await tester.tap(find.byType(FloatingActionButton));
-    await tester.pump();
+    await _pumpAsyncWork(tester);
 
     await tester.tap(
       _textEither(
@@ -212,7 +213,7 @@ void main() {
     await tester.enterText(find.byType(TextFormField), '새로운대학교');
     await tester.pump();
     await tester.tap(find.byType(FloatingActionButton));
-    await tester.pump();
+    await _pumpAsyncWork(tester);
 
     expect(
       _textEither(
@@ -250,6 +251,7 @@ void main() {
     await tester.enterText(find.byType(TextFormField), '서울고등학교');
     await tester.pump();
     await tester.tap(find.byType(FloatingActionButton));
+    await _pumpAsyncWork(tester);
     await tester.pumpAndSettle();
 
     expect(repository.educationLevel, 'HIGH_SCHOOL');
@@ -300,6 +302,9 @@ Widget _testApp({
   return ProviderScope(
     overrides: [
       profileRepositoryProvider.overrideWithValue(repository),
+      educationProfilePersistenceProvider.overrideWithValue(
+        _MemoryEducationProfilePersistence(),
+      ),
       universityCodebookEntriesProvider.overrideWithValue(const [
         CodebookEntry(code: 'U001', codeName: '한국대학교', displayOrder: 0),
       ]),
@@ -325,6 +330,9 @@ Widget _testRouterApp(
   return ProviderScope(
     overrides: [
       profileRepositoryProvider.overrideWithValue(repository),
+      educationProfilePersistenceProvider.overrideWithValue(
+        _MemoryEducationProfilePersistence(),
+      ),
       universityCodebookEntriesProvider.overrideWithValue(const [
         CodebookEntry(code: 'U001', codeName: '한국대학교', displayOrder: 0),
       ]),
@@ -361,6 +369,13 @@ GoRouter _educationRouter() {
       ),
     ],
   );
+}
+
+Future<void> _pumpAsyncWork(WidgetTester tester) async {
+  await tester.runAsync(() async {
+    await Future<void>.delayed(const Duration(milliseconds: 10));
+  });
+  await tester.pump();
 }
 
 Finder _textEither(String key, String translated) {
@@ -411,5 +426,18 @@ class _RecordingProfileRepository extends MockProfileRepository {
     if (failEducationConfirm) {
       throw Exception('invalid code');
     }
+  }
+}
+
+class _MemoryEducationProfilePersistence
+    implements EducationProfilePersistence {
+  LoginEducationProfile? _profile;
+
+  @override
+  LoginEducationProfile? readEducationProfile() => _profile;
+
+  @override
+  Future<void> saveEducationProfile(LoginEducationProfile? profile) async {
+    _profile = profile;
   }
 }
