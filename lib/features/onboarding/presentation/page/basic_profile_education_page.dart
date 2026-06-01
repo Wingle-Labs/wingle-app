@@ -290,7 +290,10 @@ class _BasicProfileEducationPageState
     EducationProfile notifier,
   ) async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      final image = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+        requestFullMetadata: false,
+      );
       if (image == null || !context.mounted) return;
 
       final contentType = _resolveImageContentType(
@@ -312,7 +315,9 @@ class _BasicProfileEducationPageState
           'onboarding.basicProfile.educationCertification.unsupportedFile',
         );
       }
-    } catch (_) {
+    } catch (error, stackTrace) {
+      debugPrint('Failed to pick education certification image: $error');
+      debugPrintStack(stackTrace: stackTrace);
       if (!context.mounted) return;
       DefaultToast.show(
         context,
