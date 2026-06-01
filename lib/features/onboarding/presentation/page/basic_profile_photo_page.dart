@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_floating_button.dart';
 import 'package:wingle/app/config/theme/components/icons/default_icon.dart';
+import 'package:wingle/app/config/theme/components/states/animation_progress_indicator.dart';
 import 'package:wingle/app/config/theme/components/states/default_toast.dart';
 import 'package:wingle/app/config/theme/components/texts/default_page_header.dart';
 import 'package:wingle/app/config/theme/components/texts/default_text.dart';
@@ -49,16 +50,28 @@ class BasicProfileFacePhotoPage extends ConsumerWidget {
   }
 }
 
-class _BasicProfilePhotoPage extends ConsumerWidget {
+class _BasicProfilePhotoPage extends ConsumerStatefulWidget {
   final ProfilePhotoType type;
 
   const _BasicProfilePhotoPage({required this.type});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_BasicProfilePhotoPage> createState() =>
+      _BasicProfilePhotoPageState();
+}
+
+class _BasicProfilePhotoPageState
+    extends ConsumerState<_BasicProfilePhotoPage> {
+  final Map<int, Uint8List> _uploadingPreviewBytes = {};
+
+  bool get _hasUploadingPhoto => _uploadingPreviewBytes.isNotEmpty;
+
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(profileDetailsProvider);
     final notifier = ref.read(profileDetailsProvider.notifier);
-    final config = _ProfilePhotoPageConfig.fromType(type);
+    final config = _ProfilePhotoPageConfig.fromType(widget.type);
+    final actionsDisabled = state.isSubmitting || _hasUploadingPhoto;
 
     void navigatePrevious() {
       OnboardingRouteChain.goPrevious(
@@ -84,8 +97,8 @@ class _BasicProfilePhotoPage extends ConsumerWidget {
       floatingActionButton: DefaultFloatingButton(
         label: 'common.button.next',
         isLoading: state.isSubmitting,
-        disabled: state.isSubmitting || !config.canContinue(state),
-        onPressed: () => _handleNext(context, ref, notifier, config),
+        disabled: actionsDisabled || !config.canContinue(state),
+        onPressed: () => _handleNext(notifier, config),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: AppPadding.scaffold),
@@ -105,12 +118,13 @@ class _BasicProfilePhotoPage extends ConsumerWidget {
             ),
             _PhotoSlotRow(
               photos: config.photos(state),
+              uploadingPreviewBytes: _uploadingPreviewBytes,
+              actionsDisabled: actionsDisabled,
               primaryIcon: config.primaryIcon,
               primaryLabelKey: config.primaryLabelKey,
-              onTap: (slotIndex) =>
-                  _pickPhoto(context, ref, notifier, slotIndex),
+              onTap: (slotIndex) => _pickPhoto(notifier, slotIndex),
               onRemove: (slotIndex) =>
-                  notifier.removePhoto(type: type, slotIndex: slotIndex),
+                  notifier.removePhoto(type: widget.type, slotIndex: slotIndex),
             ),
             const SizedBox(height: AppSpacing.s56),
             const _PhotoGuideButton(),
@@ -122,16 +136,14 @@ class _BasicProfilePhotoPage extends ConsumerWidget {
   }
 
   Future<void> _handleNext(
-    BuildContext context,
-    WidgetRef ref,
     ProfileDetails notifier,
     _ProfilePhotoPageConfig config,
   ) async {
-    final success = switch (type) {
+    final success = switch (widget.type) {
       ProfilePhotoType.style => await notifier.saveStylePhotos(),
       ProfilePhotoType.face => await notifier.saveFacePhotos(),
     };
-    if (!context.mounted) return;
+    if (!mounted) return;
 
     if (!success) {
       DefaultToast.show(
@@ -151,35 +163,33 @@ class _BasicProfilePhotoPage extends ConsumerWidget {
     context.goNamed(next.name);
   }
 
-  Future<void> _pickPhoto(
-    BuildContext context,
-    WidgetRef ref,
-    ProfileDetails notifier,
-    int slotIndex,
-  ) async {
+  Future<void> _pickPhoto(ProfileDetails notifier, int slotIndex) async {
     try {
       final image = await ImagePicker().pickImage(
         source: ImageSource.gallery,
         requestFullMetadata: false,
       );
-      if (image == null || !context.mounted) return;
+      if (image == null || !mounted) return;
 
       final originalBytes = await image.readAsBytes();
+      if (!mounted) return;
+
+      _setUploadingPreview(slotIndex, originalBytes);
       final uploadImage = await UploadImageCompressor.compressToWebp(
         bytes: originalBytes,
         originalName: image.name,
         options: FileUploadConstants.profilePhotoCompressionOptions,
       );
-      if (!context.mounted) return;
+      if (!mounted) return;
 
       final success = await notifier.uploadPhoto(
-        type: type,
+        type: widget.type,
         slotIndex: slotIndex,
         name: uploadImage.name,
         contentType: uploadImage.contentType,
         bytes: uploadImage.bytes,
       );
-      if (!context.mounted || success) return;
+      if (!mounted || success) return;
 
       DefaultToast.show(
         context,
@@ -189,13 +199,29 @@ class _BasicProfilePhotoPage extends ConsumerWidget {
     } catch (error, stackTrace) {
       debugPrint('Failed to pick profile photo: $error');
       debugPrintStack(stackTrace: stackTrace);
-      if (!context.mounted) return;
+      if (!mounted) return;
 
       DefaultToast.show(
         context,
         'onboarding.basicProfile.profilePhoto.pickFailed',
       );
+    } finally {
+      _clearUploadingPreview(slotIndex);
     }
+  }
+
+  void _setUploadingPreview(int slotIndex, Uint8List bytes) {
+    setState(() {
+      _uploadingPreviewBytes[slotIndex] = bytes;
+    });
+  }
+
+  void _clearUploadingPreview(int slotIndex) {
+    if (!mounted || !_uploadingPreviewBytes.containsKey(slotIndex)) return;
+
+    setState(() {
+      _uploadingPreviewBytes.remove(slotIndex);
+    });
   }
 }
 
@@ -203,6 +229,8 @@ class _PhotoSlotRow extends StatelessWidget {
   static const int _slotCount = 3;
 
   final List<ProfilePhotoInput> photos;
+  final Map<int, Uint8List> uploadingPreviewBytes;
+  final bool actionsDisabled;
   final IconData primaryIcon;
   final String primaryLabelKey;
   final ValueChanged<int> onTap;
@@ -210,6 +238,8 @@ class _PhotoSlotRow extends StatelessWidget {
 
   const _PhotoSlotRow({
     required this.photos,
+    required this.uploadingPreviewBytes,
+    required this.actionsDisabled,
     required this.primaryIcon,
     required this.primaryLabelKey,
     required this.onTap,
@@ -231,6 +261,8 @@ class _PhotoSlotRow extends StatelessWidget {
                 dimension: tileSize,
                 child: _PhotoSlotTile(
                   photo: index < photos.length ? photos[index] : null,
+                  uploadingPreviewBytes: uploadingPreviewBytes[index],
+                  actionsDisabled: actionsDisabled,
                   isRequired: index == 0,
                   icon: index == 0 ? primaryIcon : Icons.add_rounded,
                   labelKey: index == 0 ? primaryLabelKey : null,
@@ -252,6 +284,8 @@ class _PhotoSlotRow extends StatelessWidget {
 
 class _PhotoSlotTile extends StatelessWidget {
   final ProfilePhotoInput? photo;
+  final Uint8List? uploadingPreviewBytes;
+  final bool actionsDisabled;
   final bool isRequired;
   final IconData icon;
   final String? labelKey;
@@ -260,6 +294,8 @@ class _PhotoSlotTile extends StatelessWidget {
 
   const _PhotoSlotTile({
     required this.photo,
+    required this.uploadingPreviewBytes,
+    required this.actionsDisabled,
     required this.isRequired,
     required this.icon,
     required this.labelKey,
@@ -272,22 +308,21 @@ class _PhotoSlotTile extends StatelessWidget {
     final colors = context.colors;
     final typography = context.typography;
     final selectedPhoto = photo;
+    final previewBytes = uploadingPreviewBytes ?? selectedPhoto?.previewBytes;
+    final isUploading = uploadingPreviewBytes != null;
 
     return Material(
       color: colors.componentSecondaryFilledButtonEnabled,
       borderRadius: BorderRadius.circular(AppRadius.iosStyle),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: onTap,
+        onTap: actionsDisabled ? null : onTap,
         splashColor: colors.overlayPressed,
         child: Stack(
           fit: StackFit.expand,
           children: [
-            if (selectedPhoto?.previewBytes != null)
-              Image.memory(
-                selectedPhoto!.previewBytes as Uint8List,
-                fit: BoxFit.cover,
-              )
+            if (previewBytes != null)
+              Image.memory(previewBytes, fit: BoxFit.cover)
             else
               _PhotoSlotContent(
                 icon: icon,
@@ -330,13 +365,32 @@ class _PhotoSlotTile extends StatelessWidget {
                   ),
                 ),
               ),
-            if (onRemove != null)
+            if (isUploading) const _PhotoUploadingOverlay(),
+            if (onRemove != null && !isUploading)
               Positioned(
                 top: AppSpacing.s8,
                 right: AppSpacing.s8,
                 child: _PhotoRemoveButton(onPressed: onRemove as VoidCallback),
               ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _PhotoUploadingOverlay extends StatelessWidget {
+  const _PhotoUploadingOverlay();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+
+    return Positioned.fill(
+      child: ColoredBox(
+        color: colors.overlayLoading,
+        child: Center(
+          child: AnimationProgressIndicator(color: colors.staticWhite),
         ),
       ),
     );
