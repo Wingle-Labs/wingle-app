@@ -233,6 +233,31 @@ void main() {
     expect(logs.join('\n'), isNot(contains('secret-password')));
   });
 
+  test('비프로덕션 API 로깅은 바이너리 request body를 문자열로 출력하지 않는다', () async {
+    final logs = <String>[];
+    final inner = MockClient((request) async {
+      return http.Response('', 200);
+    });
+
+    final client = AuthenticatedApiClient(
+      inner: inner,
+      baseUrl: baseUrl,
+      logger: logs.add,
+      requestSourceLabel: 'LIVE (API_SOURCE=LIVE, isApiReady=true)',
+    );
+
+    final response = await client.put(
+      Uri.parse('https://mock-upload.example.com/file'),
+      headers: {ApiRequestHeaders.contentTypeHeader: 'image/png'},
+      body: const [0, 159, 146, 150],
+    );
+
+    expect(response.statusCode, 200);
+    expect(logs.first, contains('<binary body: 4 bytes'));
+    expect(logs.first, contains('content-type: image/png'));
+    expect(logs.join('\n'), isNot(contains('���')));
+  });
+
   test('응답 로깅이 꺼져 있으면 로그를 출력하지 않는다', () async {
     final logs = <String>[];
     final inner = MockClient((request) async {

@@ -13,13 +13,20 @@ class FileRepositoryImpl implements FileRepository {
   /// HTTP 클라이언트
   final http.Client _client;
 
+  /// Presigned URL 업로드용 raw HTTP 클라이언트
+  final http.Client _uploadClient;
+
   /// API Base URL
   final String _baseUrl;
 
   /// 생성자
-  FileRepositoryImpl({required http.Client client, required String baseUrl})
-    : _client = client,
-      _baseUrl = baseUrl;
+  FileRepositoryImpl({
+    required http.Client client,
+    required String baseUrl,
+    http.Client? uploadClient,
+  }) : _client = client,
+       _uploadClient = uploadClient ?? client,
+       _baseUrl = baseUrl;
 
   @override
   Future<ProfileImagePresignResult> createProfileImagePresignedUrl({
@@ -100,7 +107,7 @@ class FileRepositoryImpl implements FileRepository {
     required List<int> bytes,
     required String contentType,
   }) async {
-    final response = await _client.put(
+    final response = await _uploadClient.put(
       Uri.parse(presignedUrl),
       headers: {ApiRequestHeaders.contentTypeHeader: contentType},
       body: bytes,

@@ -132,7 +132,10 @@ void main() {
     });
 
     test('presigned url로 파일 바이트를 업로드한다', () async {
-      final client = MockClient((request) async {
+      final client = MockClient((_) async {
+        fail('presigned URL 업로드는 API 인증 클라이언트를 사용하면 안 된다');
+      });
+      final uploadClient = MockClient((request) async {
         expect(request.method, 'PUT');
         expect(request.url.toString(), 'https://mock-upload.example.com/file');
         expect(request.headers['Content-Type'], 'image/png');
@@ -140,7 +143,11 @@ void main() {
         return http.Response('', 200);
       });
 
-      final repository = FileRepositoryImpl(client: client, baseUrl: baseUrl);
+      final repository = FileRepositoryImpl(
+        client: client,
+        uploadClient: uploadClient,
+        baseUrl: baseUrl,
+      );
 
       await repository.uploadBytesToPresignedUrl(
         presignedUrl: 'https://mock-upload.example.com/file',

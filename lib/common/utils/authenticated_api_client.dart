@@ -248,10 +248,43 @@ class AuthenticatedApiClient extends http.BaseClient {
 
   String _requestBody(http.BaseRequest request) {
     if (request is http.Request) {
+      final contentType = _headerValue(
+        request.headers,
+        ApiRequestHeaders.contentTypeHeader,
+      );
+      if (!_isLoggableRequestBody(contentType)) {
+        final displayContentType = contentType?.isEmpty ?? true
+            ? 'unknown'
+            : contentType!;
+        return '<binary body: ${request.bodyBytes.length} bytes, '
+            'content-type: $displayContentType>';
+      }
+
       return utf8.decode(request.bodyBytes, allowMalformed: true);
     }
 
     return '<unavailable>';
+  }
+
+  String? _headerValue(Map<String, String> headers, String name) {
+    final normalizedName = name.toLowerCase();
+    for (final entry in headers.entries) {
+      if (entry.key.toLowerCase() == normalizedName) {
+        return entry.value.trim().toLowerCase();
+      }
+    }
+
+    return null;
+  }
+
+  bool _isLoggableRequestBody(String? contentType) {
+    if (contentType == null || contentType.isEmpty) {
+      return true;
+    }
+
+    return contentType.startsWith('text/') ||
+        contentType.contains('json') ||
+        contentType.contains('x-www-form-urlencoded');
   }
 
   void _logStreamedResponse(

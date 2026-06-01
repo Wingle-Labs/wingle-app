@@ -27,7 +27,13 @@ FileRepository fileRepository(Ref ref) {
       isApiReady: isApiReady,
     ),
   );
+  final uploadClient = http.Client();
   ref.onDispose(client.close);
+  ref.onDispose(uploadClient.close);
 
-  return FileRepositoryImpl(client: client, baseUrl: baseUrl);
+  return FileRepositoryImpl(
+    client: client,
+    uploadClient: uploadClient,
+    baseUrl: baseUrl,
+  );
 }
