@@ -412,6 +412,16 @@ class LightColorScheme implements AppColorScheme {
   Color get componentSelectionButtonForeground =>
       AppColorPalette.neutral60.color;
 
+  /// - [componentProfilePhotoSlotBackground]: 프로필 사진 슬롯 배경에 사용합니다.
+  @override
+  Color get componentProfilePhotoSlotBackground =>
+      AppColorPalette.asheBrown30.color;
+
+  /// - [componentProfilePhotoSlotBorder]: 프로필 사진 슬롯 점선 테두리에 사용합니다.
+  @override
+  Color get componentProfilePhotoSlotBorder =>
+      AppColorPalette.asheBrown70.color;
+
   // ! Component-Badge: 텍스트 배지에 사용합니다.
   /// - [componentBadgePrimaryBackground]: badge primary 배경에 사용합니다.
   @override

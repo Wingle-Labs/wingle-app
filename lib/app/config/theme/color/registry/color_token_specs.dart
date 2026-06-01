@@ -258,6 +258,14 @@ enum AppColorTokenSpec {
     AppColorSemanticSection.components,
     _componentSelectionButtonForeground,
   ),
+  componentProfilePhotoSlotBackground(
+    AppColorSemanticSection.components,
+    _componentProfilePhotoSlotBackground,
+  ),
+  componentProfilePhotoSlotBorder(
+    AppColorSemanticSection.components,
+    _componentProfilePhotoSlotBorder,
+  ),
   componentBadgePrimaryBackground(
     AppColorSemanticSection.components,
     _componentBadgePrimaryBackground,
@@ -488,6 +496,10 @@ Color _componentSelectionButtonBackground(AppColorScheme scheme) =>
     scheme.componentSelectionButtonBackground;
 Color _componentSelectionButtonForeground(AppColorScheme scheme) =>
     scheme.componentSelectionButtonForeground;
+Color _componentProfilePhotoSlotBackground(AppColorScheme scheme) =>
+    scheme.componentProfilePhotoSlotBackground;
+Color _componentProfilePhotoSlotBorder(AppColorScheme scheme) =>
+    scheme.componentProfilePhotoSlotBorder;
 Color _componentBadgePrimaryBackground(AppColorScheme scheme) =>
     scheme.componentBadgePrimaryBackground;
 Color _componentBadgePrimaryForeground(AppColorScheme scheme) =>

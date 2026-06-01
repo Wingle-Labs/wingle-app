@@ -675,6 +675,18 @@ class AppContainerSize {
   /// Card 최소 높이
   static const double cardMinHeight = 48;
 
+  /// 프로필 사진 슬롯 기본 너비
+  static const double profilePhotoSlotWidth = 110;
+
+  /// 프로필 사진 슬롯 기본 높이
+  static const double profilePhotoSlotHeight = 111;
+
+  /// 프로필 사진 슬롯 점선 길이
+  static const double profilePhotoSlotDash = 6;
+
+  /// 프로필 사진 슬롯 점선 공백
+  static const double profilePhotoSlotDashGap = 6;
+
   /// 선택 버튼 최소 높이
   static const double selectionButtonHeight = 48;
 

@@ -250,15 +250,24 @@ class _PhotoSlotRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final tileSize =
+        final availableTileWidth =
             (constraints.maxWidth - AppSpacing.s12 * (_slotCount - 1)) /
             _slotCount;
+        final tileWidth =
+            availableTileWidth > AppContainerSize.profilePhotoSlotWidth
+            ? AppContainerSize.profilePhotoSlotWidth
+            : availableTileWidth;
+        final tileHeight =
+            tileWidth *
+            AppContainerSize.profilePhotoSlotHeight /
+            AppContainerSize.profilePhotoSlotWidth;
 
         return Row(
           children: [
             for (var index = 0; index < _slotCount; index++) ...[
-              SizedBox.square(
-                dimension: tileSize,
+              SizedBox(
+                width: tileWidth,
+                height: tileHeight,
                 child: _PhotoSlotTile(
                   photo: index < photos.length ? photos[index] : null,
                   uploadingPreviewBytes: uploadingPreviewBytes[index],
@@ -312,7 +321,7 @@ class _PhotoSlotTile extends StatelessWidget {
     final isUploading = uploadingPreviewBytes != null;
 
     return Material(
-      color: colors.componentSecondaryFilledButtonEnabled,
+      color: colors.componentProfilePhotoSlotBackground,
       borderRadius: BorderRadius.circular(AppRadius.iosStyle),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
@@ -333,7 +342,7 @@ class _PhotoSlotTile extends StatelessWidget {
               child: IgnorePointer(
                 child: CustomPaint(
                   painter: _DashedRRectBorderPainter(
-                    color: colors.textAlternative,
+                    color: colors.componentProfilePhotoSlotBorder,
                     radius: AppRadius.iosStyle,
                   ),
                 ),
@@ -540,8 +549,8 @@ class _PhotoGuideButton extends StatelessWidget {
 }
 
 class _DashedRRectBorderPainter extends CustomPainter {
-  static const double _dash = 8;
-  static const double _gap = 6;
+  static const double _dash = AppContainerSize.profilePhotoSlotDash;
+  static const double _gap = AppContainerSize.profilePhotoSlotDashGap;
 
   final Color color;
   final double radius;

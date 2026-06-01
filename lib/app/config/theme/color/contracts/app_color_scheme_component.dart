@@ -95,6 +95,12 @@ abstract interface class AppColorComponentScheme {
   /// 선택 버튼 전경에 사용합니다.
   Color get componentSelectionButtonForeground;
 
+  /// 프로필 사진 슬롯 배경에 사용합니다.
+  Color get componentProfilePhotoSlotBackground;
+
+  /// 프로필 사진 슬롯 점선 테두리에 사용합니다.
+  Color get componentProfilePhotoSlotBorder;
+
   /// badge primary 배경에 사용합니다.
   Color get componentBadgePrimaryBackground;
 
