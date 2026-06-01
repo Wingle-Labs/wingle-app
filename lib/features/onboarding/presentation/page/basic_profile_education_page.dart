@@ -86,11 +86,7 @@ class _BasicProfileEducationPageState
           setState(() => _stage = _EducationInputStage.school);
           return;
         case _EducationInputStage.certification:
-          setState(
-            () => _stage = state.universityCode == null
-                ? _EducationInputStage.school
-                : _EducationInputStage.email,
-          );
+          setState(() => _stage = _EducationInputStage.email);
           return;
       }
     }
@@ -197,7 +193,7 @@ class _BasicProfileEducationPageState
     switch (_stage) {
       case _EducationInputStage.level:
         if (state.educationLevel?.skipsSchoolName ?? false) {
-          await _submitAndNavigate(context, notifier, skipEmail: true);
+          await _submitAndNavigate(context, notifier, skipVerification: true);
           return;
         }
         setState(() => _stage = _EducationInputStage.school);
@@ -254,31 +250,28 @@ class _BasicProfileEducationPageState
   Future<void> _submitAndNavigate(
     BuildContext context,
     EducationProfile notifier, {
-    bool skipEmail = false,
+    bool skipVerification = false,
   }) async {
     final success = await notifier.submitEducation();
     if (!context.mounted) return;
 
-    if (success && skipEmail) {
-      _navigateToProfileDetails();
-      return;
-    }
-
-    if (success) {
-      final latestState = ref.read(educationProfileProvider);
-      setState(
-        () => _stage = latestState.universityCode == null
-            ? _EducationInputStage.certification
-            : _EducationInputStage.email,
+    if (!success) {
+      DefaultToast.show(
+        context,
+        ref.read(educationProfileProvider).submitErrorMessage ??
+            ApiErrorMessages.submitEducationFailed,
       );
       return;
     }
 
-    DefaultToast.show(
-      context,
-      ref.read(educationProfileProvider).submitErrorMessage ??
-          ApiErrorMessages.submitEducationFailed,
-    );
+    final latestState = ref.read(educationProfileProvider);
+    if (skipVerification ||
+        (latestState.educationLevel?.skipsEducationVerification ?? false)) {
+      _navigateToProfileDetails();
+      return;
+    }
+
+    setState(() => _stage = _EducationInputStage.email);
   }
 
   void _navigateToProfileDetails() {

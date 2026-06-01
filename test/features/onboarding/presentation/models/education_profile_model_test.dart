@@ -17,6 +17,18 @@ void main() {
 
     expect(state.requiresSchoolName, isFalse);
     expect(state.canContinueSchool, isTrue);
+    expect(state.educationLevel?.skipsEducationVerification, isTrue);
+  });
+
+  test('고등학교는 학교명 입력 후 학교 인증을 생략한다', () {
+    const state = EducationProfileModel(
+      educationLevel: EducationLevel.highSchool,
+    );
+
+    expect(state.requiresSchoolName, isTrue);
+    expect(state.canContinueSchool, isFalse);
+    expect(state.copyWith(schoolName: '서울고등학교').canContinueSchool, isTrue);
+    expect(state.educationLevel?.skipsEducationVerification, isTrue);
   });
 
   test('학교 이메일은 개인 이메일 도메인을 허용하지 않는다', () {

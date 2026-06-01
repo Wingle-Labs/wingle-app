@@ -197,7 +197,7 @@ void main() {
     );
   });
 
-  testWidgets('코드북에 없는 학교를 제출하면 학적증명서 등록 화면으로 이동한다', (tester) async {
+  testWidgets('코드북에 없는 학교를 제출해도 이메일 인증 화면으로 이동한다', (tester) async {
     await tester.pumpWidget(
       _testApp(repository: _RecordingProfileRepository()),
     );
@@ -216,11 +216,45 @@ void main() {
 
     expect(
       _textEither(
-        'onboarding.basicProfile.educationCertification.title',
-        '학적 증명서를\n등록해주세요',
+        'onboarding.basicProfile.educationEmail.emailLabel',
+        '학교 이메일',
       ),
       findsOneWidget,
     );
+    expect(
+      _textEither(
+        'onboarding.basicProfile.educationEmail.certificationGuide',
+        '메일이 만료되었을 때는 이렇게 인증 가능해요',
+      ),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('고등학교는 학교명 제출 후 학적 인증 없이 상세 프로필로 이동한다', (tester) async {
+    final repository = _RecordingProfileRepository();
+    final router = _educationRouter();
+    addTearDown(router.dispose);
+
+    await tester.pumpWidget(_testRouterApp(router, repository: repository));
+    await tester.pump();
+
+    await tester.tap(
+      _textEither(
+        'onboarding.basicProfile.education.option.highSchool',
+        '고등학교',
+      ),
+    );
+    await tester.pump();
+    await tester.tap(find.byType(FloatingActionButton));
+    await tester.pump();
+    await tester.enterText(find.byType(TextFormField), '서울고등학교');
+    await tester.pump();
+    await tester.tap(find.byType(FloatingActionButton));
+    await tester.pumpAndSettle();
+
+    expect(repository.educationLevel, 'HIGH_SCHOOL');
+    expect(repository.customUniversityName, '서울고등학교');
+    expect(find.text('profile-details-target'), findsOneWidget);
   });
 
   testWidgets('학교 정보 입력 첫 화면의 앱바 뒤로가기는 직종 선택으로 이동한다', (tester) async {
@@ -284,12 +318,13 @@ Widget _testApp({
   );
 }
 
-Widget _testRouterApp(GoRouter router) {
+Widget _testRouterApp(
+  GoRouter router, {
+  MockProfileRepository repository = const MockProfileRepository(),
+}) {
   return ProviderScope(
     overrides: [
-      profileRepositoryProvider.overrideWithValue(
-        const MockProfileRepository(),
-      ),
+      profileRepositoryProvider.overrideWithValue(repository),
       universityCodebookEntriesProvider.overrideWithValue(const [
         CodebookEntry(code: 'U001', codeName: '한국대학교', displayOrder: 0),
       ]),
@@ -319,6 +354,11 @@ GoRouter _educationRouter() {
         path: OnboardingRoutes.basicProfileCompany.fullPath,
         builder: (context, state) => const Text('occupation-target'),
       ),
+      GoRoute(
+        name: OnboardingRoutes.profileDetails.name,
+        path: OnboardingRoutes.profileDetails.fullPath,
+        builder: (context, state) => const Text('profile-details-target'),
+      ),
     ],
   );
 }
@@ -333,6 +373,8 @@ class _RecordingProfileRepository extends MockProfileRepository {
   final bool failEducationConfirm;
 
   String? university;
+  String? customUniversityName;
+  String? educationLevel;
 
   _RecordingProfileRepository({this.failEducationConfirm = false});
 
@@ -343,6 +385,8 @@ class _RecordingProfileRepository extends MockProfileRepository {
     required String educationLevel,
   }) async {
     this.university = university;
+    this.customUniversityName = customUniversityName;
+    this.educationLevel = educationLevel;
   }
 
   @override
@@ -352,6 +396,8 @@ class _RecordingProfileRepository extends MockProfileRepository {
     required String educationLevel,
   }) async {
     this.university = university;
+    this.customUniversityName = customUniversityName;
+    this.educationLevel = educationLevel;
   }
 
   @override
