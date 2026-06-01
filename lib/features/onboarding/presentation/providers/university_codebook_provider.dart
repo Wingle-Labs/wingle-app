@@ -31,3 +31,26 @@ CodebookEntry? findUniversityEntryByName(
   }
   return null;
 }
+
+/// 입력된 학교명과 코드가 모두 일치하는 UNIVERSITY 코드북 항목을 찾는다.
+CodebookEntry? findUniversityEntryByCodeAndName(
+  String? universityCode,
+  String schoolName,
+  List<CodebookEntry> entries,
+) {
+  final normalizedCode = universityCode?.trim();
+  final normalizedName = schoolName.trim();
+  if (normalizedCode == null ||
+      normalizedCode.isEmpty ||
+      normalizedName.isEmpty) {
+    return null;
+  }
+
+  for (final entry in entries) {
+    if (entry.code == normalizedCode &&
+        entry.codeName.trim() == normalizedName) {
+      return entry;
+    }
+  }
+  return null;
+}

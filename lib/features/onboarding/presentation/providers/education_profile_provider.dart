@@ -8,6 +8,7 @@ import 'package:wingle/common/utils/hive_util.dart';
 import 'package:wingle/features/auth/domain/models/login_education_profile.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 import 'package:wingle/features/onboarding/domain/constants/file_upload_constants.dart';
+import 'package:wingle/features/onboarding/domain/model/codebook/codebook_models.dart';
 import 'package:wingle/features/onboarding/domain/model/file/file_models.dart';
 import 'package:wingle/features/onboarding/presentation/models/education_profile_model.dart';
 import 'package:wingle/features/onboarding/presentation/providers/file_repository_provider.dart';
@@ -77,6 +78,26 @@ class EducationProfile extends _$EducationProfile {
     state = state.copyWith(
       schoolName: value,
       universityCode: null,
+      isEducationSubmitted: false,
+      emailVerified: false,
+      submitErrorMessage: null,
+      certificationFile: null,
+      certificationSubmitted: false,
+      certificationKey: null,
+      certificationErrorMessage: null,
+    );
+  }
+
+  /// 코드북 학교 항목을 선택한다.
+  void selectUniversityEntry(CodebookEntry entry) {
+    if (state.schoolName == entry.codeName &&
+        state.universityCode == entry.code) {
+      return;
+    }
+
+    state = state.copyWith(
+      schoolName: entry.codeName,
+      universityCode: entry.code,
       isEducationSubmitted: false,
       emailVerified: false,
       submitErrorMessage: null,
@@ -242,12 +263,15 @@ class EducationProfile extends _$EducationProfile {
     }
 
     final shouldUpdate = _readProfileStatus().hasCompletedEducationInfo;
+    final universityEntries = ref.read(universityCodebookEntriesProvider);
     final universityEntry = educationLevel.skipsSchoolName
         ? null
-        : findUniversityEntryByName(
-            schoolName,
-            ref.read(universityCodebookEntriesProvider),
-          );
+        : findUniversityEntryByCodeAndName(
+                state.universityCode,
+                schoolName,
+                universityEntries,
+              ) ??
+              findUniversityEntryByName(schoolName, universityEntries);
     final university = universityEntry?.code;
     final customUniversityName = educationLevel.skipsSchoolName
         ? null

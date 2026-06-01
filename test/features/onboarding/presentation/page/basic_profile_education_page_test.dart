@@ -85,6 +85,56 @@ void main() {
     expect(find.byType(TextFormField), findsOneWidget);
   });
 
+  testWidgets('학교명 입력 필드는 코드북 학교 자동완성을 선택할 수 있다', (tester) async {
+    final repository = _RecordingProfileRepository();
+
+    await tester.pumpWidget(
+      _testApp(
+        repository: repository,
+        universities: const [
+          CodebookEntry(code: 'U001', codeName: '한국대학교', displayOrder: 0),
+          CodebookEntry(code: 'U002', codeName: '한국사이버대학교', displayOrder: 1),
+        ],
+      ),
+    );
+    await tester.pump();
+
+    await tester.tap(
+      _textEither('onboarding.basicProfile.education.option.university', '대학교'),
+    );
+    await tester.pump();
+    await tester.tap(find.byType(FloatingActionButton));
+    await tester.pump();
+
+    await tester.enterText(find.byType(TextFormField), '한국');
+    await tester.pump();
+
+    expect(find.text('한국대학교'), findsOneWidget);
+    expect(find.text('한국사이버대학교'), findsOneWidget);
+
+    await tester.tap(find.text('한국대학교'));
+    await tester.pump();
+
+    final container = ProviderScope.containerOf(
+      tester.element(find.byType(BasicProfileEducationPage)),
+    );
+    expect(container.read(educationProfileProvider).schoolName, '한국대학교');
+    expect(container.read(educationProfileProvider).universityCode, 'U001');
+
+    await tester.tap(find.byType(FloatingActionButton));
+    await _pumpAsyncWork(tester);
+
+    expect(repository.university, 'U001');
+    expect(repository.customUniversityName, isNull);
+    expect(
+      _textEither(
+        'onboarding.basicProfile.educationEmail.emailLabel',
+        '학교 이메일',
+      ),
+      findsOneWidget,
+    );
+  });
+
   testWidgets('학교명을 제출하면 학교 이메일 인증 화면으로 이동한다', (tester) async {
     final repository = _RecordingProfileRepository();
 
@@ -198,10 +248,10 @@ void main() {
     );
   });
 
-  testWidgets('코드북에 없는 학교를 제출해도 이메일 인증 화면으로 이동한다', (tester) async {
-    await tester.pumpWidget(
-      _testApp(repository: _RecordingProfileRepository()),
-    );
+  testWidgets('코드북에 없는 학교를 제출하면 학적증명서 등록 화면으로 이동한다', (tester) async {
+    final repository = _RecordingProfileRepository();
+
+    await tester.pumpWidget(_testApp(repository: repository));
     await tester.pump();
 
     await tester.tap(
@@ -215,17 +265,19 @@ void main() {
     await tester.tap(find.byType(FloatingActionButton));
     await _pumpAsyncWork(tester);
 
+    expect(repository.university, isNull);
+    expect(repository.customUniversityName, '새로운대학교');
     expect(
       _textEither(
-        'onboarding.basicProfile.educationEmail.emailLabel',
-        '학교 이메일',
+        'onboarding.basicProfile.educationCertification.title',
+        '학적 증명서를\n등록해주세요',
       ),
       findsOneWidget,
     );
     expect(
       _textEither(
-        'onboarding.basicProfile.educationEmail.certificationGuide',
-        '메일이 만료되었을 때는 이렇게 인증 가능해요',
+        'onboarding.basicProfile.educationCertification.uploadLabel',
+        '증명서 사진 업로드',
       ),
       findsOneWidget,
     );
@@ -298,6 +350,9 @@ void main() {
 
 Widget _testApp({
   MockProfileRepository repository = const MockProfileRepository(),
+  List<CodebookEntry> universities = const [
+    CodebookEntry(code: 'U001', codeName: '한국대학교', displayOrder: 0),
+  ],
 }) {
   return ProviderScope(
     overrides: [
@@ -305,9 +360,7 @@ Widget _testApp({
       educationProfilePersistenceProvider.overrideWithValue(
         _MemoryEducationProfilePersistence(),
       ),
-      universityCodebookEntriesProvider.overrideWithValue(const [
-        CodebookEntry(code: 'U001', codeName: '한국대학교', displayOrder: 0),
-      ]),
+      universityCodebookEntriesProvider.overrideWithValue(universities),
     ],
     child: EasyLocalization(
       supportedLocales: AppLocalization.supportedLocales,
@@ -326,6 +379,9 @@ Widget _testApp({
 Widget _testRouterApp(
   GoRouter router, {
   MockProfileRepository repository = const MockProfileRepository(),
+  List<CodebookEntry> universities = const [
+    CodebookEntry(code: 'U001', codeName: '한국대학교', displayOrder: 0),
+  ],
 }) {
   return ProviderScope(
     overrides: [
@@ -333,9 +389,7 @@ Widget _testRouterApp(
       educationProfilePersistenceProvider.overrideWithValue(
         _MemoryEducationProfilePersistence(),
       ),
-      universityCodebookEntriesProvider.overrideWithValue(const [
-        CodebookEntry(code: 'U001', codeName: '한국대학교', displayOrder: 0),
-      ]),
+      universityCodebookEntriesProvider.overrideWithValue(universities),
     ],
     child: EasyLocalization(
       supportedLocales: AppLocalization.supportedLocales,

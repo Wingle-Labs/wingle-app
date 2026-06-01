@@ -44,7 +44,7 @@ final class EducationProfileProvider
   }
 }
 
-String _$educationProfileHash() => r'9af9b3334e5caf38d1a9d3d5bf40b9931994f1d3';
+String _$educationProfileHash() => r'de47e75f0f1f62eedb80ae5c64843dc9e31afdae';
 
 /// 학교 정보 입력 상태를 관리하는 Notifier.
 

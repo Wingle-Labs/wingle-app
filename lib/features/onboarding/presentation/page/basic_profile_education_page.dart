@@ -16,15 +16,19 @@ import 'package:wingle/common/constants/api_error_messages.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
 import 'package:wingle/features/onboarding/domain/constants/file_upload_constants.dart';
+import 'package:wingle/features/onboarding/domain/model/codebook/codebook_models.dart';
 import 'package:wingle/features/onboarding/presentation/components/input/profile_input_search_field.dart';
 import 'package:wingle/features/onboarding/presentation/components/wrapper/basic_profile_input_scaffold.dart';
 import 'package:wingle/features/onboarding/presentation/constants/basic_profile_input_constants.dart';
 import 'package:wingle/features/onboarding/presentation/models/education_profile_model.dart';
 import 'package:wingle/features/onboarding/presentation/providers/education_profile_provider.dart';
+import 'package:wingle/features/onboarding/presentation/providers/university_codebook_provider.dart';
 import 'package:wingle/features/onboarding/route/onboarding_route_chain.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 enum _EducationInputStage { level, school, email, certification }
+
+const int _maxSchoolSuggestions = 6;
 
 /// 기본 프로필 입력의 학교 정보 입력 페이지.
 class BasicProfileEducationPage extends ConsumerStatefulWidget {
@@ -122,8 +126,18 @@ class _BasicProfileEducationPageState
         _EducationInputStage.school => _SchoolNameSection(
           controller: _schoolController,
           focusNode: _schoolFocusNode,
+          entries: ref.watch(universityCodebookEntriesProvider),
+          selectedUniversityCode: state.universityCode,
           showClearButton: _schoolController.text.isNotEmpty,
           onChanged: notifier.updateSchoolName,
+          onSelected: (entry) {
+            _schoolController.value = TextEditingValue(
+              text: entry.codeName,
+              selection: TextSelection.collapsed(offset: entry.codeName.length),
+            );
+            _schoolFocusNode.unfocus();
+            notifier.selectUniversityEntry(entry);
+          },
           onClear: () {
             _schoolController.clear();
             notifier.updateSchoolName('');
@@ -271,7 +285,11 @@ class _BasicProfileEducationPageState
       return;
     }
 
-    setState(() => _stage = _EducationInputStage.email);
+    setState(
+      () => _stage = latestState.universityCode == null
+          ? _EducationInputStage.certification
+          : _EducationInputStage.email,
+    );
   }
 
   void _navigateToProfileDetails() {
@@ -426,27 +444,156 @@ class _EducationLevelTile extends StatelessWidget {
 class _SchoolNameSection extends StatelessWidget {
   final TextEditingController controller;
   final FocusNode focusNode;
+  final List<CodebookEntry> entries;
+  final String? selectedUniversityCode;
   final bool showClearButton;
   final ValueChanged<String> onChanged;
+  final ValueChanged<CodebookEntry> onSelected;
   final VoidCallback onClear;
 
   const _SchoolNameSection({
     required this.controller,
     required this.focusNode,
+    required this.entries,
+    required this.selectedUniversityCode,
     required this.showClearButton,
     required this.onChanged,
+    required this.onSelected,
     required this.onClear,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ProfileInputSearchField(
-      hintText: 'onboarding.basicProfile.education.schoolHint',
-      controller: controller,
-      focusNode: focusNode,
-      onChanged: onChanged,
-      showClearButton: showClearButton,
-      onClear: onClear,
+    final suggestions = _suggestions;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ProfileInputSearchField(
+          hintText: 'onboarding.basicProfile.education.schoolHint',
+          controller: controller,
+          focusNode: focusNode,
+          onChanged: onChanged,
+          showClearButton: showClearButton,
+          onClear: onClear,
+        ),
+        if (suggestions.isNotEmpty) ...[
+          const SizedBox(height: AppSpacing.s12),
+          _SchoolSuggestionList(entries: suggestions, onSelected: onSelected),
+        ],
+      ],
+    );
+  }
+
+  List<CodebookEntry> get _suggestions {
+    final query = controller.text.trim();
+    if (query.isEmpty) {
+      return const <CodebookEntry>[];
+    }
+
+    final selectedEntry = selectedUniversityCode == null
+        ? null
+        : findUniversityEntryByCodeAndName(
+            selectedUniversityCode,
+            query,
+            entries,
+          );
+    if (selectedEntry != null) {
+      return const <CodebookEntry>[];
+    }
+
+    return entries
+        .where((entry) => entry.codeName.contains(query))
+        .take(_maxSchoolSuggestions)
+        .toList(growable: false);
+  }
+}
+
+class _SchoolSuggestionList extends StatelessWidget {
+  final List<CodebookEntry> entries;
+  final ValueChanged<CodebookEntry> onSelected;
+
+  const _SchoolSuggestionList({
+    required this.entries,
+    required this.onSelected,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.backgroundNormal,
+        borderRadius: BorderRadius.circular(AppRadius.iosStyle),
+        border: Border.all(
+          color: colors.strokeStructuralBorder,
+          width: AppLineWidth.outline,
+        ),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(AppRadius.iosStyle),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            for (var index = 0; index < entries.length; index++) ...[
+              _SchoolSuggestionTile(
+                entry: entries[index],
+                onTap: () => onSelected(entries[index]),
+              ),
+              if (index != entries.length - 1)
+                Divider(
+                  height: AppLineWidth.dividerNormal,
+                  color: colors.strokeNeutral,
+                ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SchoolSuggestionTile extends StatelessWidget {
+  final CodebookEntry entry;
+  final VoidCallback onTap;
+
+  const _SchoolSuggestionTile({required this.entry, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final typography = context.typography;
+
+    return Material(
+      color: colors.backgroundNormal,
+      child: InkWell(
+        onTap: onTap,
+        splashColor: colors.overlayPressed,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppPadding.selectionButtonHorizontal,
+            vertical: AppPadding.selectionButtonVertical,
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: DefaultText(
+                  entry.codeName,
+                  isTranslationKey: false,
+                  style: typography.body.copyWith(color: colors.textNormal),
+                ),
+              ),
+              const SizedBox(width: AppSpacing.s8),
+              DefaultIcon(
+                icon: Icons.chevron_right_rounded,
+                size: AppIconSize.sm,
+                color: colors.textAlternative,
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

@@ -63,6 +63,22 @@ void main() {
     );
   });
 
+  test('코드북 학교를 선택하면 학교명과 universityCode를 상태에 저장한다', () {
+    final repository = _RecordingProfileRepository();
+    final container = _container(repository);
+    addTearDown(container.dispose);
+
+    final notifier = container.read(educationProfileProvider.notifier);
+    notifier.selectEducationLevel(EducationLevel.university);
+    notifier.selectUniversityEntry(
+      const CodebookEntry(code: 'U001', codeName: '한국대학교', displayOrder: 0),
+    );
+
+    final state = container.read(educationProfileProvider);
+    expect(state.schoolName, '한국대학교');
+    expect(state.universityCode, 'U001');
+  });
+
   test('코드북에 없는 학교는 customUniversityName으로 제출한다', () async {
     final repository = _RecordingProfileRepository();
     final container = _container(repository);
