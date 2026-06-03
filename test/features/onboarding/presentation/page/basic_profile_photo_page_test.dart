@@ -1,13 +1,22 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:wingle/app/config/theme/themes.dart';
 import 'package:wingle/common/constants/localization_constants.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_details.dart';
+import 'package:wingle/features/onboarding/data/mock/mock_file_repository.dart';
+import 'package:wingle/features/onboarding/domain/model/file/file_models.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_photo_page.dart';
+import 'package:wingle/features/onboarding/presentation/providers/file_repository_provider.dart';
 import 'package:wingle/features/onboarding/presentation/providers/profile_details_provider.dart';
+import 'package:wingle/features/onboarding/presentation/providers/profile_photo_picker_provider.dart';
+import 'package:wingle/features/onboarding/presentation/utils/upload_image_compressor.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 void main() {
@@ -72,6 +81,43 @@ void main() {
 
     expect(persistence.profile?.mainStylePhotoKey, 'users/1/style/sub.jpg');
     expect(persistence.profile?.subStylePhotoKeys, ['users/1/style/main.jpg']);
+  });
+
+  testWidgets('스타일 사진은 여러 장을 한 번에 선택해 순서대로 저장한다', (tester) async {
+    _setMobileViewport(tester);
+    final persistence = _MemoryProfileDetailsPersistence();
+    final fileRepository = _SequentialProfilePhotoFileRepository();
+    int? requestedMaxCount;
+
+    await tester.pumpWidget(
+      _testApp(
+        home: const BasicProfileStylePhotoPage(),
+        persistence: persistence,
+        fileRepository: fileRepository,
+        photoPicker: (maxCount) async {
+          requestedMaxCount = maxCount;
+          return [
+            _xFile('style-main.jpg'),
+            _xFile('style-sub-1.jpg'),
+            _xFile('style-sub-2.jpg'),
+            _xFile('ignored.jpg'),
+          ];
+        },
+        imageCompressor: (bytes, _) async => bytes,
+      ),
+    );
+    await tester.pump();
+
+    await tester.tap(find.byIcon(Icons.checkroom_outlined));
+    await _pumpAsyncWork(tester);
+
+    expect(requestedMaxCount, 3);
+    expect(fileRepository.stylePresignRequestCount, 3);
+    expect(persistence.profile?.mainStylePhotoKey, 'users/1/style/0.webp');
+    expect(persistence.profile?.subStylePhotoKeys, [
+      'users/1/style/1.webp',
+      'users/1/style/2.webp',
+    ]);
   });
 
   testWidgets('스타일 사진 화면의 앱바 뒤로가기는 MBTI 화면으로 이동한다', (tester) async {
@@ -165,12 +211,23 @@ void _setMobileViewport(WidgetTester tester) {
 Widget _testApp({
   required Widget home,
   _MemoryProfileDetailsPersistence? persistence,
+  _SequentialProfilePhotoFileRepository? fileRepository,
+  ProfilePhotoPickerFn? photoPicker,
+  UploadImageCompressionFn? imageCompressor,
 }) {
   return ProviderScope(
     overrides: [
       profileDetailsPersistenceProvider.overrideWithValue(
         persistence ?? _MemoryProfileDetailsPersistence(),
       ),
+      if (fileRepository != null)
+        fileRepositoryProvider.overrideWithValue(fileRepository),
+      if (photoPicker != null)
+        profilePhotoPickerProvider.overrideWithValue(photoPicker),
+      if (imageCompressor != null)
+        profilePhotoUploadImageCompressorProvider.overrideWithValue(
+          imageCompressor,
+        ),
     ],
     child: EasyLocalization(
       supportedLocales: AppLocalization.supportedLocales,
@@ -263,6 +320,19 @@ Finder _textEither(String key, String translated) {
   });
 }
 
+XFile _xFile(String name) {
+  return XFile.fromData(
+    _transparentPngBytes,
+    name: name,
+    mimeType: 'image/png',
+  );
+}
+
+final Uint8List _transparentPngBytes = base64Decode(
+  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDw'
+  'AFgwJ/lcL0RgAAAABJRU5ErkJggg==',
+);
+
 class _MemoryProfileDetailsPersistence implements ProfileDetailsPersistence {
   LoginProfileDetails? profile;
 
@@ -275,4 +345,26 @@ class _MemoryProfileDetailsPersistence implements ProfileDetailsPersistence {
   Future<void> saveProfileDetails(LoginProfileDetails? profile) async {
     this.profile = profile;
   }
+}
+
+class _SequentialProfilePhotoFileRepository extends MockFileRepository {
+  int stylePresignRequestCount = 0;
+
+  @override
+  Future<ProfileImagePresignResult> createStyleImagePresignedUrl({
+    String contentType = 'image/webp',
+  }) async {
+    final index = stylePresignRequestCount++;
+    return ProfileImagePresignResult(
+      presignedUrl: 'https://mock-upload.example.com/style/$index.webp',
+      s3Key: 'users/1/style/$index.webp',
+    );
+  }
+
+  @override
+  Future<void> uploadBytesToPresignedUrl({
+    required String presignedUrl,
+    required List<int> bytes,
+    required String contentType,
+  }) async {}
 }

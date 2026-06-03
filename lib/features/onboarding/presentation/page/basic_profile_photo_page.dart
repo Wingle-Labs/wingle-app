@@ -25,6 +25,7 @@ import 'package:wingle/common/extensions/context_typography.dart';
 import 'package:wingle/features/onboarding/domain/constants/file_upload_constants.dart';
 import 'package:wingle/features/onboarding/presentation/models/profile_details_model.dart';
 import 'package:wingle/features/onboarding/presentation/providers/profile_details_provider.dart';
+import 'package:wingle/features/onboarding/presentation/providers/profile_photo_picker_provider.dart';
 import 'package:wingle/features/onboarding/presentation/utils/upload_image_compressor.dart';
 import 'package:wingle/features/onboarding/route/onboarding_route_chain.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
@@ -164,7 +165,7 @@ class _BasicProfilePhotoPageState
               actionsDisabled: actionsDisabled,
               primaryIcon: config.primaryIcon,
               primaryLabelKey: config.primaryLabelKey,
-              onTap: (slotIndex) => _pickPhoto(notifier, slotIndex),
+              onTap: (slotIndex) => _pickPhotos(notifier, slotIndex),
               onRemove: (slotIndex) => _removePhoto(notifier, slotIndex),
               onReorder: (fromIndex, toIndex) =>
                   _reorderPhoto(notifier, fromIndex, toIndex),
@@ -220,26 +221,100 @@ class _BasicProfilePhotoPageState
     context.goNamed(next.name);
   }
 
-  Future<void> _pickPhoto(ProfileDetails notifier, int slotIndex) async {
-    var hasUploadingEntry = false;
-    var uploadingEntryId = -1;
+  Future<void> _pickPhotos(ProfileDetails notifier, int slotIndex) async {
+    final targetSlotIndices = _targetSlotIndicesFrom(slotIndex);
+    if (targetSlotIndices.isEmpty) return;
 
     try {
-      final image = await ImagePicker().pickImage(
-        source: ImageSource.gallery,
-        requestFullMetadata: false,
+      final pickedImages = await ref.read(profilePhotoPickerProvider)(
+        targetSlotIndices.length,
       );
-      if (image == null || !mounted) return;
+      if (pickedImages.isEmpty || !mounted) return;
 
-      final originalBytes = await image.readAsBytes();
+      final selectedImages = pickedImages
+          .take(targetSlotIndices.length)
+          .toList(growable: false);
+      for (var index = 0; index < selectedImages.length; index++) {
+        await _startPickedPhotoUpload(
+          notifier: notifier,
+          slotIndex: targetSlotIndices[index],
+          image: selectedImages[index],
+        );
+      }
+    } catch (error, stackTrace) {
+      debugPrint('Failed to pick profile photos: $error');
+      debugPrintStack(stackTrace: stackTrace);
       if (!mounted) return;
 
-      uploadingEntryId = _startUploadingPhoto(slotIndex, originalBytes);
-      hasUploadingEntry = true;
+      DefaultToast.show(
+        context,
+        'onboarding.basicProfile.profilePhoto.pickFailed',
+      );
+    }
+  }
+
+  List<int> _targetSlotIndicesFrom(int slotIndex) {
+    final startIndex = slotIndex < _slotEntries.length
+        ? slotIndex
+        : _slotEntries.length;
+    final targetSlotIndices = <int>[];
+
+    for (var index = startIndex; index < _PhotoSlotRow.slotCount; index += 1) {
+      final isUploading = index < _slotEntries.length
+          ? _slotEntries[index].isUploading
+          : false;
+      if (!isUploading) {
+        targetSlotIndices.add(index);
+      }
+    }
+
+    return List<int>.unmodifiable(targetSlotIndices);
+  }
+
+  Future<void> _startPickedPhotoUpload({
+    required ProfileDetails notifier,
+    required int slotIndex,
+    required XFile image,
+  }) async {
+    late final Uint8List originalBytes;
+    try {
+      originalBytes = await image.readAsBytes();
+    } catch (error, stackTrace) {
+      debugPrint('Failed to read profile photo: $error');
+      debugPrintStack(stackTrace: stackTrace);
+      if (!mounted) return;
+
+      DefaultToast.show(
+        context,
+        'onboarding.basicProfile.profilePhoto.pickFailed',
+      );
+      return;
+    }
+    if (!mounted) return;
+
+    final uploadingEntryId = _startUploadingPhoto(slotIndex, originalBytes);
+    unawaited(
+      _uploadPreparedPhoto(
+        notifier: notifier,
+        entryId: uploadingEntryId,
+        image: image,
+        originalBytes: originalBytes,
+      ),
+    );
+  }
+
+  Future<void> _uploadPreparedPhoto({
+    required ProfileDetails notifier,
+    required int entryId,
+    required XFile image,
+    required Uint8List originalBytes,
+  }) async {
+    try {
       final uploadImage = await UploadImageCompressor.compressToWebp(
         bytes: originalBytes,
         originalName: image.name,
         options: FileUploadConstants.profilePhotoCompressionOptions,
+        compressor: ref.read(profilePhotoUploadImageCompressorProvider),
       );
       if (!mounted) return;
 
@@ -252,12 +327,12 @@ class _BasicProfilePhotoPageState
       if (!mounted) return;
 
       if (uploadedPhoto != null) {
-        _finishUploadingPhoto(uploadingEntryId, uploadedPhoto);
+        _finishUploadingPhoto(entryId, uploadedPhoto);
         unawaited(_commitUploadedPhotos(notifier));
         return;
       }
 
-      _restoreUploadingPhoto(uploadingEntryId);
+      _restoreUploadingPhoto(entryId);
 
       DefaultToast.show(
         context,
@@ -265,13 +340,11 @@ class _BasicProfilePhotoPageState
             ApiErrorMessages.uploadFileFailed,
       );
     } catch (error, stackTrace) {
-      debugPrint('Failed to pick profile photo: $error');
+      debugPrint('Failed to upload prepared profile photo: $error');
       debugPrintStack(stackTrace: stackTrace);
       if (!mounted) return;
 
-      if (hasUploadingEntry) {
-        _restoreUploadingPhoto(uploadingEntryId);
-      }
+      _restoreUploadingPhoto(entryId);
 
       DefaultToast.show(
         context,
