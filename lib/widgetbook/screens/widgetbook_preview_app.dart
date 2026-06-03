@@ -25,6 +25,7 @@ import 'package:wingle/features/onboarding/presentation/page/onboarding_page.dar
 import 'package:wingle/features/onboarding/presentation/page/onboarding_password_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/pass_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/pass_webview_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/profile_approval_pending_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/required_self_intro.dart';
 import 'package:wingle/features/onboarding/presentation/page/selective_self_intro.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
@@ -160,6 +161,11 @@ class _WidgetbookPreviewAppState extends State<WidgetbookPreviewApp> {
           path: OnboardingRoutes.profileSelfIntroduction.fullPath,
           name: OnboardingRoutes.profileSelfIntroduction.name,
           builder: (context, state) => const BasicProfileSelfIntroductionPage(),
+        ),
+        GoRoute(
+          path: OnboardingRoutes.approvalPending.fullPath,
+          name: OnboardingRoutes.approvalPending.name,
+          builder: (context, state) => const ProfileApprovalPendingPage(),
         ),
         GoRoute(
           path: OnboardingRoutes.login.fullPath,

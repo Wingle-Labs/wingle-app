@@ -100,6 +100,10 @@ WidgetbookFolder _buildOnboardingFolder() {
         initialLocation: OnboardingRoutes.profileSelfIntroduction.fullPath,
       ),
       _screenComponent(
+        name: 'Profile Approval Pending',
+        initialLocation: OnboardingRoutes.approvalPending.fullPath,
+      ),
+      _screenComponent(
         name: 'Pass',
         initialLocation: OnboardingRoutes.pass.fullPath,
       ),
