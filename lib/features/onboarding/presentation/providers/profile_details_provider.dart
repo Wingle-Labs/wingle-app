@@ -6,6 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wingle/common/constants/api_error_messages.dart';
 import 'package:wingle/common/utils/auth_session_persistence.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_details.dart';
+import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 import 'package:wingle/features/onboarding/domain/constants/file_upload_constants.dart';
 import 'package:wingle/features/onboarding/presentation/models/profile_details_model.dart';
 import 'package:wingle/features/onboarding/presentation/providers/file_repository_provider.dart';
@@ -24,6 +25,9 @@ abstract interface class ProfileDetailsPersistence {
 
   /// 상세 프로필 정보를 저장한다.
   Future<void> saveProfileDetails(LoginProfileDetails? profile);
+
+  /// 온보딩 프로필 상태를 저장한다.
+  Future<void> saveProfileStatus(LoginProfileStatus status);
 }
 
 /// Hive 기반 상세 프로필 로컬 저장소.
@@ -40,6 +44,11 @@ class AuthSessionProfileDetailsPersistence
   @override
   Future<void> saveProfileDetails(LoginProfileDetails? profile) {
     return AuthSessionPersistence.saveProfileDetails(profile);
+  }
+
+  @override
+  Future<void> saveProfileStatus(LoginProfileStatus status) {
+    return AuthSessionPersistence.saveProfileStatus(status);
   }
 }
 
@@ -372,6 +381,30 @@ class ProfileDetails extends _$ProfileDetails {
       state = nextState.copyWith(
         isSubmitting: false,
         submitErrorMessage: ApiErrorMessages.submitProfileDetailsFailed,
+      );
+      return false;
+    }
+  }
+
+  /// 프로필 심사를 요청하고 로컬 온보딩 상태를 심사 대기로 갱신한다.
+  Future<bool> requestProfileApproval() async {
+    state = state.copyWith(isSubmitting: true, submitErrorMessage: null);
+
+    try {
+      await ref.read(profileRepositoryProvider).requestProfileApproval();
+      await ref
+          .read(profileDetailsPersistenceProvider)
+          .saveProfileStatus(LoginProfileStatus.awaitingApproval);
+      if (!ref.mounted) return false;
+
+      state = state.copyWith(isSubmitting: false, submitErrorMessage: null);
+      return true;
+    } catch (_) {
+      if (!ref.mounted) return false;
+
+      state = state.copyWith(
+        isSubmitting: false,
+        submitErrorMessage: ApiErrorMessages.requestProfileApprovalFailed,
       );
       return false;
     }

@@ -262,18 +262,16 @@ class ProfileRepositoryImpl implements ProfileRepository {
 
   @override
   Future<void> requestProfileApproval() async {
-    await _postJson(
+    await _postEmpty(
       path: ApiEndpoints.profileApprovalRequest,
-      body: const <String, dynamic>{},
       errorMessage: ApiErrorMessages.requestProfileApprovalFailed,
     );
   }
 
   @override
   Future<void> requestProfileReapply() async {
-    await _postJson(
+    await _postEmpty(
       path: ApiEndpoints.profileReapply,
-      body: const <String, dynamic>{},
       errorMessage: ApiErrorMessages.requestProfileReapplyFailed,
     );
   }
@@ -319,6 +317,20 @@ class ProfileRepositoryImpl implements ProfileRepository {
       Uri.parse('$_baseUrl$path'),
       headers: ApiRequestHeaders.json(includeAuth: true),
       body: jsonEncode(body),
+    );
+
+    if (!_isSuccess(response)) {
+      throw Exception(errorMessage);
+    }
+  }
+
+  Future<void> _postEmpty({
+    required String path,
+    required String errorMessage,
+  }) async {
+    final response = await _client.post(
+      Uri.parse('$_baseUrl$path'),
+      headers: ApiRequestHeaders.auth(),
     );
 
     if (!_isSuccess(response)) {

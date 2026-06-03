@@ -107,13 +107,19 @@ class _BasicProfileSelfIntroductionPageState
             return;
           }
 
-          final next = OnboardingRouteChain.nextOf(
-            OnboardingRouteFlow.profileInput,
-            OnboardingRoutes.profileSelfIntroduction,
-          );
-          if (next == null) return;
+          final requested = await notifier.requestProfileApproval();
+          if (!context.mounted) return;
 
-          context.goNamed(next.name);
+          if (!requested) {
+            DefaultToast.show(
+              context,
+              ref.read(profileDetailsProvider).submitErrorMessage ??
+                  ApiErrorMessages.requestProfileApprovalFailed,
+            );
+            return;
+          }
+
+          context.goNamed(OnboardingRoutes.approvalPending.name);
         },
       ),
       child: Padding(

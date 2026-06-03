@@ -250,6 +250,22 @@ void main() {
       });
     });
 
+    test('프로필 심사 요청은 body 없는 POST를 전송한다', () async {
+      final client = MockClient((request) async {
+        expect(request.method, 'POST');
+        expect(request.url.path, '/api/v1/profiles/approval/request');
+        expect(request.body, isEmpty);
+        return http.Response('', 200);
+      });
+
+      final repository = ProfileRepositoryImpl(
+        client: client,
+        baseUrl: baseUrl,
+      );
+
+      await repository.requestProfileApproval();
+    });
+
     test('코드북 학교 정보를 등록한다', () async {
       late Map<String, dynamic> body;
 

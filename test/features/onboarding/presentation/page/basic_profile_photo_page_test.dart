@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:wingle/app/config/theme/themes.dart';
 import 'package:wingle/common/constants/localization_constants.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_details.dart';
+import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 import 'package:wingle/features/onboarding/data/mock/mock_file_repository.dart';
 import 'package:wingle/features/onboarding/domain/model/file/file_models.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_photo_page.dart';
@@ -335,6 +336,7 @@ final Uint8List _transparentPngBytes = base64Decode(
 
 class _MemoryProfileDetailsPersistence implements ProfileDetailsPersistence {
   LoginProfileDetails? profile;
+  LoginProfileStatus? profileStatus;
 
   _MemoryProfileDetailsPersistence([this.profile]);
 
@@ -344,6 +346,11 @@ class _MemoryProfileDetailsPersistence implements ProfileDetailsPersistence {
   @override
   Future<void> saveProfileDetails(LoginProfileDetails? profile) async {
     this.profile = profile;
+  }
+
+  @override
+  Future<void> saveProfileStatus(LoginProfileStatus status) async {
+    profileStatus = status;
   }
 }
 

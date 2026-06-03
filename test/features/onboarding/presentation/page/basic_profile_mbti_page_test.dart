@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/themes.dart';
 import 'package:wingle/common/constants/localization_constants.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_details.dart';
+import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_mbti_page.dart';
 import 'package:wingle/features/onboarding/presentation/providers/profile_details_provider.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
@@ -188,6 +189,7 @@ Finder _textEither(String key, String translated) {
 
 class _MemoryProfileDetailsPersistence implements ProfileDetailsPersistence {
   LoginProfileDetails? profile;
+  LoginProfileStatus? profileStatus;
 
   @override
   LoginProfileDetails? readProfileDetails() => profile;
@@ -195,5 +197,10 @@ class _MemoryProfileDetailsPersistence implements ProfileDetailsPersistence {
   @override
   Future<void> saveProfileDetails(LoginProfileDetails? profile) async {
     this.profile = profile;
+  }
+
+  @override
+  Future<void> saveProfileStatus(LoginProfileStatus status) async {
+    profileStatus = status;
   }
 }

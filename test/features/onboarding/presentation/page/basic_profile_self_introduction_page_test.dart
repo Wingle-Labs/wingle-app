@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/themes.dart';
 import 'package:wingle/common/constants/localization_constants.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_details.dart';
+import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 import 'package:wingle/features/onboarding/data/mock/mock_profile_repository.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_self_introduction_page.dart';
 import 'package:wingle/features/onboarding/presentation/providers/profile_details_provider.dart';
@@ -82,7 +83,7 @@ void main() {
     expect(collapsedHeight, closeTo(initialHeight, 0.1));
   });
 
-  testWidgets('짧은 자기소개도 저장하고 상세 프로필 API 제출 후 다음 체인으로 이동한다', (tester) async {
+  testWidgets('짧은 자기소개도 저장하고 상세 프로필 API 제출 후 심사를 요청한다', (tester) async {
     _setMobileViewport(tester);
     final router = _selfIntroductionRouter();
     addTearDown(router.dispose);
@@ -125,11 +126,13 @@ void main() {
     expect(repository.submittedSelfIntroduction, '반가워요');
     expect(repository.submittedMainStylePhotoKey, 'users/1/style/main.webp');
     expect(repository.submittedMainFacePhotoKey, 'users/1/face/main.webp');
+    expect(repository.didRequestProfileApproval, isTrue);
     expect(persistence.profile?.selfIntroduction, '반가워요');
-    expect(find.text('approval-request-target'), findsOneWidget);
+    expect(persistence.profileStatus, LoginProfileStatus.awaitingApproval);
+    expect(find.text('approval-pending-target'), findsOneWidget);
     expect(
       router.routeInformationProvider.value.uri.path,
-      OnboardingRoutes.approvalRequest.fullPath,
+      OnboardingRoutes.approvalPending.fullPath,
     );
   });
 
@@ -224,9 +227,9 @@ GoRouter _selfIntroductionRouter() {
         builder: (context, state) => const Text('face-photo-target'),
       ),
       GoRoute(
-        name: OnboardingRoutes.approvalRequest.name,
-        path: OnboardingRoutes.approvalRequest.fullPath,
-        builder: (context, state) => const Text('approval-request-target'),
+        name: OnboardingRoutes.approvalPending.name,
+        path: OnboardingRoutes.approvalPending.fullPath,
+        builder: (context, state) => const Text('approval-pending-target'),
       ),
     ],
   );
@@ -247,6 +250,7 @@ Finder _textEither(String key, String translated) {
 
 class _MemoryProfileDetailsPersistence implements ProfileDetailsPersistence {
   LoginProfileDetails? profile;
+  LoginProfileStatus? profileStatus;
 
   _MemoryProfileDetailsPersistence([this.profile]);
 
@@ -257,6 +261,11 @@ class _MemoryProfileDetailsPersistence implements ProfileDetailsPersistence {
   Future<void> saveProfileDetails(LoginProfileDetails? profile) async {
     this.profile = profile;
   }
+
+  @override
+  Future<void> saveProfileStatus(LoginProfileStatus status) async {
+    profileStatus = status;
+  }
 }
 
 class _RecordingProfileRepository extends MockProfileRepository {
@@ -264,6 +273,7 @@ class _RecordingProfileRepository extends MockProfileRepository {
   String? submittedSelfIntroduction;
   String? submittedMainStylePhotoKey;
   String? submittedMainFacePhotoKey;
+  bool didRequestProfileApproval = false;
 
   @override
   Future<void> submitProfileDetails({
@@ -278,5 +288,10 @@ class _RecordingProfileRepository extends MockProfileRepository {
     submittedSelfIntroduction = selfIntroduction;
     submittedMainStylePhotoKey = mainStylePhotoKey;
     submittedMainFacePhotoKey = mainFacePhotoKey;
+  }
+
+  @override
+  Future<void> requestProfileApproval() async {
+    didRequestProfileApproval = true;
   }
 }

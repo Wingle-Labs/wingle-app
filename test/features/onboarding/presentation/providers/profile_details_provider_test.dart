@@ -9,6 +9,7 @@ import 'package:hive_ce/hive.dart';
 import 'package:wingle/common/constants/hive_constants.dart';
 import 'package:wingle/common/utils/hive_util.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_details.dart';
+import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 import 'package:wingle/features/onboarding/data/mock/mock_file_repository.dart';
 import 'package:wingle/features/onboarding/data/mock/mock_profile_repository.dart';
 import 'package:wingle/features/onboarding/domain/model/file/file_models.dart';
@@ -385,10 +386,32 @@ void main() {
     );
     expect(persistence.profile?.selfIntroduction, '반가워요');
   });
+
+  test('프로필 심사 요청 성공 시 로컬 상태를 심사 대기로 저장한다', () async {
+    final persistence = _MemoryProfileDetailsPersistence();
+    final profileRepository = _RecordingProfileRepository();
+    final container = ProviderContainer(
+      overrides: [
+        profileRepositoryProvider.overrideWithValue(profileRepository),
+        profileDetailsPersistenceProvider.overrideWithValue(persistence),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    final success = await container
+        .read(profileDetailsProvider.notifier)
+        .requestProfileApproval();
+
+    expect(success, isTrue);
+    expect(profileRepository.didRequestProfileApproval, isTrue);
+    expect(persistence.profileStatus, LoginProfileStatus.awaitingApproval);
+    expect(container.read(profileDetailsProvider).isSubmitting, isFalse);
+  });
 }
 
 class _MemoryProfileDetailsPersistence implements ProfileDetailsPersistence {
   LoginProfileDetails? profile;
+  LoginProfileStatus? profileStatus;
 
   _MemoryProfileDetailsPersistence([this.profile]);
 
@@ -398,6 +421,11 @@ class _MemoryProfileDetailsPersistence implements ProfileDetailsPersistence {
   @override
   Future<void> saveProfileDetails(LoginProfileDetails? profile) async {
     this.profile = profile;
+  }
+
+  @override
+  Future<void> saveProfileStatus(LoginProfileStatus status) async {
+    profileStatus = status;
   }
 }
 
@@ -445,6 +473,7 @@ class _RecordingProfileRepository extends MockProfileRepository {
   List<String>? submittedSubStylePhotoKeys;
   String? submittedMainFacePhotoKey;
   List<String>? submittedSubFacePhotoKeys;
+  bool didRequestProfileApproval = false;
 
   @override
   Future<void> submitProfileDetails({
@@ -461,6 +490,11 @@ class _RecordingProfileRepository extends MockProfileRepository {
     submittedSubStylePhotoKeys = List<String>.of(subStylePhotoKeys);
     submittedMainFacePhotoKey = mainFacePhotoKey;
     submittedSubFacePhotoKeys = List<String>.of(subFacePhotoKeys);
+  }
+
+  @override
+  Future<void> requestProfileApproval() async {
+    didRequestProfileApproval = true;
   }
 }
 

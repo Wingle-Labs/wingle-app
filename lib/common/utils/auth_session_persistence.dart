@@ -7,6 +7,7 @@ import 'package:wingle/features/auth/domain/models/login_basic_profile.dart';
 import 'package:wingle/features/auth/domain/models/login_education_profile.dart';
 import 'package:wingle/features/auth/domain/models/login_job_profile.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_details.dart';
+import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 import 'package:wingle/features/auth/domain/models/login_result.dart';
 import 'package:wingle/features/auth/domain/models/my_profile_snapshot.dart';
 
@@ -65,6 +66,14 @@ abstract final class AuthSessionPersistence {
     await HiveUtil.write(
       key: HiveLoginBox.refreshToken,
       value: token.refreshToken,
+    );
+  }
+
+  /// 온보딩 프로필 상태를 저장한다.
+  static Future<void> saveProfileStatus(LoginProfileStatus status) async {
+    await HiveUtil.write(
+      key: HiveLoginBox.profileStatus,
+      value: status.apiValue,
     );
   }
 

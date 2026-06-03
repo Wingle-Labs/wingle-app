@@ -18,6 +18,7 @@
         "fetchRandomNicknameFailed": "랜덤 닉네임을 불러오지 못했어요. 다시 시도해주세요.",
         "submitBasicProfileFailed": "기본 프로필 정보를 등록하지 못했어요. 다시 시도해주세요.",
         "submitProfileDetailsFailed": "상세 프로필 정보를 저장하지 못했어요. 다시 시도해주세요.",
+        "requestProfileApprovalFailed": "프로필 심사 요청에 실패했어요. 다시 시도해주세요.",
         "createProfileImagePresignedUrlFailed": "프로필 사진 업로드 준비에 실패했어요. 다시 시도해주세요.",
         "submitEducationFailed": "학교 정보를 등록하지 못했어요. 다시 시도해주세요.",
         "verifyEducationEmailFailed": "학교 이메일 인증에 실패했어요. 다시 시도해주세요.",
@@ -72,6 +73,16 @@
     "title": "Wingle - 가치관으로 만나다.",
     "profileInput": {
       "title": "프로필 입력"
+    },
+    "approvalRequest": {
+      "title": "프로필 심사 요청 중",
+      "subtitle": "작성한 프로필을 관리자 심사로 제출하고 있어요.",
+      "retry": "다시 요청하기"
+    },
+    "approvalPending": {
+      "title": "프로필 신청 완료",
+      "subtitle": "관리자가 승인 후 가입이 완료됩니다.",
+      "start": "시작하기"
     },
     "button": {
       "login": "이미 계정이 있어요",

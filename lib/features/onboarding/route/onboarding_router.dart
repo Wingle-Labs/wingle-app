@@ -21,6 +21,8 @@ import 'package:wingle/features/onboarding/presentation/page/onboarding_password
 import 'package:wingle/features/onboarding/presentation/page/onboarding_status_placeholder_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/pass_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/pass_webview_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/profile_approval_pending_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/profile_approval_request_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/required_self_intro.dart';
 import 'package:wingle/features/onboarding/presentation/page/selective_self_intro.dart';
 import 'package:wingle/features/onboarding/route/onboarding_route_chain.dart';
@@ -119,24 +121,12 @@ final List<GoRoute> loginRoutes = [
   GoRoute(
     name: OnboardingRoutes.approvalRequest.name,
     path: OnboardingRoutes.approvalRequest.path,
-    builder: (context, state) => const OnboardingStatusPlaceholderPage(
-      title: '프로필 심사 요청',
-      description: '작성한 프로필을 관리자 심사로 제출하는 화면을 연결할 단계입니다.',
-      status: 'PROFILE_COMPLETED',
-      routeFlow: OnboardingRouteFlow.profileInput,
-      currentRoute: OnboardingRoutes.approvalRequest,
-    ),
+    builder: (context, state) => const ProfileApprovalRequestPage(),
   ),
   GoRoute(
     name: OnboardingRoutes.approvalPending.name,
     path: OnboardingRoutes.approvalPending.path,
-    builder: (context, state) => const OnboardingStatusPlaceholderPage(
-      title: '프로필 심사 대기',
-      description: '관리자 승인 전까지 대기 상태를 안내하는 화면입니다.',
-      status: 'AWAITING_APPROVAL',
-      routeFlow: OnboardingRouteFlow.profileInput,
-      currentRoute: OnboardingRoutes.approvalPending,
-    ),
+    builder: (context, state) => const ProfileApprovalPendingPage(),
   ),
   GoRoute(
     name: OnboardingRoutes.profileRejected.name,
