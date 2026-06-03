@@ -76,6 +76,12 @@ abstract final class OnboardingRoutes {
     name: 'profile-face-photos',
   );
 
+  /// 상세 프로필 자기소개 입력
+  static const profileSelfIntroduction = RouteNode(
+    parent: login,
+    name: 'profile-self-introduction',
+  );
+
   /// 프로필 심사 요청
   static const approvalRequest = RouteNode(
     parent: login,

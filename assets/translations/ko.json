@@ -210,6 +210,22 @@
       "profileDetails": {
         "mbtiTitle": "MBTI가 뭔가요?"
       },
+      "selfIntroduction": {
+        "appBarTitle": "자기 소개",
+        "title": "내 첫 인상이 될 자기소개,\n솔직 담백한 글을 작성해주세요",
+        "subtitle": "성실한 자기소개 글은 매칭의 기회를 높여줄 수 있어요.",
+        "label": "자기소개",
+        "hint": "최소 200자 이상 입력",
+        "counter": "{count}/{max}자",
+        "guide": "자기소개 작성 예시",
+        "guideUnavailable": "자기소개 작성 예시는 준비 중이에요.",
+        "quality": {
+          "empty": "미입력",
+          "short": "짧음",
+          "normal": "보통",
+          "appropriate": "적정"
+        }
+      },
       "profilePhoto": {
         "appBarTitle": "사진 등록",
         "styleTitle": "본인의 스타일이 잘 보이는 사진을\n최소 1장 이상 등록해주세요",

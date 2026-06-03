@@ -14,6 +14,7 @@ import 'package:wingle/features/onboarding/presentation/page/basic_profile_nickn
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_occupation_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_photo_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_residence_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/basic_profile_self_introduction_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/login_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/onboarding_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/onboarding_password_page.dart';
@@ -109,6 +110,11 @@ final List<GoRoute> loginRoutes = [
     name: OnboardingRoutes.profileFacePhotos.name,
     path: OnboardingRoutes.profileFacePhotos.path,
     builder: (context, state) => const BasicProfileFacePhotoPage(),
+  ),
+  GoRoute(
+    name: OnboardingRoutes.profileSelfIntroduction.name,
+    path: OnboardingRoutes.profileSelfIntroduction.path,
+    builder: (context, state) => const BasicProfileSelfIntroductionPage(),
   ),
   GoRoute(
     name: OnboardingRoutes.approvalRequest.name,

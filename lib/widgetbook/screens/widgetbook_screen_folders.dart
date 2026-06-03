@@ -88,6 +88,18 @@ WidgetbookFolder _buildOnboardingFolder() {
         initialLocation: OnboardingRoutes.basicProfileCompanyEmail.fullPath,
       ),
       _screenComponent(
+        name: 'Profile Style Photos',
+        initialLocation: OnboardingRoutes.profileStylePhotos.fullPath,
+      ),
+      _screenComponent(
+        name: 'Profile Face Photos',
+        initialLocation: OnboardingRoutes.profileFacePhotos.fullPath,
+      ),
+      _screenComponent(
+        name: 'Profile Self Introduction',
+        initialLocation: OnboardingRoutes.profileSelfIntroduction.fullPath,
+      ),
+      _screenComponent(
         name: 'Pass',
         initialLocation: OnboardingRoutes.pass.fullPath,
       ),

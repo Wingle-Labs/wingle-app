@@ -75,11 +75,16 @@ abstract final class OnboardingRouteChain {
       _RouteChainEntry(
         route: OnboardingRoutes.profileFacePhotos,
         previous: OnboardingRoutes.profileStylePhotos,
+        next: OnboardingRoutes.profileSelfIntroduction,
+      ),
+      _RouteChainEntry(
+        route: OnboardingRoutes.profileSelfIntroduction,
+        previous: OnboardingRoutes.profileFacePhotos,
         next: OnboardingRoutes.approvalRequest,
       ),
       _RouteChainEntry(
         route: OnboardingRoutes.approvalRequest,
-        previous: OnboardingRoutes.profileFacePhotos,
+        previous: OnboardingRoutes.profileSelfIntroduction,
         next: OnboardingRoutes.approvalPending,
       ),
       _RouteChainEntry(

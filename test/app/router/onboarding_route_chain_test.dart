@@ -69,6 +69,20 @@ void main() {
           OnboardingRouteFlow.profileInput,
           OnboardingRoutes.profileFacePhotos,
         ),
+        OnboardingRoutes.profileSelfIntroduction,
+      );
+      expect(
+        OnboardingRouteChain.previousOf(
+          OnboardingRouteFlow.profileInput,
+          OnboardingRoutes.profileSelfIntroduction,
+        ),
+        OnboardingRoutes.profileFacePhotos,
+      );
+      expect(
+        OnboardingRouteChain.nextOf(
+          OnboardingRouteFlow.profileInput,
+          OnboardingRoutes.profileSelfIntroduction,
+        ),
         OnboardingRoutes.approvalRequest,
       );
       expect(
@@ -76,7 +90,7 @@ void main() {
           OnboardingRouteFlow.profileInput,
           OnboardingRoutes.approvalRequest,
         ),
-        OnboardingRoutes.profileFacePhotos,
+        OnboardingRoutes.profileSelfIntroduction,
       );
     });
 

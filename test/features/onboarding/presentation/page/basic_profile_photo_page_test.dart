@@ -192,10 +192,10 @@ void main() {
     await _pumpAsyncWork(tester);
     await tester.pumpAndSettle();
 
-    expect(find.text('approval-request-target'), findsOneWidget);
+    expect(find.text('self-introduction-target'), findsOneWidget);
     expect(
       router.routeInformationProvider.value.uri.path,
-      OnboardingRoutes.approvalRequest.fullPath,
+      OnboardingRoutes.profileSelfIntroduction.fullPath,
     );
   });
 }
@@ -299,9 +299,9 @@ GoRouter _faceRouter() {
         builder: (context, state) => const Text('style-photo-target'),
       ),
       GoRoute(
-        name: OnboardingRoutes.approvalRequest.name,
-        path: OnboardingRoutes.approvalRequest.fullPath,
-        builder: (context, state) => const Text('approval-request-target'),
+        name: OnboardingRoutes.profileSelfIntroduction.name,
+        path: OnboardingRoutes.profileSelfIntroduction.fullPath,
+        builder: (context, state) => const Text('self-introduction-target'),
       ),
     ],
   );

@@ -10,10 +10,12 @@ import 'package:wingle/common/constants/hive_constants.dart';
 import 'package:wingle/common/utils/hive_util.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_details.dart';
 import 'package:wingle/features/onboarding/data/mock/mock_file_repository.dart';
+import 'package:wingle/features/onboarding/data/mock/mock_profile_repository.dart';
 import 'package:wingle/features/onboarding/domain/model/file/file_models.dart';
 import 'package:wingle/features/onboarding/presentation/models/profile_details_model.dart';
 import 'package:wingle/features/onboarding/presentation/providers/file_repository_provider.dart';
 import 'package:wingle/features/onboarding/presentation/providers/profile_details_provider.dart';
+import 'package:wingle/features/onboarding/presentation/providers/profile_repository_provider.dart';
 
 void main() {
   late Directory tempDir;
@@ -267,6 +269,122 @@ void main() {
     expect(state.canContinueFacePhotos, isTrue);
     expect(state.mainFacePhotoKey, 'users/1/face/main.jpg');
   });
+
+  test('자기소개 성실도는 0자, 50자, 200자 기준으로 구분한다', () {
+    final container = ProviderContainer();
+    addTearDown(container.dispose);
+
+    final notifier = container.read(profileDetailsProvider.notifier);
+
+    expect(
+      container.read(profileDetailsProvider).selfIntroductionQuality,
+      SelfIntroductionQuality.empty,
+    );
+
+    notifier.updateSelfIntroduction('짧음');
+    expect(
+      container.read(profileDetailsProvider).selfIntroductionQuality,
+      SelfIntroductionQuality.short,
+    );
+    expect(
+      container.read(profileDetailsProvider).canContinueSelfIntroduction,
+      isTrue,
+    );
+
+    notifier.updateSelfIntroduction(List.filled(50, 'a').join());
+    expect(
+      container.read(profileDetailsProvider).selfIntroductionQuality,
+      SelfIntroductionQuality.normal,
+    );
+
+    notifier.updateSelfIntroduction(List.filled(200, 'a').join());
+    expect(
+      container.read(profileDetailsProvider).selfIntroductionQuality,
+      SelfIntroductionQuality.appropriate,
+    );
+  });
+
+  test('자기소개 입력값을 로컬 상세 프로필에 저장한다', () async {
+    final persistence = _MemoryProfileDetailsPersistence();
+    final container = ProviderContainer(
+      overrides: [
+        profileDetailsPersistenceProvider.overrideWithValue(persistence),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    final notifier = container.read(profileDetailsProvider.notifier);
+    notifier.updateSelfIntroduction(' 안녕하세요. ');
+    await Future<void>.delayed(Duration.zero);
+
+    expect(persistence.profile?.selfIntroduction, '안녕하세요.');
+
+    final success = await notifier.saveSelfIntroduction();
+    expect(success, isTrue);
+    expect(persistence.profile?.selfIntroduction, '안녕하세요.');
+  });
+
+  test('상세 프로필 제출 시 MBTI, 자기소개, 사진 key를 API에 전달한다', () async {
+    final profileRepository = _RecordingProfileRepository();
+    final persistence = _MemoryProfileDetailsPersistence();
+    final container = ProviderContainer(
+      overrides: [
+        profileRepositoryProvider.overrideWithValue(profileRepository),
+        profileDetailsPersistenceProvider.overrideWithValue(persistence),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    final notifier = container.read(profileDetailsProvider.notifier);
+    notifier.selectMbtiLetter('E');
+    notifier.selectMbtiLetter('N');
+    notifier.selectMbtiLetter('F');
+    notifier.selectMbtiLetter('P');
+    await notifier.replacePhotos(
+      type: ProfilePhotoType.style,
+      photos: const [
+        ProfilePhotoInput(
+          s3Key: 'users/1/style/main.webp',
+          name: 'main.webp',
+          contentType: 'image/webp',
+        ),
+        ProfilePhotoInput(
+          s3Key: 'users/1/style/sub.webp',
+          name: 'sub.webp',
+          contentType: 'image/webp',
+        ),
+      ],
+    );
+    await notifier.replacePhotos(
+      type: ProfilePhotoType.face,
+      photos: const [
+        ProfilePhotoInput(
+          s3Key: 'users/1/face/main.webp',
+          name: 'face.webp',
+          contentType: 'image/webp',
+        ),
+      ],
+    );
+    notifier.updateSelfIntroduction(' 반가워요 ');
+
+    final success = await notifier.submitProfileDetails();
+
+    expect(success, isTrue);
+    expect(profileRepository.submittedMbti, 'ENFP');
+    expect(profileRepository.submittedSelfIntroduction, '반가워요');
+    expect(
+      profileRepository.submittedMainStylePhotoKey,
+      'users/1/style/main.webp',
+    );
+    expect(profileRepository.submittedSubStylePhotoKeys, [
+      'users/1/style/sub.webp',
+    ]);
+    expect(
+      profileRepository.submittedMainFacePhotoKey,
+      'users/1/face/main.webp',
+    );
+    expect(persistence.profile?.selfIntroduction, '반가워요');
+  });
 }
 
 class _MemoryProfileDetailsPersistence implements ProfileDetailsPersistence {
@@ -317,6 +435,32 @@ class _RecordingProfilePhotoFileRepository extends MockFileRepository {
     required String contentType,
   }) async {
     uploadedBytes = List<int>.from(bytes);
+  }
+}
+
+class _RecordingProfileRepository extends MockProfileRepository {
+  String? submittedMbti;
+  String? submittedSelfIntroduction;
+  String? submittedMainStylePhotoKey;
+  List<String>? submittedSubStylePhotoKeys;
+  String? submittedMainFacePhotoKey;
+  List<String>? submittedSubFacePhotoKeys;
+
+  @override
+  Future<void> submitProfileDetails({
+    required String mbti,
+    required String selfIntroduction,
+    String? mainStylePhotoKey,
+    List<String> subStylePhotoKeys = const <String>[],
+    String? mainFacePhotoKey,
+    List<String> subFacePhotoKeys = const <String>[],
+  }) async {
+    submittedMbti = mbti;
+    submittedSelfIntroduction = selfIntroduction;
+    submittedMainStylePhotoKey = mainStylePhotoKey;
+    submittedSubStylePhotoKeys = List<String>.of(subStylePhotoKeys);
+    submittedMainFacePhotoKey = mainFacePhotoKey;
+    submittedSubFacePhotoKeys = List<String>.of(subFacePhotoKeys);
   }
 }
 

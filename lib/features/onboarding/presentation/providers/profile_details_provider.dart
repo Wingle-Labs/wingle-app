@@ -9,6 +9,7 @@ import 'package:wingle/features/auth/domain/models/login_profile_details.dart';
 import 'package:wingle/features/onboarding/domain/constants/file_upload_constants.dart';
 import 'package:wingle/features/onboarding/presentation/models/profile_details_model.dart';
 import 'package:wingle/features/onboarding/presentation/providers/file_repository_provider.dart';
+import 'package:wingle/features/onboarding/presentation/providers/profile_repository_provider.dart';
 
 part 'profile_details_provider.g.dart';
 
@@ -291,6 +292,89 @@ class ProfileDetails extends _$ProfileDetails {
     }
 
     return _saveProfileState(state);
+  }
+
+  /// 자기소개 입력값을 갱신하고 로컬 draft에 저장한다.
+  void updateSelfIntroduction(String value) {
+    final normalizedValue =
+        value.length > ProfileDetailsModel.selfIntroductionMaxLength
+        ? value.substring(0, ProfileDetailsModel.selfIntroductionMaxLength)
+        : value;
+    final nextState = state.copyWith(
+      selfIntroduction: normalizedValue,
+      submitErrorMessage: null,
+    );
+
+    if (identical(nextState, state) || nextState == state) return;
+
+    state = nextState;
+    _persistCurrentState();
+  }
+
+  /// 자기소개 단계 입력값을 저장한다.
+  Future<bool> saveSelfIntroduction() {
+    if (!state.canContinueSelfIntroduction) {
+      state = state.copyWith(
+        isSubmitting: false,
+        submitErrorMessage: ApiErrorMessages.submitProfileDetailsFailed,
+      );
+      return Future.value(false);
+    }
+
+    return _saveProfileState(
+      state.copyWith(selfIntroduction: state.selfIntroduction.trim()),
+    );
+  }
+
+  /// 상세 프로필 전체를 API에 등록한다.
+  Future<bool> submitProfileDetails() async {
+    final mbti = state.mbti;
+    final selfIntroduction = state.selfIntroduction.trim();
+    if (mbti == null ||
+        selfIntroduction.isEmpty ||
+        !state.canContinueStylePhotos ||
+        !state.canContinueFacePhotos ||
+        selfIntroduction.length >
+            ProfileDetailsModel.selfIntroductionMaxLength) {
+      state = state.copyWith(
+        isSubmitting: false,
+        submitErrorMessage: ApiErrorMessages.submitProfileDetailsFailed,
+      );
+      return false;
+    }
+
+    final nextState = state.copyWith(
+      selfIntroduction: selfIntroduction,
+      isSubmitting: true,
+      submitErrorMessage: null,
+    );
+    state = nextState;
+
+    try {
+      await ref
+          .read(profileRepositoryProvider)
+          .submitProfileDetails(
+            mbti: mbti,
+            selfIntroduction: selfIntroduction,
+            mainStylePhotoKey: nextState.mainStylePhotoKey,
+            subStylePhotoKeys: nextState.subStylePhotoKeys,
+            mainFacePhotoKey: nextState.mainFacePhotoKey,
+            subFacePhotoKeys: nextState.subFacePhotoKeys,
+          );
+      await _saveProfileDetails(_profileFromModel(nextState));
+      if (!ref.mounted) return false;
+
+      state = nextState.copyWith(isSubmitting: false, submitErrorMessage: null);
+      return true;
+    } catch (_) {
+      if (!ref.mounted) return false;
+
+      state = nextState.copyWith(
+        isSubmitting: false,
+        submitErrorMessage: ApiErrorMessages.submitProfileDetailsFailed,
+      );
+      return false;
+    }
   }
 
   void _persistCurrentState() {

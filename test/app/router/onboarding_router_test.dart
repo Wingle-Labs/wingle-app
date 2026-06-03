@@ -40,6 +40,10 @@ void main() {
         OnboardingRoutes.profileFacePhotos.fullPath,
       );
       expect(
+        router.namedLocation(OnboardingRoutes.profileSelfIntroduction.name),
+        OnboardingRoutes.profileSelfIntroduction.fullPath,
+      );
+      expect(
         router.namedLocation(OnboardingRoutes.approvalPending.name),
         OnboardingRoutes.approvalPending.fullPath,
       );

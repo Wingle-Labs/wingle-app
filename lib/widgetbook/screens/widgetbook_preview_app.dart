@@ -17,7 +17,9 @@ import 'package:wingle/features/onboarding/presentation/page/basic_profile_compa
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_height_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_nickname_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_occupation_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/basic_profile_photo_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_residence_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/basic_profile_self_introduction_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/login_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/onboarding_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/onboarding_password_page.dart';
@@ -143,6 +145,21 @@ class _WidgetbookPreviewAppState extends State<WidgetbookPreviewApp> {
           path: OnboardingRoutes.basicProfileCompanyEmail.fullPath,
           name: OnboardingRoutes.basicProfileCompanyEmail.name,
           builder: (context, state) => const BasicProfileCompanyEmailPage(),
+        ),
+        GoRoute(
+          path: OnboardingRoutes.profileStylePhotos.fullPath,
+          name: OnboardingRoutes.profileStylePhotos.name,
+          builder: (context, state) => const BasicProfileStylePhotoPage(),
+        ),
+        GoRoute(
+          path: OnboardingRoutes.profileFacePhotos.fullPath,
+          name: OnboardingRoutes.profileFacePhotos.name,
+          builder: (context, state) => const BasicProfileFacePhotoPage(),
+        ),
+        GoRoute(
+          path: OnboardingRoutes.profileSelfIntroduction.fullPath,
+          name: OnboardingRoutes.profileSelfIntroduction.name,
+          builder: (context, state) => const BasicProfileSelfIntroductionPage(),
         ),
         GoRoute(
           path: OnboardingRoutes.login.fullPath,

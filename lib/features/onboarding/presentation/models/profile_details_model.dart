@@ -11,6 +11,21 @@ enum ProfilePhotoType {
   face,
 }
 
+/// 자기소개 성실도 표시 상태.
+enum SelfIntroductionQuality {
+  /// 입력된 내용이 없음.
+  empty,
+
+  /// 짧은 글.
+  short,
+
+  /// 보통 길이의 글.
+  normal,
+
+  /// 충분한 길이의 글.
+  appropriate,
+}
+
 /// 상세 프로필 사진 입력값.
 class ProfilePhotoInput {
   /// S3 object key.
@@ -36,6 +51,15 @@ class ProfilePhotoInput {
 
 /// 상세 프로필 입력 상태.
 class ProfileDetailsModel {
+  /// 자기소개 최대 글자 수.
+  static const int selfIntroductionMaxLength = 1000;
+
+  /// 자기소개 보통 상태 기준 글자 수.
+  static const int selfIntroductionNormalMinLength = 50;
+
+  /// 자기소개 적정 상태 기준 글자 수.
+  static const int selfIntroductionAppropriateMinLength = 200;
+
   /// 첫 번째 MBTI 축: E/I.
   final String? energy;
 
@@ -95,6 +119,28 @@ class ProfileDetailsModel {
 
   /// 얼굴 사진 입력 단계 진행 가능 여부.
   bool get canContinueFacePhotos => facePhotos.isNotEmpty;
+
+  /// 자기소개 입력 단계 진행 가능 여부.
+  bool get canContinueSelfIntroduction {
+    final text = selfIntroduction.trim();
+    return text.isNotEmpty && text.length <= selfIntroductionMaxLength;
+  }
+
+  /// 자기소개 글자 수.
+  int get selfIntroductionLength => selfIntroduction.length;
+
+  /// 자기소개 성실도 표시 상태.
+  SelfIntroductionQuality get selfIntroductionQuality {
+    final length = selfIntroduction.trim().length;
+    if (length == 0) return SelfIntroductionQuality.empty;
+    if (length < selfIntroductionNormalMinLength) {
+      return SelfIntroductionQuality.short;
+    }
+    if (length < selfIntroductionAppropriateMinLength) {
+      return SelfIntroductionQuality.normal;
+    }
+    return SelfIntroductionQuality.appropriate;
+  }
 
   /// 대표 스타일 사진 key.
   String? get mainStylePhotoKey =>

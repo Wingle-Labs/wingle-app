@@ -210,6 +210,22 @@
       "profileDetails": {
         "mbtiTitle": "What is your MBTI?"
       },
+      "selfIntroduction": {
+        "appBarTitle": "Introduction",
+        "title": "Write an honest introduction\nthat leaves your first impression",
+        "subtitle": "A thoughtful introduction can increase your matching chances.",
+        "label": "Introduction",
+        "hint": "Write at least 200 characters",
+        "counter": "{count}/{max} chars",
+        "guide": "Introduction examples",
+        "guideUnavailable": "Introduction examples are coming soon.",
+        "quality": {
+          "empty": "Empty",
+          "short": "Short",
+          "normal": "Normal",
+          "appropriate": "Good"
+        }
+      },
       "profilePhoto": {
         "appBarTitle": "Photo upload",
         "styleTitle": "Upload at least 1 photo\nthat shows your style",
