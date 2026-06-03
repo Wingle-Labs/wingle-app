@@ -148,7 +148,7 @@ class _BasicProfileSelfIntroductionPageState
 }
 
 class _SelfIntroductionInput extends StatelessWidget {
-  static const double _fieldHeight = 400;
+  static const int _fieldMinLines = 4;
   static const double _qualityWidth = 64;
   static const double _counterWidth = 96;
 
@@ -207,37 +207,34 @@ class _SelfIntroductionInput extends StatelessWidget {
           ],
         ),
         const SizedBox(height: AppSpacing.s12),
-        SizedBox(
-          height: _fieldHeight,
-          child: TextFormField(
-            controller: controller,
-            inputFormatters: [
-              LengthLimitingTextInputFormatter(
-                ProfileDetailsModel.selfIntroductionMaxLength,
-              ),
-            ],
-            keyboardType: TextInputType.multiline,
-            maxLines: null,
-            expands: true,
-            textAlignVertical: TextAlignVertical.top,
-            onChanged: onChanged,
-            cursorColor: colors.primaryNormal,
-            cursorErrorColor: colors.statusNegative,
-            cursorWidth: AppLineWidth.inputFieldCursor,
-            style: typography.body.copyWith(color: colors.textNormal),
-            decoration: InputDecoration(
-              hintText: 'onboarding.basicProfile.selfIntroduction.hint'.tr(),
-              hintStyle: typography.body.copyWith(color: colors.textAssistive),
-              filled: true,
-              fillColor: colors.backgroundNormal,
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: AppComponentPadding.inputHorizontal,
-                vertical: AppComponentPadding.inputVertical,
-              ),
-              enabledBorder: _border(colors.strokeStructuralBorder),
-              focusedBorder: _border(colors.strokeStructuralBorder),
-              border: _border(colors.strokeStructuralBorder),
+        TextFormField(
+          controller: controller,
+          inputFormatters: [
+            LengthLimitingTextInputFormatter(
+              ProfileDetailsModel.selfIntroductionMaxLength,
             ),
+          ],
+          keyboardType: TextInputType.multiline,
+          minLines: _fieldMinLines,
+          maxLines: null,
+          textAlignVertical: TextAlignVertical.top,
+          onChanged: onChanged,
+          cursorColor: colors.primaryNormal,
+          cursorErrorColor: colors.statusNegative,
+          cursorWidth: AppLineWidth.inputFieldCursor,
+          style: typography.body.copyWith(color: colors.textNormal),
+          decoration: InputDecoration(
+            hintText: 'onboarding.basicProfile.selfIntroduction.hint'.tr(),
+            hintStyle: typography.body.copyWith(color: colors.textAssistive),
+            filled: true,
+            fillColor: colors.backgroundNormal,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: AppComponentPadding.inputHorizontal,
+              vertical: AppComponentPadding.inputVertical,
+            ),
+            enabledBorder: _border(colors.strokeStructuralBorder),
+            focusedBorder: _border(colors.strokeStructuralBorder),
+            border: _border(colors.strokeStructuralBorder),
           ),
         ),
       ],

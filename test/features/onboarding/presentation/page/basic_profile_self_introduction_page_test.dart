@@ -49,6 +49,39 @@ void main() {
     expect(button.onPressed, isNull);
   });
 
+  testWidgets('자기소개 입력 필드는 4줄로 시작하고 입력 줄 수에 따라 높이가 바뀐다', (tester) async {
+    _setMobileViewport(tester);
+
+    await tester.pumpWidget(
+      _testApp(home: const BasicProfileSelfIntroductionPage()),
+    );
+    await tester.pump();
+
+    final fieldFinder = find.byType(TextFormField);
+    final field = tester.widget<EditableText>(find.byType(EditableText));
+    expect(field.minLines, 4);
+    expect(field.maxLines, isNull);
+    expect(field.expands, isFalse);
+
+    final initialHeight = tester.getSize(fieldFinder).height;
+
+    await tester.enterText(
+      fieldFinder,
+      List.generate(10, (index) => '자기소개 ${index + 1}번째 줄').join('\n'),
+    );
+    await tester.pump();
+
+    final expandedHeight = tester.getSize(fieldFinder).height;
+    expect(expandedHeight, greaterThan(initialHeight));
+
+    await tester.enterText(fieldFinder, '짧은 자기소개');
+    await tester.pump();
+
+    final collapsedHeight = tester.getSize(fieldFinder).height;
+    expect(collapsedHeight, lessThan(expandedHeight));
+    expect(collapsedHeight, closeTo(initialHeight, 0.1));
+  });
+
   testWidgets('짧은 자기소개도 저장하고 상세 프로필 API 제출 후 다음 체인으로 이동한다', (tester) async {
     _setMobileViewport(tester);
     final router = _selfIntroductionRouter();
