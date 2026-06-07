@@ -23,6 +23,7 @@ import 'package:wingle/features/onboarding/presentation/page/pass_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/pass_webview_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/profile_approval_pending_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/profile_approval_request_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/profile_rejected_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/required_self_intro.dart';
 import 'package:wingle/features/onboarding/presentation/page/selective_self_intro.dart';
 import 'package:wingle/features/onboarding/route/onboarding_route_chain.dart';
@@ -131,13 +132,7 @@ final List<GoRoute> loginRoutes = [
   GoRoute(
     name: OnboardingRoutes.profileRejected.name,
     path: OnboardingRoutes.profileRejected.path,
-    builder: (context, state) => const OnboardingStatusPlaceholderPage(
-      title: '프로필 재심사',
-      description: '거절 사유 확인과 재심사 요청 화면을 연결할 단계입니다.',
-      status: 'PROFILE_REJECTED',
-      routeFlow: OnboardingRouteFlow.profileInput,
-      currentRoute: OnboardingRoutes.profileRejected,
-    ),
+    builder: (context, state) => const ProfileRejectedPage(),
   ),
   GoRoute(
     name: OnboardingRoutes.choiceQuestions.name,

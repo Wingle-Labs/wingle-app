@@ -4,7 +4,12 @@
       "clear": "지우기"
     },
     "button": {
-      "next": "다음"
+      "next": "다음",
+      "edit": "수정하기",
+      "retry": "다시 시도",
+      "request": "요청하기",
+      "cancel": "취소",
+      "reapply": "재심사 요청"
     },
     "helper": {
       "selfIntroMinLength": "최소 100자 이상 부탁드려요"
@@ -83,6 +88,15 @@
       "title": "프로필 신청 완료",
       "subtitle": "관리자가 승인 후 가입이 완료됩니다.",
       "start": "시작하기"
+    },
+    "profileRejected": {
+      "appBarTitle": "프로필 재심사",
+      "title": "프로필 심사가 반려되었어요",
+      "subtitle": "아래 사유를 수정한 뒤 재심사를 요청해주세요.",
+      "emptyReason": "확인 가능한 거절 사유가 없습니다.",
+      "defaultCategory": "기타",
+      "confirmTitle": "재심사를 요청할까요?",
+      "confirmSubtitle": "수정한 내용으로 다시 심사를 요청합니다."
     },
     "button": {
       "login": "이미 계정이 있어요",

@@ -4,7 +4,12 @@
       "clear": "지우기"
     },
     "button": {
-      "next": "다음"
+      "next": "Next",
+      "edit": "Edit",
+      "retry": "Retry",
+      "request": "Request",
+      "cancel": "Cancel",
+      "reapply": "Request review"
     },
     "helper": {
       "selfIntroMinLength": "최소 100자 이상 부탁드려요"
@@ -83,6 +88,15 @@
       "title": "Profile submitted",
       "subtitle": "Your signup will be completed after admin approval.",
       "start": "Start"
+    },
+    "profileRejected": {
+      "appBarTitle": "Profile review",
+      "title": "Your profile review was rejected",
+      "subtitle": "Update the items below, then request another review.",
+      "emptyReason": "No rejection reason is available.",
+      "defaultCategory": "Other",
+      "confirmTitle": "Request another review?",
+      "confirmSubtitle": "We'll submit your updated profile for review."
     },
     "button": {
       "login": "이미 계정이 있어요",

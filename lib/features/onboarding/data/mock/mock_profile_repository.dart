@@ -157,7 +157,13 @@ class MockProfileRepository implements ProfileRepository {
   Future<RejectionReason> fetchRejectionReason() async {
     await Future<void>.delayed(const Duration(milliseconds: 10));
     return const RejectionReason(
-      reason: '프로필 사진이 기준에 맞지 않습니다.',
+      reasons: [
+        RejectionReasonItem(
+          code: 'FACE_PHOTO_INAPPROPRIATE',
+          categoryDisplayName: '얼굴 사진',
+          description: '프로필 사진이 기준에 맞지 않습니다.',
+        ),
+      ],
       reviewedAt: '2026-05-01T14:30:00',
     );
   }
