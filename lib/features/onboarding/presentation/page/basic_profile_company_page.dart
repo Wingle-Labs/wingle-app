@@ -47,6 +47,7 @@ class _BasicProfileCompanyPageState
   Widget build(BuildContext context) {
     final state = ref.watch(jobProfileProvider);
     final notifier = ref.read(jobProfileProvider.notifier);
+    final isRejectionEditMode = isOnboardingRejectionEditMode();
 
     ref.listen(jobProfileProvider, (previous, next) {
       if (_companyFocusNode.hasFocus ||
@@ -69,7 +70,9 @@ class _BasicProfileCompanyPageState
       totalSteps: BasicProfileInputConstants.totalSteps,
       title: 'onboarding.basicProfile.company.title',
       subtitle: 'onboarding.basicProfile.company.subtitle',
-      buttonLabel: 'common.button.next',
+      buttonLabel: isRejectionEditMode
+          ? 'common.button.saveEdit'
+          : 'common.button.next',
       isLoading: state.isSubmitting,
       disabled: state.isSubmitting || !state.canContinueCompany,
       canPop: false,

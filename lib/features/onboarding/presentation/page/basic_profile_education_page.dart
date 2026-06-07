@@ -97,13 +97,16 @@ class _BasicProfileEducationPageState
     }
 
     final canContinue = _canContinue(state);
+    final isRejectionEditMode = isOnboardingRejectionEditMode();
 
     return BasicProfileInputScaffold(
       currentStep: BasicProfileInputConstants.educationStep,
       totalSteps: BasicProfileInputConstants.totalSteps,
       title: _titleKey,
       subtitle: _subtitleKey,
-      buttonLabel: 'common.button.next',
+      buttonLabel: isRejectionEditMode
+          ? 'common.button.saveEdit'
+          : 'common.button.next',
       isLoading: state.isSubmitting,
       disabled: state.isSubmitting || !canContinue,
       canPop: false,

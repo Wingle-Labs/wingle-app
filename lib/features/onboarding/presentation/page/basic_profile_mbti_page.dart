@@ -26,6 +26,7 @@ class BasicProfileMbtiPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(profileDetailsProvider);
     final notifier = ref.read(profileDetailsProvider.notifier);
+    final isRejectionEditMode = isOnboardingRejectionEditMode();
 
     void navigatePrevious() {
       OnboardingRouteChain.goPrevious(
@@ -40,7 +41,9 @@ class BasicProfileMbtiPage extends ConsumerWidget {
       totalSteps: BasicProfileInputConstants.totalSteps,
       title: 'onboarding.basicProfile.profileDetails.mbtiTitle',
       subtitle: null,
-      buttonLabel: 'common.button.next',
+      buttonLabel: isRejectionEditMode
+          ? 'common.button.saveEdit'
+          : 'common.button.next',
       isLoading: state.isSubmitting,
       disabled: state.isSubmitting || !state.canContinueMbti,
       canPop: false,
@@ -59,6 +62,28 @@ class BasicProfileMbtiPage extends ConsumerWidget {
             context,
             ref.read(profileDetailsProvider).submitErrorMessage ??
                 ApiErrorMessages.submitProfileDetailsFailed,
+          );
+          return;
+        }
+
+        if (isRejectionEditMode) {
+          final submitted = await notifier.submitProfileDetails(
+            forceUpdate: true,
+          );
+          if (!context.mounted) return;
+
+          if (!submitted) {
+            DefaultToast.show(
+              context,
+              ref.read(profileDetailsProvider).submitErrorMessage ??
+                  ApiErrorMessages.submitProfileDetailsFailed,
+            );
+            return;
+          }
+
+          goRejectedReviewOrNamed(
+            context,
+            OnboardingRoutes.profileRejected.name,
           );
           return;
         }

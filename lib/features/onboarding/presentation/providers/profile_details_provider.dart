@@ -337,37 +337,38 @@ class ProfileDetails extends _$ProfileDetails {
     );
   }
 
-  /// 상세 프로필 전체를 API에 등록한다.
-  Future<bool> submitProfileDetails() async {
-    final mbti = state.mbti;
+  /// 상세 프로필 전체를 API에 등록하거나 수정한다.
+  Future<bool> submitProfileDetails({bool forceUpdate = false}) async {
     final selfIntroduction = state.selfIntroduction.trim();
-    if (mbti == null ||
-        selfIntroduction.isEmpty ||
-        !state.canContinueStylePhotos ||
-        !state.canContinueFacePhotos ||
-        selfIntroduction.length >
-            ProfileDetailsModel.selfIntroductionMaxLength) {
-      state = state.copyWith(
-        isSubmitting: false,
-        submitErrorMessage: ApiErrorMessages.submitProfileDetailsFailed,
-      );
-      return false;
-    }
-
-    final nextState = state.copyWith(
+    var nextState = state.copyWith(
       selfIntroduction: selfIntroduction,
       isSubmitting: true,
       submitErrorMessage: null,
     );
     state = nextState;
-    final shouldUpdate = _readProfileStatus().hasCompletedProfileDetails;
 
     try {
       final repository = ref.read(profileRepositoryProvider);
+      nextState = await _backfillMissingSubmissionFields(nextState);
+      if (!ref.mounted) return false;
+
+      if (!_canSubmitProfileDetails(nextState)) {
+        state = nextState.copyWith(
+          isSubmitting: false,
+          submitErrorMessage: ApiErrorMessages.submitProfileDetailsFailed,
+        );
+        return false;
+      }
+
+      state = nextState;
+      final mbti = nextState.mbti!;
+      final submittedSelfIntroduction = nextState.selfIntroduction.trim();
+      final shouldUpdate =
+          forceUpdate || _readProfileStatus().hasCompletedProfileDetails;
       if (shouldUpdate) {
         await repository.updateProfileDetails(
           mbti: mbti,
-          selfIntroduction: selfIntroduction,
+          selfIntroduction: submittedSelfIntroduction,
           mainStylePhotoKey: nextState.mainStylePhotoKey,
           subStylePhotoKeys: nextState.subStylePhotoKeys,
           mainFacePhotoKey: nextState.mainFacePhotoKey,
@@ -376,7 +377,7 @@ class ProfileDetails extends _$ProfileDetails {
       } else {
         await repository.submitProfileDetails(
           mbti: mbti,
-          selfIntroduction: selfIntroduction,
+          selfIntroduction: submittedSelfIntroduction,
           mainStylePhotoKey: nextState.mainStylePhotoKey,
           subStylePhotoKeys: nextState.subStylePhotoKeys,
           mainFacePhotoKey: nextState.mainFacePhotoKey,
@@ -396,6 +397,61 @@ class ProfileDetails extends _$ProfileDetails {
         submitErrorMessage: ApiErrorMessages.submitProfileDetailsFailed,
       );
       return false;
+    }
+  }
+
+  bool _canSubmitProfileDetails(ProfileDetailsModel model) {
+    final selfIntroduction = model.selfIntroduction.trim();
+    return model.mbti != null &&
+        selfIntroduction.isNotEmpty &&
+        model.canContinueStylePhotos &&
+        model.canContinueFacePhotos &&
+        selfIntroduction.length <=
+            ProfileDetailsModel.selfIntroductionMaxLength;
+  }
+
+  Future<ProfileDetailsModel> _backfillMissingSubmissionFields(
+    ProfileDetailsModel currentState,
+  ) async {
+    if (_canSubmitProfileDetails(currentState)) {
+      return currentState;
+    }
+
+    try {
+      final snapshot = await ref
+          .read(profileRepositoryProvider)
+          .fetchMyProfile();
+      final profileDetails = snapshot?.profileDetails;
+      if (profileDetails == null) {
+        return currentState;
+      }
+
+      final serverState = _modelFromLoginProfile(profileDetails);
+      return currentState.copyWith(
+        energy: currentState.canContinueMbti
+            ? currentState.energy
+            : serverState.energy,
+        perception: currentState.canContinueMbti
+            ? currentState.perception
+            : serverState.perception,
+        decision: currentState.canContinueMbti
+            ? currentState.decision
+            : serverState.decision,
+        lifestyle: currentState.canContinueMbti
+            ? currentState.lifestyle
+            : serverState.lifestyle,
+        selfIntroduction: _nonEmpty(currentState.selfIntroduction) == null
+            ? serverState.selfIntroduction
+            : currentState.selfIntroduction,
+        stylePhotos: currentState.stylePhotos.isEmpty
+            ? serverState.stylePhotos
+            : currentState.stylePhotos,
+        facePhotos: currentState.facePhotos.isEmpty
+            ? serverState.facePhotos
+            : currentState.facePhotos,
+      );
+    } catch (_) {
+      return currentState;
     }
   }
 

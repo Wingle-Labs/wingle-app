@@ -57,6 +57,7 @@ class _BasicProfileSelfIntroductionPageState
   Widget build(BuildContext context) {
     final state = ref.watch(profileDetailsProvider);
     final notifier = ref.read(profileDetailsProvider.notifier);
+    final isRejectionEditMode = isOnboardingRejectionEditMode();
 
     void navigatePrevious() {
       OnboardingRouteChain.goPrevious(
@@ -80,7 +81,9 @@ class _BasicProfileSelfIntroductionPageState
         onBackPressed: navigatePrevious,
       ),
       floatingActionButton: DefaultFloatingButton(
-        label: 'common.button.next',
+        label: isRejectionEditMode
+            ? 'common.button.saveEdit'
+            : 'common.button.next',
         isLoading: state.isSubmitting,
         disabled: state.isSubmitting || !state.canContinueSelfIntroduction,
         onPressed: () async {
@@ -96,7 +99,9 @@ class _BasicProfileSelfIntroductionPageState
             return;
           }
 
-          final submitted = await notifier.submitProfileDetails();
+          final submitted = await notifier.submitProfileDetails(
+            forceUpdate: isRejectionEditMode,
+          );
           if (!context.mounted) return;
 
           if (!submitted) {
@@ -108,7 +113,7 @@ class _BasicProfileSelfIntroductionPageState
             return;
           }
 
-          if (isOnboardingRejectionEditMode()) {
+          if (isRejectionEditMode) {
             context.goNamed(OnboardingRoutes.profileRejected.name);
             return;
           }

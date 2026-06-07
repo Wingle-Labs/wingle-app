@@ -9,7 +9,8 @@
       "retry": "Retry",
       "request": "Request",
       "cancel": "Cancel",
-      "reapply": "Request review"
+      "reapply": "Request review",
+      "saveEdit": "Save changes"
     },
     "helper": {
       "selfIntroMinLength": "최소 100자 이상 부탁드려요"

@@ -10,6 +10,7 @@ import 'package:wingle/common/constants/hive_constants.dart';
 import 'package:wingle/common/utils/hive_util.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_details.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
+import 'package:wingle/features/auth/domain/models/my_profile_snapshot.dart';
 import 'package:wingle/features/onboarding/data/mock/mock_file_repository.dart';
 import 'package:wingle/features/onboarding/data/mock/mock_profile_repository.dart';
 import 'package:wingle/features/onboarding/domain/model/file/file_models.dart';
@@ -437,6 +438,54 @@ void main() {
     expect(profileRepository.submittedSelfIntroduction, '수정한 자기소개');
   });
 
+  test('반려 수정 저장 시 누락된 상세 필드를 내 프로필 조회 값으로 채운 뒤 수정 API를 호출한다', () async {
+    await HiveUtil.write(
+      key: HiveLoginBox.profileStatus,
+      value: LoginProfileStatus.profileRejected.apiValue,
+    );
+    final profileRepository = _RecordingProfileRepository(
+      snapshotOverride: const MyProfileSnapshot(
+        profileDetails: LoginProfileDetails(
+          mbti: 'INFP',
+          selfIntroduction: '기존 자기소개',
+          mainStylePhotoKey: 'users/1/style/existing.webp',
+          mainFacePhotoKey: 'users/1/face/existing.webp',
+        ),
+      ),
+    );
+    final persistence = _MemoryProfileDetailsPersistence();
+    final container = ProviderContainer(
+      overrides: [
+        profileRepositoryProvider.overrideWithValue(profileRepository),
+        profileDetailsPersistenceProvider.overrideWithValue(persistence),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    final notifier = container.read(profileDetailsProvider.notifier);
+    notifier.selectMbtiLetter('E');
+    notifier.selectMbtiLetter('S');
+    notifier.selectMbtiLetter('T');
+    notifier.selectMbtiLetter('J');
+
+    final success = await notifier.submitProfileDetails(forceUpdate: true);
+
+    expect(success, isTrue);
+    expect(profileRepository.didSubmitProfileDetails, isFalse);
+    expect(profileRepository.didUpdateProfileDetails, isTrue);
+    expect(profileRepository.submittedMbti, 'ESTJ');
+    expect(profileRepository.submittedSelfIntroduction, '기존 자기소개');
+    expect(
+      profileRepository.submittedMainStylePhotoKey,
+      'users/1/style/existing.webp',
+    );
+    expect(
+      profileRepository.submittedMainFacePhotoKey,
+      'users/1/face/existing.webp',
+    );
+    expect(persistence.profile?.mbti, 'ESTJ');
+  });
+
   test('프로필 심사 요청 성공 시 로컬 상태를 심사 대기로 저장한다', () async {
     final persistence = _MemoryProfileDetailsPersistence();
     final profileRepository = _RecordingProfileRepository();
@@ -517,6 +566,10 @@ class _RecordingProfilePhotoFileRepository extends MockFileRepository {
 }
 
 class _RecordingProfileRepository extends MockProfileRepository {
+  final MyProfileSnapshot? snapshotOverride;
+
+  _RecordingProfileRepository({this.snapshotOverride});
+
   String? submittedMbti;
   String? submittedSelfIntroduction;
   String? submittedMainStylePhotoKey;
@@ -526,6 +579,11 @@ class _RecordingProfileRepository extends MockProfileRepository {
   bool didSubmitProfileDetails = false;
   bool didUpdateProfileDetails = false;
   bool didRequestProfileApproval = false;
+
+  @override
+  Future<MyProfileSnapshot?> fetchMyProfile() async {
+    return snapshotOverride ?? super.fetchMyProfile();
+  }
 
   @override
   Future<void> submitProfileDetails({

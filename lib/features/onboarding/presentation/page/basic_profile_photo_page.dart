@@ -116,6 +116,7 @@ class _BasicProfilePhotoPageState
     final notifier = ref.read(profileDetailsProvider.notifier);
     final config = _ProfilePhotoPageConfig.fromType(widget.type);
     final actionsDisabled = state.isSubmitting;
+    final isRejectionEditMode = isOnboardingRejectionEditMode();
 
     void navigatePrevious() {
       OnboardingRouteChain.goPrevious(
@@ -139,7 +140,9 @@ class _BasicProfilePhotoPageState
         onBackPressed: navigatePrevious,
       ),
       floatingActionButton: DefaultFloatingButton(
-        label: 'common.button.next',
+        label: isRejectionEditMode
+            ? 'common.button.saveEdit'
+            : 'common.button.next',
         isLoading: state.isSubmitting,
         disabled: actionsDisabled || !_canContinue,
         onPressed: () => _handleNext(notifier, config),
@@ -209,6 +212,23 @@ class _BasicProfilePhotoPageState
         ref.read(profileDetailsProvider).submitErrorMessage ??
             ApiErrorMessages.submitProfileDetailsFailed,
       );
+      return;
+    }
+
+    if (isOnboardingRejectionEditMode()) {
+      final submitted = await notifier.submitProfileDetails(forceUpdate: true);
+      if (!mounted) return;
+
+      if (!submitted) {
+        DefaultToast.show(
+          context,
+          ref.read(profileDetailsProvider).submitErrorMessage ??
+              ApiErrorMessages.submitProfileDetailsFailed,
+        );
+        return;
+      }
+
+      goRejectedReviewOrNamed(context, OnboardingRoutes.profileRejected.name);
       return;
     }
 

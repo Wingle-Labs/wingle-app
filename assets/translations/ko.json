@@ -9,7 +9,8 @@
       "retry": "다시 시도",
       "request": "요청하기",
       "cancel": "취소",
-      "reapply": "재심사 요청"
+      "reapply": "재심사 요청",
+      "saveEdit": "수정 완료"
     },
     "helper": {
       "selfIntroMinLength": "최소 100자 이상 부탁드려요"
