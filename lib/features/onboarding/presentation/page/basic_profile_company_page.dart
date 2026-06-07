@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/components/icons/default_icon.dart';
 import 'package:wingle/app/config/theme/components/states/default_toast.dart';
 import 'package:wingle/app/config/theme/components/text_fields/default_input_field.dart';
@@ -10,6 +9,7 @@ import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/features/onboarding/presentation/components/wrapper/basic_profile_input_scaffold.dart';
 import 'package:wingle/features/onboarding/presentation/constants/basic_profile_input_constants.dart';
 import 'package:wingle/features/onboarding/presentation/providers/job_profile_provider.dart';
+import 'package:wingle/features/onboarding/presentation/utils/onboarding_rejection_edit_mode.dart';
 import 'package:wingle/features/onboarding/route/onboarding_route_chain.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
@@ -84,7 +84,10 @@ class _BasicProfileCompanyPageState
         if (!context.mounted) return;
 
         if (success) {
-          context.pushNamed(OnboardingRoutes.basicProfileCompanyEmail.name);
+          goRejectedReviewOrPushNamed(
+            context,
+            OnboardingRoutes.basicProfileCompanyEmail.name,
+          );
         } else {
           DefaultToast.show(
             context,

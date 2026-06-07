@@ -4,7 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wingle/common/constants/api_error_messages.dart';
+import 'package:wingle/common/constants/hive_constants.dart';
 import 'package:wingle/common/utils/auth_session_persistence.dart';
+import 'package:wingle/common/utils/hive_util.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_details.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 import 'package:wingle/features/onboarding/domain/constants/file_upload_constants.dart';
@@ -358,18 +360,29 @@ class ProfileDetails extends _$ProfileDetails {
       submitErrorMessage: null,
     );
     state = nextState;
+    final shouldUpdate = _readProfileStatus().hasCompletedProfileDetails;
 
     try {
-      await ref
-          .read(profileRepositoryProvider)
-          .submitProfileDetails(
-            mbti: mbti,
-            selfIntroduction: selfIntroduction,
-            mainStylePhotoKey: nextState.mainStylePhotoKey,
-            subStylePhotoKeys: nextState.subStylePhotoKeys,
-            mainFacePhotoKey: nextState.mainFacePhotoKey,
-            subFacePhotoKeys: nextState.subFacePhotoKeys,
-          );
+      final repository = ref.read(profileRepositoryProvider);
+      if (shouldUpdate) {
+        await repository.updateProfileDetails(
+          mbti: mbti,
+          selfIntroduction: selfIntroduction,
+          mainStylePhotoKey: nextState.mainStylePhotoKey,
+          subStylePhotoKeys: nextState.subStylePhotoKeys,
+          mainFacePhotoKey: nextState.mainFacePhotoKey,
+          subFacePhotoKeys: nextState.subFacePhotoKeys,
+        );
+      } else {
+        await repository.submitProfileDetails(
+          mbti: mbti,
+          selfIntroduction: selfIntroduction,
+          mainStylePhotoKey: nextState.mainStylePhotoKey,
+          subStylePhotoKeys: nextState.subStylePhotoKeys,
+          mainFacePhotoKey: nextState.mainFacePhotoKey,
+          subFacePhotoKeys: nextState.subFacePhotoKeys,
+        );
+      }
       await _saveProfileDetails(_profileFromModel(nextState));
       if (!ref.mounted) return false;
 
@@ -518,6 +531,16 @@ class ProfileDetails extends _$ProfileDetails {
 
   void _ignorePersistenceFailure(Future<void> future) {
     unawaited(future.catchError((_) {}));
+  }
+
+  LoginProfileStatus _readProfileStatus() {
+    try {
+      return LoginProfileStatus.fromApiValue(
+        HiveUtil.read(HiveLoginBox.profileStatus),
+      );
+    } catch (_) {
+      return LoginProfileStatus.signupCompleted;
+    }
   }
 
   Future<void> _saveProfileDetails(LoginProfileDetails profile) {

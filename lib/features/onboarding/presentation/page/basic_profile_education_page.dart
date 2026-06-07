@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_radio.dart';
 import 'package:wingle/app/config/theme/components/icons/default_icon.dart';
@@ -23,6 +22,7 @@ import 'package:wingle/features/onboarding/presentation/constants/basic_profile_
 import 'package:wingle/features/onboarding/presentation/models/education_profile_model.dart';
 import 'package:wingle/features/onboarding/presentation/providers/education_profile_provider.dart';
 import 'package:wingle/features/onboarding/presentation/providers/university_codebook_provider.dart';
+import 'package:wingle/features/onboarding/presentation/utils/onboarding_rejection_edit_mode.dart';
 import 'package:wingle/features/onboarding/presentation/utils/upload_image_compressor.dart';
 import 'package:wingle/features/onboarding/route/onboarding_route_chain.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
@@ -294,7 +294,7 @@ class _BasicProfileEducationPageState
   }
 
   void _navigateToProfileDetails() {
-    context.pushNamed(OnboardingRoutes.profileDetails.name);
+    goRejectedReviewOrPushNamed(context, OnboardingRoutes.profileDetails.name);
   }
 
   Future<void> _pickCertificationImage(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/components/states/default_toast.dart';
 import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
@@ -14,6 +13,7 @@ import 'package:wingle/features/onboarding/presentation/components/wrapper/basic
 import 'package:wingle/features/onboarding/presentation/constants/basic_profile_input_constants.dart';
 import 'package:wingle/features/onboarding/presentation/models/profile_details_model.dart';
 import 'package:wingle/features/onboarding/presentation/providers/profile_details_provider.dart';
+import 'package:wingle/features/onboarding/presentation/utils/onboarding_rejection_edit_mode.dart';
 import 'package:wingle/features/onboarding/route/onboarding_route_chain.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
@@ -69,7 +69,7 @@ class BasicProfileMbtiPage extends ConsumerWidget {
         );
         if (next == null) return;
 
-        context.goNamed(next.name);
+        goRejectedReviewOrNamed(context, next.name);
       },
       child: _MbtiSelectionGrid(
         state: state,

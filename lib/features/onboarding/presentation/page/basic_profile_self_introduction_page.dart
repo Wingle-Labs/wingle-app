@@ -21,6 +21,7 @@ import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
 import 'package:wingle/features/onboarding/presentation/models/profile_details_model.dart';
 import 'package:wingle/features/onboarding/presentation/providers/profile_details_provider.dart';
+import 'package:wingle/features/onboarding/presentation/utils/onboarding_rejection_edit_mode.dart';
 import 'package:wingle/features/onboarding/route/onboarding_route_chain.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
@@ -104,6 +105,11 @@ class _BasicProfileSelfIntroductionPageState
               ref.read(profileDetailsProvider).submitErrorMessage ??
                   ApiErrorMessages.submitProfileDetailsFailed,
             );
+            return;
+          }
+
+          if (isOnboardingRejectionEditMode()) {
+            context.goNamed(OnboardingRoutes.profileRejected.name);
             return;
           }
 

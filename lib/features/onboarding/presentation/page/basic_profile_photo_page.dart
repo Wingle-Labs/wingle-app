@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_floating_button.dart';
 import 'package:wingle/app/config/theme/components/icons/default_icon.dart';
@@ -26,6 +25,7 @@ import 'package:wingle/features/onboarding/domain/constants/file_upload_constant
 import 'package:wingle/features/onboarding/presentation/models/profile_details_model.dart';
 import 'package:wingle/features/onboarding/presentation/providers/profile_details_provider.dart';
 import 'package:wingle/features/onboarding/presentation/providers/profile_photo_picker_provider.dart';
+import 'package:wingle/features/onboarding/presentation/utils/onboarding_rejection_edit_mode.dart';
 import 'package:wingle/features/onboarding/presentation/utils/upload_image_compressor.dart';
 import 'package:wingle/features/onboarding/route/onboarding_route_chain.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
@@ -218,7 +218,7 @@ class _BasicProfilePhotoPageState
     );
     if (next == null) return;
 
-    context.goNamed(next.name);
+    goRejectedReviewOrNamed(context, next.name);
   }
 
   Future<void> _pickPhotos(ProfileDetails notifier, int slotIndex) async {
