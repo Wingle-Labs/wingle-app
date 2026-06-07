@@ -33,24 +33,38 @@ class LoginProfileDetails {
     final detailJson = _asStringKeyedMap(json['profileDetails']);
     final snakeDetailJson = _asStringKeyedMap(json['profile_details']);
     final source = detailJson ?? snakeDetailJson ?? json;
+    final stylePhotoKeys = _photoKeys(
+      source['stylePhotos'] ?? source['style_photos'],
+    );
+    final facePhotoKeys = _photoKeys(
+      source['facePhotos'] ?? source['face_photos'],
+    );
+    final mainStylePhotoKey = _string(
+      source['mainStylePhotoKey'] ?? source['main_style_photo_key'],
+    );
+    final subStylePhotoKeys = _stringList(
+      source['subStylePhotoKeys'] ?? source['sub_style_photo_keys'],
+    );
+    final mainFacePhotoKey = _string(
+      source['mainFacePhotoKey'] ?? source['main_face_photo_key'],
+    );
+    final subFacePhotoKeys = _stringList(
+      source['subFacePhotoKeys'] ?? source['sub_face_photo_keys'],
+    );
 
     return LoginProfileDetails(
       mbti: _normalizeMbti(source['mbti']),
       selfIntroduction: _string(
         source['selfIntroduction'] ?? source['self_introduction'],
       ),
-      mainStylePhotoKey: _string(
-        source['mainStylePhotoKey'] ?? source['main_style_photo_key'],
-      ),
-      subStylePhotoKeys: _stringList(
-        source['subStylePhotoKeys'] ?? source['sub_style_photo_keys'],
-      ),
-      mainFacePhotoKey: _string(
-        source['mainFacePhotoKey'] ?? source['main_face_photo_key'],
-      ),
-      subFacePhotoKeys: _stringList(
-        source['subFacePhotoKeys'] ?? source['sub_face_photo_keys'],
-      ),
+      mainStylePhotoKey: mainStylePhotoKey ?? _firstOrNull(stylePhotoKeys),
+      subStylePhotoKeys: subStylePhotoKeys.isNotEmpty
+          ? subStylePhotoKeys
+          : _tail(stylePhotoKeys),
+      mainFacePhotoKey: mainFacePhotoKey ?? _firstOrNull(facePhotoKeys),
+      subFacePhotoKeys: subFacePhotoKeys.isNotEmpty
+          ? subFacePhotoKeys
+          : _tail(facePhotoKeys),
     );
   }
 
@@ -101,6 +115,112 @@ class LoginProfileDetails {
     return List<String>.unmodifiable(value.map(_string).whereType<String>());
   }
 
+  static List<String> _photoKeys(Object? value) {
+    if (value is! Iterable) return const <String>[];
+
+    final photos = <_ParsedPhoto>[];
+    var index = 0;
+    for (final item in value) {
+      final photo = _ParsedPhoto.from(item, index);
+      if (photo != null) {
+        photos.add(photo);
+      }
+      index += 1;
+    }
+
+    photos.sort((a, b) {
+      if (a.isMain != b.isMain) {
+        return a.isMain ? -1 : 1;
+      }
+
+      final sortOrder = a.sortOrder.compareTo(b.sortOrder);
+      if (sortOrder != 0) {
+        return sortOrder;
+      }
+
+      return a.index.compareTo(b.index);
+    });
+
+    return List<String>.unmodifiable(photos.map((photo) => photo.key));
+  }
+
+  static String? _photoKey(Object? value) {
+    final text = switch (value) {
+      final Map<dynamic, dynamic> map =>
+        _string(map['s3Key'] ?? map['s3_key']) ??
+            _string(map['key']) ??
+            _string(map['photoKey'] ?? map['photo_key']) ??
+            _string(map['objectKey'] ?? map['object_key']) ??
+            _string(map['presignedUrl'] ?? map['presigned_url']) ??
+            _string(map['url']),
+      _ => _string(value),
+    };
+    if (text == null) return null;
+
+    final usersIndex = text.indexOf('users/');
+    if (usersIndex >= 0) {
+      return text.substring(usersIndex).split('?').first;
+    }
+
+    final uri = Uri.tryParse(text);
+    if (uri != null && uri.hasAbsolutePath) {
+      final segments = uri.pathSegments;
+      final userSegmentIndex = segments.indexOf('users');
+      if (userSegmentIndex >= 0) {
+        return segments.sublist(userSegmentIndex).join('/');
+      }
+      if (segments.length > 1) {
+        return segments.skip(1).join('/');
+      }
+    }
+
+    return text.split('?').first;
+  }
+
+  static String? _firstOrNull(List<String> values) {
+    return values.isEmpty ? null : values.first;
+  }
+
+  static List<String> _tail(List<String> values) {
+    return values.length <= 1
+        ? const <String>[]
+        : List<String>.unmodifiable(values.skip(1));
+  }
+
   static bool _hasText(String? value) =>
       value != null && value.trim().isNotEmpty;
+}
+
+class _ParsedPhoto {
+  final String key;
+  final bool isMain;
+  final int sortOrder;
+  final int index;
+
+  const _ParsedPhoto({
+    required this.key,
+    required this.isMain,
+    required this.sortOrder,
+    required this.index,
+  });
+
+  static _ParsedPhoto? from(Object? value, int index) {
+    final key = LoginProfileDetails._photoKey(value);
+    if (key == null || key.isEmpty) {
+      return null;
+    }
+
+    final map = LoginProfileDetails._asStringKeyedMap(value);
+    return _ParsedPhoto(
+      key: key,
+      isMain: map?['isMain'] == true || map?['is_main'] == true,
+      sortOrder: _int(map?['sortOrder'] ?? map?['sort_order']) ?? index,
+      index: index,
+    );
+  }
+
+  static int? _int(Object? value) {
+    if (value is int) return value;
+    return int.tryParse(value?.toString() ?? '');
+  }
 }

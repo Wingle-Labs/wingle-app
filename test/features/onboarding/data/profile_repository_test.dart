@@ -166,6 +166,28 @@ void main() {
               'mbti': 'INFP',
               'selfIntroduction': '안녕하세요.',
               'onboardingStatus': 'JOB_INFO_COMPLETED',
+              'stylePhotos': [
+                {
+                  'presignedUrl':
+                      'https://storage.wingle.kr/wingle-prod-private/users/10/style/sub.webp?X-Amz-Signature=sub',
+                  'isMain': false,
+                  'sortOrder': 1,
+                },
+                {
+                  'presignedUrl':
+                      'https://storage.wingle.kr/wingle-prod-private/users/10/style/main.webp?X-Amz-Signature=main',
+                  'isMain': true,
+                  'sortOrder': 0,
+                },
+              ],
+              'facePhotos': [
+                {
+                  'presignedUrl':
+                      'https://storage.wingle.kr/wingle-prod-private/users/10/face/main.webp?X-Amz-Signature=face',
+                  'isMain': true,
+                  'sortOrder': 0,
+                },
+              ],
               'job': {
                 'company': '삼성전자',
                 'occupationCode': 'J103',
@@ -202,6 +224,17 @@ void main() {
       expect(snapshot?.educationProfile?.universityCode, 'U001');
       expect(snapshot?.profileDetails?.mbti, 'INFP');
       expect(snapshot?.profileDetails?.selfIntroduction, '안녕하세요.');
+      expect(
+        snapshot?.profileDetails?.mainStylePhotoKey,
+        'users/10/style/main.webp',
+      );
+      expect(snapshot?.profileDetails?.subStylePhotoKeys, [
+        'users/10/style/sub.webp',
+      ]);
+      expect(
+        snapshot?.profileDetails?.mainFacePhotoKey,
+        'users/10/face/main.webp',
+      );
       expect(profile?.nickname, '서버 닉네임');
       expect(profile?.residenceCode, 'R_31193620');
       expect(profile?.height, 175);
