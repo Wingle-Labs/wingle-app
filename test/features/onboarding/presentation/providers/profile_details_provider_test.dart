@@ -387,6 +387,56 @@ void main() {
     expect(persistence.profile?.selfIntroduction, '반가워요');
   });
 
+  test('상세 프로필 완료 이후 제출 시 수정 API를 호출한다', () async {
+    await HiveUtil.write(
+      key: HiveLoginBox.profileStatus,
+      value: LoginProfileStatus.profileCompleted.apiValue,
+    );
+    final profileRepository = _RecordingProfileRepository();
+    final persistence = _MemoryProfileDetailsPersistence();
+    final container = ProviderContainer(
+      overrides: [
+        profileRepositoryProvider.overrideWithValue(profileRepository),
+        profileDetailsPersistenceProvider.overrideWithValue(persistence),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    final notifier = container.read(profileDetailsProvider.notifier);
+    notifier.selectMbtiLetter('E');
+    notifier.selectMbtiLetter('N');
+    notifier.selectMbtiLetter('F');
+    notifier.selectMbtiLetter('P');
+    await notifier.replacePhotos(
+      type: ProfilePhotoType.style,
+      photos: const [
+        ProfilePhotoInput(
+          s3Key: 'users/1/style/main.webp',
+          name: 'main.webp',
+          contentType: 'image/webp',
+        ),
+      ],
+    );
+    await notifier.replacePhotos(
+      type: ProfilePhotoType.face,
+      photos: const [
+        ProfilePhotoInput(
+          s3Key: 'users/1/face/main.webp',
+          name: 'face.webp',
+          contentType: 'image/webp',
+        ),
+      ],
+    );
+    notifier.updateSelfIntroduction('수정한 자기소개');
+
+    final success = await notifier.submitProfileDetails();
+
+    expect(success, isTrue);
+    expect(profileRepository.didSubmitProfileDetails, isFalse);
+    expect(profileRepository.didUpdateProfileDetails, isTrue);
+    expect(profileRepository.submittedSelfIntroduction, '수정한 자기소개');
+  });
+
   test('프로필 심사 요청 성공 시 로컬 상태를 심사 대기로 저장한다', () async {
     final persistence = _MemoryProfileDetailsPersistence();
     final profileRepository = _RecordingProfileRepository();
@@ -473,6 +523,8 @@ class _RecordingProfileRepository extends MockProfileRepository {
   List<String>? submittedSubStylePhotoKeys;
   String? submittedMainFacePhotoKey;
   List<String>? submittedSubFacePhotoKeys;
+  bool didSubmitProfileDetails = false;
+  bool didUpdateProfileDetails = false;
   bool didRequestProfileApproval = false;
 
   @override
@@ -484,6 +536,25 @@ class _RecordingProfileRepository extends MockProfileRepository {
     String? mainFacePhotoKey,
     List<String> subFacePhotoKeys = const <String>[],
   }) async {
+    didSubmitProfileDetails = true;
+    submittedMbti = mbti;
+    submittedSelfIntroduction = selfIntroduction;
+    submittedMainStylePhotoKey = mainStylePhotoKey;
+    submittedSubStylePhotoKeys = List<String>.of(subStylePhotoKeys);
+    submittedMainFacePhotoKey = mainFacePhotoKey;
+    submittedSubFacePhotoKeys = List<String>.of(subFacePhotoKeys);
+  }
+
+  @override
+  Future<void> updateProfileDetails({
+    required String mbti,
+    required String selfIntroduction,
+    String? mainStylePhotoKey,
+    List<String> subStylePhotoKeys = const <String>[],
+    String? mainFacePhotoKey,
+    List<String> subFacePhotoKeys = const <String>[],
+  }) async {
+    didUpdateProfileDetails = true;
     submittedMbti = mbti;
     submittedSelfIntroduction = selfIntroduction;
     submittedMainStylePhotoKey = mainStylePhotoKey;

@@ -120,7 +120,8 @@ void main() {
 
     await tester.tap(find.byType(FloatingActionButton));
     await _pumpAsyncWork(tester);
-    await tester.pumpAndSettle();
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.pump();
 
     expect(repository.submittedMbti, 'ENFP');
     expect(repository.submittedSelfIntroduction, '반가워요');

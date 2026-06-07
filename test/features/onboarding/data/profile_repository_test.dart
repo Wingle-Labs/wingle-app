@@ -11,6 +11,7 @@ import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 import 'package:wingle/features/auth/domain/models/my_profile_snapshot.dart';
 import 'package:wingle/features/onboarding/data/mock/mock_profile_repository.dart';
 import 'package:wingle/features/onboarding/data/profile_repository_impl.dart';
+import 'package:wingle/features/onboarding/domain/model/profile/rejection_reason.dart';
 import 'package:wingle/features/onboarding/domain/model/profile/residence_code.dart';
 
 void main() {
@@ -264,6 +265,75 @@ void main() {
       );
 
       await repository.requestProfileApproval();
+    });
+
+    test('프로필 재심사 요청은 body 없는 POST를 전송한다', () async {
+      final client = MockClient((request) async {
+        expect(request.method, 'POST');
+        expect(request.url.path, '/api/v1/profiles/reapply');
+        expect(request.body, isEmpty);
+        return http.Response('', 200);
+      });
+
+      final repository = ProfileRepositoryImpl(
+        client: client,
+        baseUrl: baseUrl,
+      );
+
+      await repository.requestProfileReapply();
+    });
+
+    test('최신 거절 사유 응답을 reasons 배열로 파싱한다', () async {
+      final client = MockClient((request) async {
+        expect(request.method, 'GET');
+        expect(request.url.path, '/api/v1/profiles/rejection-reason');
+        return http.Response.bytes(
+          utf8.encode(
+            jsonEncode({
+              'reasons': [
+                {
+                  'code': 'FACE_PHOTO_FACE_NOT_VISIBLE',
+                  'categoryDisplayName': '얼굴 사진',
+                  'description': '얼굴이 잘 보이지 않습니다',
+                },
+                {
+                  'code': 'SELF_INTRO_ADVERTISEMENT',
+                  'categoryDisplayName': '자기소개',
+                  'description': '광고성 내용이 포함되어 있습니다',
+                },
+              ],
+              'reviewedAt': '2026-05-01T14:30:00',
+            }),
+          ),
+          200,
+          headers: {'content-type': 'application/json; charset=utf-8'},
+        );
+      });
+
+      final repository = ProfileRepositoryImpl(
+        client: client,
+        baseUrl: baseUrl,
+      );
+
+      final reason = await repository.fetchRejectionReason();
+
+      expect(reason.reviewedAt, '2026-05-01T14:30:00');
+      expect(reason.reasons, hasLength(2));
+      expect(reason.reasons.first.code, 'FACE_PHOTO_FACE_NOT_VISIBLE');
+      expect(reason.reasons.first.categoryDisplayName, '얼굴 사진');
+      expect(reason.reasons.first.description, '얼굴이 잘 보이지 않습니다');
+    });
+
+    test('구버전 단일 거절 사유 응답도 fallback 파싱한다', () {
+      final reason = RejectionReason.fromJson({
+        'reason': '프로필 사진이 기준에 맞지 않습니다.',
+        'rejectedAt': '2026-05-01T14:30:00',
+      });
+
+      expect(reason.reviewedAt, '2026-05-01T14:30:00');
+      expect(reason.reasons, hasLength(1));
+      expect(reason.reasons.single.code, 'LEGACY_REASON');
+      expect(reason.reasons.single.description, '프로필 사진이 기준에 맞지 않습니다.');
     });
 
     test('코드북 학교 정보를 등록한다', () async {

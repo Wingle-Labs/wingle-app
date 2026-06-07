@@ -304,7 +304,8 @@ void main() {
     await tester.pump();
     await tester.tap(find.byType(FloatingActionButton));
     await _pumpAsyncWork(tester);
-    await tester.pumpAndSettle();
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.pump();
 
     expect(repository.educationLevel, 'HIGH_SCHOOL');
     expect(repository.customUniversityName, '서울고등학교');

@@ -96,6 +96,32 @@ void main() {
     expect(repository.educationLevel, 'UNIVERSITY');
   });
 
+  test('거절 상태에서 학교 정보를 저장하면 수정 API를 호출하고 반려 상태를 유지한다', () async {
+    await HiveUtil.write(
+      key: HiveLoginBox.profileStatus,
+      value: LoginProfileStatus.profileRejected.apiValue,
+    );
+    final repository = _RecordingProfileRepository();
+    final container = _container(repository);
+    addTearDown(container.dispose);
+
+    final notifier = container.read(educationProfileProvider.notifier);
+    notifier.selectEducationLevel(EducationLevel.highSchool);
+    notifier.updateSchoolName('서울고등학교');
+
+    final success = await notifier.submitEducation();
+
+    expect(success, isTrue);
+    expect(repository.didSubmitEducation, isFalse);
+    expect(repository.didUpdateEducation, isTrue);
+    expect(repository.educationLevel, 'HIGH_SCHOOL');
+    expect(repository.customUniversityName, '서울고등학교');
+    expect(
+      HiveUtil.read(HiveLoginBox.profileStatus),
+      LoginProfileStatus.profileRejected.apiValue,
+    );
+  });
+
   test('학교 정보 제출 시 선택한 학력과 학교명은 로컬 학교 프로필로 저장된다', () async {
     final repository = _RecordingProfileRepository();
     final container = _container(repository);
@@ -214,6 +240,8 @@ class _RecordingProfileRepository extends MockProfileRepository {
   String? customUniversityName;
   String? educationLevel;
   String? certificationKey;
+  bool didSubmitEducation = false;
+  bool didUpdateEducation = false;
 
   _RecordingProfileRepository({this.failConfirm = false});
 
@@ -223,6 +251,19 @@ class _RecordingProfileRepository extends MockProfileRepository {
     required String? customUniversityName,
     required String educationLevel,
   }) async {
+    didSubmitEducation = true;
+    this.university = university;
+    this.customUniversityName = customUniversityName;
+    this.educationLevel = educationLevel;
+  }
+
+  @override
+  Future<void> updateEducation({
+    required String? university,
+    required String? customUniversityName,
+    required String educationLevel,
+  }) async {
+    didUpdateEducation = true;
     this.university = university;
     this.customUniversityName = customUniversityName;
     this.educationLevel = educationLevel;
