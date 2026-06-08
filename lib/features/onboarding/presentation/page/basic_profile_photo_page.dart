@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -758,10 +759,15 @@ class _PhotoSlotTile extends StatelessWidget {
             if (previewBytes != null)
               Image.memory(previewBytes, fit: BoxFit.cover)
             else if (remoteUrl != null)
-              Image.network(
-                remoteUrl,
+              CachedNetworkImage(
+                imageUrl: remoteUrl,
+                // Presigned URL은 재발급 때 바뀌므로 같은 S3 key를 캐시 키로 쓴다.
+                cacheKey: selectedPhoto?.s3Key,
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => _PhotoSlotContent(
+                fadeInDuration: Duration.zero,
+                fadeOutDuration: Duration.zero,
+                placeholder: (context, url) => const _PhotoLoadingContent(),
+                errorWidget: (context, url, error) => _PhotoSlotContent(
                   icon: icon,
                   labelKey: labelKey,
                   hasPhoto: selectedPhoto != null,
@@ -818,6 +824,22 @@ class _PhotoSlotTile extends StatelessWidget {
               ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _PhotoLoadingContent extends StatelessWidget {
+  const _PhotoLoadingContent();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+
+    return ColoredBox(
+      color: colors.componentProfilePhotoSlotBackground,
+      child: Center(
+        child: AnimationProgressIndicator(color: colors.primaryNormal),
       ),
     );
   }

@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:wingle/app/config/theme/components/states/animation_progress_indicator.dart';
 import 'package:wingle/app/config/theme/themes.dart';
 import 'package:wingle/common/constants/localization_constants.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_details.dart';
@@ -86,10 +88,15 @@ void main() {
 
     await tester.pump();
 
-    expect(_networkImageUrls(tester), [
+    expect(_cachedNetworkImageUrls(tester), [
       'https://storage.example.com/users/1/style/server-main.webp',
       'https://storage.example.com/users/1/style/server-sub.webp',
     ]);
+    expect(_cachedNetworkImageCacheKeys(tester), [
+      'users/1/style/server-main.webp',
+      'users/1/style/server-sub.webp',
+    ]);
+    expect(find.byType(AnimationProgressIndicator), findsNWidgets(2));
     expect(
       persistence.profile?.mainStylePhotoKey,
       'users/1/style/server-main.webp',
@@ -134,9 +141,13 @@ void main() {
     await tester.pump();
     await tester.pump();
 
-    expect(_networkImageUrls(tester), [
+    expect(_cachedNetworkImageUrls(tester), [
       'https://storage.example.com/users/1/face/server-main.webp',
     ]);
+    expect(_cachedNetworkImageCacheKeys(tester), [
+      'users/1/face/server-main.webp',
+    ]);
+    expect(find.byType(AnimationProgressIndicator), findsOneWidget);
   });
 
   testWidgets('스타일 사진을 드래그하면 첫 번째 사진을 대표 사진으로 저장한다', (tester) async {
@@ -416,12 +427,17 @@ Finder _textEither(String key, String translated) {
   });
 }
 
-List<String> _networkImageUrls(WidgetTester tester) {
+List<String> _cachedNetworkImageUrls(WidgetTester tester) {
   return tester
-      .widgetList<Image>(find.byType(Image))
-      .map((image) => image.image)
-      .whereType<NetworkImage>()
-      .map((provider) => provider.url)
+      .widgetList<CachedNetworkImage>(find.byType(CachedNetworkImage))
+      .map((image) => image.imageUrl)
+      .toList(growable: false);
+}
+
+List<String?> _cachedNetworkImageCacheKeys(WidgetTester tester) {
+  return tester
+      .widgetList<CachedNetworkImage>(find.byType(CachedNetworkImage))
+      .map((image) => image.cacheKey)
       .toList(growable: false);
 }
 
