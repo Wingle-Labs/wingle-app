@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wingle/app/config/theme/components/buttons/default_filled_button.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_text_button.dart';
 import 'package:wingle/app/config/theme/components/cards/default_card.dart';
 import 'package:wingle/app/config/theme/components/states/animation_progress_indicator.dart';
@@ -13,6 +15,9 @@ import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/components/texts/text_scale_policy.dart';
 import 'package:wingle/app/config/theme/components/wrappers/constrained_scrollable_scaffold.dart';
 import 'package:wingle/app/config/theme/components/wrappers/default_app_bar.dart';
+import 'package:wingle/app/config/theme/constants/padding.dart';
+import 'package:wingle/app/config/theme/constants/radius.dart';
+import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/app/router/route_node.dart';
 import 'package:wingle/common/constants/api_error_messages.dart';
@@ -44,7 +49,7 @@ class ProfileRejectedPage extends ConsumerWidget {
         title: 'onboarding.profileRejected.appBarTitle',
         forceImplyLeading: false,
       ),
-      floatingActionButton: DefaultTextButton(
+      floatingActionButton: DefaultFilledButton(
         label: 'common.button.reapply',
         variant: .fullWidth,
         isLoading: isSubmitting,
@@ -142,22 +147,25 @@ class _ProfileRejectedError extends StatelessWidget {
             bottom: AppSpacing.s32,
           ),
         ),
-        DefaultCard(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              DefaultText(
-                ApiErrorMessages.fetchRejectionReasonFailed,
-                style: typography.bodySub,
-                color: colors.textNormal,
-              ),
-              const SizedBox(height: AppSpacing.s16),
-              DefaultTextButton(
-                label: 'common.button.retry',
-                variant: .sm,
-                onPressed: onRetry,
-              ),
-            ],
+        SizedBox(
+          width: double.infinity,
+          child: DefaultCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                DefaultText(
+                  ApiErrorMessages.fetchRejectionReasonFailed,
+                  style: typography.bodySub,
+                  color: colors.textNormal,
+                ),
+                const SizedBox(height: AppSpacing.s16),
+                DefaultTextButton(
+                  label: 'common.button.retry',
+                  variant: .sm,
+                  onPressed: onRetry,
+                ),
+              ],
+            ),
           ),
         ),
         const SizedBox(height: ProfileRejectedPage._bottomReservedSpacing),
@@ -193,11 +201,14 @@ class _ProfileRejectedContent extends StatelessWidget {
           ),
         ),
         if (groups.isEmpty)
-          DefaultCard(
-            child: DefaultText(
-              'onboarding.profileRejected.emptyReason',
-              style: typography.bodySub,
-              color: colors.textNormal,
+          SizedBox(
+            width: double.infinity,
+            child: DefaultCard(
+              child: DefaultText(
+                'onboarding.profileRejected.emptyReason',
+                style: typography.bodySub,
+                color: colors.textNormal,
+              ),
             ),
           )
         else
@@ -239,41 +250,41 @@ class _RejectionReasonGroupCard extends StatelessWidget {
     final colors = context.colors;
     final typography = context.typography;
 
-    return DefaultCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (group.categoryDisplayName.isEmpty)
-            DefaultText(
-              'onboarding.profileRejected.defaultCategory',
-              style: typography.subtitle,
-              color: colors.textStrong,
-            )
-          else
-            DefaultText(
-              group.categoryDisplayName,
-              style: typography.subtitle,
-              color: colors.textStrong,
-              isTranslationKey: false,
-            ),
-          const SizedBox(height: AppSpacing.s12),
-          for (final item in group.items)
-            if (item.description.trim().isNotEmpty) ...[
+    return SizedBox(
+      width: double.infinity,
+      child: DefaultCard(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (group.categoryDisplayName.isEmpty)
               DefaultText(
-                item.description.trim(),
-                style: typography.bodySub,
-                color: colors.textNormal,
+                'onboarding.profileRejected.defaultCategory',
+                style: typography.subtitle,
+                color: colors.textStrong,
+              )
+            else
+              DefaultText(
+                group.categoryDisplayName,
+                style: typography.subtitle,
+                color: colors.textStrong,
                 isTranslationKey: false,
               ),
-              const SizedBox(height: AppSpacing.s8),
-            ],
-          const SizedBox(height: AppSpacing.s8),
-          DefaultTextButton(
-            label: 'common.button.edit',
-            variant: .sm,
-            onPressed: () => onEdit(_routeForGroup(group)),
-          ),
-        ],
+            const SizedBox(height: AppSpacing.s16),
+            for (final item in group.items)
+              if (item.description.trim().isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: AppSpacing.s8),
+                  child: DefaultText(
+                    item.description.trim(),
+                    style: typography.bodySub,
+                    color: colors.textNormal,
+                    isTranslationKey: false,
+                  ),
+                ),
+            const SizedBox(height: AppSpacing.s8),
+            _RejectionEditChip(onPressed: () => onEdit(_routeForGroup(group))),
+          ],
+        ),
       ),
     );
   }
@@ -309,6 +320,61 @@ class _RejectionReasonGroupCard extends StatelessWidget {
     }
 
     return OnboardingRoutes.profileDetails;
+  }
+}
+
+class _RejectionEditChip extends StatelessWidget {
+  final VoidCallback onPressed;
+
+  const _RejectionEditChip({required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final typography = context.typography;
+    final borderRadius = BorderRadius.circular(AppRadius.md);
+
+    return Material(
+      color: colors.componentTertiaryFilledButtonEnabled,
+      borderRadius: borderRadius,
+      child: InkWell(
+        onTap: onPressed,
+        borderRadius: borderRadius,
+        overlayColor: WidgetStateProperty.resolveWith<Color?>((states) {
+          if (states.contains(WidgetState.pressed)) {
+            return colors.overlayPressed;
+          }
+          return null;
+        }),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppPadding.buttonMediumHorizontal,
+            vertical: AppPadding.buttonSmallVertical,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Flexible(
+                child: Text(
+                  'common.button.edit'.tr(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: typography.buttonMedium.copyWith(
+                    color: colors.textNormal,
+                  ),
+                ),
+              ),
+              const SizedBox(width: AppSpacing.s6),
+              Icon(
+                Icons.chevron_right_rounded,
+                size: AppIconSize.xs,
+                color: colors.textNormal,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
