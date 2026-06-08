@@ -78,7 +78,7 @@ class _BasicProfileEducationPageState
     void navigateBack() {
       switch (_stage) {
         case _EducationInputStage.level:
-          OnboardingRouteChain.goPrevious(
+          goRejectedReviewOrPrevious(
             context,
             OnboardingRouteFlow.profileInput,
             OnboardingRoutes.basicProfileEducation,
@@ -97,7 +97,7 @@ class _BasicProfileEducationPageState
     }
 
     final canContinue = _canContinue(state);
-    final isRejectionEditMode = isOnboardingRejectionEditMode();
+    final isRejectionEditMode = isOnboardingRejectionEditMode(context);
 
     return BasicProfileInputScaffold(
       currentStep: BasicProfileInputConstants.educationStep,

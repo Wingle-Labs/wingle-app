@@ -111,10 +111,10 @@ class _BasicProfilePhotoPageState
     final notifier = ref.read(profileDetailsProvider.notifier);
     final config = _ProfilePhotoPageConfig.fromType(widget.type);
     final actionsDisabled = state.isSubmitting;
-    final isRejectionEditMode = isOnboardingRejectionEditMode();
+    final isRejectionEditMode = isOnboardingRejectionEditMode(context);
 
     void navigatePrevious() {
-      OnboardingRouteChain.goPrevious(
+      goRejectedReviewOrPrevious(
         context,
         OnboardingRouteFlow.profileInput,
         config.currentRoute,
@@ -210,7 +210,7 @@ class _BasicProfilePhotoPageState
       return;
     }
 
-    if (isOnboardingRejectionEditMode()) {
+    if (isOnboardingRejectionEditMode(context)) {
       final submitted = await notifier.submitProfileDetails(forceUpdate: true);
       if (!mounted) return;
 

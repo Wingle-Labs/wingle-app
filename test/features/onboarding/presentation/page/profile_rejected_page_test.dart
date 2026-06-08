@@ -10,6 +10,7 @@ import 'package:wingle/features/onboarding/data/mock/mock_profile_repository.dar
 import 'package:wingle/features/onboarding/domain/model/profile/rejection_reason.dart';
 import 'package:wingle/features/onboarding/presentation/page/profile_rejected_page.dart';
 import 'package:wingle/features/onboarding/presentation/providers/profile_repository_provider.dart';
+import 'package:wingle/features/onboarding/presentation/utils/onboarding_rejection_edit_mode.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 void main() {
@@ -75,6 +76,20 @@ void main() {
       expect(
         router.routeInformationProvider.value.uri.path,
         scenario.targetRoute.fullPath,
+      );
+      expect(
+        router.routeInformationProvider.value.uri.queryParameters,
+        containsPair(
+          onboardingEditModeQueryKey,
+          onboardingRejectionEditModeValue,
+        ),
+      );
+      expect(
+        router.routeInformationProvider.value.uri.queryParameters,
+        containsPair(
+          onboardingReturnToQueryKey,
+          OnboardingRoutes.profileRejected.name,
+        ),
       );
     });
   }

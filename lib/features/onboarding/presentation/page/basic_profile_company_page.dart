@@ -47,7 +47,7 @@ class _BasicProfileCompanyPageState
   Widget build(BuildContext context) {
     final state = ref.watch(jobProfileProvider);
     final notifier = ref.read(jobProfileProvider.notifier);
-    final isRejectionEditMode = isOnboardingRejectionEditMode();
+    final isRejectionEditMode = isOnboardingRejectionEditMode(context);
 
     ref.listen(jobProfileProvider, (previous, next) {
       if (_companyFocusNode.hasFocus ||
@@ -58,7 +58,7 @@ class _BasicProfileCompanyPageState
     });
 
     void navigateToPreviousBasicProfileStep() {
-      OnboardingRouteChain.goPrevious(
+      goRejectedReviewOrPrevious(
         context,
         OnboardingRouteFlow.profileInput,
         OnboardingRoutes.basicProfileCompanyName,

@@ -57,10 +57,10 @@ class _BasicProfileSelfIntroductionPageState
   Widget build(BuildContext context) {
     final state = ref.watch(profileDetailsProvider);
     final notifier = ref.read(profileDetailsProvider.notifier);
-    final isRejectionEditMode = isOnboardingRejectionEditMode();
+    final isRejectionEditMode = isOnboardingRejectionEditMode(context);
 
     void navigatePrevious() {
-      OnboardingRouteChain.goPrevious(
+      goRejectedReviewOrPrevious(
         context,
         OnboardingRouteFlow.profileInput,
         OnboardingRoutes.profileSelfIntroduction,
@@ -114,7 +114,10 @@ class _BasicProfileSelfIntroductionPageState
           }
 
           if (isRejectionEditMode) {
-            context.goNamed(OnboardingRoutes.profileRejected.name);
+            goRejectedReviewOrNamed(
+              context,
+              OnboardingRoutes.profileRejected.name,
+            );
             return;
           }
 

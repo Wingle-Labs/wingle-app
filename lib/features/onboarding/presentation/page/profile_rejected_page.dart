@@ -20,6 +20,7 @@ import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
 import 'package:wingle/features/onboarding/domain/model/profile/rejection_reason.dart';
 import 'package:wingle/features/onboarding/presentation/providers/profile_rejection_provider.dart';
+import 'package:wingle/features/onboarding/presentation/utils/onboarding_rejection_edit_mode.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// 프로필 심사 거절 사유 및 재심사 요청 화면.
@@ -57,7 +58,7 @@ class ProfileRejectedPage extends ConsumerWidget {
         ),
         data: (state) => _ProfileRejectedContent(
           state: state,
-          onEdit: (route) => context.goNamed(route.name),
+          onEdit: (route) => goOnboardingRejectionEditRoute(context, route),
         ),
       ),
     );

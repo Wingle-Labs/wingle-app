@@ -16,6 +16,7 @@ import 'package:wingle/features/onboarding/presentation/components/wrapper/basic
 import 'package:wingle/features/onboarding/presentation/constants/basic_profile_input_constants.dart';
 import 'package:wingle/features/onboarding/presentation/providers/job_codebook_provider.dart';
 import 'package:wingle/features/onboarding/presentation/providers/job_profile_provider.dart';
+import 'package:wingle/features/onboarding/presentation/utils/onboarding_rejection_edit_mode.dart';
 import 'package:wingle/features/onboarding/route/onboarding_route_chain.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
@@ -46,7 +47,7 @@ class _BasicProfileOccupationPageState
         setState(() => _selectedRoot = null);
         return;
       }
-      OnboardingRouteChain.goPrevious(
+      goRejectedReviewOrPrevious(
         context,
         OnboardingRouteFlow.profileInput,
         OnboardingRoutes.basicProfileCompany,
@@ -111,7 +112,10 @@ class _BasicProfileOccupationPageState
     if (!context.mounted) return;
 
     if (success) {
-      context.pushNamed(OnboardingRoutes.basicProfileEducation.name);
+      goRejectedReviewOrPushNamed(
+        context,
+        OnboardingRoutes.basicProfileEducation.name,
+      );
     } else {
       DefaultToast.show(
         context,

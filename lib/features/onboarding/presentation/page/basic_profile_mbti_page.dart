@@ -26,10 +26,10 @@ class BasicProfileMbtiPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(profileDetailsProvider);
     final notifier = ref.read(profileDetailsProvider.notifier);
-    final isRejectionEditMode = isOnboardingRejectionEditMode();
+    final isRejectionEditMode = isOnboardingRejectionEditMode(context);
 
     void navigatePrevious() {
-      OnboardingRouteChain.goPrevious(
+      goRejectedReviewOrPrevious(
         context,
         OnboardingRouteFlow.profileInput,
         OnboardingRoutes.profileDetails,

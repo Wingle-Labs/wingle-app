@@ -9,6 +9,7 @@ import 'package:wingle/features/auth/domain/models/login_profile_details.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_mbti_page.dart';
 import 'package:wingle/features/onboarding/presentation/providers/profile_details_provider.dart';
+import 'package:wingle/features/onboarding/presentation/utils/onboarding_rejection_edit_mode.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 void main() {
@@ -82,6 +83,28 @@ void main() {
     );
   });
 
+  testWidgets('재심사 수정 진입 MBTI 화면의 앱바 뒤로가기는 재심사 화면으로 이동한다', (tester) async {
+    _setMobileViewport(tester);
+    final router = _mbtiRouter(
+      initialLocation: _rejectionEditLocation(
+        OnboardingRoutes.profileDetails.fullPath,
+      ),
+    );
+    addTearDown(router.dispose);
+
+    await tester.pumpWidget(_testRouterApp(router));
+    await tester.pump();
+
+    await tester.tap(find.byIcon(Icons.arrow_back_ios_new_rounded));
+    await tester.pumpAndSettle();
+
+    expect(find.text('profile-rejected-target'), findsOneWidget);
+    expect(
+      router.routeInformationProvider.value.uri.path,
+      OnboardingRoutes.profileRejected.fullPath,
+    );
+  });
+
   testWidgets('MBTI 화면의 시스템 뒤로가기도 학교 정보 입력으로 이동한다', (tester) async {
     _setMobileViewport(tester);
     final router = _mbtiRouter();
@@ -97,6 +120,28 @@ void main() {
     expect(
       router.routeInformationProvider.value.uri.path,
       OnboardingRoutes.basicProfileEducation.fullPath,
+    );
+  });
+
+  testWidgets('재심사 수정 진입 MBTI 화면의 시스템 뒤로가기는 재심사 화면으로 이동한다', (tester) async {
+    _setMobileViewport(tester);
+    final router = _mbtiRouter(
+      initialLocation: _rejectionEditLocation(
+        OnboardingRoutes.profileDetails.fullPath,
+      ),
+    );
+    addTearDown(router.dispose);
+
+    await tester.pumpWidget(_testRouterApp(router));
+    await tester.pump();
+
+    await tester.binding.handlePopRoute();
+    await tester.pumpAndSettle();
+
+    expect(find.text('profile-rejected-target'), findsOneWidget);
+    expect(
+      router.routeInformationProvider.value.uri.path,
+      OnboardingRoutes.profileRejected.fullPath,
     );
   });
 }
@@ -151,9 +196,10 @@ Widget _testRouterApp(
   );
 }
 
-GoRouter _mbtiRouter() {
+GoRouter _mbtiRouter({String? initialLocation}) {
   return GoRouter(
-    initialLocation: OnboardingRoutes.profileDetails.fullPath,
+    initialLocation:
+        initialLocation ?? OnboardingRoutes.profileDetails.fullPath,
     routes: [
       GoRoute(
         name: OnboardingRoutes.profileDetails.name,
@@ -170,8 +216,20 @@ GoRouter _mbtiRouter() {
         path: OnboardingRoutes.profileStylePhotos.fullPath,
         builder: (context, state) => const Text('style-photo-target'),
       ),
+      GoRoute(
+        name: OnboardingRoutes.profileRejected.name,
+        path: OnboardingRoutes.profileRejected.fullPath,
+        builder: (context, state) => const Text('profile-rejected-target'),
+      ),
     ],
   );
+}
+
+String _rejectionEditLocation(String path) {
+  return Uri(
+    path: path,
+    queryParameters: onboardingRejectionEditQueryParameters(),
+  ).toString();
 }
 
 Future<void> _pumpAsyncWork(WidgetTester tester) async {

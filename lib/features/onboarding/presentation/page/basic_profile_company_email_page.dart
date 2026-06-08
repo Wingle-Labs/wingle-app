@@ -13,6 +13,7 @@ import 'package:wingle/common/extensions/context_typography.dart';
 import 'package:wingle/features/onboarding/presentation/components/wrapper/basic_profile_input_scaffold.dart';
 import 'package:wingle/features/onboarding/presentation/constants/basic_profile_input_constants.dart';
 import 'package:wingle/features/onboarding/presentation/providers/job_profile_provider.dart';
+import 'package:wingle/features/onboarding/presentation/utils/onboarding_rejection_edit_mode.dart';
 import 'package:wingle/features/onboarding/route/onboarding_route_chain.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
@@ -30,7 +31,7 @@ class BasicProfileCompanyEmailPage extends ConsumerWidget {
         : state.canSendVerificationEmail;
 
     void navigateToCompanyInput() {
-      OnboardingRouteChain.goPrevious(
+      goRejectedReviewOrPrevious(
         context,
         OnboardingRouteFlow.profileInput,
         OnboardingRoutes.basicProfileCompanyEmail,
