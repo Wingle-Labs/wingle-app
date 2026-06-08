@@ -231,9 +231,18 @@ void main() {
       expect(snapshot?.profileDetails?.subStylePhotoKeys, [
         'users/10/style/sub.webp',
       ]);
+      expect(snapshot?.profileDetails?.stylePhotos, hasLength(2));
+      expect(
+        snapshot?.profileDetails?.stylePhotos.first.url,
+        'https://storage.wingle.kr/wingle-prod-private/users/10/style/main.webp?X-Amz-Signature=main',
+      );
       expect(
         snapshot?.profileDetails?.mainFacePhotoKey,
         'users/10/face/main.webp',
+      );
+      expect(
+        snapshot?.profileDetails?.facePhotos.single.url,
+        'https://storage.wingle.kr/wingle-prod-private/users/10/face/main.webp?X-Amz-Signature=face',
       );
       expect(profile?.nickname, '서버 닉네임');
       expect(profile?.residenceCode, 'R_31193620');

@@ -65,8 +65,18 @@ void main() {
         profileRepository: const _ImmediateProfileRepository(
           profileSnapshot: MyProfileSnapshot(
             profileDetails: LoginProfileDetails(
-              mainStylePhotoKey: 'users/1/style/server-main.webp',
-              subStylePhotoKeys: ['users/1/style/server-sub.webp'],
+              stylePhotos: [
+                LoginProfilePhoto(
+                  key: 'users/1/style/server-main.webp',
+                  url:
+                      'https://storage.example.com/users/1/style/server-main.webp',
+                ),
+                LoginProfilePhoto(
+                  key: 'users/1/style/server-sub.webp',
+                  url:
+                      'https://storage.example.com/users/1/style/server-sub.webp',
+                ),
+              ],
             ),
           ),
         ),
@@ -74,9 +84,12 @@ void main() {
     );
     await tester.pump();
 
-    await _pumpAsyncWork(tester);
+    await tester.pump();
 
-    expect(find.byIcon(Icons.check_rounded), findsNWidgets(2));
+    expect(_networkImageUrls(tester), [
+      'https://storage.example.com/users/1/style/server-main.webp',
+      'https://storage.example.com/users/1/style/server-sub.webp',
+    ]);
     expect(
       persistence.profile?.mainStylePhotoKey,
       'users/1/style/server-main.webp',
@@ -89,6 +102,41 @@ void main() {
       find.byType(FloatingActionButton),
     );
     expect(button.onPressed, isNotNull);
+  });
+
+  testWidgets('로컬에 key만 있는 얼굴 사진은 서버 스냅샷 URL로 미리보기를 보강한다', (tester) async {
+    _setMobileViewport(tester);
+    final persistence = _MemoryProfileDetailsPersistence(
+      const LoginProfileDetails(
+        mainFacePhotoKey: 'users/1/face/server-main.webp',
+      ),
+    );
+
+    await tester.pumpWidget(
+      _testApp(
+        home: const BasicProfileFacePhotoPage(),
+        persistence: persistence,
+        profileRepository: const _ImmediateProfileRepository(
+          profileSnapshot: MyProfileSnapshot(
+            profileDetails: LoginProfileDetails(
+              facePhotos: [
+                LoginProfilePhoto(
+                  key: 'users/1/face/server-main.webp',
+                  url:
+                      'https://storage.example.com/users/1/face/server-main.webp',
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.pump();
+
+    expect(_networkImageUrls(tester), [
+      'https://storage.example.com/users/1/face/server-main.webp',
+    ]);
   });
 
   testWidgets('스타일 사진을 드래그하면 첫 번째 사진을 대표 사진으로 저장한다', (tester) async {
@@ -366,6 +414,15 @@ Finder _textEither(String key, String translated) {
   return find.byWidgetPredicate((widget) {
     return widget is Text && (widget.data == key || widget.data == translated);
   });
+}
+
+List<String> _networkImageUrls(WidgetTester tester) {
+  return tester
+      .widgetList<Image>(find.byType(Image))
+      .map((image) => image.image)
+      .whereType<NetworkImage>()
+      .map((provider) => provider.url)
+      .toList(growable: false);
 }
 
 XFile _xFile(String name) {

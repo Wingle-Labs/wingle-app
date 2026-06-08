@@ -100,7 +100,7 @@ class _BasicProfilePhotoPageState
     final photos = config.photos(ref.read(profileDetailsProvider));
     _appendUploadedPhotoEntries(photos);
 
-    if (photos.isEmpty) {
+    if (_shouldSyncInitialPhotos(photos)) {
       unawaited(_syncInitialPhotosFromServer());
     }
   }
@@ -460,15 +460,37 @@ class _BasicProfilePhotoPageState
     final synced = await ref
         .read(profileDetailsProvider.notifier)
         .syncProfileDetailsFromServer();
-    if (!mounted || !synced || _slotEntries.isNotEmpty) return;
+    if (!mounted || !synced || _hasUploadingPhoto) return;
 
     final config = _ProfilePhotoPageConfig.fromType(widget.type);
     final photos = config.photos(ref.read(profileDetailsProvider));
     if (photos.isEmpty) return;
+    if (!_canApplySyncedPhotos(photos)) return;
 
     setState(() {
+      _slotEntries.clear();
       _appendUploadedPhotoEntries(photos);
     });
+  }
+
+  bool _shouldSyncInitialPhotos(List<ProfilePhotoInput> photos) {
+    return photos.isEmpty ||
+        photos.any(
+          (photo) => photo.previewBytes == null && photo.remoteUrl == null,
+        );
+  }
+
+  bool _canApplySyncedPhotos(List<ProfilePhotoInput> photos) {
+    final currentPhotos = _uploadedPhotos;
+    if (currentPhotos.isEmpty) {
+      return true;
+    }
+    if (currentPhotos.any((photo) => photo.previewBytes != null)) {
+      return false;
+    }
+
+    final syncedKeys = photos.map((photo) => photo.s3Key).toSet();
+    return currentPhotos.every((photo) => syncedKeys.contains(photo.s3Key));
   }
 
   void _appendUploadedPhotoEntries(List<ProfilePhotoInput> photos) {
@@ -720,6 +742,7 @@ class _PhotoSlotTile extends StatelessWidget {
     final typography = context.typography;
     final selectedPhoto = entry?.photo;
     final previewBytes = entry?.previewBytes ?? selectedPhoto?.previewBytes;
+    final remoteUrl = selectedPhoto?.remoteUrl;
     final isUploading = entry?.isUploading ?? false;
 
     return Material(
@@ -734,6 +757,16 @@ class _PhotoSlotTile extends StatelessWidget {
           children: [
             if (previewBytes != null)
               Image.memory(previewBytes, fit: BoxFit.cover)
+            else if (remoteUrl != null)
+              Image.network(
+                remoteUrl,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => _PhotoSlotContent(
+                  icon: icon,
+                  labelKey: labelKey,
+                  hasPhoto: selectedPhoto != null,
+                ),
+              )
             else
               _PhotoSlotContent(
                 icon: icon,

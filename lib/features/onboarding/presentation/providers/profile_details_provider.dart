@@ -475,12 +475,14 @@ class ProfileDetails extends _$ProfileDetails {
       selfIntroduction: _nonEmpty(currentState.selfIntroduction) == null
           ? serverState.selfIntroduction
           : currentState.selfIntroduction,
-      stylePhotos: currentState.stylePhotos.isEmpty
-          ? serverState.stylePhotos
-          : currentState.stylePhotos,
-      facePhotos: currentState.facePhotos.isEmpty
-          ? serverState.facePhotos
-          : currentState.facePhotos,
+      stylePhotos: _mergeMissingPhotoUrls(
+        currentState.stylePhotos,
+        serverState.stylePhotos,
+      ),
+      facePhotos: _mergeMissingPhotoUrls(
+        currentState.facePhotos,
+        serverState.facePhotos,
+      ),
     );
   }
 
@@ -535,16 +537,24 @@ class ProfileDetails extends _$ProfileDetails {
       decision: mbti == null ? null : mbti[2],
       lifestyle: mbti == null ? null : mbti[3],
       selfIntroduction: profile.selfIntroduction?.trim() ?? '',
-      stylePhotos: _photoInputsFromKeys([
-        if (_nonEmpty(profile.mainStylePhotoKey) != null)
-          profile.mainStylePhotoKey!,
-        ...profile.subStylePhotoKeys,
-      ]),
-      facePhotos: _photoInputsFromKeys([
-        if (_nonEmpty(profile.mainFacePhotoKey) != null)
-          profile.mainFacePhotoKey!,
-        ...profile.subFacePhotoKeys,
-      ]),
+      stylePhotos: _photoInputsFromProfilePhotos(
+        profile.stylePhotos.isNotEmpty
+            ? profile.stylePhotos
+            : _loginPhotosFromKeys([
+                if (_nonEmpty(profile.mainStylePhotoKey) != null)
+                  profile.mainStylePhotoKey!,
+                ...profile.subStylePhotoKeys,
+              ]),
+      ),
+      facePhotos: _photoInputsFromProfilePhotos(
+        profile.facePhotos.isNotEmpty
+            ? profile.facePhotos
+            : _loginPhotosFromKeys([
+                if (_nonEmpty(profile.mainFacePhotoKey) != null)
+                  profile.mainFacePhotoKey!,
+                ...profile.subFacePhotoKeys,
+              ]),
+      ),
     );
   }
 
@@ -599,16 +609,58 @@ class ProfileDetails extends _$ProfileDetails {
     }
   }
 
-  List<ProfilePhotoInput> _photoInputsFromKeys(List<String> keys) {
+  List<ProfilePhotoInput> _mergeMissingPhotoUrls(
+    List<ProfilePhotoInput> currentPhotos,
+    List<ProfilePhotoInput> serverPhotos,
+  ) {
+    if (currentPhotos.isEmpty) {
+      return serverPhotos;
+    }
+    if (serverPhotos.isEmpty) {
+      return currentPhotos;
+    }
+
+    final serverPhotosByKey = {
+      for (final photo in serverPhotos) photo.s3Key: photo,
+    };
     return List<ProfilePhotoInput>.unmodifiable(
+      currentPhotos.map((photo) {
+        if (_nonEmpty(photo.remoteUrl) != null || photo.previewBytes != null) {
+          return photo;
+        }
+
+        final serverPhoto = serverPhotosByKey[photo.s3Key];
+        final remoteUrl = _nonEmpty(serverPhoto?.remoteUrl);
+        if (remoteUrl == null) {
+          return photo;
+        }
+
+        return photo.copyWith(remoteUrl: remoteUrl);
+      }),
+    );
+  }
+
+  List<LoginProfilePhoto> _loginPhotosFromKeys(List<String> keys) {
+    return List<LoginProfilePhoto>.unmodifiable(
       keys
           .map(_nonEmpty)
           .whereType<String>()
+          .map((key) => LoginProfilePhoto(key: key)),
+    );
+  }
+
+  List<ProfilePhotoInput> _photoInputsFromProfilePhotos(
+    List<LoginProfilePhoto> photos,
+  ) {
+    return List<ProfilePhotoInput>.unmodifiable(
+      photos
+          .where((photo) => _nonEmpty(photo.key) != null)
           .map(
-            (key) => ProfilePhotoInput(
-              s3Key: key,
-              name: key.split('/').last,
+            (photo) => ProfilePhotoInput(
+              s3Key: photo.key,
+              name: photo.key.split('/').last,
               contentType: FileUploadConstants.defaultProfileImageContentType,
+              remoteUrl: _nonEmpty(photo.url),
             ),
           ),
     );

@@ -277,9 +277,22 @@ void main() {
     final profileRepository = _RecordingProfileRepository(
       snapshotOverride: const MyProfileSnapshot(
         profileDetails: LoginProfileDetails(
-          mainStylePhotoKey: 'users/1/style/server-main.webp',
-          subStylePhotoKeys: ['users/1/style/server-sub.webp'],
-          mainFacePhotoKey: 'users/1/face/server-main.webp',
+          stylePhotos: [
+            LoginProfilePhoto(
+              key: 'users/1/style/server-main.webp',
+              url: 'https://storage.example.com/users/1/style/server-main.webp',
+            ),
+            LoginProfilePhoto(
+              key: 'users/1/style/server-sub.webp',
+              url: 'https://storage.example.com/users/1/style/server-sub.webp',
+            ),
+          ],
+          facePhotos: [
+            LoginProfilePhoto(
+              key: 'users/1/face/server-main.webp',
+              url: 'https://storage.example.com/users/1/face/server-main.webp',
+            ),
+          ],
         ),
       ),
     );
@@ -300,6 +313,14 @@ void main() {
     expect(state.mainStylePhotoKey, 'users/1/style/server-main.webp');
     expect(state.subStylePhotoKeys, ['users/1/style/server-sub.webp']);
     expect(state.mainFacePhotoKey, 'users/1/face/server-main.webp');
+    expect(
+      state.stylePhotos.first.remoteUrl,
+      'https://storage.example.com/users/1/style/server-main.webp',
+    );
+    expect(
+      state.facePhotos.single.remoteUrl,
+      'https://storage.example.com/users/1/face/server-main.webp',
+    );
     expect(
       persistence.profile?.mainStylePhotoKey,
       'users/1/style/server-main.webp',

@@ -12,11 +12,17 @@ class LoginProfileDetails {
   /// 보조 스타일 사진 key 목록.
   final List<String> subStylePhotoKeys;
 
+  /// 스타일 사진 원격 미리보기 정보.
+  final List<LoginProfilePhoto> stylePhotos;
+
   /// 대표 얼굴 사진 key.
   final String? mainFacePhotoKey;
 
   /// 보조 얼굴 사진 key 목록.
   final List<String> subFacePhotoKeys;
+
+  /// 얼굴 사진 원격 미리보기 정보.
+  final List<LoginProfilePhoto> facePhotos;
 
   /// 생성자.
   const LoginProfileDetails({
@@ -24,8 +30,10 @@ class LoginProfileDetails {
     this.selfIntroduction,
     this.mainStylePhotoKey,
     this.subStylePhotoKeys = const <String>[],
+    this.stylePhotos = const <LoginProfilePhoto>[],
     this.mainFacePhotoKey,
     this.subFacePhotoKeys = const <String>[],
+    this.facePhotos = const <LoginProfilePhoto>[],
   });
 
   /// JSON 객체에서 상세 프로필 정보를 만든다.
@@ -33,12 +41,14 @@ class LoginProfileDetails {
     final detailJson = _asStringKeyedMap(json['profileDetails']);
     final snakeDetailJson = _asStringKeyedMap(json['profile_details']);
     final source = detailJson ?? snakeDetailJson ?? json;
-    final stylePhotoKeys = _photoKeys(
+    final parsedStylePhotos = _photos(
       source['stylePhotos'] ?? source['style_photos'],
     );
-    final facePhotoKeys = _photoKeys(
+    final parsedFacePhotos = _photos(
       source['facePhotos'] ?? source['face_photos'],
     );
+    final stylePhotoKeys = _photoKeys(parsedStylePhotos);
+    final facePhotoKeys = _photoKeys(parsedFacePhotos);
     final mainStylePhotoKey = _string(
       source['mainStylePhotoKey'] ?? source['main_style_photo_key'],
     );
@@ -61,10 +71,22 @@ class LoginProfileDetails {
       subStylePhotoKeys: subStylePhotoKeys.isNotEmpty
           ? subStylePhotoKeys
           : _tail(stylePhotoKeys),
+      stylePhotos: parsedStylePhotos.isNotEmpty
+          ? parsedStylePhotos
+          : _photosFromKeys([
+              if (mainStylePhotoKey != null) mainStylePhotoKey,
+              ...subStylePhotoKeys,
+            ]),
       mainFacePhotoKey: mainFacePhotoKey ?? _firstOrNull(facePhotoKeys),
       subFacePhotoKeys: subFacePhotoKeys.isNotEmpty
           ? subFacePhotoKeys
           : _tail(facePhotoKeys),
+      facePhotos: parsedFacePhotos.isNotEmpty
+          ? parsedFacePhotos
+          : _photosFromKeys([
+              if (mainFacePhotoKey != null) mainFacePhotoKey,
+              ...subFacePhotoKeys,
+            ]),
     );
   }
 
@@ -74,8 +96,10 @@ class LoginProfileDetails {
       _hasText(selfIntroduction) ||
       _hasText(mainStylePhotoKey) ||
       subStylePhotoKeys.isNotEmpty ||
+      stylePhotos.isNotEmpty ||
       _hasText(mainFacePhotoKey) ||
-      subFacePhotoKeys.isNotEmpty;
+      subFacePhotoKeys.isNotEmpty ||
+      facePhotos.isNotEmpty;
 
   /// Hive 저장용 JSON 객체로 변환한다.
   Map<String, dynamic> toJson() => {
@@ -115,8 +139,8 @@ class LoginProfileDetails {
     return List<String>.unmodifiable(value.map(_string).whereType<String>());
   }
 
-  static List<String> _photoKeys(Object? value) {
-    if (value is! Iterable) return const <String>[];
+  static List<LoginProfilePhoto> _photos(Object? value) {
+    if (value is! Iterable) return const <LoginProfilePhoto>[];
 
     final photos = <_ParsedPhoto>[];
     var index = 0;
@@ -141,7 +165,22 @@ class LoginProfileDetails {
       return a.index.compareTo(b.index);
     });
 
+    return List<LoginProfilePhoto>.unmodifiable(
+      photos.map((photo) => LoginProfilePhoto(key: photo.key, url: photo.url)),
+    );
+  }
+
+  static List<String> _photoKeys(List<LoginProfilePhoto> photos) {
     return List<String>.unmodifiable(photos.map((photo) => photo.key));
+  }
+
+  static List<LoginProfilePhoto> _photosFromKeys(List<String> keys) {
+    return List<LoginProfilePhoto>.unmodifiable(
+      keys
+          .map(_string)
+          .whereType<String>()
+          .map((key) => LoginProfilePhoto(key: key)),
+    );
   }
 
   static String? _photoKey(Object? value) {
@@ -177,6 +216,21 @@ class LoginProfileDetails {
     return text.split('?').first;
   }
 
+  static String? _photoUrl(Object? value) {
+    final text = switch (value) {
+      final Map<dynamic, dynamic> map =>
+        _string(map['presignedUrl'] ?? map['presigned_url']) ??
+            _string(map['url']),
+      _ => _string(value),
+    };
+    if (text == null) return null;
+
+    final uri = Uri.tryParse(text);
+    if (uri == null || !uri.hasScheme || uri.host.isEmpty) return null;
+
+    return text;
+  }
+
   static String? _firstOrNull(List<String> values) {
     return values.isEmpty ? null : values.first;
   }
@@ -191,14 +245,28 @@ class LoginProfileDetails {
       value != null && value.trim().isNotEmpty;
 }
 
+/// 프로필 사진 미리보기 정보.
+class LoginProfilePhoto {
+  /// S3 object key.
+  final String key;
+
+  /// 서버에서 내려준 presigned URL.
+  final String? url;
+
+  /// 생성자.
+  const LoginProfilePhoto({required this.key, this.url});
+}
+
 class _ParsedPhoto {
   final String key;
+  final String? url;
   final bool isMain;
   final int sortOrder;
   final int index;
 
   const _ParsedPhoto({
     required this.key,
+    required this.url,
     required this.isMain,
     required this.sortOrder,
     required this.index,
@@ -213,6 +281,7 @@ class _ParsedPhoto {
     final map = LoginProfileDetails._asStringKeyedMap(value);
     return _ParsedPhoto(
       key: key,
+      url: LoginProfileDetails._photoUrl(value),
       isMain: map?['isMain'] == true || map?['is_main'] == true,
       sortOrder: _int(map?['sortOrder'] ?? map?['sort_order']) ?? index,
       index: index,

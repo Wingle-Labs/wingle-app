@@ -40,13 +40,28 @@ class ProfilePhotoInput {
   /// 현재 세션에서 선택한 이미지 미리보기 바이트.
   final Uint8List? previewBytes;
 
+  /// 서버에서 내려준 기존 사진 미리보기 URL.
+  final String? remoteUrl;
+
   /// 생성자.
   const ProfilePhotoInput({
     required this.s3Key,
     required this.name,
     required this.contentType,
     this.previewBytes,
+    this.remoteUrl,
   });
+
+  /// 값 복사.
+  ProfilePhotoInput copyWith({Uint8List? previewBytes, String? remoteUrl}) {
+    return ProfilePhotoInput(
+      s3Key: s3Key,
+      name: name,
+      contentType: contentType,
+      previewBytes: previewBytes ?? this.previewBytes,
+      remoteUrl: remoteUrl ?? this.remoteUrl,
+    );
+  }
 }
 
 /// 상세 프로필 입력 상태.
