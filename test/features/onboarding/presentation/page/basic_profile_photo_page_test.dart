@@ -11,12 +11,15 @@ import 'package:wingle/app/config/theme/themes.dart';
 import 'package:wingle/common/constants/localization_constants.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_details.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
+import 'package:wingle/features/auth/domain/models/my_profile_snapshot.dart';
 import 'package:wingle/features/onboarding/data/mock/mock_file_repository.dart';
+import 'package:wingle/features/onboarding/data/mock/mock_profile_repository.dart';
 import 'package:wingle/features/onboarding/domain/model/file/file_models.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_photo_page.dart';
 import 'package:wingle/features/onboarding/presentation/providers/file_repository_provider.dart';
 import 'package:wingle/features/onboarding/presentation/providers/profile_details_provider.dart';
 import 'package:wingle/features/onboarding/presentation/providers/profile_photo_picker_provider.dart';
+import 'package:wingle/features/onboarding/presentation/providers/profile_repository_provider.dart';
 import 'package:wingle/features/onboarding/presentation/utils/upload_image_compressor.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
@@ -49,6 +52,43 @@ void main() {
       find.byType(FloatingActionButton),
     );
     expect(button.onPressed, isNull);
+  });
+
+  testWidgets('스타일 사진 화면 진입 시 서버 스냅샷 사진을 슬롯 상태로 복원한다', (tester) async {
+    _setMobileViewport(tester);
+    final persistence = _MemoryProfileDetailsPersistence();
+
+    await tester.pumpWidget(
+      _testApp(
+        home: const BasicProfileStylePhotoPage(),
+        persistence: persistence,
+        profileRepository: const _ImmediateProfileRepository(
+          profileSnapshot: MyProfileSnapshot(
+            profileDetails: LoginProfileDetails(
+              mainStylePhotoKey: 'users/1/style/server-main.webp',
+              subStylePhotoKeys: ['users/1/style/server-sub.webp'],
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    await _pumpAsyncWork(tester);
+
+    expect(find.byIcon(Icons.check_rounded), findsNWidgets(2));
+    expect(
+      persistence.profile?.mainStylePhotoKey,
+      'users/1/style/server-main.webp',
+    );
+    expect(persistence.profile?.subStylePhotoKeys, [
+      'users/1/style/server-sub.webp',
+    ]);
+
+    final button = tester.widget<FloatingActionButton>(
+      find.byType(FloatingActionButton),
+    );
+    expect(button.onPressed, isNotNull);
   });
 
   testWidgets('스타일 사진을 드래그하면 첫 번째 사진을 대표 사진으로 저장한다', (tester) async {
@@ -213,6 +253,7 @@ Widget _testApp({
   required Widget home,
   _MemoryProfileDetailsPersistence? persistence,
   _SequentialProfilePhotoFileRepository? fileRepository,
+  MockProfileRepository? profileRepository,
   ProfilePhotoPickerFn? photoPicker,
   UploadImageCompressionFn? imageCompressor,
 }) {
@@ -223,6 +264,9 @@ Widget _testApp({
       ),
       if (fileRepository != null)
         fileRepositoryProvider.overrideWithValue(fileRepository),
+      profileRepositoryProvider.overrideWithValue(
+        profileRepository ?? const _ImmediateProfileRepository(),
+      ),
       if (photoPicker != null)
         profilePhotoPickerProvider.overrideWithValue(photoPicker),
       if (imageCompressor != null)
@@ -249,6 +293,9 @@ Widget _testRouterApp(
     overrides: [
       profileDetailsPersistenceProvider.overrideWithValue(
         persistence ?? _MemoryProfileDetailsPersistence(),
+      ),
+      profileRepositoryProvider.overrideWithValue(
+        const _ImmediateProfileRepository(),
       ),
     ],
     child: EasyLocalization(
@@ -374,4 +421,13 @@ class _SequentialProfilePhotoFileRepository extends MockFileRepository {
     required List<int> bytes,
     required String contentType,
   }) async {}
+}
+
+class _ImmediateProfileRepository extends MockProfileRepository {
+  const _ImmediateProfileRepository({super.profileSnapshot});
+
+  @override
+  Future<MyProfileSnapshot?> fetchMyProfile() async {
+    return profileSnapshot;
+  }
 }

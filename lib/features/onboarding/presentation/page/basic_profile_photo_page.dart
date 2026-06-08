@@ -98,16 +98,11 @@ class _BasicProfilePhotoPageState
     super.initState();
     final config = _ProfilePhotoPageConfig.fromType(widget.type);
     final photos = config.photos(ref.read(profileDetailsProvider));
-    _slotEntries.addAll(
-      photos
-          .take(_PhotoSlotRow.slotCount)
-          .map(
-            (photo) => _PhotoSlotEntry.uploaded(
-              id: _createSlotEntryId(),
-              photo: photo,
-            ),
-          ),
-    );
+    _appendUploadedPhotoEntries(photos);
+
+    if (photos.isEmpty) {
+      unawaited(_syncInitialPhotosFromServer());
+    }
   }
 
   @override
@@ -458,6 +453,37 @@ class _BasicProfilePhotoPageState
     return notifier.replacePhotos(
       type: widget.type,
       photos: _persistablePhotos,
+    );
+  }
+
+  Future<void> _syncInitialPhotosFromServer() async {
+    final synced = await ref
+        .read(profileDetailsProvider.notifier)
+        .syncProfileDetailsFromServer();
+    if (!mounted || !synced || _slotEntries.isNotEmpty) return;
+
+    final config = _ProfilePhotoPageConfig.fromType(widget.type);
+    final photos = config.photos(ref.read(profileDetailsProvider));
+    if (photos.isEmpty) return;
+
+    setState(() {
+      _appendUploadedPhotoEntries(photos);
+    });
+  }
+
+  void _appendUploadedPhotoEntries(List<ProfilePhotoInput> photos) {
+    final availableSlotCount = _PhotoSlotRow.slotCount - _slotEntries.length;
+    if (availableSlotCount <= 0) return;
+
+    _slotEntries.addAll(
+      photos
+          .take(availableSlotCount)
+          .map(
+            (photo) => _PhotoSlotEntry.uploaded(
+              id: _createSlotEntryId(),
+              photo: photo,
+            ),
+          ),
     );
   }
 

@@ -272,6 +272,47 @@ void main() {
     expect(state.mainFacePhotoKey, 'users/1/face/main.jpg');
   });
 
+  test('서버 상세 프로필 스냅샷의 사진 key를 provider 상태와 로컬 저장소에 반영한다', () async {
+    final persistence = _MemoryProfileDetailsPersistence();
+    final profileRepository = _RecordingProfileRepository(
+      snapshotOverride: const MyProfileSnapshot(
+        profileDetails: LoginProfileDetails(
+          mainStylePhotoKey: 'users/1/style/server-main.webp',
+          subStylePhotoKeys: ['users/1/style/server-sub.webp'],
+          mainFacePhotoKey: 'users/1/face/server-main.webp',
+        ),
+      ),
+    );
+    final container = ProviderContainer(
+      overrides: [
+        profileRepositoryProvider.overrideWithValue(profileRepository),
+        profileDetailsPersistenceProvider.overrideWithValue(persistence),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    final success = await container
+        .read(profileDetailsProvider.notifier)
+        .syncProfileDetailsFromServer();
+    final state = container.read(profileDetailsProvider);
+
+    expect(success, isTrue);
+    expect(state.mainStylePhotoKey, 'users/1/style/server-main.webp');
+    expect(state.subStylePhotoKeys, ['users/1/style/server-sub.webp']);
+    expect(state.mainFacePhotoKey, 'users/1/face/server-main.webp');
+    expect(
+      persistence.profile?.mainStylePhotoKey,
+      'users/1/style/server-main.webp',
+    );
+    expect(persistence.profile?.subStylePhotoKeys, [
+      'users/1/style/server-sub.webp',
+    ]);
+    expect(
+      persistence.profile?.mainFacePhotoKey,
+      'users/1/face/server-main.webp',
+    );
+  });
+
   test('자기소개 성실도는 0자, 50자, 200자 기준으로 구분한다', () {
     final container = ProviderContainer();
     addTearDown(container.dispose);

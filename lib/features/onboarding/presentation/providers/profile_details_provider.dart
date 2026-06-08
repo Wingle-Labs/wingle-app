@@ -337,6 +337,28 @@ class ProfileDetails extends _$ProfileDetails {
     );
   }
 
+  /// 서버의 내 프로필 상세 스냅샷을 현재 draft의 빈 필드에 반영한다.
+  Future<bool> syncProfileDetailsFromServer() async {
+    try {
+      final snapshot = await ref
+          .read(profileRepositoryProvider)
+          .fetchMyProfile();
+      final profileDetails = snapshot?.profileDetails;
+      if (profileDetails == null) {
+        return false;
+      }
+
+      final serverState = _modelFromLoginProfile(profileDetails);
+      final nextState = _mergeMissingProfileDetails(state, serverState);
+      state = nextState.copyWith(submitErrorMessage: null);
+      await _saveProfileDetails(_profileFromModel(nextState));
+
+      return ref.mounted;
+    } catch (_) {
+      return false;
+    }
+  }
+
   /// 상세 프로필 전체를 API에 등록하거나 수정한다.
   Future<bool> submitProfileDetails({bool forceUpdate = false}) async {
     final selfIntroduction = state.selfIntroduction.trim();
@@ -427,32 +449,39 @@ class ProfileDetails extends _$ProfileDetails {
       }
 
       final serverState = _modelFromLoginProfile(profileDetails);
-      return currentState.copyWith(
-        energy: currentState.canContinueMbti
-            ? currentState.energy
-            : serverState.energy,
-        perception: currentState.canContinueMbti
-            ? currentState.perception
-            : serverState.perception,
-        decision: currentState.canContinueMbti
-            ? currentState.decision
-            : serverState.decision,
-        lifestyle: currentState.canContinueMbti
-            ? currentState.lifestyle
-            : serverState.lifestyle,
-        selfIntroduction: _nonEmpty(currentState.selfIntroduction) == null
-            ? serverState.selfIntroduction
-            : currentState.selfIntroduction,
-        stylePhotos: currentState.stylePhotos.isEmpty
-            ? serverState.stylePhotos
-            : currentState.stylePhotos,
-        facePhotos: currentState.facePhotos.isEmpty
-            ? serverState.facePhotos
-            : currentState.facePhotos,
-      );
+      return _mergeMissingProfileDetails(currentState, serverState);
     } catch (_) {
       return currentState;
     }
+  }
+
+  ProfileDetailsModel _mergeMissingProfileDetails(
+    ProfileDetailsModel currentState,
+    ProfileDetailsModel serverState,
+  ) {
+    return currentState.copyWith(
+      energy: currentState.canContinueMbti
+          ? currentState.energy
+          : serverState.energy,
+      perception: currentState.canContinueMbti
+          ? currentState.perception
+          : serverState.perception,
+      decision: currentState.canContinueMbti
+          ? currentState.decision
+          : serverState.decision,
+      lifestyle: currentState.canContinueMbti
+          ? currentState.lifestyle
+          : serverState.lifestyle,
+      selfIntroduction: _nonEmpty(currentState.selfIntroduction) == null
+          ? serverState.selfIntroduction
+          : currentState.selfIntroduction,
+      stylePhotos: currentState.stylePhotos.isEmpty
+          ? serverState.stylePhotos
+          : currentState.stylePhotos,
+      facePhotos: currentState.facePhotos.isEmpty
+          ? serverState.facePhotos
+          : currentState.facePhotos,
+    );
   }
 
   /// 프로필 심사를 요청하고 로컬 온보딩 상태를 심사 대기로 갱신한다.
