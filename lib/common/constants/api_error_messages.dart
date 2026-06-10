@@ -122,6 +122,10 @@ class ApiErrorMessages {
   static const String uploadContactsFailed =
       'common.error.api.uploadContactsFailed';
 
+  /// FCM 토큰 등록 실패 메시지
+  static const String registerFcmTokenFailed =
+      'common.error.api.registerFcmTokenFailed';
+
   /// 서버 상태 확인 실패 메시지
   static const String healthcheckFailed = 'common.error.api.healthcheckFailed';
 

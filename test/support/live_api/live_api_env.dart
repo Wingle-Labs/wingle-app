@@ -35,6 +35,7 @@ class LiveApiEnv {
   static const String profileEducationLevelKey =
       'TEST_API_PROFILE_EDUCATION_LEVEL';
   static const String contactPhoneNumbersKey = 'TEST_API_CONTACT_PHONE_NUMBERS';
+  static const String fcmTokenKey = 'TEST_API_FCM_TOKEN';
   static const String identityNameKey = 'TEST_API_IDENTITY_NAME';
   static const String identityPhoneNumberKey = 'TEST_API_IDENTITY_PHONE';
   static const String identityCiKey = 'TEST_API_IDENTITY_CI';

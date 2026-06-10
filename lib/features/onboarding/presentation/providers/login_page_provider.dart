@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wingle/common/constants/api_error_messages.dart';
@@ -5,6 +7,7 @@ import 'package:wingle/common/utils/auth_session_persistence.dart';
 import 'package:wingle/common/utils/auth_session_state.dart';
 import 'package:wingle/features/auth/domain/exceptions/auth_exception.dart';
 import 'package:wingle/features/auth/presentation/providers/login_repository_provider.dart';
+import 'package:wingle/features/notification/presentation/providers/fcm_token_service_provider.dart';
 import 'package:wingle/features/onboarding/presentation/models/login_page_model.dart';
 import 'package:wingle/features/onboarding/presentation/providers/basic_profile_provider.dart';
 
@@ -87,6 +90,9 @@ class LoginPage extends _$LoginPage {
         result: result,
       );
       AuthSessionState.markAuthenticated();
+      final fcmTokenService = ref.read(fcmTokenServiceProvider);
+      fcmTokenService.startTokenRefreshListener();
+      unawaited(fcmTokenService.registerCurrentToken());
 
       if (!ref.mounted) return false;
 

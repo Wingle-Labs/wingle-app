@@ -32,7 +32,8 @@
         "createCertificationPresignedUrlFailed": "We couldn't prepare your school document upload. Please try again.",
         "uploadFileFailed": "File upload failed. Please try again.",
         "submitJobFailed": "직장 정보를 등록하지 못했어요. 다시 시도해주세요.",
-        "verifyJobEmailFailed": "회사 이메일 인증에 실패했어요. 다시 시도해주세요."
+        "verifyJobEmailFailed": "회사 이메일 인증에 실패했어요. 다시 시도해주세요.",
+        "registerFcmTokenFailed": "Failed to register the notification token."
       }
     },
     "validation": {

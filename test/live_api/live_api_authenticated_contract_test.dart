@@ -421,5 +421,21 @@ void main() {
         LiveApiAssertions.expectStatus(response.statusCode, 200);
       },
     );
+
+    test(
+      'FCM 토큰 등록은 token 문자열을 받는다',
+      skip: _skipIfMissing([LiveApiEnv.fcmTokenKey]),
+      () async {
+        final client = LiveApiClient.fromEnv();
+        final token = LiveApiEnv.get(LiveApiEnv.fcmTokenKey)!;
+
+        final response = await client.post(
+          ApiEndpoints.notificationToken,
+          body: {'token': token},
+        );
+
+        LiveApiAssertions.expectStatus(response.statusCode, 200);
+      },
+    );
   });
 }

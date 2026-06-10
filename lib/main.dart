@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,7 @@ import 'package:wingle/common/constants/env_constants.dart';
 import 'package:wingle/common/utils/env_util.dart';
 import 'package:wingle/common/utils/hive_util.dart';
 import 'package:wingle/common/utils/secure_key_manager.dart';
+import 'package:wingle/features/notification/presentation/providers/fcm_token_service_provider.dart';
 
 import 'app/app.dart';
 
@@ -51,6 +54,11 @@ void main() async {
     );
   } else if (bootstrapResult.codebook.usedOfflineCache) {
     debugPrint('[Bootstrap] using offline codebook cache');
+  }
+  if (bootstrapResult.authSession.isAuthenticated) {
+    final fcmTokenService = container.read(fcmTokenServiceProvider);
+    fcmTokenService.startTokenRefreshListener();
+    unawaited(fcmTokenService.registerCurrentToken());
   }
 
   runApp(

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -11,6 +12,9 @@ import 'package:wingle/features/auth/domain/models/login_basic_profile.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 import 'package:wingle/features/auth/domain/models/my_profile_snapshot.dart';
 import 'package:wingle/features/auth/presentation/providers/login_repository_provider.dart';
+import 'package:wingle/features/notification/application/fcm_token_service.dart';
+import 'package:wingle/features/notification/domain/repository/fcm_token_repository.dart';
+import 'package:wingle/features/notification/presentation/providers/fcm_token_service_provider.dart';
 import 'package:wingle/features/onboarding/data/mock/mock_profile_repository.dart';
 import 'package:wingle/features/onboarding/presentation/providers/basic_profile_provider.dart';
 import 'package:wingle/features/onboarding/presentation/providers/login_page_provider.dart';
@@ -110,6 +114,40 @@ void main() {
         HiveUtil.read(HiveLoginBox.profileStatus),
         LoginProfileStatus.signupCompleted.apiValue,
       );
+    });
+
+    test('submit 성공 시 FCM 토큰 등록을 시작한다', () async {
+      final fcmRepository = _RecordingFcmTokenRepository();
+      final fcmService = FcmTokenService(
+        repository: fcmRepository,
+        requestPermission: () async {},
+        readToken: () async => 'fcm-token',
+        tokenRefreshStream: const Stream<String>.empty(),
+        logger: (_) {},
+      );
+      addTearDown(fcmService.dispose);
+      final container = ProviderContainer(
+        overrides: [
+          profileRepositoryProvider.overrideWithValue(
+            const MockProfileRepository(),
+          ),
+          fcmTokenServiceProvider.overrideWithValue(fcmService),
+        ],
+      );
+      addTearDown(container.dispose);
+      final subscription = container.listen(loginPageProvider, (_, _) {});
+      addTearDown(subscription.close);
+
+      final notifier = container.read(loginPageProvider.notifier);
+
+      notifier.updatePhone('010-9256-6504');
+      notifier.updatePassword('!abc1010');
+
+      final result = await notifier.submit();
+      await Future<void>.delayed(Duration.zero);
+
+      expect(result, isTrue);
+      expect(fcmRepository.tokens, ['fcm-token']);
     });
 
     test('submit 성공 시 로그인 응답의 기본 프로필 정보를 복원한다', () async {
@@ -253,4 +291,13 @@ void main() {
       expect(state.errorMessage, 'common.error.api.invalidLoginCredentials');
     });
   });
+}
+
+class _RecordingFcmTokenRepository implements FcmTokenRepository {
+  final List<String> tokens = <String>[];
+
+  @override
+  Future<void> registerToken({required String token}) async {
+    tokens.add(token.trim());
+  }
 }

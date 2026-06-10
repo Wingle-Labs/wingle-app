@@ -162,6 +162,13 @@ class ApiEndpoints {
   static const String contacts = '/api/v1/contacts';
 
   // ! -------------------------------------------------------------------------
+  // ! Notification Domain
+  // ! -------------------------------------------------------------------------
+
+  /// POST /api/v1/notifications/token
+  static const String notificationToken = '/api/v1/notifications/token';
+
+  // ! -------------------------------------------------------------------------
   // ! Health Domain
   // ! -------------------------------------------------------------------------
 
