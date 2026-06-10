@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:wingle/features/home/route/home_routes.dart';
 import 'package:wingle/features/onboarding/route/onboarding_route_chain.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
@@ -115,6 +116,20 @@ void main() {
           OnboardingRoutes.requiredSelfIntro,
         ),
         OnboardingRoutes.choiceQuestions,
+      );
+      expect(
+        OnboardingRouteChain.nextOf(
+          OnboardingRouteFlow.approvedQuestions,
+          OnboardingRoutes.requiredSelfIntro,
+        ),
+        HomeRoutes.root,
+      );
+      expect(
+        OnboardingRouteChain.previousOf(
+          OnboardingRouteFlow.approvedQuestions,
+          OnboardingRoutes.essayQuestionInput,
+        ),
+        OnboardingRoutes.requiredSelfIntro,
       );
     });
   });

@@ -164,7 +164,12 @@ abstract final class OnboardingRouteChain {
       _RouteChainEntry(
         route: OnboardingRoutes.requiredSelfIntro,
         previous: OnboardingRoutes.choiceQuestions,
-        next: OnboardingRoutes.selectiveSelfIntro,
+        next: HomeRoutes.root,
+      ),
+      _RouteChainEntry(
+        route: OnboardingRoutes.essayQuestionInput,
+        previous: OnboardingRoutes.requiredSelfIntro,
+        next: OnboardingRoutes.requiredSelfIntro,
       ),
       _RouteChainEntry(
         route: OnboardingRoutes.selectiveSelfIntro,

@@ -146,6 +146,12 @@ abstract final class OnboardingRoutes {
     name: 'required-self-intro',
   );
 
+  /// 주관식 질문 단일 입력
+  static const essayQuestionInput = RouteNode(
+    parent: signup,
+    name: 'essay-question-input',
+  );
+
   /// 선택형 자기소개 입력
   static const selectiveSelfIntro = RouteNode(
     parent: signup,

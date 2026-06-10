@@ -51,6 +51,13 @@ void main() {
         router.namedLocation(OnboardingRoutes.choiceQuestions.name),
         OnboardingRoutes.choiceQuestions.fullPath,
       );
+      expect(
+        router.namedLocation(
+          OnboardingRoutes.essayQuestionInput.name,
+          pathParameters: {'questionId': '1'},
+        ),
+        '${OnboardingRoutes.essayQuestionInput.fullPath}/1',
+      );
     });
   });
 }

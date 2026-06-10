@@ -105,6 +105,26 @@
       "subtitle": "나의 가치관과 가장 맞는 항목을 선택하면,\n이 내용을 기반으로 매칭해드려요.",
       "loadFailed": "필수 입력 문항을 불러오지 못했어요.\n다시 시도해주세요."
     },
+    "essayQuestions": {
+      "appBarTitle": "주관식 질문",
+      "title": "선택 질문을 작성해보세요",
+      "subtitle": "답변한 문항은 프로필에 더 풍부하게 반영돼요.",
+      "progress": "작성 완료 {done}/{total}",
+      "optionalBadge": "선택",
+      "completedBadge": "작성 완료",
+      "emptyPreview": "아직 작성하지 않았어요",
+      "skip": "건너뛰기",
+      "next": "다음",
+      "inputAppBarTitle": "주관식 답변",
+      "inputSubtitle": "원하는 문항만 작성해도 괜찮아요.",
+      "inputLabel": "답변",
+      "inputHint": "솔직하게 적어주세요",
+      "inputAssistive": "최대 1000자까지 작성할 수 있어요.",
+      "inputComplete": "입력 완료",
+      "loadFailed": "주관식 질문을 불러오지 못했어요.\n다시 시도해주세요.",
+      "saveFailed": "주관식 답변을 저장하지 못했어요.",
+      "emptyQuestion": "질문을 찾지 못했어요."
+    },
     "button": {
       "login": "이미 계정이 있어요",
       "signUp": "시작하기",

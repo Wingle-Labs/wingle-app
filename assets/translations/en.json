@@ -105,6 +105,26 @@
       "subtitle": "Choose the options that best match your values,\nand we'll use them for matching.",
       "loadFailed": "We couldn't load the required questions.\nPlease try again."
     },
+    "essayQuestions": {
+      "appBarTitle": "Essay questions",
+      "title": "Answer optional questions",
+      "subtitle": "Completed answers can make your profile richer.",
+      "progress": "Completed {done}/{total}",
+      "optionalBadge": "Optional",
+      "completedBadge": "Completed",
+      "emptyPreview": "No answer yet",
+      "skip": "Skip",
+      "next": "Next",
+      "inputAppBarTitle": "Essay answer",
+      "inputSubtitle": "You can answer only the questions you want.",
+      "inputLabel": "Answer",
+      "inputHint": "Write honestly here",
+      "inputAssistive": "You can write up to 1000 characters.",
+      "inputComplete": "Done",
+      "loadFailed": "We couldn't load the essay questions.\nPlease try again.",
+      "saveFailed": "We couldn't save your essay answers.",
+      "emptyQuestion": "We couldn't find this question."
+    },
     "button": {
       "login": "이미 계정이 있어요",
       "signUp": "시작하기",

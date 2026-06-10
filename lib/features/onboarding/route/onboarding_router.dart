@@ -16,6 +16,8 @@ import 'package:wingle/features/onboarding/presentation/page/basic_profile_photo
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_residence_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_self_introduction_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/choice_questions_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/essay_question_input_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/essay_questions_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/login_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/onboarding_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/onboarding_password_page.dart';
@@ -24,7 +26,6 @@ import 'package:wingle/features/onboarding/presentation/page/pass_webview_page.d
 import 'package:wingle/features/onboarding/presentation/page/profile_approval_pending_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/profile_approval_request_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/profile_rejected_page.dart';
-import 'package:wingle/features/onboarding/presentation/page/required_self_intro.dart';
 import 'package:wingle/features/onboarding/presentation/page/selective_self_intro.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
@@ -191,7 +192,14 @@ final List<GoRoute> signUpRoutes = [
   GoRoute(
     name: OnboardingRoutes.requiredSelfIntro.name,
     path: OnboardingRoutes.requiredSelfIntro.path,
-    builder: (context, state) => RequiredSelfIntroPage(),
+    builder: (context, state) => const EssayQuestionsPage(),
+  ),
+  GoRoute(
+    name: OnboardingRoutes.essayQuestionInput.name,
+    path: '${OnboardingRoutes.essayQuestionInput.path}/:questionId',
+    builder: (context, state) => EssayQuestionInputPage(
+      questionId: int.tryParse(state.pathParameters['questionId'] ?? '') ?? -1,
+    ),
   ),
   GoRoute(
     name: OnboardingRoutes.selectiveSelfIntro.name,
