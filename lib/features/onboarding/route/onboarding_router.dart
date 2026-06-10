@@ -15,10 +15,10 @@ import 'package:wingle/features/onboarding/presentation/page/basic_profile_occup
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_photo_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_residence_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/basic_profile_self_introduction_page.dart';
+import 'package:wingle/features/onboarding/presentation/page/choice_questions_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/login_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/onboarding_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/onboarding_password_page.dart';
-import 'package:wingle/features/onboarding/presentation/page/onboarding_status_placeholder_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/pass_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/pass_webview_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/profile_approval_pending_page.dart';
@@ -26,7 +26,6 @@ import 'package:wingle/features/onboarding/presentation/page/profile_approval_re
 import 'package:wingle/features/onboarding/presentation/page/profile_rejected_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/required_self_intro.dart';
 import 'package:wingle/features/onboarding/presentation/page/selective_self_intro.dart';
-import 'package:wingle/features/onboarding/route/onboarding_route_chain.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// ! 온보딩 라우트
@@ -137,13 +136,7 @@ final List<GoRoute> loginRoutes = [
   GoRoute(
     name: OnboardingRoutes.choiceQuestions.name,
     path: OnboardingRoutes.choiceQuestions.path,
-    builder: (context, state) => const OnboardingStatusPlaceholderPage(
-      title: '객관식 질문 답변',
-      description: '승인된 사용자가 객관식 질문에 답변하는 화면을 연결할 단계입니다.',
-      status: 'PROFILE_APPROVED',
-      routeFlow: OnboardingRouteFlow.profileInput,
-      currentRoute: OnboardingRoutes.choiceQuestions,
-    ),
+    builder: (context, state) => const ChoiceQuestionsPage(),
   ),
   GoRoute(
     name: OnboardingRoutes.resetPassword.name,

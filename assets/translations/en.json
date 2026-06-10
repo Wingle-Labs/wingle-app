@@ -100,6 +100,11 @@
       "confirmTitle": "Request another review?",
       "confirmSubtitle": "We'll submit your updated profile for review."
     },
+    "choiceQuestions": {
+      "title": "These questions are required.",
+      "subtitle": "Choose the options that best match your values,\nand we'll use them for matching.",
+      "loadFailed": "We couldn't load the required questions.\nPlease try again."
+    },
     "button": {
       "login": "이미 계정이 있어요",
       "signUp": "시작하기",

@@ -100,6 +100,11 @@
       "confirmTitle": "재심사를 요청할까요?",
       "confirmSubtitle": "수정한 내용으로 다시 심사를 요청합니다."
     },
+    "choiceQuestions": {
+      "title": "아래는 필수 입력 문항입니다.",
+      "subtitle": "나의 가치관과 가장 맞는 항목을 선택하면,\n이 내용을 기반으로 매칭해드려요.",
+      "loadFailed": "필수 입력 문항을 불러오지 못했어요.\n다시 시도해주세요."
+    },
     "button": {
       "login": "이미 계정이 있어요",
       "signUp": "시작하기",
