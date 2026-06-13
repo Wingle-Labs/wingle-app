@@ -28,7 +28,7 @@ final class ProfileRejectionControllerProvider
         argument: null,
         retry: null,
         name: r'profileRejectionControllerProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -42,7 +42,7 @@ final class ProfileRejectionControllerProvider
 }
 
 String _$profileRejectionControllerHash() =>
-    r'96124ebd6b326f2c22a063df21d980b07c1b45d3';
+    r'78465749d6c1d26eaa13cfd5bf5419c509c89515';
 
 /// 프로필 반려 사유 조회와 재심사 요청을 관리한다.
 

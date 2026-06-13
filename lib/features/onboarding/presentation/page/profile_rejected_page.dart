@@ -4,7 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wingle/app/config/theme/components/buttons/default_filled_button.dart';
+import 'package:wingle/app/config/theme/components/buttons/default_floating_button.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_text_button.dart';
 import 'package:wingle/app/config/theme/components/cards/default_card.dart';
 import 'package:wingle/app/config/theme/components/states/animation_progress_indicator.dart';
@@ -49,11 +49,10 @@ class ProfileRejectedPage extends ConsumerWidget {
         title: 'onboarding.profileRejected.appBarTitle',
         forceImplyLeading: false,
       ),
-      floatingActionButton: DefaultFilledButton(
+      floatingActionButton: DefaultFloatingButton(
         label: 'onboarding.profileRejected.reapplyButton',
-        variant: .fullWidth,
         isLoading: isSubmitting,
-        isDisabled: currentState == null || isSubmitting,
+        disabled: currentState == null || isSubmitting,
         onPressed: () => _showReapplyConfirmation(context, ref),
       ),
       child: rejectionState.when(
@@ -98,6 +97,7 @@ class ProfileRejectedPage extends ConsumerWidget {
 
     if (success) {
       context.goNamed(OnboardingRoutes.approvalPending.name);
+      ref.invalidate(profileRejectionControllerProvider);
       return;
     }
 

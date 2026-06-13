@@ -40,7 +40,7 @@ class ProfileRejectionState {
 }
 
 /// 프로필 반려 사유 조회와 재심사 요청을 관리한다.
-@riverpod
+@Riverpod(keepAlive: true)
 class ProfileRejectionController extends _$ProfileRejectionController {
   @override
   Future<ProfileRejectionState> build() async {

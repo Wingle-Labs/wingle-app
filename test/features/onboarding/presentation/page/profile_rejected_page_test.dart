@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wingle/app/config/theme/components/states/animation_progress_indicator.dart';
+import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/themes.dart';
 import 'package:wingle/app/router/route_node.dart';
 import 'package:wingle/common/constants/localization_constants.dart';
@@ -46,6 +48,73 @@ void main() {
     expect(find.text('직장 정보가 이메일 인증 내용과 일치하지 않습니다.'), findsOneWidget);
     expect(find.text('광고성 내용이 포함되어 있습니다.'), findsOneWidget);
     expect(_textEither('common.button.edit', '수정하기'), findsNWidgets(2));
+  });
+
+  testWidgets('수정 화면에서 반려 화면으로 돌아와도 거절 사유를 다시 조회하지 않는다', (tester) async {
+    _setMobileViewport(tester);
+    final repository = _RecordingProfileRepository(
+      const RejectionReason(
+        reviewedAt: '2026-06-01T12:00:00',
+        reasons: [
+          RejectionReasonItem(
+            code: 'JOB_INFO_MISMATCH',
+            categoryDisplayName: '직장',
+            description: '직장 정보가 일치하지 않습니다.',
+          ),
+        ],
+      ),
+    );
+    final router = _profileRejectedRouter();
+    addTearDown(router.dispose);
+
+    await tester.pumpWidget(_testApp(router: router, repository: repository));
+    await tester.pumpAndSettle();
+
+    expect(repository.fetchRejectionReasonCount, 1);
+
+    final editButton = _textEither('common.button.edit', '수정하기');
+    await tester.ensureVisible(editButton);
+    await tester.pumpAndSettle();
+    await tester.tap(editButton);
+    await tester.pumpAndSettle();
+
+    expect(find.text('company-target'), findsOneWidget);
+    expect(repository.fetchRejectionReasonCount, 1);
+
+    await tester.tap(find.text('return-rejected'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('직장'), findsOneWidget);
+    expect(find.byType(AnimationProgressIndicator), findsNothing);
+    expect(repository.fetchRejectionReasonCount, 1);
+  });
+
+  testWidgets('재심사 요청 버튼은 화면 좌우 padding을 가진다', (tester) async {
+    _setMobileViewport(tester);
+    final repository = _RecordingProfileRepository(
+      const RejectionReason(
+        reviewedAt: '2026-06-01T12:00:00',
+        reasons: [
+          RejectionReasonItem(
+            code: 'SELF_INTRO_ADVERTISEMENT',
+            categoryDisplayName: '자기소개',
+            description: '광고성 내용이 포함되어 있습니다.',
+          ),
+        ],
+      ),
+    );
+    final router = _profileRejectedRouter();
+    addTearDown(router.dispose);
+
+    await tester.pumpWidget(_testApp(router: router, repository: repository));
+    await tester.pumpAndSettle();
+
+    final cta = find.byType(FloatingActionButton);
+    final left = tester.getTopLeft(cta).dx;
+    final right = tester.view.physicalSize.width - tester.getTopRight(cta).dx;
+
+    expect(left, AppPadding.scaffold);
+    expect(right, AppPadding.scaffold);
   });
 
   for (final scenario in _editRouteScenarios) {
@@ -149,7 +218,16 @@ GoRoute _targetRoute(RouteNode route, String text) {
   return GoRoute(
     name: route.name,
     path: route.fullPath,
-    builder: (context, state) => Text(text),
+    builder: (context, state) => Column(
+      children: [
+        Text(text),
+        TextButton(
+          onPressed: () =>
+              context.goNamed(OnboardingRoutes.profileRejected.name),
+          child: const Text('return-rejected'),
+        ),
+      ],
+    ),
   );
 }
 
@@ -229,11 +307,13 @@ class _EditRouteScenario {
 
 class _RecordingProfileRepository extends MockProfileRepository {
   final RejectionReason rejectionReason;
+  int fetchRejectionReasonCount = 0;
 
-  const _RecordingProfileRepository(this.rejectionReason);
+  _RecordingProfileRepository(this.rejectionReason);
 
   @override
   Future<RejectionReason> fetchRejectionReason() async {
+    fetchRejectionReasonCount += 1;
     return rejectionReason;
   }
 }
