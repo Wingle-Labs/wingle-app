@@ -47,7 +47,7 @@ void main() {
     await _pumpAsyncWork(tester);
     await tester.pumpAndSettle();
 
-    expect(deviceContactService.readCount, 0);
+    expect(deviceContactService.selectCount, 0);
     expect(contactRepository.uploadedPhoneNumbers, isEmpty);
     expect(persistence.profileStatus, LoginProfileStatus.onboardingCompleted);
     expect(find.text('home-target'), findsOneWidget);
@@ -70,7 +70,7 @@ void main() {
         displayName: '박연락',
         phoneNumbers: ['010-3333-4444'],
       ),
-    ]);
+    ], requiresInAppSelection: true);
 
     await tester.pumpWidget(
       _testApp(
@@ -86,7 +86,7 @@ void main() {
     await _pumpAsyncWork(tester);
     await tester.pumpAndSettle();
 
-    expect(deviceContactService.readCount, 1);
+    expect(deviceContactService.selectCount, 1);
     expect(
       _textEither('onboarding.contactBlock.sheetTitle', '제외할 연락처를 선택해주세요'),
       findsOneWidget,
@@ -105,6 +105,46 @@ void main() {
 
     expect(contactRepository.uploadedPhoneNumbers, [
       ['010-1111-2222'],
+    ]);
+    expect(persistence.profileStatus, LoginProfileStatus.onboardingCompleted);
+    expect(find.text('home-target'), findsOneWidget);
+  });
+
+  testWidgets('네이티브 선택 결과는 추가 선택 시트 없이 바로 업로드한다', (tester) async {
+    _setMobileViewport(tester);
+    final router = _contactBlockRouter();
+    addTearDown(router.dispose);
+    final contactRepository = _RecordingContactRepository();
+    final persistence = _MemoryOnboardingProfileStatusPersistence();
+    final deviceContactService = _RecordingDeviceContactService(const [
+      ContactBlockContact(
+        id: 'native-contact-1',
+        displayName: '이선택',
+        phoneNumbers: ['010-5555-6666'],
+      ),
+    ], requiresInAppSelection: false);
+
+    await tester.pumpWidget(
+      _testApp(
+        router,
+        contactRepository: contactRepository,
+        persistence: persistence,
+        deviceContactService: deviceContactService,
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(_textEither('onboarding.contactBlock.block', '차단하기'));
+    await _pumpAsyncWork(tester);
+    await tester.pumpAndSettle();
+
+    expect(deviceContactService.selectCount, 1);
+    expect(
+      _textEither('onboarding.contactBlock.sheetTitle', '제외할 연락처를 선택해주세요'),
+      findsNothing,
+    );
+    expect(contactRepository.uploadedPhoneNumbers, [
+      ['010-5555-6666'],
     ]);
     expect(persistence.profileStatus, LoginProfileStatus.onboardingCompleted);
     expect(find.text('home-target'), findsOneWidget);
@@ -175,14 +215,21 @@ Finder _textEither(String key, String translated) {
 
 class _RecordingDeviceContactService implements DeviceContactService {
   final List<ContactBlockContact> contacts;
-  int readCount = 0;
+  final bool requiresInAppSelection;
+  int selectCount = 0;
 
-  _RecordingDeviceContactService(this.contacts);
+  _RecordingDeviceContactService(
+    this.contacts, {
+    this.requiresInAppSelection = false,
+  });
 
   @override
-  Future<List<ContactBlockContact>> readContacts() async {
-    readCount += 1;
-    return contacts;
+  Future<DeviceContactSelectionResult> selectContacts() async {
+    selectCount += 1;
+    return DeviceContactSelectionResult(
+      contacts: contacts,
+      requiresInAppSelection: requiresInAppSelection,
+    );
   }
 }
 

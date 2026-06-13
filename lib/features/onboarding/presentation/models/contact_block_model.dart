@@ -14,6 +14,9 @@ class ContactBlockModel {
   /// 선택한 연락처를 업로드하는 중인지 여부.
   final bool isUploading;
 
+  /// 앱 내부 연락처 선택 확인이 필요한지 여부.
+  final bool requiresInAppSelection;
+
   /// 오류 메시지 localization key.
   final String? errorMessage;
 
@@ -23,6 +26,7 @@ class ContactBlockModel {
     this.selectedContactIds = const {},
     this.isLoadingContacts = false,
     this.isUploading = false,
+    this.requiresInAppSelection = false,
     this.errorMessage,
   });
 
@@ -55,6 +59,7 @@ class ContactBlockModel {
     Set<String>? selectedContactIds,
     bool? isLoadingContacts,
     bool? isUploading,
+    bool? requiresInAppSelection,
     String? errorMessage,
   }) {
     return ContactBlockModel(
@@ -62,6 +67,8 @@ class ContactBlockModel {
       selectedContactIds: selectedContactIds ?? this.selectedContactIds,
       isLoadingContacts: isLoadingContacts ?? this.isLoadingContacts,
       isUploading: isUploading ?? this.isUploading,
+      requiresInAppSelection:
+          requiresInAppSelection ?? this.requiresInAppSelection,
       errorMessage: errorMessage,
     );
   }

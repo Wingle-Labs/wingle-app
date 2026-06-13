@@ -74,6 +74,12 @@ class ContactBlockPage extends ConsumerWidget {
       return;
     }
 
+    final state = ref.read(contactBlockControllerProvider);
+    if (!state.requiresInAppSelection) {
+      await _uploadSelectedContacts(context, ref);
+      return;
+    }
+
     await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -97,6 +103,23 @@ class ContactBlockPage extends ConsumerWidget {
     final success = await ref
         .read(contactBlockControllerProvider.notifier)
         .completeWithoutBlocking();
+    if (!context.mounted) return;
+
+    if (success) {
+      context.goNamed(HomeRoutes.root.name);
+      return;
+    }
+
+    _showCurrentError(context, ref);
+  }
+
+  Future<void> _uploadSelectedContacts(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    final success = await ref
+        .read(contactBlockControllerProvider.notifier)
+        .uploadSelectedContacts();
     if (!context.mounted) return;
 
     if (success) {

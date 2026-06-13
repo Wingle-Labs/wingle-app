@@ -59,4 +59,4 @@ final class DeviceContactServiceProvider
 }
 
 String _$deviceContactServiceHash() =>
-    r'eb628b5aef3b17b458e6d688276c681148e0459a';
+    r'd8a2d6beb71dcbefa90682ba4851ef80586ca189';

@@ -26,22 +26,34 @@ class ContactBlockController extends _$ContactBlockController {
     state = state.copyWith(isLoadingContacts: true, errorMessage: null);
 
     try {
-      final contacts = await ref
+      final selectionResult = await ref
           .read(deviceContactServiceProvider)
-          .readContacts();
+          .selectContacts();
       if (!ref.mounted) {
-        return contacts.isNotEmpty;
+        return selectionResult.contacts.isNotEmpty;
       }
 
+      final selectedContactIds = selectionResult.requiresInAppSelection
+          ? const <String>{}
+          : selectionResult.contacts.map((contact) => contact.id).toSet();
+
       state = state.copyWith(
-        contacts: contacts,
-        selectedContactIds: const {},
+        contacts: selectionResult.contacts,
+        selectedContactIds: selectedContactIds,
         isLoadingContacts: false,
-        errorMessage: contacts.isEmpty
+        requiresInAppSelection: selectionResult.requiresInAppSelection,
+        errorMessage: selectionResult.contacts.isEmpty
             ? 'onboarding.contactBlock.emptyContacts'
             : null,
       );
-      return contacts.isNotEmpty;
+      return selectionResult.contacts.isNotEmpty;
+    } on DeviceContactSelectionCanceledException {
+      if (!ref.mounted) {
+        return false;
+      }
+
+      state = state.copyWith(isLoadingContacts: false, errorMessage: null);
+      return false;
     } on DeviceContactPermissionDeniedException {
       if (!ref.mounted) {
         return false;

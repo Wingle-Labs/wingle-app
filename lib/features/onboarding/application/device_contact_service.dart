@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/services.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:wingle/features/onboarding/domain/model/contact_block_contact.dart';
 
@@ -13,21 +16,81 @@ class DeviceContactReadFailedException implements Exception {
   const DeviceContactReadFailedException();
 }
 
-/// 기기 연락처 조회 서비스.
-abstract interface class DeviceContactService {
-  /// 사용자에게 공유된 연락처를 조회한다.
-  Future<List<ContactBlockContact>> readContacts();
+/// 연락처 선택을 사용자가 취소한 경우.
+class DeviceContactSelectionCanceledException implements Exception {
+  /// 생성자.
+  const DeviceContactSelectionCanceledException();
 }
 
-/// flutter_contacts 기반 기기 연락처 조회 서비스.
-class FlutterDeviceContactService implements DeviceContactService {
+/// 플랫폼 연락처 선택 결과.
+class DeviceContactSelectionResult {
+  /// API로 전송 가능한 연락처 목록.
+  final List<ContactBlockContact> contacts;
+
+  /// 앱 내부에서 다중 선택 확인 UI를 한 번 더 보여줘야 하는지 여부.
+  final bool requiresInAppSelection;
+
+  /// 생성자.
+  const DeviceContactSelectionResult({
+    required this.contacts,
+    required this.requiresInAppSelection,
+  });
+}
+
+/// 기기 연락처 조회 서비스.
+abstract interface class DeviceContactService {
+  /// 사용자에게 공유받거나 사용자가 선택할 수 있는 연락처를 조회한다.
+  Future<DeviceContactSelectionResult> selectContacts();
+}
+
+/// 플랫폼별 기기 연락처 선택 서비스.
+class PlatformDeviceContactService implements DeviceContactService {
+  static const MethodChannel _contactPickerChannel = MethodChannel(
+    'wingle/contact_picker',
+  );
   static final RegExp _nonDigitPattern = RegExp(r'\D');
 
   /// 생성자.
-  const FlutterDeviceContactService();
+  const PlatformDeviceContactService();
 
   @override
-  Future<List<ContactBlockContact>> readContacts() async {
+  Future<DeviceContactSelectionResult> selectContacts() {
+    if (Platform.isIOS) {
+      return _selectIosContacts();
+    }
+
+    return _selectAndroidContacts();
+  }
+
+  Future<DeviceContactSelectionResult> _selectIosContacts() async {
+    try {
+      final result = await _contactPickerChannel
+          .invokeMapMethod<String, Object?>('pickContacts');
+      if (result == null) {
+        throw const DeviceContactReadFailedException();
+      }
+
+      if (result['canceled'] == true) {
+        throw const DeviceContactSelectionCanceledException();
+      }
+
+      final rawContacts = result['contacts'];
+      if (rawContacts is! List) {
+        throw const DeviceContactReadFailedException();
+      }
+
+      return DeviceContactSelectionResult(
+        contacts: _contactBlockContactsFromNative(rawContacts),
+        requiresInAppSelection: false,
+      );
+    } on DeviceContactSelectionCanceledException {
+      rethrow;
+    } on PlatformException {
+      throw const DeviceContactReadFailedException();
+    }
+  }
+
+  Future<DeviceContactSelectionResult> _selectAndroidContacts() async {
     final permission = await FlutterContacts.permissions.request(
       PermissionType.read,
     );
@@ -41,29 +104,94 @@ class FlutterDeviceContactService implements DeviceContactService {
         properties: const {ContactProperty.phone},
       );
 
-      final normalizedContacts = <ContactBlockContact>[];
-      for (final contact in contacts) {
-        final phoneNumbers = _normalizedPhoneNumbers(contact);
-        if (phoneNumbers.isEmpty) {
-          continue;
-        }
-
-        normalizedContacts.add(
-          ContactBlockContact(
-            id: contact.id ?? contact.displayName ?? phoneNumbers.first,
-            displayName: _displayNameOf(contact, phoneNumbers.first),
-            phoneNumbers: phoneNumbers,
-          ),
-        );
-      }
-
-      normalizedContacts.sort((a, b) {
-        return a.displayName.compareTo(b.displayName);
-      });
-      return normalizedContacts;
+      return DeviceContactSelectionResult(
+        contacts: _contactBlockContactsFromFlutter(contacts),
+        requiresInAppSelection: true,
+      );
     } catch (_) {
       throw const DeviceContactReadFailedException();
     }
+  }
+
+  List<ContactBlockContact> _contactBlockContactsFromFlutter(
+    List<Contact> contacts,
+  ) {
+    final normalizedContacts = <ContactBlockContact>[];
+    for (final contact in contacts) {
+      final phoneNumbers = _normalizedPhoneNumbers(contact);
+      if (phoneNumbers.isEmpty) {
+        continue;
+      }
+
+      normalizedContacts.add(
+        ContactBlockContact(
+          id: contact.id ?? contact.displayName ?? phoneNumbers.first,
+          displayName: _displayNameOf(contact, phoneNumbers.first),
+          phoneNumbers: phoneNumbers,
+        ),
+      );
+    }
+
+    return _sortedContacts(normalizedContacts);
+  }
+
+  List<ContactBlockContact> _contactBlockContactsFromNative(
+    List<Object?> rawContacts,
+  ) {
+    final normalizedContacts = <ContactBlockContact>[];
+    for (final rawContact in rawContacts) {
+      if (rawContact is! Map) {
+        continue;
+      }
+
+      final rawPhoneNumbers = rawContact['phoneNumbers'];
+      if (rawPhoneNumbers is! List) {
+        continue;
+      }
+
+      final phoneNumbers = rawPhoneNumbers
+          .whereType<String>()
+          .map(_normalizeKoreanMobilePhoneNumber)
+          .nonNulls
+          .toSet()
+          .toList(growable: false);
+      if (phoneNumbers.isEmpty) {
+        continue;
+      }
+
+      final rawDisplayName = rawContact['displayName'];
+      final displayName = rawDisplayName is String ? rawDisplayName.trim() : '';
+
+      normalizedContacts.add(
+        ContactBlockContact(
+          id: _nativeContactIdOf(rawContact, phoneNumbers.first),
+          displayName: displayName.isNotEmpty
+              ? displayName
+              : phoneNumbers.first,
+          phoneNumbers: phoneNumbers,
+        ),
+      );
+    }
+
+    return _sortedContacts(normalizedContacts);
+  }
+
+  String _nativeContactIdOf(Map<dynamic, dynamic> rawContact, String fallback) {
+    final id = rawContact['id'];
+    if (id is String && id.trim().isNotEmpty) {
+      return id;
+    }
+
+    return fallback;
+  }
+
+  List<ContactBlockContact> _sortedContacts(
+    List<ContactBlockContact> contacts,
+  ) {
+    contacts.sort((a, b) {
+      return a.displayName.compareTo(b.displayName);
+    });
+    return contacts;
   }
 
   List<String> _normalizedPhoneNumbers(Contact contact) {

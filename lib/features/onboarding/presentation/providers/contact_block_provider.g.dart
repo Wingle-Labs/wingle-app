@@ -45,7 +45,7 @@ final class ContactBlockControllerProvider
 }
 
 String _$contactBlockControllerHash() =>
-    r'4dde74c0742a23eafe44ea54625fc15d576fac06';
+    r'2b55dcf865475ac2f00591e259d6cb63ffb1839c';
 
 /// 연락처 지인 제외 화면 상태를 관리한다.
 
