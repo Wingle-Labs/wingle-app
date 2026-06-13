@@ -17,7 +17,6 @@ import 'package:wingle/app/config/theme/constants/size.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
-import 'package:wingle/features/home/route/home_routes.dart';
 import 'package:wingle/features/onboarding/domain/model/codebook/codebook_models.dart';
 import 'package:wingle/features/onboarding/presentation/models/essay_questions_model.dart';
 import 'package:wingle/features/onboarding/presentation/providers/essay_questions_provider.dart';
@@ -166,7 +165,7 @@ class _EssayQuestionsContent extends ConsumerWidget {
       return;
     }
 
-    context.goNamed(HomeRoutes.root.name);
+    _goNext(context);
   }
 
   Future<void> _skip(BuildContext context, WidgetRef ref) async {
@@ -184,7 +183,7 @@ class _EssayQuestionsContent extends ConsumerWidget {
       return;
     }
 
-    context.goNamed(HomeRoutes.root.name);
+    _goNext(context);
   }
 
   EssayQuestionsModel? _currentState(WidgetRef ref) {
@@ -192,6 +191,16 @@ class _EssayQuestionsContent extends ConsumerWidget {
       AsyncData(value: final value) => value,
       _ => null,
     };
+  }
+
+  void _goNext(BuildContext context) {
+    final next = OnboardingRouteChain.nextOf(
+      OnboardingRouteFlow.approvedQuestions,
+      OnboardingRoutes.requiredSelfIntro,
+    );
+    if (next == null) return;
+
+    context.goNamed(next.name);
   }
 }
 

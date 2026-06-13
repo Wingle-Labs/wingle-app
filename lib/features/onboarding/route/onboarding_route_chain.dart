@@ -147,7 +147,12 @@ abstract final class OnboardingRouteChain {
       _RouteChainEntry(
         route: OnboardingRoutes.requiredSelfIntro,
         previous: OnboardingRoutes.age,
-        next: OnboardingRoutes.selectiveSelfIntro,
+        next: OnboardingRoutes.contactBlock,
+      ),
+      _RouteChainEntry(
+        route: OnboardingRoutes.contactBlock,
+        previous: OnboardingRoutes.requiredSelfIntro,
+        next: HomeRoutes.root,
       ),
       _RouteChainEntry(
         route: OnboardingRoutes.selectiveSelfIntro,
@@ -164,12 +169,17 @@ abstract final class OnboardingRouteChain {
       _RouteChainEntry(
         route: OnboardingRoutes.requiredSelfIntro,
         previous: OnboardingRoutes.choiceQuestions,
-        next: HomeRoutes.root,
+        next: OnboardingRoutes.contactBlock,
       ),
       _RouteChainEntry(
         route: OnboardingRoutes.essayQuestionInput,
         previous: OnboardingRoutes.requiredSelfIntro,
         next: OnboardingRoutes.requiredSelfIntro,
+      ),
+      _RouteChainEntry(
+        route: OnboardingRoutes.contactBlock,
+        previous: OnboardingRoutes.requiredSelfIntro,
+        next: HomeRoutes.root,
       ),
       _RouteChainEntry(
         route: OnboardingRoutes.selectiveSelfIntro,

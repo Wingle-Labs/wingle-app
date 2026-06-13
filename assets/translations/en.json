@@ -33,6 +33,7 @@
         "uploadFileFailed": "File upload failed. Please try again.",
         "submitJobFailed": "직장 정보를 등록하지 못했어요. 다시 시도해주세요.",
         "verifyJobEmailFailed": "회사 이메일 인증에 실패했어요. 다시 시도해주세요.",
+        "uploadContactsFailed": "We couldn't register your contacts. Please try again.",
         "registerFcmTokenFailed": "Failed to register the notification token."
       }
     },
@@ -132,6 +133,23 @@
       "loadFailed": "We couldn't load the essay questions.\nPlease try again.",
       "saveFailed": "We couldn't save your essay answers.",
       "emptyQuestion": "We couldn't find this question."
+    },
+    "contactBlock": {
+      "appBarTitle": "Block contacts",
+      "title": "You can exclude people\nyou already know",
+      "subtitle": "Selected contacts are used only for acquaintance exclusion.",
+      "skip": "Skip",
+      "later": "Later",
+      "block": "Block contacts",
+      "sheetTitle": "Choose contacts to exclude",
+      "sheetSubtitle": "We'll keep selected contacts from appearing in recommendations.",
+      "selectedCount": "{count} selected",
+      "uploadSelected": "Block selected contacts",
+      "permissionDenied": "Contact access permission is required.",
+      "emptyContacts": "There are no contacts available to share.",
+      "emptySelection": "Please choose contacts to block.",
+      "loadFailed": "We couldn't load your contacts.",
+      "completeFailed": "We couldn't complete onboarding. Please try again."
     },
     "button": {
       "login": "이미 계정이 있어요",

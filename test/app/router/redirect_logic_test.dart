@@ -122,7 +122,8 @@ void main() {
       LoginProfileStatus.profileApproved: OnboardingRoutes.choiceQuestions.name,
       LoginProfileStatus.choiceQuestionCompleted:
           OnboardingRoutes.requiredSelfIntro.name,
-      LoginProfileStatus.essayQuestionCompleted: HomeRoutes.root.name,
+      LoginProfileStatus.essayQuestionCompleted:
+          OnboardingRoutes.contactBlock.name,
       LoginProfileStatus.onboardingCompleted: HomeRoutes.root.name,
     };
 

@@ -88,10 +88,10 @@ void main() {
       persistence.profileStatus,
       LoginProfileStatus.essayQuestionCompleted,
     );
-    expect(find.text('home-target'), findsOneWidget);
+    expect(find.text('contact-block-target'), findsOneWidget);
   });
 
-  testWidgets('건너뛰기는 저장 API 호출 없이 홈으로 이동한다', (tester) async {
+  testWidgets('건너뛰기는 저장 API 호출 없이 연락처 차단 화면으로 이동한다', (tester) async {
     _setMobileViewport(tester);
     final router = _essayQuestionsRouter();
     addTearDown(router.dispose);
@@ -117,7 +117,7 @@ void main() {
       persistence.profileStatus,
       LoginProfileStatus.essayQuestionCompleted,
     );
-    expect(find.text('home-target'), findsOneWidget);
+    expect(find.text('contact-block-target'), findsOneWidget);
   });
 }
 
@@ -174,6 +174,11 @@ GoRouter _essayQuestionsRouter() {
         name: OnboardingRoutes.choiceQuestions.name,
         path: OnboardingRoutes.choiceQuestions.fullPath,
         builder: (context, state) => const Text('choice-questions-target'),
+      ),
+      GoRoute(
+        name: OnboardingRoutes.contactBlock.name,
+        path: OnboardingRoutes.contactBlock.fullPath,
+        builder: (context, state) => const Text('contact-block-target'),
       ),
       GoRoute(
         name: HomeRoutes.root.name,

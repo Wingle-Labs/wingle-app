@@ -33,6 +33,7 @@
         "uploadFileFailed": "파일 업로드에 실패했어요. 다시 시도해주세요.",
         "submitJobFailed": "직장 정보를 등록하지 못했어요. 다시 시도해주세요.",
         "verifyJobEmailFailed": "회사 이메일 인증에 실패했어요. 다시 시도해주세요.",
+        "uploadContactsFailed": "연락처를 등록하지 못했어요. 다시 시도해주세요.",
         "registerFcmTokenFailed": "알림 토큰 등록에 실패했어요."
       }
     },
@@ -132,6 +133,23 @@
       "loadFailed": "주관식 질문을 불러오지 못했어요.\n다시 시도해주세요.",
       "saveFailed": "주관식 답변을 저장하지 못했어요.",
       "emptyQuestion": "질문을 찾지 못했어요."
+    },
+    "contactBlock": {
+      "appBarTitle": "연락처 차단",
+      "title": "아는 사람은\n매칭에서 제외할 수 있어요",
+      "subtitle": "선택한 연락처는 지인 제외에만 사용돼요.",
+      "skip": "건너뛰기",
+      "later": "다음에",
+      "block": "차단하기",
+      "sheetTitle": "제외할 연락처를 선택해주세요",
+      "sheetSubtitle": "선택한 연락처와 서로 추천되지 않도록 반영할게요.",
+      "selectedCount": "{count}명 선택",
+      "uploadSelected": "선택한 연락처 차단하기",
+      "permissionDenied": "연락처 접근 권한이 필요해요.",
+      "emptyContacts": "공유 가능한 연락처가 없어요.",
+      "emptySelection": "차단할 연락처를 선택해주세요.",
+      "loadFailed": "연락처를 불러오지 못했어요.",
+      "completeFailed": "온보딩을 완료하지 못했어요. 다시 시도해주세요."
     },
     "button": {
       "login": "이미 계정이 있어요",

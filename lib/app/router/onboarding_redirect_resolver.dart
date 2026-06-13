@@ -65,6 +65,10 @@ OnboardingRedirectDestination resolveOnboardingDestination(
         path: OnboardingRoutes.requiredSelfIntro.fullPath,
       );
     case LoginProfileStatus.essayQuestionCompleted:
+      return OnboardingRedirectDestination(
+        name: OnboardingRoutes.contactBlock.name,
+        path: OnboardingRoutes.contactBlock.fullPath,
+      );
     case LoginProfileStatus.onboardingCompleted:
       return OnboardingRedirectDestination(
         name: HomeRoutes.root.name,

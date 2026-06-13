@@ -122,7 +122,7 @@ void main() {
           OnboardingRouteFlow.approvedQuestions,
           OnboardingRoutes.requiredSelfIntro,
         ),
-        HomeRoutes.root,
+        OnboardingRoutes.contactBlock,
       );
       expect(
         OnboardingRouteChain.previousOf(
@@ -130,6 +130,13 @@ void main() {
           OnboardingRoutes.essayQuestionInput,
         ),
         OnboardingRoutes.requiredSelfIntro,
+      );
+      expect(
+        OnboardingRouteChain.nextOf(
+          OnboardingRouteFlow.approvedQuestions,
+          OnboardingRoutes.contactBlock,
+        ),
+        HomeRoutes.root,
       );
     });
   });
