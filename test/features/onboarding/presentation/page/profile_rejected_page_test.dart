@@ -69,7 +69,10 @@ void main() {
       await tester.pumpWidget(_testApp(router: router, repository: repository));
       await tester.pumpAndSettle();
 
-      await tester.tap(_textEither('common.button.edit', '수정하기'));
+      final editButton = _textEither('common.button.edit', '수정하기');
+      await tester.ensureVisible(editButton);
+      await tester.pumpAndSettle();
+      await tester.tap(editButton);
       await tester.pumpAndSettle();
 
       expect(find.text(scenario.targetText), findsOneWidget);

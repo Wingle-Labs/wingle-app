@@ -50,7 +50,7 @@ class ProfileRejectedPage extends ConsumerWidget {
         forceImplyLeading: false,
       ),
       floatingActionButton: DefaultFilledButton(
-        label: 'common.button.reapply',
+        label: 'onboarding.profileRejected.reapplyButton',
         variant: .fullWidth,
         isLoading: isSubmitting,
         isDisabled: currentState == null || isSubmitting,
@@ -185,37 +185,37 @@ class _ProfileRejectedContent extends StatelessWidget {
     final colors = context.colors;
     final typography = context.typography;
     final groups = _groupReasons(state.rejectionReason.reasons);
+    final reviewedAtText = _formatReviewedAt(state.rejectionReason.reviewedAt);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         DefaultPageHeader(
-          title: 'onboarding.profileRejected.title',
-          subtitle: 'onboarding.profileRejected.subtitle',
+          title: 'onboarding.profileRejected.summaryTitle',
+          subtitle: 'onboarding.profileRejected.summarySubtitle',
           titleStyle: typography.title,
           subtitleStyle: typography.bodySub,
           subtitleColor: colors.textAlternative,
           padding: const EdgeInsets.only(
             top: AppSpacing.s40,
-            bottom: AppSpacing.s32,
+            bottom: AppSpacing.s24,
           ),
         ),
+        _ReviewSummaryPanel(
+          reasonCount: state.rejectionReason.reasons.length,
+          reviewedAtText: reviewedAtText,
+        ),
+        const SizedBox(height: AppSpacing.s32),
+        DefaultText(
+          'onboarding.profileRejected.reasonSectionTitle',
+          style: typography.subtitle,
+          color: colors.textStrong,
+        ),
+        const SizedBox(height: AppSpacing.s12),
         if (groups.isEmpty)
-          SizedBox(
-            width: double.infinity,
-            child: DefaultCard(
-              child: DefaultText(
-                'onboarding.profileRejected.emptyReason',
-                style: typography.bodySub,
-                color: colors.textNormal,
-              ),
-            ),
-          )
+          const _EmptyReasonPanel()
         else
-          for (final group in groups) ...[
-            _RejectionReasonGroupCard(group: group, onEdit: onEdit),
-            const SizedBox(height: AppSpacing.s16),
-          ],
+          _RejectionReasonList(groups: groups, onEdit: onEdit),
         const SizedBox(height: ProfileRejectedPage._bottomReservedSpacing),
       ],
     );
@@ -237,56 +237,303 @@ class _ProfileRejectedContent extends StatelessWidget {
         )
         .toList(growable: false);
   }
+
+  String? _formatReviewedAt(String reviewedAt) {
+    final parsed = DateTime.tryParse(reviewedAt);
+    if (parsed == null) return null;
+
+    final local = parsed.toLocal();
+    final month = local.month.toString().padLeft(2, '0');
+    final day = local.day.toString().padLeft(2, '0');
+    return '${local.year}.$month.$day';
+  }
 }
 
-class _RejectionReasonGroupCard extends StatelessWidget {
-  final _RejectionReasonGroup group;
-  final ValueChanged<RouteNode> onEdit;
+class _ReviewSummaryPanel extends StatelessWidget {
+  final int reasonCount;
+  final String? reviewedAtText;
 
-  const _RejectionReasonGroupCard({required this.group, required this.onEdit});
+  const _ReviewSummaryPanel({
+    required this.reasonCount,
+    required this.reviewedAtText,
+  });
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final typography = context.typography;
 
-    return SizedBox(
+    return Container(
       width: double.infinity,
-      child: DefaultCard(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (group.categoryDisplayName.isEmpty)
-              DefaultText(
-                'onboarding.profileRejected.defaultCategory',
-                style: typography.subtitle,
-                color: colors.textStrong,
-              )
-            else
-              DefaultText(
-                group.categoryDisplayName,
-                style: typography.subtitle,
-                color: colors.textStrong,
-                isTranslationKey: false,
+      decoration: BoxDecoration(
+        color: colors.backgroundElevatedNormal,
+        borderRadius: BorderRadius.circular(AppRadius.iosStyle),
+        border: Border.all(color: colors.strokeStructuralBorder),
+      ),
+      padding: const EdgeInsets.all(AppPadding.infoCard),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const _ReviewStatusBadge(),
+          const SizedBox(height: AppSpacing.s16),
+          DefaultText(
+            'onboarding.profileRejected.title',
+            style: typography.subtitle,
+            color: colors.textStrong,
+          ),
+          const SizedBox(height: AppSpacing.s8),
+          DefaultText(
+            'onboarding.profileRejected.subtitle',
+            style: typography.bodySub,
+            color: colors.textAlternative,
+          ),
+          const SizedBox(height: AppSpacing.s16),
+          Wrap(
+            spacing: AppSpacing.s8,
+            runSpacing: AppSpacing.s8,
+            children: [
+              _SummaryMetaChip(
+                icon: Icons.fact_check_outlined,
+                label: 'onboarding.profileRejected.reasonCount'.tr(
+                  namedArgs: {'count': reasonCount.toString()},
+                ),
               ),
-            const SizedBox(height: AppSpacing.s16),
-            for (final item in group.items)
-              if (item.description.trim().isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: AppSpacing.s8),
-                  child: DefaultText(
-                    item.description.trim(),
-                    style: typography.bodySub,
-                    color: colors.textNormal,
-                    isTranslationKey: false,
+              if (reviewedAtText != null)
+                _SummaryMetaChip(
+                  icon: Icons.schedule_rounded,
+                  label: 'onboarding.profileRejected.reviewedAt'.tr(
+                    namedArgs: {'date': reviewedAtText!},
                   ),
                 ),
-            const SizedBox(height: AppSpacing.s8),
-            _RejectionEditChip(onPressed: () => onEdit(_routeForGroup(group))),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ReviewStatusBadge extends StatelessWidget {
+  const _ReviewStatusBadge();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final typography = context.typography;
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.componentTertiaryFilledButtonEnabled,
+        borderRadius: BorderRadius.circular(AppRadius.pill),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppPadding.buttonSmallHorizontal,
+          vertical: AppSpacing.s6,
+        ),
+        child: DefaultText(
+          'onboarding.profileRejected.statusBadge',
+          style: typography.buttonMedium,
+          color: colors.primaryNormal,
+        ),
+      ),
+    );
+  }
+}
+
+class _SummaryMetaChip extends StatelessWidget {
+  final IconData icon;
+  final String label;
+
+  const _SummaryMetaChip({required this.icon, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final typography = context.typography;
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.backgroundAlternative,
+        borderRadius: BorderRadius.circular(AppRadius.pill),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppPadding.buttonChipHorizontal,
+          vertical: AppPadding.chipButtonVertical,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: AppIconSize.xxs, color: colors.textAlternative),
+            const SizedBox(width: AppSpacing.s4),
+            Flexible(
+              child: Text(
+                label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: typography.bodySub.copyWith(color: colors.textNeutral),
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+}
+
+class _EmptyReasonPanel extends StatelessWidget {
+  const _EmptyReasonPanel();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final typography = context.typography;
+
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: colors.backgroundElevatedNormal,
+        borderRadius: BorderRadius.circular(AppRadius.iosStyle),
+        border: Border.all(color: colors.strokeStructuralBorder),
+      ),
+      padding: const EdgeInsets.all(AppPadding.infoCard),
+      child: DefaultText(
+        'onboarding.profileRejected.emptyReason',
+        style: typography.bodySub,
+        color: colors.textNormal,
+      ),
+    );
+  }
+}
+
+class _RejectionReasonList extends StatelessWidget {
+  final List<_RejectionReasonGroup> groups;
+  final ValueChanged<RouteNode> onEdit;
+
+  const _RejectionReasonList({required this.groups, required this.onEdit});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: colors.backgroundElevatedNormal,
+        borderRadius: BorderRadius.circular(AppRadius.iosStyle),
+        border: Border.all(color: colors.strokeStructuralBorder),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        children: [
+          for (var index = 0; index < groups.length; index++) ...[
+            _RejectionReasonRow(
+              group: groups[index],
+              index: index,
+              onEdit: onEdit,
+            ),
+            if (index != groups.length - 1)
+              Divider(
+                height: 1,
+                thickness: 1,
+                color: colors.strokeStructuralDivider,
+              ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _RejectionReasonRow extends StatelessWidget {
+  final _RejectionReasonGroup group;
+  final int index;
+  final ValueChanged<RouteNode> onEdit;
+
+  const _RejectionReasonRow({
+    required this.group,
+    required this.index,
+    required this.onEdit,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final typography = context.typography;
+    final categoryTitle = _categoryTitle(group.categoryDisplayName);
+    final descriptions = group.items
+        .map((item) => item.description.trim())
+        .where((description) => description.isNotEmpty)
+        .toList(growable: false);
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () => onEdit(_routeForGroup(group)),
+        overlayColor: WidgetStateProperty.resolveWith<Color?>((states) {
+          if (states.contains(WidgetState.pressed)) {
+            return colors.overlayPressed;
+          }
+          return null;
+        }),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppPadding.infoCard,
+            vertical: AppSpacing.s20,
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _ReasonIndexBadge(number: index + 1),
+              const SizedBox(width: AppSpacing.s12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      categoryTitle,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: typography.subtitle.copyWith(
+                        color: colors.textStrong,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.textVerticalInternal),
+                    if (descriptions.isEmpty)
+                      DefaultText(
+                        'onboarding.profileRejected.emptyDescription',
+                        style: typography.bodySub,
+                        color: colors.textAlternative,
+                      )
+                    else
+                      for (final description in descriptions) ...[
+                        _ReasonDescription(text: description),
+                        if (description != descriptions.last)
+                          const SizedBox(height: AppSpacing.s8),
+                      ],
+                    const SizedBox(height: AppSpacing.s16),
+                    const _InlineEditLabel(),
+                  ],
+                ),
+              ),
+              const SizedBox(width: AppSpacing.s8),
+              Icon(
+                Icons.chevron_right_rounded,
+                size: AppIconSize.sm,
+                color: colors.textAssistive,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  String _categoryTitle(String displayName) {
+    final trimmed = displayName.trim();
+    if (trimmed.isNotEmpty) return trimmed;
+    return 'onboarding.profileRejected.defaultCategory'.tr();
   }
 
   RouteNode _routeForGroup(_RejectionReasonGroup group) {
@@ -323,57 +570,95 @@ class _RejectionReasonGroupCard extends StatelessWidget {
   }
 }
 
-class _RejectionEditChip extends StatelessWidget {
-  final VoidCallback onPressed;
+class _ReasonIndexBadge extends StatelessWidget {
+  final int number;
 
-  const _RejectionEditChip({required this.onPressed});
+  const _ReasonIndexBadge({required this.number});
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final typography = context.typography;
-    final borderRadius = BorderRadius.circular(AppRadius.md);
 
-    return Material(
-      color: colors.componentTertiaryFilledButtonEnabled,
-      borderRadius: borderRadius,
-      child: InkWell(
-        onTap: onPressed,
-        borderRadius: borderRadius,
-        overlayColor: WidgetStateProperty.resolveWith<Color?>((states) {
-          if (states.contains(WidgetState.pressed)) {
-            return colors.overlayPressed;
-          }
-          return null;
-        }),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppPadding.buttonMediumHorizontal,
-            vertical: AppPadding.buttonSmallVertical,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Flexible(
-                child: Text(
-                  'common.button.edit'.tr(),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: typography.buttonMedium.copyWith(
-                    color: colors.textNormal,
-                  ),
-                ),
-              ),
-              const SizedBox(width: AppSpacing.s6),
-              Icon(
-                Icons.chevron_right_rounded,
-                size: AppIconSize.xs,
-                color: colors.textNormal,
-              ),
-            ],
+    return Container(
+      width: AppContainerSize.buttonChipHeight,
+      height: AppContainerSize.buttonChipHeight,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: colors.componentTertiaryFilledButtonEnabled,
+        shape: BoxShape.circle,
+      ),
+      child: Text(
+        number.toString(),
+        style: typography.buttonMedium.copyWith(color: colors.primaryNormal),
+      ),
+    );
+  }
+}
+
+class _ReasonDescription extends StatelessWidget {
+  final String text;
+
+  const _ReasonDescription({required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final typography = context.typography;
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: AppSpacing.s8),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: colors.textAssistive,
+              shape: BoxShape.circle,
+            ),
+            child: const SizedBox.square(dimension: AppSpacing.s4),
           ),
         ),
-      ),
+        const SizedBox(width: AppSpacing.s8),
+        Expanded(
+          child: Text(
+            text,
+            style: typography.bodySub.copyWith(color: colors.textNormal),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _InlineEditLabel extends StatelessWidget {
+  const _InlineEditLabel();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final typography = context.typography;
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Flexible(
+          child: Text(
+            'common.button.edit'.tr(),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: typography.buttonMedium.copyWith(
+              color: colors.primaryNormal,
+            ),
+          ),
+        ),
+        const SizedBox(width: AppSpacing.s4),
+        Icon(
+          Icons.arrow_forward_rounded,
+          size: AppIconSize.xxs,
+          color: colors.primaryNormal,
+        ),
+      ],
     );
   }
 }
