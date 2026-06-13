@@ -48,6 +48,7 @@ class _ButtonContent extends StatelessWidget {
         expandToMaxWidth: false,
         child: _ButtonContentRow(
           label: label,
+          constrainLabel: false,
           hasLeading: hasLeading,
           hasTrailing: hasTrailing,
           leading: leading,
@@ -80,6 +81,7 @@ class _ButtonContent extends StatelessWidget {
             constraints: BoxConstraints(maxWidth: maxTextWidth),
             child: _ButtonContentRow(
               label: label,
+              constrainLabel: true,
               hasLeading: hasLeading,
               hasTrailing: hasTrailing,
               leading: leading,
@@ -120,6 +122,7 @@ class _ButtonContentAlign extends StatelessWidget {
 
 class _ButtonContentRow extends StatelessWidget {
   final String label;
+  final bool constrainLabel;
   final bool hasLeading;
   final bool hasTrailing;
   final IconData? leading;
@@ -134,6 +137,7 @@ class _ButtonContentRow extends StatelessWidget {
 
   const _ButtonContentRow({
     required this.label,
+    required this.constrainLabel,
     required this.hasLeading,
     required this.hasTrailing,
     required this.leading,
@@ -149,6 +153,17 @@ class _ButtonContentRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final labelWidget = TextScaleWrapper(
+      policy: TextScalePolicy.cappedLarge,
+      child: Text(
+        label,
+        style: textStyle,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        textAlign: TextAlign.center,
+      ),
+    );
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -165,16 +180,7 @@ class _ButtonContentRow extends StatelessWidget {
           ),
           SizedBox(width: iconLabelGap),
         ],
-        TextScaleWrapper(
-          policy: TextScalePolicy.cappedLarge,
-          child: Text(
-            label,
-            style: textStyle,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center,
-          ),
-        ),
+        if (constrainLabel) Flexible(child: labelWidget) else labelWidget,
         if (hasTrailing) ...[
           SizedBox(width: iconLabelGap),
           _ReservedButtonIconSlot(

@@ -166,6 +166,46 @@ void main() {
     expect(longWidth, greaterThan(shortWidth));
   });
 
+  testWidgets('DefaultButton fullWidth는 긴 라벨을 폭 안에서 말줄임한다', (tester) async {
+    const longLabel = '아주 긴 버튼 라벨이 들어와도 버튼 영역을 넘기지 않아야 합니다';
+
+    await tester.pumpWidget(
+      EasyLocalization(
+        supportedLocales: AppLocalization.supportedLocales,
+        path: AppLocalization.path,
+        fallbackLocale: AppLocalization.fallbackLocale,
+        startLocale: AppLocalization.fallbackLocale,
+        saveLocale: false,
+        child: MaterialApp(
+          theme: Themes.light,
+          home: Center(
+            child: SizedBox(
+              width: 180,
+              child: DefaultButton(
+                label: longLabel,
+                variant: DefaultButtonVariant.fullWidth,
+                visualSpec: const DefaultButtonVisualSpec(
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
+                  pressedOverlayColor: Colors.white24,
+                ),
+                onPressed: () {},
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    final buttonSize = tester.getSize(findButtonSurface());
+    final text = tester.widget<Text>(find.text(longLabel));
+
+    expect(buttonSize.width, 180);
+    expect(text.overflow, TextOverflow.ellipsis);
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('DefaultButton variant별 라벨 스타일과 아이콘 크기를 적용한다', (tester) async {
     await tester.pumpWidget(
       EasyLocalization(
