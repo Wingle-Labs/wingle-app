@@ -38,10 +38,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(
-      _textEither(
-        'onboarding.choiceQuestions.title',
-        '아래는 필수 입력 문항입니다.',
-      ),
+      _textEither('onboarding.choiceQuestions.title', '아래는 필수 입력 문항입니다.'),
       findsOneWidget,
     );
     expect(find.text('술을 자주 드시나요?'), findsOneWidget);
@@ -73,6 +70,43 @@ void main() {
       OnboardingRoutes.requiredSelfIntro.fullPath,
     );
   });
+
+  testWidgets('미완료 상태에서 플로팅 버튼을 누르면 가장 위의 미선택 질문으로 스크롤한다', (tester) async {
+    _setMobileViewport(tester);
+    final router = _choiceQuestionsRouter();
+    addTearDown(router.dispose);
+    final answerRepository = _RecordingAnswerRepository();
+    final persistence = _MemoryOnboardingProfileStatusPersistence();
+
+    await tester.pumpWidget(
+      _testApp(
+        router,
+        answerRepository: answerRepository,
+        persistence: persistence,
+        codebookRepository: const _LongChoiceQuestionsCodebookRepository(),
+      ),
+    );
+    await _pumpAsyncWork(tester);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('질문 1-A'));
+    await tester.pump();
+
+    await tester.drag(
+      find.byType(SingleChildScrollView),
+      const Offset(0, -1000),
+    );
+    await tester.pumpAndSettle();
+
+    final targetQuestion = find.text('질문 2');
+    expect(tester.getRect(targetQuestion).top, lessThan(0));
+
+    await tester.tap(find.byType(FloatingActionButton));
+    await tester.pumpAndSettle();
+
+    expect(answerRepository.savedChoiceAnswers, isEmpty);
+    expect(tester.getRect(targetQuestion).top, inInclusiveRange(0, 160));
+  });
 }
 
 void _setMobileViewport(WidgetTester tester) {
@@ -87,12 +121,12 @@ Widget _testApp(
   GoRouter router, {
   required _RecordingAnswerRepository answerRepository,
   required _MemoryOnboardingProfileStatusPersistence persistence,
+  CodebookRepository codebookRepository =
+      const _ChoiceQuestionsCodebookRepository(),
 }) {
   return ProviderScope(
     overrides: [
-      codebookRepositoryProvider.overrideWithValue(
-        const _ChoiceQuestionsCodebookRepository(),
-      ),
+      codebookRepositoryProvider.overrideWithValue(codebookRepository),
       answerRepositoryProvider.overrideWithValue(answerRepository),
       onboardingProfileStatusPersistenceProvider.overrideWithValue(persistence),
     ],
@@ -187,6 +221,82 @@ class _ChoiceQuestionsCodebookRepository implements CodebookRepository {
                       ChoiceQuestionOption(id: 45, content: '비흡연'),
                     ],
                   ),
+                ],
+              )
+            : const ChoiceQuestionSetSnapshot(version: 1, questions: []),
+    };
+  }
+
+  @override
+  Future<Map<String, int>> fetchChoiceQuestionCurrentVersions() async {
+    return const {'QC_LIFE': 1};
+  }
+
+  @override
+  Future<Map<String, int>> fetchCodebookCurrentVersions() async => const {};
+
+  @override
+  Future<CurrentVersionResponse> fetchEssayQuestionCurrentVersion() async {
+    return const CurrentVersionResponse(version: 1);
+  }
+
+  @override
+  Future<EssayQuestionSnapshot> fetchEssayQuestionSnapshot() async {
+    return const EssayQuestionSnapshot(version: 1, questions: []);
+  }
+
+  @override
+  Future<Map<String, int>> fetchTermsCurrentVersions() async => const {};
+
+  @override
+  Future<TermSnapshot> fetchTermsSnapshot() async {
+    return const TermSnapshot(version: 1, terms: []);
+  }
+}
+
+class _LongChoiceQuestionsCodebookRepository implements CodebookRepository {
+  const _LongChoiceQuestionsCodebookRepository();
+
+  @override
+  Future<Map<String, CodeSnapshot>> fetchCodebookSnapshot({
+    required List<String> groups,
+  }) async {
+    return {
+      if (groups.contains(CodebookGroup.questionCategory.code))
+        CodebookGroup.questionCategory.code: const CodeSnapshot(
+          version: 1,
+          codes: [
+            CommonCodeDetail(code: 'QC_LIFE', codeName: '생활', displayOrder: 1),
+          ],
+        ),
+    };
+  }
+
+  @override
+  Future<Map<String, ChoiceQuestionSetSnapshot>> fetchChoiceQuestionSnapshot({
+    required List<String> categories,
+  }) async {
+    return {
+      for (final category in categories)
+        category: category == 'QC_LIFE'
+            ? ChoiceQuestionSetSnapshot(
+                version: 1,
+                questions: [
+                  for (var index = 1; index <= 8; index += 1)
+                    ChoiceQuestionDetail(
+                      id: index,
+                      content: '질문 $index',
+                      options: [
+                        ChoiceQuestionOption(
+                          id: index * 10 + 1,
+                          content: '질문 $index-A',
+                        ),
+                        ChoiceQuestionOption(
+                          id: index * 10 + 2,
+                          content: '질문 $index-B',
+                        ),
+                      ],
+                    ),
                 ],
               )
             : const ChoiceQuestionSetSnapshot(version: 1, questions: []),

@@ -59,7 +59,7 @@ class ChoiceQuestionsPage extends ConsumerWidget {
   }
 }
 
-class _ChoiceQuestionsContent extends ConsumerWidget {
+class _ChoiceQuestionsContent extends ConsumerStatefulWidget {
   static const double _titleFontSize = 32;
 
   final ChoiceQuestionsModel state;
@@ -71,21 +71,48 @@ class _ChoiceQuestionsContent extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_ChoiceQuestionsContent> createState() =>
+      _ChoiceQuestionsContentState();
+}
+
+class _ChoiceQuestionsContentState
+    extends ConsumerState<_ChoiceQuestionsContent> {
+  static const Duration _incompleteQuestionScrollDuration = Duration(
+    milliseconds: 350,
+  );
+  static const double _incompleteQuestionScrollAlignment = 0.12;
+
+  final Map<int, GlobalKey> _questionKeys = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _syncQuestionKeys();
+  }
+
+  @override
+  void didUpdateWidget(covariant _ChoiceQuestionsContent oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _syncQuestionKeys();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final colors = context.colors;
+    final state = widget.state;
 
     return ConstrainedScrollableScaffold(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) return;
-        onBackPressed();
+        widget.onBackPressed();
       },
       textScalePolicy: TextScalePolicy.cappedLarge,
       floatingActionButton: _ChoiceQuestionsCounterButton(
         label: '${state.selectedQuestionCount}/${state.totalQuestionCount}',
         isEnabled: state.canSubmit,
         isLoading: state.isSubmitting,
-        onPressed: () => _submit(context, ref),
+        onPressed: () => _submit(context),
       ),
       child: SafeArea(
         bottom: false,
@@ -97,7 +124,7 @@ class _ChoiceQuestionsContent extends ConsumerWidget {
               subtitle: 'onboarding.choiceQuestions.subtitle',
               titleStyle: context.typography.display.copyWith(
                 color: colors.textNormal,
-                fontSize: _titleFontSize,
+                fontSize: _ChoiceQuestionsContent._titleFontSize,
               ),
               subtitleStyle: context.typography.mainSub.copyWith(
                 color: colors.textAlternative,
@@ -109,6 +136,7 @@ class _ChoiceQuestionsContent extends ConsumerWidget {
             ),
             for (final question in state.questions) ...[
               _ChoiceQuestionBlock(
+                key: _questionKeys[question.id],
                 question: question,
                 selectedOptionId: state.selectedOptionIds[question.id],
                 onSelected: (optionId) {
@@ -129,7 +157,17 @@ class _ChoiceQuestionsContent extends ConsumerWidget {
     );
   }
 
-  Future<void> _submit(BuildContext context, WidgetRef ref) async {
+  Future<void> _submit(BuildContext context) async {
+    final current = _currentState();
+    if (current == null || current.isSubmitting) {
+      return;
+    }
+
+    if (!current.isComplete) {
+      await _scrollToFirstIncompleteQuestion(current);
+      return;
+    }
+
     final success = await ref
         .read(choiceQuestionsControllerProvider.notifier)
         .submit();
@@ -138,7 +176,7 @@ class _ChoiceQuestionsContent extends ConsumerWidget {
     if (!success) {
       DefaultToast.show(
         context,
-        _currentState(ref)?.submitErrorMessage ??
+        _currentState()?.submitErrorMessage ??
             ApiErrorMessages.submitAnswersFailed,
       );
       return;
@@ -153,11 +191,50 @@ class _ChoiceQuestionsContent extends ConsumerWidget {
     context.goNamed(next.name);
   }
 
-  ChoiceQuestionsModel? _currentState(WidgetRef ref) {
+  ChoiceQuestionsModel? _currentState() {
     return switch (ref.read(choiceQuestionsControllerProvider)) {
       AsyncData(value: final value) => value,
       _ => null,
     };
+  }
+
+  Future<void> _scrollToFirstIncompleteQuestion(
+    ChoiceQuestionsModel state,
+  ) async {
+    ChoiceQuestionDetail? firstIncompleteQuestion;
+    for (final question in state.questions) {
+      if (!state.selectedOptionIds.containsKey(question.id)) {
+        firstIncompleteQuestion = question;
+        break;
+      }
+    }
+
+    final targetContext =
+        _questionKeys[firstIncompleteQuestion?.id]?.currentContext;
+    if (targetContext == null) {
+      return;
+    }
+
+    await Scrollable.ensureVisible(
+      targetContext,
+      alignment: _incompleteQuestionScrollAlignment,
+      alignmentPolicy: ScrollPositionAlignmentPolicy.explicit,
+      duration: _incompleteQuestionScrollDuration,
+      curve: Curves.easeOutCubic,
+    );
+  }
+
+  void _syncQuestionKeys() {
+    final questionIds = widget.state.questions
+        .map((question) => question.id)
+        .toSet();
+    _questionKeys.removeWhere((questionId, _) {
+      return !questionIds.contains(questionId);
+    });
+
+    for (final questionId in questionIds) {
+      _questionKeys.putIfAbsent(questionId, GlobalKey.new);
+    }
   }
 }
 
@@ -167,6 +244,7 @@ class _ChoiceQuestionBlock extends StatelessWidget {
   final ValueChanged<int> onSelected;
 
   const _ChoiceQuestionBlock({
+    super.key,
     required this.question,
     required this.selectedOptionId,
     required this.onSelected,
@@ -318,7 +396,7 @@ class _ChoiceQuestionsCounterButton extends StatelessWidget {
             : colors.interactionDisable,
         splashColor: colors.overlayPressed,
         extendedPadding: EdgeInsets.zero,
-        onPressed: isEnabled && !isLoading ? onPressed : null,
+        onPressed: isLoading ? null : onPressed,
         shape: RoundedRectangleBorder(borderRadius: AppRadius.iosStyleRadius),
         label: Center(
           child: isLoading
