@@ -41,7 +41,7 @@ void main() {
     expect(button.onPressed, isNull);
   });
 
-  testWidgets('승인 대기 상태 refresh 결과가 승인 완료면 객관식 질문으로 이동한다', (tester) async {
+  testWidgets('승인 대기 상태 refresh 결과가 승인 완료면 승인 완료 안내로 이동한다', (tester) async {
     _setMobileViewport(tester);
     final router = _approvalPendingRouter(
       profileStatus: LoginProfileStatus.profileApproved,
@@ -54,10 +54,10 @@ void main() {
     await _pumpAsyncWork(tester);
     await tester.pumpAndSettle();
 
-    expect(find.text('choice-questions-target'), findsOneWidget);
+    expect(find.text('profile-approved-welcome-target'), findsOneWidget);
     expect(
       router.routeInformationProvider.value.uri.path,
-      OnboardingRoutes.choiceQuestions.fullPath,
+      OnboardingRoutes.profileApprovedWelcome.fullPath,
     );
   });
 
@@ -147,9 +147,10 @@ GoRouter _approvalPendingRouter({required LoginProfileStatus profileStatus}) {
         builder: (context, state) => const ProfileApprovalPendingPage(),
       ),
       GoRoute(
-        name: OnboardingRoutes.choiceQuestions.name,
-        path: OnboardingRoutes.choiceQuestions.fullPath,
-        builder: (context, state) => const Text('choice-questions-target'),
+        name: OnboardingRoutes.profileApprovedWelcome.name,
+        path: OnboardingRoutes.profileApprovedWelcome.fullPath,
+        builder: (context, state) =>
+            const Text('profile-approved-welcome-target'),
       ),
       GoRoute(
         name: OnboardingRoutes.profileRejected.name,

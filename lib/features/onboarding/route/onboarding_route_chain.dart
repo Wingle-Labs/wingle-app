@@ -90,6 +90,11 @@ abstract final class OnboardingRouteChain {
       _RouteChainEntry(
         route: OnboardingRoutes.approvalPending,
         previous: OnboardingRoutes.approvalRequest,
+        next: OnboardingRoutes.profileApprovedWelcome,
+      ),
+      _RouteChainEntry(
+        route: OnboardingRoutes.profileApprovedWelcome,
+        previous: OnboardingRoutes.approvalPending,
         next: OnboardingRoutes.choiceQuestions,
       ),
       _RouteChainEntry(
@@ -98,7 +103,7 @@ abstract final class OnboardingRouteChain {
       ),
       _RouteChainEntry(
         route: OnboardingRoutes.choiceQuestions,
-        previous: OnboardingRoutes.approvalPending,
+        previous: OnboardingRoutes.profileApprovedWelcome,
       ),
     ]),
     OnboardingRouteFlow.signupPass: _RouteChainDefinition([
@@ -163,7 +168,7 @@ abstract final class OnboardingRouteChain {
     OnboardingRouteFlow.approvedQuestions: _RouteChainDefinition([
       _RouteChainEntry(
         route: OnboardingRoutes.choiceQuestions,
-        previous: OnboardingRoutes.approvalPending,
+        previous: OnboardingRoutes.profileApprovedWelcome,
         next: OnboardingRoutes.requiredSelfIntro,
       ),
       _RouteChainEntry(

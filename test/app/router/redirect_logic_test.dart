@@ -119,7 +119,8 @@ void main() {
       LoginProfileStatus.awaitingApproval:
           OnboardingRoutes.approvalPending.name,
       LoginProfileStatus.profileRejected: OnboardingRoutes.profileRejected.name,
-      LoginProfileStatus.profileApproved: OnboardingRoutes.choiceQuestions.name,
+      LoginProfileStatus.profileApproved:
+          OnboardingRoutes.profileApprovedWelcome.name,
       LoginProfileStatus.choiceQuestionCompleted:
           OnboardingRoutes.requiredSelfIntro.name,
       LoginProfileStatus.essayQuestionCompleted:
@@ -130,5 +131,30 @@ void main() {
     for (final entry in cases.entries) {
       expect(resolveOnboardingDestination(entry.key).name, entry.value);
     }
+  });
+
+  test('승인 완료 안내를 이미 본 사용자는 객관식 질문으로 이동한다', () {
+    final destination = resolveOnboardingDestination(
+      LoginProfileStatus.profileApproved,
+      hasSeenProfileApprovalWelcome: true,
+    );
+
+    expect(destination.name, OnboardingRoutes.choiceQuestions.name);
+  });
+
+  test('승인 완료 안내를 이미 본 사용자는 home에서 객관식 질문으로 이동한다', () async {
+    await HiveUtil.write(
+      key: HiveLoginBox.profileStatus,
+      value: LoginProfileStatus.profileApproved.apiValue,
+    );
+    await HiveUtil.write(
+      key: HiveLoginBox.profileApprovalWelcomeSeen,
+      value: 'true',
+    );
+
+    expect(
+      appRedirectLogic(true, AppRoute.home.path),
+      OnboardingRoutes.choiceQuestions.fullPath,
+    );
   });
 }

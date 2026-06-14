@@ -48,6 +48,10 @@ void main() {
         OnboardingRoutes.approvalPending.fullPath,
       );
       expect(
+        router.namedLocation(OnboardingRoutes.profileApprovedWelcome.name),
+        OnboardingRoutes.profileApprovedWelcome.fullPath,
+      );
+      expect(
         router.namedLocation(OnboardingRoutes.choiceQuestions.name),
         OnboardingRoutes.choiceQuestions.fullPath,
       );

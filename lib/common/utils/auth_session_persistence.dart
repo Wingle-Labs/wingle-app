@@ -25,6 +25,7 @@ abstract final class AuthSessionPersistence {
       await HiveUtil.delete(HiveLoginBox.jobProfile);
       await HiveUtil.delete(HiveLoginBox.educationProfile);
       await HiveUtil.delete(HiveLoginBox.profileDetails);
+      await HiveUtil.delete(HiveLoginBox.profileApprovalWelcomeSeen);
     }
 
     await HiveUtil.write(key: HiveLoginBox.userId, value: userId);
@@ -117,6 +118,23 @@ abstract final class AuthSessionPersistence {
     } catch (_) {
       return null;
     }
+  }
+
+  /// 프로필 승인 완료 안내 화면을 이미 확인했는지 여부를 읽는다.
+  static bool hasSeenProfileApprovalWelcome() {
+    try {
+      return HiveUtil.read(HiveLoginBox.profileApprovalWelcomeSeen) == 'true';
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /// 프로필 승인 완료 안내 화면을 확인한 상태로 저장한다.
+  static Future<void> markProfileApprovalWelcomeSeen() {
+    return HiveUtil.write(
+      key: HiveLoginBox.profileApprovalWelcomeSeen,
+      value: 'true',
+    );
   }
 
   /// `/profiles/me` 스냅샷을 저장한다.

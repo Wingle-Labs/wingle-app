@@ -100,6 +100,12 @@ abstract final class OnboardingRoutes {
     name: 'profile-rejected',
   );
 
+  /// 프로필 승인 완료 안내
+  static const profileApprovedWelcome = RouteNode(
+    parent: login,
+    name: 'profile-approved-welcome',
+  );
+
   /// 객관식 질문 답변
   static const choiceQuestions = RouteNode(
     parent: login,

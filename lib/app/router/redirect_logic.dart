@@ -1,5 +1,6 @@
 import 'package:wingle/app/router/onboarding_redirect_resolver.dart';
 import 'package:wingle/common/constants/hive_constants.dart';
+import 'package:wingle/common/utils/auth_session_persistence.dart';
 import 'package:wingle/common/utils/hive_util.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
@@ -30,7 +31,11 @@ String? appRedirectLogic(
     return OnboardingRoutes.root.path;
   }
 
-  final destination = resolveOnboardingDestination(profileStatus);
+  final destination = resolveOnboardingDestination(
+    profileStatus,
+    hasSeenProfileApprovalWelcome:
+        AuthSessionPersistence.hasSeenProfileApprovalWelcome(),
+  );
   if (currentPath == destination.path) return null;
   if (profileStatus.isCompleted) {
     if (isInOnboarding) return destination.path;

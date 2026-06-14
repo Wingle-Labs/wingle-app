@@ -93,6 +93,27 @@ void main() {
         ),
         OnboardingRoutes.profileSelfIntroduction,
       );
+      expect(
+        OnboardingRouteChain.nextOf(
+          OnboardingRouteFlow.profileInput,
+          OnboardingRoutes.approvalPending,
+        ),
+        OnboardingRoutes.profileApprovedWelcome,
+      );
+      expect(
+        OnboardingRouteChain.previousOf(
+          OnboardingRouteFlow.profileInput,
+          OnboardingRoutes.profileApprovedWelcome,
+        ),
+        OnboardingRoutes.approvalPending,
+      );
+      expect(
+        OnboardingRouteChain.nextOf(
+          OnboardingRouteFlow.profileInput,
+          OnboardingRoutes.profileApprovedWelcome,
+        ),
+        OnboardingRoutes.choiceQuestions,
+      );
     });
 
     test('같은 라우트도 flow에 따라 다른 다음 라우트를 반환한다', () {

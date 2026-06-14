@@ -92,6 +92,13 @@
       "subtitle": "관리자가 승인 후 가입이 완료됩니다.",
       "start": "시작하기"
     },
+    "profileApprovedWelcome": {
+      "title": "{nickname}님!\n회원가입 승인이 완료되었어요.",
+      "subtitle": "윙글에서 새로운 인연을 만나길 바라요",
+      "start": "시작하기",
+      "defaultNickname": "회원",
+      "saveFailed": "승인 완료 화면을 저장하지 못했어요. 다시 시도해주세요."
+    },
     "profileRejected": {
       "appBarTitle": "프로필 재심사",
       "title": "프로필 심사가 반려되었어요",

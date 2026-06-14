@@ -92,6 +92,13 @@
       "subtitle": "Your signup will be completed after admin approval.",
       "start": "Start"
     },
+    "profileApprovedWelcome": {
+      "title": "{nickname},\nyour signup has been approved.",
+      "subtitle": "We hope you meet someone new on Wingle.",
+      "start": "Start",
+      "defaultNickname": "Member",
+      "saveFailed": "We couldn't save this confirmation. Please try again."
+    },
     "profileRejected": {
       "appBarTitle": "Profile review",
       "title": "Your profile review was rejected",

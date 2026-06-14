@@ -92,6 +92,11 @@ class HiveLoginBox implements HiveBox {
   /// 로그인 시 상세 프로필 정보
   static final profileDetails = _instance.create('profile_details');
 
+  /// 프로필 승인 완료 안내 화면 확인 여부
+  static final profileApprovalWelcomeSeen = _instance.create(
+    'profile_approval_welcome_seen',
+  );
+
   /// 내부 싱글턴 인스턴스 (HiveKey가 Box에 접근하기 위함)
   static final HiveLoginBox _instance = HiveLoginBox();
 }

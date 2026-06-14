@@ -12,6 +12,7 @@ import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/app/router/onboarding_redirect_resolver.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
+import 'package:wingle/common/utils/auth_session_persistence.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 import 'package:wingle/features/onboarding/presentation/providers/onboarding_profile_status_provider.dart';
 
@@ -77,7 +78,11 @@ class _ProfileApprovalPendingPageState
     if (_hasNavigated || status == null || status.isPendingApproval) return;
 
     _hasNavigated = true;
-    final destination = resolveOnboardingDestination(status);
+    final destination = resolveOnboardingDestination(
+      status,
+      hasSeenProfileApprovalWelcome:
+          AuthSessionPersistence.hasSeenProfileApprovalWelcome(),
+    );
     context.goNamed(destination.name);
   }
 

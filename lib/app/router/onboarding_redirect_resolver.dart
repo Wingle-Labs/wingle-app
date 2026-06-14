@@ -16,8 +16,9 @@ class OnboardingRedirectDestination {
 
 /// BE onboardingStatus를 앱의 라우팅 목적지로 변환한다.
 OnboardingRedirectDestination resolveOnboardingDestination(
-  LoginProfileStatus status,
-) {
+  LoginProfileStatus status, {
+  bool hasSeenProfileApprovalWelcome = false,
+}) {
   switch (status) {
     case LoginProfileStatus.signupCompleted:
       return OnboardingRedirectDestination(
@@ -55,6 +56,13 @@ OnboardingRedirectDestination resolveOnboardingDestination(
         path: OnboardingRoutes.profileRejected.fullPath,
       );
     case LoginProfileStatus.profileApproved:
+      if (!hasSeenProfileApprovalWelcome) {
+        return OnboardingRedirectDestination(
+          name: OnboardingRoutes.profileApprovedWelcome.name,
+          path: OnboardingRoutes.profileApprovedWelcome.fullPath,
+        );
+      }
+
       return OnboardingRedirectDestination(
         name: OnboardingRoutes.choiceQuestions.name,
         path: OnboardingRoutes.choiceQuestions.fullPath,
