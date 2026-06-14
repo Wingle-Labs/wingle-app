@@ -108,3 +108,4 @@ google-services.json
 
 # private scripts
 scripts/private-*.sh
+.vercel

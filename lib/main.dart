@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
@@ -32,7 +33,11 @@ void main() async {
   await Hive.initFlutter();
   await EnvUtil.loadAll(EnvConstants.envs);
   await HiveUtil.initialize(SecureKeyManager.instance.cipher);
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  if (!kIsWeb) {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  }
 
   /// Riverpod bootstrap
   final container = ProviderContainer();
@@ -55,7 +60,7 @@ void main() async {
   } else if (bootstrapResult.codebook.usedOfflineCache) {
     debugPrint('[Bootstrap] using offline codebook cache');
   }
-  if (bootstrapResult.authSession.isAuthenticated) {
+  if (!kIsWeb && bootstrapResult.authSession.isAuthenticated) {
     final fcmTokenService = container.read(fcmTokenServiceProvider);
     fcmTokenService.startTokenRefreshListener();
     unawaited(fcmTokenService.registerCurrentToken());
