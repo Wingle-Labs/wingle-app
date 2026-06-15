@@ -44,7 +44,7 @@ final class JobProfileProvider
   }
 }
 
-String _$jobProfileHash() => r'26a2f02afbda97209d5de2e0b15791bba45a4a20';
+String _$jobProfileHash() => r'ad744d8bc9bffdcb95150a70b17a14c004d1e41f';
 
 /// 직장 정보 입력 상태를 관리하는 Notifier.
 

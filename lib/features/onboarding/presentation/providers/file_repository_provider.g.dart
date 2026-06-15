@@ -52,4 +52,4 @@ final class FileRepositoryProvider
   }
 }
 
-String _$fileRepositoryHash() => r'2f9006681393e52a4e9728179e6e4fdfac2d003f';
+String _$fileRepositoryHash() => r'ab277f877b90b5698bd291485dfd8ba39f4f8586';
