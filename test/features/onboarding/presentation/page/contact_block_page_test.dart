@@ -49,6 +49,7 @@ void main() {
 
     expect(deviceContactService.selectCount, 0);
     expect(contactRepository.uploadedPhoneNumbers, isEmpty);
+    expect(contactRepository.skipCount, 1);
     expect(persistence.profileStatus, LoginProfileStatus.onboardingCompleted);
     expect(find.text('home-target'), findsOneWidget);
   });
@@ -235,10 +236,16 @@ class _RecordingDeviceContactService implements DeviceContactService {
 
 class _RecordingContactRepository implements ContactRepository {
   final List<List<String>> uploadedPhoneNumbers = [];
+  int skipCount = 0;
 
   @override
   Future<void> uploadContacts({required List<String> phoneNumbers}) async {
     uploadedPhoneNumbers.add(List.unmodifiable(phoneNumbers));
+  }
+
+  @override
+  Future<void> skipContacts() async {
+    skipCount += 1;
   }
 }
 

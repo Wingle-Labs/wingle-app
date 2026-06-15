@@ -33,6 +33,18 @@ class ContactRepositoryImpl implements ContactRepository {
     }
   }
 
+  @override
+  Future<void> skipContacts() async {
+    final response = await _client.post(
+      Uri.parse('$_baseUrl${ApiEndpoints.contactsSkip}'),
+      headers: ApiRequestHeaders.auth(),
+    );
+
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      throw Exception(ApiErrorMessages.uploadContactsFailed);
+    }
+  }
+
   List<String> _normalizePhoneNumbers(List<String> phoneNumbers) {
     final normalized = phoneNumbers.map((phoneNumber) => phoneNumber.trim());
     final uniquePhoneNumbers = normalized.toSet().toList(growable: false);

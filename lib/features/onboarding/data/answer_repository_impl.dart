@@ -48,10 +48,6 @@ class AnswerRepositoryImpl implements AnswerRepository {
 
   @override
   Future<void> saveEssayAnswers({required List<EssayAnswerItem> answers}) {
-    if (answers.isEmpty) {
-      throw Exception(ApiErrorMessages.submitAnswersFailed);
-    }
-
     return _postJson(ApiEndpoints.essayQuestionAnswers, {
       'answers': answers.map((e) => e.toJson()).toList(),
     });

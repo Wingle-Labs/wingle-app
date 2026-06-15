@@ -143,6 +143,7 @@ class ContactBlockController extends _$ContactBlockController {
     state = state.copyWith(isUploading: true, errorMessage: null);
 
     try {
+      await ref.read(contactRepositoryProvider).skipContacts();
       await _saveOnboardingCompletedStatus();
       if (!ref.mounted) {
         return true;

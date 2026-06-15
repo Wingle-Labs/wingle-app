@@ -91,7 +91,7 @@ void main() {
     expect(find.text('contact-block-target'), findsOneWidget);
   });
 
-  testWidgets('건너뛰기는 저장 API 호출 없이 연락처 차단 화면으로 이동한다', (tester) async {
+  testWidgets('건너뛰기는 빈 답변 저장 API 호출 후 연락처 차단 화면으로 이동한다', (tester) async {
     _setMobileViewport(tester);
     final router = _essayQuestionsRouter();
     addTearDown(router.dispose);
@@ -112,7 +112,7 @@ void main() {
     await _pumpAsyncWork(tester);
     await tester.pumpAndSettle();
 
-    expect(answerRepository.savedEssayAnswers, isEmpty);
+    expect(answerRepository.savedEssayAnswers.single, isEmpty);
     expect(
       persistence.profileStatus,
       LoginProfileStatus.essayQuestionCompleted,

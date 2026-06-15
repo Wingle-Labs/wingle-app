@@ -161,6 +161,9 @@ class ApiEndpoints {
   /// POST /api/v1/contacts
   static const String contacts = '/api/v1/contacts';
 
+  /// POST /api/v1/contacts/skip
+  static const String contactsSkip = '/api/v1/contacts/skip';
+
   // ! -------------------------------------------------------------------------
   // ! Notification Domain
   // ! -------------------------------------------------------------------------

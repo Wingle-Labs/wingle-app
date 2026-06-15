@@ -58,11 +58,9 @@ class EssayQuestionsController extends _$EssayQuestionsController {
 
     try {
       final answers = current.toAnswerItems();
-      if (answers.isNotEmpty) {
-        await ref
-            .read(answerRepositoryProvider)
-            .saveEssayAnswers(answers: answers);
-      }
+      await ref
+          .read(answerRepositoryProvider)
+          .saveEssayAnswers(answers: answers);
 
       await _saveEssayCompletedStatus();
 
@@ -101,6 +99,9 @@ class EssayQuestionsController extends _$EssayQuestionsController {
     );
 
     try {
+      await ref
+          .read(answerRepositoryProvider)
+          .saveEssayAnswers(answers: current.toAnswerItems());
       await _saveEssayCompletedStatus();
 
       if (!ref.mounted) {

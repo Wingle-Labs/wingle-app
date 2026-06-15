@@ -66,7 +66,7 @@ void main() {
       );
     });
 
-    test('작성한 답변이 없으면 저장 API 없이 주관식 단계를 건너뛴다', () async {
+    test('작성한 답변이 없어도 빈 답변 저장 API를 호출하고 주관식 단계를 완료한다', () async {
       final answerRepository = _RecordingAnswerRepository();
       final persistence = _MemoryOnboardingProfileStatusPersistence();
       final container = _container(
@@ -81,7 +81,7 @@ void main() {
           .skip();
 
       expect(success, isTrue);
-      expect(answerRepository.savedEssayAnswers, isEmpty);
+      expect(answerRepository.savedEssayAnswers.single, isEmpty);
       expect(
         persistence.profileStatus,
         LoginProfileStatus.essayQuestionCompleted,

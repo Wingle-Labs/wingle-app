@@ -46,6 +46,22 @@ void main() {
     );
   });
 
+  test('연락처 차단을 건너뛴다', () async {
+    final client = MockClient((request) async {
+      expect(request.method, 'POST');
+      expect(request.url.path, '/api/v1/contacts/skip');
+      expect(request.body, isEmpty);
+      return http.Response('', 200);
+    });
+
+    final repository = ContactRepositoryImpl(
+      client: client,
+      baseUrl: 'https://api.example.com',
+    );
+
+    await repository.skipContacts();
+  });
+
   test('010-XXXX-XXXX 형식이 아니면 업로드하지 않는다', () async {
     final client = MockClient((request) async {
       fail('invalid contact request should not hit network');

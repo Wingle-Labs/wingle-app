@@ -7,4 +7,7 @@ class MockContactRepository implements ContactRepository {
 
   @override
   Future<void> uploadContacts({required List<String> phoneNumbers}) async {}
+
+  @override
+  Future<void> skipContacts() async {}
 }
