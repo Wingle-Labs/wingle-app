@@ -1,20 +1,15 @@
-import 'dart:async';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
-import 'package:wingle/app/bootstrap/bootstrap_initializer_provider.dart';
 import 'package:wingle/app/config/app_localization_wrapper.dart';
 import 'package:wingle/app/config/firebase_options.dart';
-import 'package:wingle/app/providers/device_uuid_provider.dart';
 import 'package:wingle/common/constants/env_constants.dart';
 import 'package:wingle/common/utils/env_util.dart';
 import 'package:wingle/common/utils/hive_util.dart';
 import 'package:wingle/common/utils/secure_key_manager.dart';
-import 'package:wingle/features/notification/presentation/providers/fcm_token_service_provider.dart';
 
 import 'app/app.dart';
 
@@ -41,30 +36,6 @@ void main() async {
 
   /// Riverpod bootstrap
   final container = ProviderContainer();
-
-  /// 기기 UUID 초기화
-  await container.read(deviceUuidProvider.notifier).initialize();
-
-  /// 코드북 등 앱 실행에 필요한 로컬 캐시 초기화
-  final bootstrapResult = await container
-      .read(bootstrapInitializerProvider)
-      .initialize();
-  debugPrint(
-    '[Bootstrap] auth session: ${bootstrapResult.authSession.status.name}',
-  );
-  if (!bootstrapResult.success) {
-    debugPrint(
-      '[Bootstrap] initialize failed: '
-      '${bootstrapResult.codebook.errorMessage}',
-    );
-  } else if (bootstrapResult.codebook.usedOfflineCache) {
-    debugPrint('[Bootstrap] using offline codebook cache');
-  }
-  if (!kIsWeb && bootstrapResult.authSession.isAuthenticated) {
-    final fcmTokenService = container.read(fcmTokenServiceProvider);
-    fcmTokenService.startTokenRefreshListener();
-    unawaited(fcmTokenService.registerCurrentToken());
-  }
 
   runApp(
     UncontrolledProviderScope(

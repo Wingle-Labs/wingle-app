@@ -7,7 +7,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shared_preferences_platform_interface/in_memory_shared_preferences_async.dart';
 import 'package:shared_preferences_platform_interface/shared_preferences_async_platform_interface.dart';
 import 'package:wingle/app/app.dart';
+import 'package:wingle/app/bootstrap/bootstrap_controller.dart';
+import 'package:wingle/app/bootstrap/bootstrap_initializer.dart';
+import 'package:wingle/app/bootstrap/initializers/auth_session_initializer.dart';
+import 'package:wingle/app/bootstrap/initializers/codebook_initializer.dart';
 import 'package:wingle/app/config/app_localization_wrapper.dart';
+import 'package:wingle/features/onboarding/data/codebook/codebook_repository_impl.dart';
+import 'package:wingle/features/onboarding/domain/model/codebook/codebook_models.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -31,11 +37,40 @@ void main() {
     addTearDown(tester.view.resetDevicePixelRatio);
 
     await tester.pumpWidget(
-      ProviderScope(child: AppLocalizationWrapper(child: const App())),
+      ProviderScope(
+        overrides: [
+          bootstrapControllerProvider.overrideWith(
+            _ReadyBootstrapController.new,
+          ),
+        ],
+        child: AppLocalizationWrapper(child: const App()),
+      ),
     );
     await tester.pumpAndSettle();
 
     expect(find.text('건너뛰기'), findsOneWidget);
     expect(find.text('다음'), findsOneWidget);
   });
+}
+
+class _ReadyBootstrapController extends BootstrapController {
+  @override
+  Future<BootstrapInitializeResult> build() async {
+    return BootstrapInitializeResult(
+      authSession: const AuthSessionInitializeResult(
+        status: AuthSessionInitializeStatus.noSession,
+      ),
+      codebook: CodebookInitializeResult(
+        syncResult: BootstrapCodebookSyncResult.success(
+          localVersions: CodebookVersionMap.empty(),
+          remoteVersions: CodebookVersionMap.empty(),
+          syncedGroups: [],
+          localChoiceVersions: {},
+          remoteChoiceVersions: {},
+          syncedChoiceCategories: [],
+          usedOfflineCache: false,
+        ),
+      ),
+    );
+  }
 }

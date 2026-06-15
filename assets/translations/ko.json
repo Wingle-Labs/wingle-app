@@ -3,6 +3,13 @@
     "action": {
       "clear": "지우기"
     },
+    "bootstrap": {
+      "loadingTitle": "앱을 준비하고 있어요",
+      "loadingSubtitle": "최신 정보를 불러오는 중이에요.",
+      "retryTitle": "앱 정보를 불러오지 못했어요",
+      "retrySubtitle": "네트워크 연결을 확인한 뒤 다시 시도해주세요.",
+      "retryButton": "다시 시도"
+    },
     "button": {
       "next": "다음",
       "edit": "수정하기",

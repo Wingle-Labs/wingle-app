@@ -2,6 +2,7 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wingle/app/bootstrap/bootstrap_gate.dart';
 import 'package:wingle/app/providers/localization_provider.dart';
 import 'package:wingle/app/providers/router_provider.dart';
 
@@ -27,6 +28,8 @@ class AppTheming extends ConsumerWidget {
         supportedLocales: context.supportedLocales,
         localizationsDelegates: context.localizationDelegates,
         routerConfig: ref.watch(routerProvider),
+        builder: (context, child) =>
+            BootstrapGate(child: child ?? const SizedBox.shrink()),
       ),
     );
   }

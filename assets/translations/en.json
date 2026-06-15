@@ -3,6 +3,13 @@
     "action": {
       "clear": "지우기"
     },
+    "bootstrap": {
+      "loadingTitle": "Preparing the app",
+      "loadingSubtitle": "We're loading the latest information.",
+      "retryTitle": "We couldn't load app information",
+      "retrySubtitle": "Check your network connection, then try again.",
+      "retryButton": "Try again"
+    },
     "button": {
       "next": "Next",
       "edit": "Edit",
