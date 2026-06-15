@@ -26,8 +26,7 @@ class RequiredSelfIntroPage extends ConsumerWidget {
       addBottomSpacing: true,
       floatingActionButton: DefaultFloatingButton(
         label: 'onboarding.requiredSelfIntro.button.next',
-        onPressed: () =>
-            context.pushNamed(OnboardingRoutes.selectiveSelfIntro.name),
+        onPressed: () => context.pushNamed(OnboardingRoutes.contactBlock.name),
       ),
     );
   }

@@ -123,10 +123,6 @@ WidgetbookFolder _buildOnboardingFolder() {
         name: 'Required Self Intro',
         initialLocation: OnboardingRoutes.requiredSelfIntro.fullPath,
       ),
-      _screenComponent(
-        name: 'Selective Self Intro',
-        initialLocation: OnboardingRoutes.selectiveSelfIntro.fullPath,
-      ),
     ],
   );
 }

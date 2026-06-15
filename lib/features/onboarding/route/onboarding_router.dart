@@ -28,7 +28,6 @@ import 'package:wingle/features/onboarding/presentation/page/profile_approval_pe
 import 'package:wingle/features/onboarding/presentation/page/profile_approval_request_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/profile_approval_welcome_page.dart';
 import 'package:wingle/features/onboarding/presentation/page/profile_rejected_page.dart';
-import 'package:wingle/features/onboarding/presentation/page/selective_self_intro.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 /// ! 온보딩 라우트
@@ -207,11 +206,6 @@ final List<GoRoute> signUpRoutes = [
     builder: (context, state) => EssayQuestionInputPage(
       questionId: int.tryParse(state.pathParameters['questionId'] ?? '') ?? -1,
     ),
-  ),
-  GoRoute(
-    name: OnboardingRoutes.selectiveSelfIntro.name,
-    path: OnboardingRoutes.selectiveSelfIntro.path,
-    builder: (context, state) => SelectiveSelfIntro(),
   ),
   GoRoute(
     name: OnboardingRoutes.contactBlock.name,

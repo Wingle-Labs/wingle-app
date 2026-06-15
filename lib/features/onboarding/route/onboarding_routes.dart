@@ -158,12 +158,6 @@ abstract final class OnboardingRoutes {
     name: 'essay-question-input',
   );
 
-  /// 선택형 자기소개 입력
-  static const selectiveSelfIntro = RouteNode(
-    parent: signup,
-    name: 'selective-self-intro',
-  );
-
   /// 연락처 지인 제외
   static const contactBlock = RouteNode(parent: signup, name: 'contact-block');
 }

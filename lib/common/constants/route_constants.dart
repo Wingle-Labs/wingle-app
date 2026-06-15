@@ -24,9 +24,6 @@ enum AppRoute {
   /// 필수 자기소개 입력 화면 경로
   requiredSelfIntro,
 
-  /// 선택형 자기소개 입력 화면 경로
-  selectiveSelfIntro,
-
   /// 기본 프로필 입력 화면 경로
   basicProfile,
 }
@@ -54,8 +51,6 @@ extension AppRoutePath on AppRoute {
         return 'age';
       case AppRoute.requiredSelfIntro:
         return 'required-self-intro';
-      case AppRoute.selectiveSelfIntro:
-        return 'selective-self-intro';
     }
   }
 }

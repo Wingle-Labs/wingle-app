@@ -59,7 +59,7 @@
 | P2 | `lib/features/onboarding/presentation/providers/body_shape_repository_provider.dart` | `@Riverpod(keepAlive: true)` function | 체형 repository DI 및 API/mock selector | migrated | `ref.onDispose(client.close)` 유지 |
 | P1 | `lib/features/onboarding/presentation/providers/body_shape_repository_provider.dart` | `@Riverpod(keepAlive: true)` function | 체형 코드북 파생값 | migrated | keepAlive |
 | P0 | `lib/features/onboarding/presentation/providers/basic_profile_provider.dart` | `@Riverpod(keepAlive: true)` generated `Notifier` | 기본 프로필 입력/제출 통합 상태 | migrated | 기존 state model/동작 보존 |
-| P0 | `lib/features/onboarding/presentation/providers/basic_profile_residence_provider.dart` | `@Riverpod(keepAlive: true)` generated `Notifier` | 기본 프로필 거주지 입력 상태 | migrated | 기존 mock residence code 생성 보존 |
+| P0 | `lib/features/onboarding/presentation/providers/basic_profile_residence_provider.dart` | `@Riverpod(keepAlive: true)` generated `Notifier` | 기본 프로필 거주지 입력 상태 | migrated | REGION 코드북 선택 코드 보존 |
 | P1 | `lib/features/onboarding/presentation/providers/region_codebook_provider.dart` | `@Riverpod(keepAlive: true)` function | Hive local REGION snapshot을 트리로 제공 | migrated | empty snapshot throw 동작 보존 |
 
 ## Generated Riverpod Providers
@@ -129,7 +129,6 @@
 | `lib/widgetbook/components/codebook/codebook_explorer_page.dart:8` | `ConsumerStatefulWidget` | Widgetbook | local state 유지 가능 |
 | `lib/features/onboarding/presentation/page/basic_profile_residence_page.dart:13` | `ConsumerStatefulWidget` | residence page state | REGION selection provider와 정합성 검토 |
 | `lib/features/auth/presentation/components/phone_otp_textfield.dart:6` | `ConsumerStatefulWidget` | auth OTP input component | controller/focus local 유지 가능 |
-| `lib/features/onboarding/presentation/page/selective_self_intro.dart:12` | `ConsumerStatefulWidget` | onboarding page state | business state는 generated provider로 이동 검토 |
 | `lib/widgetbook/components/codebook/codebook_snapshot_page.dart:14` | `ConsumerStatefulWidget` | Widgetbook | local state 유지 가능 |
 | `lib/features/onboarding/presentation/page/onboarding_page.dart:15` | `ConsumerStatefulWidget` | onboarding flow page | navigation/page lifecycle만 local 유지 |
 | `lib/features/onboarding/presentation/page/onboarding_password_page.dart:17` | `ConsumerStatefulWidget` | password page state | 이미 generated provider와 연결된 state 유지 |

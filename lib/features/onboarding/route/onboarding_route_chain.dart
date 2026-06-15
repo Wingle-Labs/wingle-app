@@ -159,11 +159,6 @@ abstract final class OnboardingRouteChain {
         previous: OnboardingRoutes.requiredSelfIntro,
         next: HomeRoutes.root,
       ),
-      _RouteChainEntry(
-        route: OnboardingRoutes.selectiveSelfIntro,
-        previous: OnboardingRoutes.requiredSelfIntro,
-        next: HomeRoutes.root,
-      ),
     ]),
     OnboardingRouteFlow.approvedQuestions: _RouteChainDefinition([
       _RouteChainEntry(
@@ -183,11 +178,6 @@ abstract final class OnboardingRouteChain {
       ),
       _RouteChainEntry(
         route: OnboardingRoutes.contactBlock,
-        previous: OnboardingRoutes.requiredSelfIntro,
-        next: HomeRoutes.root,
-      ),
-      _RouteChainEntry(
-        route: OnboardingRoutes.selectiveSelfIntro,
         previous: OnboardingRoutes.requiredSelfIntro,
         next: HomeRoutes.root,
       ),

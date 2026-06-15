@@ -442,45 +442,6 @@
         "interest": "자신의 관심사나 취미를 소개해주세요",
         "relationship": "자신의 연애관에 대해서 알려주세요"
       }
-    },
-    "selectiveSelfIntro": {
-      "title": "선택형 자기소개",
-      "button": {
-        "next": "다음"
-      },
-      "tabs": {
-        "dating": "연애",
-        "marriage": "결혼",
-        "personality": "성격",
-        "career": "커리어",
-        "lifestyle": "생활"
-      },
-      "questions": {
-        "first": {
-          "title": "첫번째 질문: 1",
-          "answers": {
-            "first": "답변 1",
-            "second": "답변 2",
-            "third": "답변 3"
-          }
-        },
-        "second": {
-          "title": "두번째 질문: 2",
-          "answers": {
-            "first": "답변 1",
-            "second": "답변 2",
-            "third": "답변 3"
-          }
-        },
-        "third": {
-          "title": "세번째 질문: 3",
-          "answers": {
-            "first": "답변 1",
-            "second": "답변 2",
-            "third": "멀티 라인 답변의 UI를 확인하기 위해 장문으로 작성된 목업 답변"
-          }
-        }
-      }
     }
   },
   "home": {
