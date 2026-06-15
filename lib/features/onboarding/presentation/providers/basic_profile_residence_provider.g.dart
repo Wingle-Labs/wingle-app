@@ -46,7 +46,7 @@ final class BasicProfileResidenceProvider
 }
 
 String _$basicProfileResidenceHash() =>
-    r'15dae135c39e2220d8d5aff39b0dd60c4713a78d';
+    r'6d5ecd9f2886e3769377315592a86320f949da8c';
 
 /// 기본 프로필 거주지 입력 상태 관리 Notifier.
 

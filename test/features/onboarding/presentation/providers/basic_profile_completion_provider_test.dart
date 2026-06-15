@@ -84,7 +84,14 @@ void main() {
     await container.read(basicProfileProvider.notifier).loadNickname();
     container
         .read(basicProfileProvider.notifier)
-        .updateResidenceQuery('서울특별시 강남구');
+        .selectResidenceCode(
+          const ResidenceCode(
+            level1: 'R_11',
+            level2: 'R_11680',
+            level3: 'R_11680103',
+          ),
+          query: '서울특별시 강남구 개포동',
+        );
     container.read(basicProfileProvider.notifier).updateHeight('175');
     container.read(basicProfileProvider.notifier).selectBodyShape('BT_M_001');
 
@@ -209,7 +216,14 @@ void main() {
     await container.read(basicProfileProvider.notifier).loadNickname();
     container
         .read(basicProfileProvider.notifier)
-        .updateResidenceQuery('서울특별시 강남구');
+        .selectResidenceCode(
+          const ResidenceCode(
+            level1: 'R_11',
+            level2: 'R_11680',
+            level3: 'R_11680103',
+          ),
+          query: '서울특별시 강남구 개포동',
+        );
     container.read(basicProfileProvider.notifier).updateHeight('175');
     container.read(basicProfileProvider.notifier).selectBodyShape('BT_M_001');
 

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math' as math;
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wingle/app/providers/current_user_gender_provider.dart';
@@ -100,23 +99,13 @@ class BasicProfile extends _$BasicProfile {
 
   /// 거주지 검색어를 갱신한다.
   ///
-  /// 현재는 실제 주소 코드북이 연결되기 전이므로,
-  /// 입력 문자열을 기반으로 한 안정적인 목업 코드를 함께 만든다.
+  /// 실제 거주지 코드는 REGION 코드북 선택을 통해서만 저장한다.
   void updateResidenceQuery(String value) {
-    final trimmed = value.trim();
-    final nextResidenceCode = trimmed.isEmpty
-        ? null
-        : _mockResidenceCodeFromQuery(trimmed);
-
-    if (state.residenceQuery == value &&
-        state.residenceCode == nextResidenceCode) {
+    if (state.residenceQuery == value && state.residenceCode == null) {
       return;
     }
 
-    state = state.copyWith(
-      residenceQuery: value,
-      residenceCode: nextResidenceCode,
-    );
+    state = state.copyWith(residenceQuery: value, residenceCode: null);
     _persistCurrentState();
   }
 
@@ -322,24 +311,5 @@ class BasicProfile extends _$BasicProfile {
     }
 
     return trimmed;
-  }
-
-  ResidenceCode _mockResidenceCodeFromQuery(String query) {
-    final seed = query.runes.fold<int>(0, (sum, rune) => sum + rune);
-    return ResidenceCode(
-      level1: _mockDigits(seed: seed, multiplier: 3, width: 3),
-      level2: _mockDigits(seed: seed, multiplier: 31, width: 5),
-      level3: _mockDigits(seed: seed, multiplier: 131, width: 8),
-    );
-  }
-
-  String _mockDigits({
-    required int seed,
-    required int multiplier,
-    required int width,
-  }) {
-    final max = math.pow(10, width).toInt();
-    final value = (seed * multiplier).abs() % max;
-    return value.toString().padLeft(width, '0');
   }
 }

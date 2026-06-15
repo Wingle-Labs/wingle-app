@@ -59,7 +59,7 @@ final class BodyShapeRepositoryProvider
 }
 
 String _$bodyShapeRepositoryHash() =>
-    r'd49fa2e1ddf89acc308182d2dec9040a526cc85a';
+    r'a8d8f5b96aa998434de7ff0af9ac527b3614b77b';
 
 /// 체형 코드북을 제공하는 Provider.
 

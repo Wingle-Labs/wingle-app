@@ -16,7 +16,7 @@ part 'body_shape_repository_provider.g.dart';
 /// [BodyShapeRepository] 구현체를 제공하는 Provider.
 @Riverpod(keepAlive: true)
 BodyShapeRepository bodyShapeRepository(Ref ref) {
-  const isApiReady = false;
+  const isApiReady = true;
 
   if (RepositorySelector.shouldUseMock(isApiReady: isApiReady)) {
     return MockBodyShapeRepository();
@@ -32,7 +32,11 @@ BodyShapeRepository bodyShapeRepository(Ref ref) {
   );
   ref.onDispose(client.close);
 
-  return BodyShapeRepositoryImpl(client: client, baseUrl: baseUrl);
+  return BodyShapeRepositoryImpl(
+    client: client,
+    baseUrl: baseUrl,
+    localDataSource: CodebookLocalDataSource(),
+  );
 }
 
 /// 체형 코드북을 제공하는 Provider.
