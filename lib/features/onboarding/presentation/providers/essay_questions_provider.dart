@@ -52,12 +52,22 @@ class EssayQuestionsController extends _$EssayQuestionsController {
       return false;
     }
 
+    final answers = current.toAnswerItems();
+    if (answers.isEmpty || current.hasInvalidAnswer) {
+      state = AsyncData(
+        current.copyWith(
+          isSubmitting: false,
+          submitErrorMessage: 'onboarding.essayQuestions.invalidAnswer',
+        ),
+      );
+      return false;
+    }
+
     state = AsyncData(
       current.copyWith(isSubmitting: true, submitErrorMessage: null),
     );
 
     try {
-      final answers = current.toAnswerItems();
       await ref
           .read(answerRepositoryProvider)
           .saveEssayAnswers(answers: answers);
@@ -99,9 +109,6 @@ class EssayQuestionsController extends _$EssayQuestionsController {
     );
 
     try {
-      await ref
-          .read(answerRepositoryProvider)
-          .saveEssayAnswers(answers: current.toAnswerItems());
       await _saveEssayCompletedStatus();
 
       if (!ref.mounted) {

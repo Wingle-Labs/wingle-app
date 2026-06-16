@@ -6,6 +6,7 @@ import 'package:wingle/features/onboarding/presentation/models/contact_block_mod
 import 'package:wingle/features/onboarding/presentation/providers/contact_repository_provider.dart';
 import 'package:wingle/features/onboarding/presentation/providers/device_contact_service_provider.dart';
 import 'package:wingle/features/onboarding/presentation/providers/onboarding_profile_status_provider.dart';
+import 'package:wingle/features/onboarding/presentation/providers/profile_repository_provider.dart';
 
 part 'contact_block_provider.g.dart';
 
@@ -165,7 +166,25 @@ class ContactBlockController extends _$ContactBlockController {
   }
 
   Future<void> _saveOnboardingCompletedStatus() {
-    return ref
+    return _syncProfileStatusOrSaveCompleted();
+  }
+
+  Future<void> _syncProfileStatusOrSaveCompleted() async {
+    try {
+      final snapshot = await ref
+          .read(profileRepositoryProvider)
+          .fetchMyProfile();
+      if (snapshot != null && snapshot.onboardingStatus != null) {
+        await ref
+            .read(onboardingProfileStatusPersistenceProvider)
+            .saveMyProfileSnapshot(snapshot);
+        return;
+      }
+    } catch (_) {
+      // 서버 상태 동기화 실패 시에도 성공한 연락처 API 결과는 로컬에 반영한다.
+    }
+
+    await ref
         .read(onboardingProfileStatusPersistenceProvider)
         .saveProfileStatus(LoginProfileStatus.onboardingCompleted);
   }

@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:wingle/common/constants/api_error_messages.dart';
 import 'package:wingle/common/constants/api_paths.dart';
+import 'package:wingle/common/utils/api_error_response.dart';
 import 'package:wingle/common/utils/api_request_headers.dart';
 import 'package:wingle/features/onboarding/domain/constants/file_upload_constants.dart';
 import 'package:wingle/features/onboarding/domain/model/file/file_models.dart';
@@ -48,7 +49,10 @@ class FileRepositoryImpl implements FileRepository {
     );
 
     if (!_isSuccess(response)) {
-      throw Exception(ApiErrorMessages.createProfileImagePresignedUrlFailed);
+      throw apiExceptionFromResponse(
+        response,
+        fallbackMessage: ApiErrorMessages.createProfileImagePresignedUrlFailed,
+      );
     }
 
     final result = ProfileImagePresignResult.fromJson(
@@ -70,7 +74,10 @@ class FileRepositoryImpl implements FileRepository {
     );
 
     if (!_isSuccess(response)) {
-      throw Exception(ApiErrorMessages.createProfileImagePresignedUrlFailed);
+      throw apiExceptionFromResponse(
+        response,
+        fallbackMessage: ApiErrorMessages.createProfileImagePresignedUrlFailed,
+      );
     }
 
     final result = ProfileImagePresignResult.fromJson(
@@ -92,7 +99,10 @@ class FileRepositoryImpl implements FileRepository {
     );
 
     if (!_isSuccess(response)) {
-      throw Exception(ApiErrorMessages.createCertificationPresignedUrlFailed);
+      throw apiExceptionFromResponse(
+        response,
+        fallbackMessage: ApiErrorMessages.createCertificationPresignedUrlFailed,
+      );
     }
 
     final result = ProfileImagePresignResult.fromJson(
@@ -134,7 +144,10 @@ class FileRepositoryImpl implements FileRepository {
         contentType: contentType,
         response: response,
       );
-      throw Exception(ApiErrorMessages.uploadFileFailed);
+      throw apiExceptionFromResponse(
+        response,
+        fallbackMessage: ApiErrorMessages.uploadFileFailed,
+      );
     }
   }
 

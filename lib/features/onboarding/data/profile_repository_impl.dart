@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:wingle/common/constants/api_error_messages.dart';
 import 'package:wingle/common/constants/api_paths.dart';
+import 'package:wingle/common/utils/api_error_response.dart';
 import 'package:wingle/common/utils/api_request_headers.dart';
 import 'package:wingle/features/auth/domain/models/login_basic_profile.dart';
 import 'package:wingle/features/auth/domain/models/my_profile_snapshot.dart';
@@ -31,7 +32,10 @@ class ProfileRepositoryImpl implements ProfileRepository {
     );
 
     if (!_isSuccess(response)) {
-      throw Exception(ApiErrorMessages.fetchRandomNicknameFailed);
+      throw apiExceptionFromResponse(
+        response,
+        fallbackMessage: ApiErrorMessages.fetchRandomNicknameFailed,
+      );
     }
 
     final decoded = jsonDecode(response.body) as Map<String, dynamic>;
@@ -52,7 +56,10 @@ class ProfileRepositoryImpl implements ProfileRepository {
     );
 
     if (!_isSuccess(response)) {
-      throw Exception(ApiErrorMessages.fetchMyProfileFailed);
+      throw apiExceptionFromResponse(
+        response,
+        fallbackMessage: ApiErrorMessages.fetchMyProfileFailed,
+      );
     }
 
     final decoded = _decodeResponseBody(response.body);
@@ -120,14 +127,14 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }) async {
     await _postJson(
       path: ApiEndpoints.profileDetail,
-      body: {
-        'mbti': mbti,
-        'selfIntroduction': selfIntroduction,
-        if (mainStylePhotoKey != null) 'mainStylePhotoKey': mainStylePhotoKey,
-        'subStylePhotoKeys': subStylePhotoKeys,
-        if (mainFacePhotoKey != null) 'mainFacePhotoKey': mainFacePhotoKey,
-        'subFacePhotoKeys': subFacePhotoKeys,
-      },
+      body: _profileDetailsBody(
+        mbti: mbti,
+        selfIntroduction: selfIntroduction,
+        mainStylePhotoKey: mainStylePhotoKey,
+        subStylePhotoKeys: subStylePhotoKeys,
+        mainFacePhotoKey: mainFacePhotoKey,
+        subFacePhotoKeys: subFacePhotoKeys,
+      ),
       errorMessage: ApiErrorMessages.submitProfileDetailsFailed,
     );
   }
@@ -143,14 +150,14 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }) async {
     await _putJson(
       path: ApiEndpoints.profileDetailReapply,
-      body: {
-        'mbti': mbti,
-        'selfIntroduction': selfIntroduction,
-        if (mainStylePhotoKey != null) 'mainStylePhotoKey': mainStylePhotoKey,
-        'subStylePhotoKeys': subStylePhotoKeys,
-        if (mainFacePhotoKey != null) 'mainFacePhotoKey': mainFacePhotoKey,
-        'subFacePhotoKeys': subFacePhotoKeys,
-      },
+      body: _profileDetailsBody(
+        mbti: mbti,
+        selfIntroduction: selfIntroduction,
+        mainStylePhotoKey: mainStylePhotoKey,
+        subStylePhotoKeys: subStylePhotoKeys,
+        mainFacePhotoKey: mainFacePhotoKey,
+        subFacePhotoKeys: subFacePhotoKeys,
+      ),
       errorMessage: ApiErrorMessages.submitProfileDetailsFailed,
     );
   }
@@ -241,9 +248,15 @@ class ProfileRepositoryImpl implements ProfileRepository {
   Future<void> submitEducationCertification({
     required String certificationKey,
   }) async {
+    final key = _requiredS3Key(
+      certificationKey,
+      directory: 'certification',
+      errorMessage: ApiErrorMessages.submitEducationCertificationFailed,
+    );
+
     await _postJson(
       path: ApiEndpoints.profileEducationCertification,
-      body: {'certificationKey': certificationKey.trim()},
+      body: {'certificationKey': key},
       errorMessage: ApiErrorMessages.submitEducationCertificationFailed,
     );
   }
@@ -284,7 +297,10 @@ class ProfileRepositoryImpl implements ProfileRepository {
     );
 
     if (!_isSuccess(response)) {
-      throw Exception(ApiErrorMessages.fetchRejectionReasonFailed);
+      throw apiExceptionFromResponse(
+        response,
+        fallbackMessage: ApiErrorMessages.fetchRejectionReasonFailed,
+      );
     }
 
     return RejectionReason.fromJson(
@@ -304,7 +320,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
     );
 
     if (!_isSuccess(response)) {
-      throw Exception(errorMessage);
+      throw apiExceptionFromResponse(response, fallbackMessage: errorMessage);
     }
   }
 
@@ -320,7 +336,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
     );
 
     if (!_isSuccess(response)) {
-      throw Exception(errorMessage);
+      throw apiExceptionFromResponse(response, fallbackMessage: errorMessage);
     }
   }
 
@@ -334,7 +350,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
     );
 
     if (!_isSuccess(response)) {
-      throw Exception(errorMessage);
+      throw apiExceptionFromResponse(response, fallbackMessage: errorMessage);
     }
   }
 
@@ -366,6 +382,55 @@ class ProfileRepositoryImpl implements ProfileRepository {
     };
   }
 
+  Map<String, dynamic> _profileDetailsBody({
+    required String mbti,
+    required String selfIntroduction,
+    required String? mainStylePhotoKey,
+    required List<String> subStylePhotoKeys,
+    required String? mainFacePhotoKey,
+    required List<String> subFacePhotoKeys,
+  }) {
+    final normalizedMainStylePhotoKey = _optionalS3Key(
+      mainStylePhotoKey,
+      directory: 'style',
+      errorMessage: ApiErrorMessages.submitProfileDetailsFailed,
+    );
+    final normalizedSubStylePhotoKeys = subStylePhotoKeys
+        .map(
+          (key) => _requiredS3Key(
+            key,
+            directory: 'style',
+            errorMessage: ApiErrorMessages.submitProfileDetailsFailed,
+          ),
+        )
+        .toList(growable: false);
+    final normalizedMainFacePhotoKey = _optionalS3Key(
+      mainFacePhotoKey,
+      directory: 'face',
+      errorMessage: ApiErrorMessages.submitProfileDetailsFailed,
+    );
+    final normalizedSubFacePhotoKeys = subFacePhotoKeys
+        .map(
+          (key) => _requiredS3Key(
+            key,
+            directory: 'face',
+            errorMessage: ApiErrorMessages.submitProfileDetailsFailed,
+          ),
+        )
+        .toList(growable: false);
+
+    return {
+      'mbti': mbti,
+      'selfIntroduction': selfIntroduction,
+      if (normalizedMainStylePhotoKey != null)
+        'mainStylePhotoKey': normalizedMainStylePhotoKey,
+      'subStylePhotoKeys': normalizedSubStylePhotoKeys,
+      if (normalizedMainFacePhotoKey != null)
+        'mainFacePhotoKey': normalizedMainFacePhotoKey,
+      'subFacePhotoKeys': normalizedSubFacePhotoKeys,
+    };
+  }
+
   Map<String, dynamic> _educationProfileBody({
     required String? university,
     required String? customUniversityName,
@@ -373,15 +438,55 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }) {
     final normalizedUniversity = university?.trim();
     final normalizedCustomUniversityName = customUniversityName?.trim();
+    final hasUniversity =
+        normalizedUniversity != null && normalizedUniversity.isNotEmpty;
+    final hasCustomUniversityName =
+        normalizedCustomUniversityName != null &&
+        normalizedCustomUniversityName.isNotEmpty;
+
+    if (hasUniversity == hasCustomUniversityName) {
+      throw Exception(ApiErrorMessages.submitEducationFailed);
+    }
 
     return {
       'educationLevel': educationLevel,
-      if (normalizedUniversity != null && normalizedUniversity.isNotEmpty)
+      if (hasUniversity)
         'university': normalizedUniversity
-      else if (normalizedCustomUniversityName != null &&
-          normalizedCustomUniversityName.isNotEmpty)
+      else
         'customUniversityName': normalizedCustomUniversityName,
     };
+  }
+
+  String? _optionalS3Key(
+    String? value, {
+    required String directory,
+    required String errorMessage,
+  }) {
+    final trimmed = value?.trim();
+    if (trimmed == null || trimmed.isEmpty) {
+      return null;
+    }
+
+    return _requiredS3Key(
+      trimmed,
+      directory: directory,
+      errorMessage: errorMessage,
+    );
+  }
+
+  String _requiredS3Key(
+    String value, {
+    required String directory,
+    required String errorMessage,
+  }) {
+    final trimmed = value.trim();
+    final pattern = RegExp('^users/[0-9]+/$directory/.+');
+    if (!pattern.hasMatch(trimmed) ||
+        Uri.tryParse(trimmed)?.hasScheme == true) {
+      throw Exception(errorMessage);
+    }
+
+    return trimmed;
   }
 
   bool _isSuccess(http.Response response) {

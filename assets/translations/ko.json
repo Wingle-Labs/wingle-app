@@ -142,10 +142,11 @@
       "inputSubtitle": "원하는 문항만 작성해도 괜찮아요.",
       "inputLabel": "답변",
       "inputHint": "솔직하게 적어주세요",
-      "inputAssistive": "최대 1000자까지 작성할 수 있어요.",
+      "inputAssistive": "200자 이상, 최대 1000자까지 작성할 수 있어요.",
       "inputComplete": "입력 완료",
       "loadFailed": "주관식 질문을 불러오지 못했어요.\n다시 시도해주세요.",
       "saveFailed": "주관식 답변을 저장하지 못했어요.",
+      "invalidAnswer": "작성한 답변은 200자 이상이어야 해요.",
       "emptyQuestion": "질문을 찾지 못했어요."
     },
     "contactBlock": {

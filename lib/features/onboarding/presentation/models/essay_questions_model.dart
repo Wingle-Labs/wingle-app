@@ -26,6 +26,9 @@ class EssayQuestionsModel {
   /// 답변 최대 글자 수.
   static const int answerMaxLength = 1000;
 
+  /// 서버에 제출 가능한 답변 최소 글자 수.
+  static const int answerMinLength = 200;
+
   /// 전체 질문 수.
   int get totalQuestionCount => questions.length;
 
@@ -35,6 +38,11 @@ class EssayQuestionsModel {
 
   /// 하나 이상의 답변을 작성했는지 여부.
   bool get hasAnyAnswer => completedQuestionCount > 0;
+
+  /// 서버 제출 기준에 맞지 않는 작성 답변이 있는지 여부.
+  bool get hasInvalidAnswer => toAnswerItems().any(
+    (answer) => answer.content.trim().length < answerMinLength,
+  );
 
   /// 특정 질문에 답변이 있는지 확인한다.
   bool hasAnswer(int questionId) =>

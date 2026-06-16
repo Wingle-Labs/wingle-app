@@ -45,20 +45,16 @@ void main() {
       );
     });
 
-    test('빈 주관식 답변도 저장 요청을 보낸다', () async {
-      late Map<String, dynamic> body;
-
+    test('빈 주관식 답변은 저장하지 않는다', () async {
       final client = MockClient((request) async {
-        expect(request.method, 'POST');
-        expect(request.url.path, '/api/v1/essay-questions/answers');
-        body = jsonDecode(request.body) as Map<String, dynamic>;
-        return http.Response('', 200);
+        fail('empty essay answer request should not hit network');
       });
       final repository = AnswerRepositoryImpl(client: client, baseUrl: baseUrl);
 
-      await repository.saveEssayAnswers(answers: const <EssayAnswerItem>[]);
-
-      expect(body, {'answers': <dynamic>[]});
+      expect(
+        () => repository.saveEssayAnswers(answers: const <EssayAnswerItem>[]),
+        throwsException,
+      );
     });
 
     test('주관식 답변을 조회한다', () async {

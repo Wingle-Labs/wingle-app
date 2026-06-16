@@ -86,7 +86,7 @@ enum EducationLevel {
   const EducationLevel({required this.apiValue, required this.labelKey});
 
   /// 학교명 입력을 건너뛰는 학력인지 여부.
-  bool get skipsSchoolName => this == EducationLevel.other;
+  bool get skipsSchoolName => false;
 
   /// 학교 이메일/학적 증명 인증을 건너뛰는 학력인지 여부.
   bool get skipsEducationVerification =>

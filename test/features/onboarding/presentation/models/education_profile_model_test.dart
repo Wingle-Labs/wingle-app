@@ -12,11 +12,12 @@ void main() {
     expect(state.copyWith(schoolName: '한국대학교').canContinueSchool, isTrue);
   });
 
-  test('기타는 학교명 없이 다음 단계로 진행할 수 있다', () {
+  test('기타는 학교명 입력 후 다음 단계로 진행할 수 있다', () {
     const state = EducationProfileModel(educationLevel: EducationLevel.other);
 
-    expect(state.requiresSchoolName, isFalse);
-    expect(state.canContinueSchool, isTrue);
+    expect(state.requiresSchoolName, isTrue);
+    expect(state.canContinueSchool, isFalse);
+    expect(state.copyWith(schoolName: '기타 학교').canContinueSchool, isTrue);
     expect(state.educationLevel?.skipsEducationVerification, isTrue);
   });
 

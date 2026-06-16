@@ -293,6 +293,178 @@ void main() {
       });
     });
 
+    test('세부 프로필 사진은 S3 key만 전송한다', () async {
+      late Map<String, dynamic> body;
+
+      final client = MockClient((request) async {
+        expect(request.method, 'POST');
+        expect(request.url.path, '/api/v1/profiles/detail');
+        body = jsonDecode(request.body) as Map<String, dynamic>;
+        return http.Response('', 200);
+      });
+
+      final repository = ProfileRepositoryImpl(
+        client: client,
+        baseUrl: baseUrl,
+      );
+
+      await repository.submitProfileDetails(
+        mbti: 'ISFP',
+        selfIntroduction: '안녕하세요.',
+        mainStylePhotoKey: 'users/10/style/main.webp',
+        subStylePhotoKeys: const ['users/10/style/sub.webp'],
+        mainFacePhotoKey: 'users/10/face/main.webp',
+      );
+
+      expect(body, {
+        'mbti': 'ISFP',
+        'selfIntroduction': '안녕하세요.',
+        'mainStylePhotoKey': 'users/10/style/main.webp',
+        'subStylePhotoKeys': ['users/10/style/sub.webp'],
+        'mainFacePhotoKey': 'users/10/face/main.webp',
+        'subFacePhotoKeys': <dynamic>[],
+      });
+    });
+
+    test('세부 프로필 사진에 presigned URL을 보내지 않는다', () async {
+      final client = MockClient((request) async {
+        fail('invalid profile photo key should not hit network');
+      });
+
+      final repository = ProfileRepositoryImpl(
+        client: client,
+        baseUrl: baseUrl,
+      );
+
+      expect(
+        () => repository.submitProfileDetails(
+          mbti: 'ISFP',
+          selfIntroduction: '안녕하세요.',
+          mainStylePhotoKey:
+              'https://storage.wingle.kr/users/10/style/main.webp?sig=1',
+        ),
+        throwsException,
+      );
+    });
+
+    test('학교 정보는 university와 customUniversityName 중 하나만 보낸다', () async {
+      late Map<String, dynamic> codebookBody;
+      late Map<String, dynamic> customBody;
+      var requestCount = 0;
+
+      final client = MockClient((request) async {
+        requestCount += 1;
+        expect(request.method, 'POST');
+        expect(request.url.path, '/api/v1/user/profile/education');
+        final body = jsonDecode(request.body) as Map<String, dynamic>;
+        if (requestCount == 1) {
+          codebookBody = body;
+        } else {
+          customBody = body;
+        }
+        return http.Response('', 200);
+      });
+
+      final repository = ProfileRepositoryImpl(
+        client: client,
+        baseUrl: baseUrl,
+      );
+
+      await repository.submitEducation(
+        university: 'U228',
+        customUniversityName: null,
+        educationLevel: 'UNIVERSITY',
+      );
+      await repository.submitEducation(
+        university: null,
+        customUniversityName: '한국고등학교',
+        educationLevel: 'HIGH_SCHOOL',
+      );
+
+      expect(codebookBody, {
+        'educationLevel': 'UNIVERSITY',
+        'university': 'U228',
+      });
+      expect(customBody, {
+        'educationLevel': 'HIGH_SCHOOL',
+        'customUniversityName': '한국고등학교',
+      });
+    });
+
+    test(
+      '학교 정보에 university와 customUniversityName이 둘 다 있거나 둘 다 없으면 전송하지 않는다',
+      () {
+        final client = MockClient((request) async {
+          fail('invalid education request should not hit network');
+        });
+
+        final repository = ProfileRepositoryImpl(
+          client: client,
+          baseUrl: baseUrl,
+        );
+
+        expect(
+          () => repository.submitEducation(
+            university: 'U228',
+            customUniversityName: '한국대학교',
+            educationLevel: 'UNIVERSITY',
+          ),
+          throwsException,
+        );
+        expect(
+          () => repository.submitEducation(
+            university: null,
+            customUniversityName: null,
+            educationLevel: 'OTHER',
+          ),
+          throwsException,
+        );
+      },
+    );
+
+    test('학적 증명서 key는 certification prefix만 등록한다', () async {
+      late Map<String, dynamic> body;
+
+      final client = MockClient((request) async {
+        expect(request.method, 'POST');
+        expect(
+          request.url.path,
+          '/api/v1/user/profile/education/certification',
+        );
+        body = jsonDecode(request.body) as Map<String, dynamic>;
+        return http.Response('', 200);
+      });
+
+      final repository = ProfileRepositoryImpl(
+        client: client,
+        baseUrl: baseUrl,
+      );
+
+      await repository.submitEducationCertification(
+        certificationKey: 'users/10/certification/cert.webp',
+      );
+
+      expect(body, {'certificationKey': 'users/10/certification/cert.webp'});
+    });
+
+    test('학적 증명서 key가 certification prefix가 아니면 전송하지 않는다', () {
+      final client = MockClient((request) async {
+        fail('invalid certification key should not hit network');
+      });
+
+      final repository = ProfileRepositoryImpl(
+        client: client,
+        baseUrl: baseUrl,
+      );
+
+      expect(
+        () => repository.submitEducationCertification(
+          certificationKey: 'users/10/style/cert.webp',
+        ),
+        throwsException,
+      );
+    });
+
     test('프로필 심사 요청은 body 없는 POST를 전송한다', () async {
       final client = MockClient((request) async {
         expect(request.method, 'POST');
@@ -429,7 +601,7 @@ void main() {
       });
     });
 
-    test('기타 학교는 university 없이 등록한다', () async {
+    test('기타 학교는 직접 입력명으로 등록한다', () async {
       late Map<String, dynamic> body;
 
       final client = MockClient((request) async {
@@ -446,11 +618,11 @@ void main() {
 
       await repository.submitEducation(
         university: null,
-        customUniversityName: null,
+        customUniversityName: '기타',
         educationLevel: 'OTHER',
       );
 
-      expect(body, {'educationLevel': 'OTHER'});
+      expect(body, {'educationLevel': 'OTHER', 'customUniversityName': '기타'});
     });
 
     test('학교 이메일 인증을 요청한다', () async {

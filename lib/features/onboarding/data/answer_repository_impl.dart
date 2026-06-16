@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:wingle/common/constants/api_error_messages.dart';
 import 'package:wingle/common/constants/api_paths.dart';
+import 'package:wingle/common/utils/api_error_response.dart';
 import 'package:wingle/common/utils/api_request_headers.dart';
 import 'package:wingle/features/onboarding/domain/model/answer/answer_models.dart';
 import 'package:wingle/features/onboarding/domain/repository/answer_repository.dart';
@@ -48,6 +49,10 @@ class AnswerRepositoryImpl implements AnswerRepository {
 
   @override
   Future<void> saveEssayAnswers({required List<EssayAnswerItem> answers}) {
+    if (answers.isEmpty) {
+      throw Exception(ApiErrorMessages.submitAnswersFailed);
+    }
+
     return _postJson(ApiEndpoints.essayQuestionAnswers, {
       'answers': answers.map((e) => e.toJson()).toList(),
     });
@@ -60,7 +65,10 @@ class AnswerRepositoryImpl implements AnswerRepository {
     );
 
     if (response.statusCode < 200 || response.statusCode >= 300) {
-      throw Exception(ApiErrorMessages.fetchAnswersFailed);
+      throw apiExceptionFromResponse(
+        response,
+        fallbackMessage: ApiErrorMessages.fetchAnswersFailed,
+      );
     }
 
     return jsonDecode(response.body) as Map<String, dynamic>;
@@ -74,7 +82,10 @@ class AnswerRepositoryImpl implements AnswerRepository {
     );
 
     if (response.statusCode < 200 || response.statusCode >= 300) {
-      throw Exception(ApiErrorMessages.submitAnswersFailed);
+      throw apiExceptionFromResponse(
+        response,
+        fallbackMessage: ApiErrorMessages.submitAnswersFailed,
+      );
     }
   }
 }

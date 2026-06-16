@@ -96,19 +96,20 @@ void main() {
     expect(repository.educationLevel, 'UNIVERSITY');
   });
 
-  test('기타 학력은 학교명 없이 educationLevel만 제출한다', () async {
+  test('기타 학력은 직접 입력 학교명으로 제출한다', () async {
     final repository = _RecordingProfileRepository();
     final container = _container(repository);
     addTearDown(container.dispose);
 
     final notifier = container.read(educationProfileProvider.notifier);
     notifier.selectEducationLevel(EducationLevel.other);
+    notifier.updateSchoolName('기타 학교');
 
     final success = await notifier.submitEducation();
 
     expect(success, isTrue);
     expect(repository.university, isNull);
-    expect(repository.customUniversityName, isNull);
+    expect(repository.customUniversityName, '기타 학교');
     expect(repository.educationLevel, 'OTHER');
   });
 

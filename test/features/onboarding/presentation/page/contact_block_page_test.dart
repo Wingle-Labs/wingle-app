@@ -9,12 +9,14 @@ import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
 import 'package:wingle/features/auth/domain/models/my_profile_snapshot.dart';
 import 'package:wingle/features/home/route/home_routes.dart';
 import 'package:wingle/features/onboarding/application/device_contact_service.dart';
+import 'package:wingle/features/onboarding/data/mock/mock_profile_repository.dart';
 import 'package:wingle/features/onboarding/domain/model/contact_block_contact.dart';
 import 'package:wingle/features/onboarding/domain/repository/contact_repository.dart';
 import 'package:wingle/features/onboarding/presentation/page/contact_block_page.dart';
 import 'package:wingle/features/onboarding/presentation/providers/contact_repository_provider.dart';
 import 'package:wingle/features/onboarding/presentation/providers/device_contact_service_provider.dart';
 import 'package:wingle/features/onboarding/presentation/providers/onboarding_profile_status_provider.dart';
+import 'package:wingle/features/onboarding/presentation/providers/profile_repository_provider.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
 
 void main() {
@@ -171,6 +173,13 @@ Widget _testApp(
       contactRepositoryProvider.overrideWithValue(contactRepository),
       onboardingProfileStatusPersistenceProvider.overrideWithValue(persistence),
       deviceContactServiceProvider.overrideWithValue(deviceContactService),
+      profileRepositoryProvider.overrideWithValue(
+        const MockProfileRepository(
+          profileSnapshot: MyProfileSnapshot(
+            onboardingStatus: LoginProfileStatus.onboardingCompleted,
+          ),
+        ),
+      ),
     ],
     child: EasyLocalization(
       supportedLocales: AppLocalization.supportedLocales,

@@ -51,14 +51,15 @@ void main() {
         essayQuestionsControllerProvider.notifier,
       );
 
-      notifier.updateAnswer(questionId: 1, content: '저는 약속을 중요하게 생각합니다.');
+      final validAnswer = List.filled(15, '저는 약속을 중요하게 생각합니다. ').join();
+      notifier.updateAnswer(questionId: 1, content: validAnswer);
       notifier.updateAnswer(questionId: 2, content: '   ');
 
       final success = await notifier.completeWithAnswers();
 
       expect(success, isTrue);
       expect(answerRepository.savedEssayAnswers.single.map((e) => e.toJson()), [
-        {'questionId': 1, 'content': '저는 약속을 중요하게 생각합니다.'},
+        {'questionId': 1, 'content': validAnswer.trim()},
       ]);
       expect(
         persistence.profileStatus,
@@ -66,7 +67,7 @@ void main() {
       );
     });
 
-    test('작성한 답변이 없어도 빈 답변 저장 API를 호출하고 주관식 단계를 완료한다', () async {
+    test('작성한 답변 없이 건너뛰면 저장 API 호출 없이 주관식 단계를 완료한다', () async {
       final answerRepository = _RecordingAnswerRepository();
       final persistence = _MemoryOnboardingProfileStatusPersistence();
       final container = _container(
@@ -81,11 +82,34 @@ void main() {
           .skip();
 
       expect(success, isTrue);
-      expect(answerRepository.savedEssayAnswers.single, isEmpty);
+      expect(answerRepository.savedEssayAnswers, isEmpty);
       expect(
         persistence.profileStatus,
         LoginProfileStatus.essayQuestionCompleted,
       );
+    });
+
+    test('200자 미만 주관식 답변은 저장하지 않는다', () async {
+      final answerRepository = _RecordingAnswerRepository();
+      final persistence = _MemoryOnboardingProfileStatusPersistence();
+      final container = _container(
+        answerRepository: answerRepository,
+        persistence: persistence,
+      );
+      addTearDown(container.dispose);
+
+      await container.read(essayQuestionsControllerProvider.future);
+      final notifier = container.read(
+        essayQuestionsControllerProvider.notifier,
+      );
+
+      notifier.updateAnswer(questionId: 1, content: '짧은 답변입니다.');
+
+      final success = await notifier.completeWithAnswers();
+
+      expect(success, isFalse);
+      expect(answerRepository.savedEssayAnswers, isEmpty);
+      expect(persistence.profileStatus, isNull);
     });
   });
 }

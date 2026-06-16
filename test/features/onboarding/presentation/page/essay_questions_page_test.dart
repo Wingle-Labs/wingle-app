@@ -59,9 +59,10 @@ void main() {
       findsOneWidget,
     );
 
-    await tester.enterText(find.byType(TextFormField), '저는 약속을 중요하게 생각합니다.');
+    final validAnswer = List.filled(15, '저는 약속을 중요하게 생각합니다. ').join();
+    await tester.enterText(find.byType(TextFormField), validAnswer);
     await tester.pump();
-    expect(find.text('18/1000자'), findsOneWidget);
+    expect(find.text('${validAnswer.length}/1000자'), findsOneWidget);
 
     await tester.tap(find.byType(FloatingActionButton));
     await _pumpAsyncWork(tester);
@@ -75,14 +76,14 @@ void main() {
       _textEither('onboarding.essayQuestions.completedBadge', '작성 완료'),
       findsWidgets,
     );
-    expect(find.text('저는 약속을 중요하게 생각합니다.'), findsOneWidget);
+    expect(find.text(validAnswer.trim()), findsOneWidget);
 
     await tester.tap(find.byType(FloatingActionButton));
     await _pumpAsyncWork(tester);
     await tester.pumpAndSettle();
 
     expect(answerRepository.savedEssayAnswers.single.map((e) => e.toJson()), [
-      {'questionId': 1, 'content': '저는 약속을 중요하게 생각합니다.'},
+      {'questionId': 1, 'content': validAnswer.trim()},
     ]);
     expect(
       persistence.profileStatus,
@@ -91,7 +92,7 @@ void main() {
     expect(find.text('contact-block-target'), findsOneWidget);
   });
 
-  testWidgets('건너뛰기는 빈 답변 저장 API 호출 후 연락처 차단 화면으로 이동한다', (tester) async {
+  testWidgets('건너뛰기는 저장 API 호출 없이 연락처 차단 화면으로 이동한다', (tester) async {
     _setMobileViewport(tester);
     final router = _essayQuestionsRouter();
     addTearDown(router.dispose);
@@ -112,7 +113,7 @@ void main() {
     await _pumpAsyncWork(tester);
     await tester.pumpAndSettle();
 
-    expect(answerRepository.savedEssayAnswers.single, isEmpty);
+    expect(answerRepository.savedEssayAnswers, isEmpty);
     expect(
       persistence.profileStatus,
       LoginProfileStatus.essayQuestionCompleted,

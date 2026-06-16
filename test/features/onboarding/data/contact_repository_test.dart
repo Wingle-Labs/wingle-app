@@ -22,7 +22,7 @@ void main() {
     );
 
     await repository.uploadContacts(
-      phoneNumbers: [' 010-9256-6504 ', '010-9256-6504'],
+      phoneNumbers: [' 010-9256-6504 ', '01092566504', '+82 10 9256 6504'],
     );
 
     expect(body, {
@@ -62,7 +62,31 @@ void main() {
     await repository.skipContacts();
   });
 
-  test('010-XXXX-XXXX 형식이 아니면 업로드하지 않는다', () async {
+  test('유효하지 않은 번호는 제외하고 업로드한다', () async {
+    late Map<String, dynamic> body;
+
+    final client = MockClient((request) async {
+      expect(request.method, 'POST');
+      expect(request.url.path, '/api/v1/contacts');
+      body = jsonDecode(request.body) as Map<String, dynamic>;
+      return http.Response('', 200);
+    });
+
+    final repository = ContactRepositoryImpl(
+      client: client,
+      baseUrl: 'https://api.example.com',
+    );
+
+    await repository.uploadContacts(
+      phoneNumbers: ['invalid', '02-123-4567', '01012345678'],
+    );
+
+    expect(body, {
+      'phoneNumbers': ['010-1234-5678'],
+    });
+  });
+
+  test('정규화 가능한 번호가 하나도 없으면 업로드하지 않는다', () async {
     final client = MockClient((request) async {
       fail('invalid contact request should not hit network');
     });
@@ -73,7 +97,7 @@ void main() {
     );
 
     expect(
-      () => repository.uploadContacts(phoneNumbers: ['01012345678']),
+      () => repository.uploadContacts(phoneNumbers: ['invalid']),
       throwsException,
     );
   });

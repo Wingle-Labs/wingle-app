@@ -142,10 +142,11 @@
       "inputSubtitle": "You can answer only the questions you want.",
       "inputLabel": "Answer",
       "inputHint": "Write honestly here",
-      "inputAssistive": "You can write up to 1000 characters.",
+      "inputAssistive": "Use 200 to 1000 characters.",
       "inputComplete": "Done",
       "loadFailed": "We couldn't load the essay questions.\nPlease try again.",
       "saveFailed": "We couldn't save your essay answers.",
+      "invalidAnswer": "Answers must be at least 200 characters.",
       "emptyQuestion": "We couldn't find this question."
     },
     "contactBlock": {
