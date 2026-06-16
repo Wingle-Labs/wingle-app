@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:wingle/common/constants/api_error_messages.dart';
 import 'package:wingle/common/constants/api_paths.dart';
+import 'package:wingle/common/utils/api_error_response.dart';
 import 'package:wingle/common/utils/api_request_headers.dart';
 import 'package:wingle/features/notification/domain/repository/fcm_token_repository.dart';
 
@@ -30,7 +31,10 @@ class FcmTokenRepositoryImpl implements FcmTokenRepository {
     );
 
     if (response.statusCode < 200 || response.statusCode >= 300) {
-      throw Exception(ApiErrorMessages.registerFcmTokenFailed);
+      throw apiExceptionFromResponse(
+        response,
+        fallbackMessage: ApiErrorMessages.registerFcmTokenFailed,
+      );
     }
   }
 }

@@ -58,6 +58,63 @@ void main() {
 
     expect(repository.tokens, ['refreshed-token']);
   });
+
+  test('프로필 승인/반려 push data를 처리한다', () async {
+    final repository = _RecordingFcmTokenRepository();
+    final foregroundController = StreamController<Map<String, dynamic>>();
+    var handleCount = 0;
+    final service = FcmTokenService(
+      repository: repository,
+      requestPermission: () async {},
+      readToken: () async => null,
+      tokenRefreshStream: const Stream<String>.empty(),
+      foregroundMessageDataStream: foregroundController.stream,
+      handleProfileReviewResult: () async {
+        handleCount += 1;
+      },
+      logger: (_) {},
+    );
+    addTearDown(foregroundController.close);
+    addTearDown(service.dispose);
+
+    service.startProfileReviewResultListener();
+    foregroundController.add({
+      'eventType': 'PROFILE_REVIEW_RESULT',
+      'status': 'APPROVED',
+    });
+    await Future<void>.delayed(Duration.zero);
+
+    expect(handleCount, 1);
+  });
+
+  test('프로필 심사 결과가 아닌 push data는 무시한다', () async {
+    final repository = _RecordingFcmTokenRepository();
+    final foregroundController = StreamController<Map<String, dynamic>>();
+    var handleCount = 0;
+    final service = FcmTokenService(
+      repository: repository,
+      requestPermission: () async {},
+      readToken: () async => null,
+      tokenRefreshStream: const Stream<String>.empty(),
+      foregroundMessageDataStream: foregroundController.stream,
+      handleProfileReviewResult: () async {
+        handleCount += 1;
+      },
+      logger: (_) {},
+    );
+    addTearDown(foregroundController.close);
+    addTearDown(service.dispose);
+
+    service.startProfileReviewResultListener();
+    foregroundController.add({
+      'eventType': 'PROFILE_REVIEW_RESULT',
+      'status': 'PENDING',
+    });
+    foregroundController.add({'eventType': 'OTHER', 'status': 'APPROVED'});
+    await Future<void>.delayed(Duration.zero);
+
+    expect(handleCount, 0);
+  });
 }
 
 class _RecordingFcmTokenRepository implements FcmTokenRepository {

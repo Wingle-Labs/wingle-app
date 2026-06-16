@@ -43,6 +43,7 @@ class BootstrapController extends _$BootstrapController {
     if (!kIsWeb && result.authSession.isAuthenticated) {
       final fcmTokenService = ref.read(fcmTokenServiceProvider);
       fcmTokenService.startTokenRefreshListener();
+      fcmTokenService.startProfileReviewResultListener();
       unawaited(fcmTokenService.registerCurrentToken());
     }
 
