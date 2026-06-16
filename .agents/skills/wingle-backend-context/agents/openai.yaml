@@ -1,0 +1,4 @@
+interface:
+  display_name: "Wingle Backend Context"
+  short_description: "Analyze Wingle backend repo and API implementation"
+  default_prompt: "Use $wingle-backend-context to trace a Wingle API from Swagger to backend implementation."
