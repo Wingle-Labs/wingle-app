@@ -32,7 +32,7 @@ class AgreementPage extends ConsumerWidget {
         padding: .symmetric(horizontal: AppPadding.btnHorizontal),
         child: DefaultFilledButton(
           variant: .fullWidth,
-          label: 'onboarding.agreement.button.next',
+          label: 'onboarding.agreement.button.confirm',
           isDisabled: asyncModel.maybeWhen(
             data: (model) => !model.isRequiredChecked || model.isSubmitting,
             orElse: () => true,

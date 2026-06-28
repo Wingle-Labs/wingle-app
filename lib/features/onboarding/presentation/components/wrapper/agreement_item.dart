@@ -1,21 +1,31 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:wingle/app/config/theme/components/badges/default_badge.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_checkbox.dart';
-import 'package:wingle/app/config/theme/components/buttons/default_floating_button.dart';
-import 'package:wingle/app/config/theme/components/icons/default_icon.dart';
-import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/components/texts/text_scale_wrapper.dart';
-import 'package:wingle/app/config/theme/components/wrappers/default_app_bar.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
 import 'package:wingle/app/config/theme/constants/size.dart';
+import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/extensions/context_colors.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
+
+/// 약관 항목 표시 타입.
+enum AgreementItemVariant {
+  /// 일반 라인형 항목.
+  line,
+
+  /// 전체 동의처럼 외곽선이 있는 항목.
+  contained,
+}
 
 /// 약관 동의 화면에서 사용하는 동의 항목 컴포넌트
 class AgreementItem extends StatelessWidget {
   /// 체크 여부
   final bool isChecked;
+
+  /// 부분 체크 여부
+  final bool isPartial;
 
   /// 체크 변경 콜백
   final Function(bool)? onChanged;
@@ -26,108 +36,101 @@ class AgreementItem extends StatelessWidget {
   /// 버튼 내부 텍스트
   final String title;
 
-  /// 본문
-  final String? content;
+  /// 항목 우측 배지 텍스트.
+  final String? badgeLabel;
+
+  /// 표시 타입.
+  final AgreementItemVariant variant;
 
   /// 생성자
   const AgreementItem({
     super.key,
     required this.isChecked,
+    this.isPartial = false,
     this.onChanged,
     this.isDisabled = false,
     required this.title,
-    this.content,
+    this.badgeLabel,
+    this.variant = AgreementItemVariant.line,
   });
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final typography = context.typography;
-    final disabledColor = colors.interactionDisable;
-    return TextScaleWrapper(
-      policy: .cappedMedium,
-      child: ListTile(
-        contentPadding: EdgeInsets.only(
-          left: AppPadding.agreementItemLeft,
-          right: AppPadding.agreementItemRight,
-        ),
-        leading: DefaultCheckbox(
+
+    final isTitleTranslationKey = title.contains('.');
+    final content = Row(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        DefaultCheckbox(
           isChecked: isChecked,
+          isPartial: isPartial,
           isDisabled: isDisabled,
           onChanged: onChanged,
         ),
-        title: DefaultText(
-          title,
-          style: typography.buttonMedium,
-          isTranslationKey: title.contains('.'),
+        const SizedBox(width: AppSpacing.s8),
+        Expanded(
+          child: Text(
+            isTitleTranslationKey ? title.tr() : title,
+            style: typography.main.copyWith(
+              color: isDisabled ? colors.textDisable : colors.textNormal,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
-        trailing: content != null
-            ? IconButton(
-                padding: .zero,
-                icon: DefaultIcon(
-                  icon: Icons.arrow_forward_ios,
-                  size: AppIconSize.md,
-                  color: isDisabled ? disabledColor : colors.textNeutral,
-                ),
-                onPressed: () {
-                  if (content == null) return;
-
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => _AgreementDetailPage(
-                        title: title,
-                        content: content!,
-                        onAgree: () {
-                          Navigator.of(context).pop();
-                          if (!isDisabled) {
-                            onChanged?.call(true);
-                          }
-                        },
-                      ),
-                    ),
-                  );
-                },
-              )
-            : null,
-        onTap: () {
-          if (isDisabled) return;
-          onChanged?.call(!isChecked);
-        },
-        shape: RoundedRectangleBorder(borderRadius: AppRadius.iosStyleRadius),
-      ),
+        if (badgeLabel != null) ...[
+          const SizedBox(width: AppSpacing.s8),
+          DefaultBadge(
+            text: badgeLabel!,
+            size: DefaultBadgeSize.sm,
+            type: DefaultBadgeType.gray,
+          ),
+        ],
+      ],
     );
-  }
-}
 
-class _AgreementDetailPage extends StatelessWidget {
-  final String title;
-  final String content;
-  final VoidCallback onAgree;
-
-  const _AgreementDetailPage({
-    required this.title,
-    required this.content,
-    required this.onAgree,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final color = context.colors;
-    return Scaffold(
-      backgroundColor: color.backgroundNormal,
-      appBar: DefaultAppBar(
-        title: title,
-        isTitleTranslationKey: title.contains('.'),
-      ),
-      floatingActionButton: DefaultFloatingButton(
-        label: 'onboarding.agreement.button.agree',
-        onPressed: onAgree,
-      ),
-      floatingActionButtonLocation: .centerDocked,
-      body: SafeArea(
-        child: Markdown(
-          data: content,
-          padding: const EdgeInsets.all(AppPadding.scaffold),
+    return TextScaleWrapper(
+      policy: .cappedMedium,
+      child: Material(
+        color: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: AppRadius.iosStyleRadius,
+          side: variant == AgreementItemVariant.contained
+              ? BorderSide(
+                  color: colors.strokeStructuralBorder,
+                  width: AppLineWidth.dividerNormal,
+                )
+              : BorderSide.none,
+        ),
+        child: InkWell(
+          onTap: isDisabled ? null : () => onChanged?.call(!isChecked),
+          borderRadius: AppRadius.iosStyleRadius,
+          overlayColor: WidgetStateProperty.resolveWith<Color?>((states) {
+            if (isDisabled) return null;
+            if (states.contains(WidgetState.pressed)) {
+              return colors.overlayPressed;
+            }
+            if (states.contains(WidgetState.focused) ||
+                states.contains(WidgetState.hovered)) {
+              return colors.overlayInactive;
+            }
+            return null;
+          }),
+          child: SizedBox(
+            height: variant == AgreementItemVariant.contained
+                ? AppContainerSize.agreementControlHeight
+                : AppContainerSize.agreementLineHeight,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: variant == AgreementItemVariant.contained
+                    ? AppPadding.agreementControlHorizontal
+                    : AppPadding.agreementLineHorizontal,
+              ),
+              child: Align(alignment: Alignment.centerLeft, child: content),
+            ),
+          ),
         ),
       ),
     );

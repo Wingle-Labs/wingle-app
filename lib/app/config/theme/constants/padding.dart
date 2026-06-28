@@ -69,6 +69,12 @@ class AppPadding {
   /// 리스트 버튼 오른쪽 패딩
   static const double agreementItemRight = 2;
 
+  /// 약관 전체 동의 항목 가로 패딩
+  static const double agreementControlHorizontal = 16;
+
+  /// 약관 일반 항목 가로 패딩
+  static const double agreementLineHorizontal = 32;
+
   /// 인디케이터
   static const double indicator = 8;
 

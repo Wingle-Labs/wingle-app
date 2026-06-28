@@ -335,20 +335,21 @@
     },
     "agreement": {
       "button": {
-        "next": "다음",
+        "confirm": "Confirm",
         "agree": "동의하기"
       },
       "guide": {
-        "title": "약관동의 안내",
-        "message": "얼마 전에 소녀 앞에서 한 번 실수를 했을 뿐,\n여태 큰길 가듯이 건너던 징검다리"
+        "title": "Agreement guide",
+        "message": "Review only the items needed for safer matches and personalized introductions.\nOptional consent can be changed later anytime."
       },
       "state": {
         "loadFailed": "약관을 불러오지 못했습니다",
         "empty": "약관이 없습니다"
       },
       "group": {
-        "all": "전체 동의",
-        "requiredSuffix": "(필수)"
+        "all": "Agree to all terms",
+        "requiredBadge": "Required",
+        "optionalBadge": "Optional"
       }
     },
     "pass": {

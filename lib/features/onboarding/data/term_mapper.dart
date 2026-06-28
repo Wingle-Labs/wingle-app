@@ -1,5 +1,6 @@
 import 'package:wingle/features/onboarding/data/term_dto.dart';
 import 'package:wingle/features/onboarding/presentation/models/agreement_item.dart';
+import 'package:wingle/features/onboarding/presentation/models/agreement_term_labels.dart';
 
 /// [TermDto]를 [AgreementItemModel]으로 변환하는 매퍼.
 class TermMapper {
@@ -10,7 +11,7 @@ class TermMapper {
     return AgreementItemModel(
       id: dto.type.hashCode,
       type: dto.type,
-      title: dto.type,
+      title: AgreementTermLabels.titleFor(type: dto.type, fallback: dto.type),
       content: dto.content,
       isRequired: dto.isRequired,
       version: dto.version.toString(),

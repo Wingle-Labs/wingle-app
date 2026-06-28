@@ -592,10 +592,16 @@ class AppContainerSize {
   static const double indicator = 6;
 
   /// Pagination dot 크기
-  static const double paginationDot = 6;
+  static const double paginationDot = 10;
 
   /// Pagination line 높이
   static const double paginationLine = 6;
+
+  /// 약관 전체 동의 컨트롤 높이
+  static const double agreementControlHeight = 48;
+
+  /// 약관 일반 항목 높이
+  static const double agreementLineHeight = 62;
 
   /// Pagination line 너비
   static const double paginationLineWidth = 50;
