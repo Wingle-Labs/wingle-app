@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wingle/app/config/theme/constants/padding.dart';
+import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/features/onboarding/presentation/components/wrapper/agreement_item.dart';
 import 'package:wingle/features/onboarding/presentation/models/agreement_term_labels.dart';
 import 'package:wingle/features/onboarding/presentation/providers/agreement_list_provider.dart';
@@ -30,29 +32,51 @@ class AgreementGroup extends ConsumerWidget {
             return a.compareTo(b);
           });
 
+        final termWidgets = <Widget>[];
+        for (final index in sortedIndexes) {
+          if (termWidgets.isNotEmpty) {
+            termWidgets.add(const SizedBox(height: AppSpacing.s12));
+          }
+
+          final item = items[index];
+          termWidgets.add(
+            AgreementItem(
+              title: item.title,
+              badgeLabel: item.isRequired ? requiredBadge : optionalBadge,
+              isChecked: item.isChecked,
+              onChanged: (value) => notifier.toggleItem(index, value),
+              isDisabled: model.isSubmitting,
+            ),
+          );
+        }
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            AgreementItem(
-              title: 'onboarding.agreement.group.all',
-              isChecked: model.isAllChecked,
-              isPartial: !model.isAllChecked && items.any((e) => e.isChecked),
-              isDisabled: false,
-              variant: AgreementItemVariant.contained,
-              onChanged: notifier.toggleAll,
+            Padding(
+              padding: const EdgeInsets.only(
+                top: AppPadding.agreementControlSectionTop,
+                bottom: AppPadding.agreementControlSectionBottom,
+              ),
+              child: AgreementItem(
+                title: 'onboarding.agreement.group.all',
+                isChecked: model.isAllChecked,
+                isPartial: !model.isAllChecked && items.any((e) => e.isChecked),
+                isDisabled: false,
+                variant: AgreementItemVariant.contained,
+                onChanged: notifier.toggleAll,
+              ),
             ),
-            const SizedBox(height: 34),
-            ...sortedIndexes.map((index) {
-              final item = items[index];
-
-              return AgreementItem(
-                title: item.title,
-                badgeLabel: item.isRequired ? requiredBadge : optionalBadge,
-                isChecked: item.isChecked,
-                onChanged: (value) => notifier.toggleItem(index, value),
-                isDisabled: model.isSubmitting,
-              );
-            }),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: AppPadding.agreementLineSectionTop,
+                bottom: AppPadding.agreementLineSectionBottom,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: termWidgets,
+              ),
+            ),
           ],
         );
       },

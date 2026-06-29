@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_filled_button.dart';
-import 'package:wingle/app/config/theme/components/cards/guide_card.dart';
 import 'package:wingle/app/config/theme/components/states/animation_progress_indicator.dart';
 import 'package:wingle/app/config/theme/components/states/default_loadding_dialog.dart';
 import 'package:wingle/app/config/theme/components/states/default_toast.dart';
+import 'package:wingle/app/config/theme/components/texts/default_page_header.dart';
 import 'package:wingle/app/config/theme/components/texts/default_text.dart';
 import 'package:wingle/app/config/theme/components/wrappers/constrained_scrollable_scaffold.dart';
 import 'package:wingle/app/config/theme/components/wrappers/default_app_bar.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/common/constants/api_error_messages.dart';
+import 'package:wingle/common/extensions/context_colors.dart';
+import 'package:wingle/common/extensions/context_typography.dart';
 import 'package:wingle/features/onboarding/presentation/components/wrapper/agreement_group.dart';
 import 'package:wingle/features/onboarding/presentation/providers/agreement_list_provider.dart';
 import 'package:wingle/features/onboarding/route/onboarding_routes.dart';
@@ -27,9 +29,10 @@ class AgreementPage extends ConsumerWidget {
     final notifier = ref.watch(agreementListProvider.notifier);
 
     return ConstrainedScrollableScaffold(
-      appBar: DefaultAppBar(),
+      appBar: const DefaultAppBar(forceImplyLeading: true),
+      padding: const EdgeInsets.symmetric(horizontal: AppPadding.horizontal),
       floatingActionButton: Padding(
-        padding: .symmetric(horizontal: AppPadding.btnHorizontal),
+        padding: .symmetric(horizontal: AppPadding.horizontal),
         child: DefaultFilledButton(
           variant: .fullWidth,
           label: 'onboarding.agreement.button.confirm',
@@ -61,9 +64,13 @@ class AgreementPage extends ConsumerWidget {
         crossAxisAlignment: .start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          GuideCard(
+          DefaultPageHeader(
             title: 'onboarding.agreement.guide.title',
-            message: 'onboarding.agreement.guide.message',
+            subtitle: 'onboarding.agreement.guide.message',
+            padding: const EdgeInsets.only(top: AppPadding.vertical),
+            spacing: AppSpacing.s20,
+            subtitleStyle: context.typography.body.copyWith(height: 1.5),
+            subtitleColor: context.colors.textAlternative,
           ),
 
           asyncModel.when(
@@ -98,7 +105,7 @@ class AgreementPage extends ConsumerWidget {
 
               return Container(
                 padding: .only(
-                  top: AppPadding.listTop,
+                  top: AppSpacing.s12,
                   bottom: AppPadding.listBottom,
                 ),
                 child: const AgreementGroup(),

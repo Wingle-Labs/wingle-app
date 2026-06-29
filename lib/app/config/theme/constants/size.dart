@@ -601,7 +601,7 @@ class AppContainerSize {
   static const double agreementControlHeight = 48;
 
   /// 약관 일반 항목 높이
-  static const double agreementLineHeight = 62;
+  static const double agreementLineHeight = 48;
 
   /// Pagination line 너비
   static const double paginationLineWidth = 50;

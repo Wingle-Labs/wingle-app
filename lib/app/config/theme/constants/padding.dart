@@ -72,8 +72,20 @@ class AppPadding {
   /// 약관 전체 동의 항목 가로 패딩
   static const double agreementControlHorizontal = 16;
 
+  /// 약관 전체 동의 섹션 상단 패딩
+  static const double agreementControlSectionTop = 24;
+
+  /// 약관 전체 동의 섹션 하단 패딩
+  static const double agreementControlSectionBottom = 12;
+
   /// 약관 일반 항목 가로 패딩
-  static const double agreementLineHorizontal = 32;
+  static const double agreementLineHorizontal = 16;
+
+  /// 약관 일반 항목 섹션 상단 패딩
+  static const double agreementLineSectionTop = 12;
+
+  /// 약관 일반 항목 섹션 하단 패딩
+  static const double agreementLineSectionBottom = 24;
 
   /// 인디케이터
   static const double indicator = 8;

@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:wingle/app/config/theme/components/badges/default_badge.dart';
-import 'package:wingle/app/config/theme/components/buttons/default_checkbox.dart';
 import 'package:wingle/app/config/theme/components/texts/text_scale_wrapper.dart';
 import 'package:wingle/app/config/theme/constants/padding.dart';
 import 'package:wingle/app/config/theme/constants/radius.dart';
@@ -63,18 +62,22 @@ class AgreementItem extends StatelessWidget {
     final content = Row(
       mainAxisSize: MainAxisSize.max,
       children: [
-        DefaultCheckbox(
+        _AgreementCheckbox(
           isChecked: isChecked,
           isPartial: isPartial,
           isDisabled: isDisabled,
-          onChanged: onChanged,
         ),
         const SizedBox(width: AppSpacing.s8),
-        Expanded(
+        Flexible(
+          fit: FlexFit.loose,
           child: Text(
             isTitleTranslationKey ? title.tr() : title,
             style: typography.main.copyWith(
-              color: isDisabled ? colors.textDisable : colors.textNormal,
+              color: isDisabled
+                  ? colors.textDisable
+                  : isChecked
+                  ? colors.primaryNormal
+                  : colors.textNormal,
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -132,6 +135,55 @@ class AgreementItem extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _AgreementCheckbox extends StatelessWidget {
+  final bool isChecked;
+  final bool isPartial;
+  final bool isDisabled;
+
+  const _AgreementCheckbox({
+    required this.isChecked,
+    required this.isPartial,
+    required this.isDisabled,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final selected = isChecked || isPartial;
+    final borderColor = isDisabled
+        ? colors.strokeStructuralBorder
+        : selected
+        ? colors.primaryNormal
+        : colors.textNormal;
+    final fillColor = isDisabled
+        ? colors.interactionDisable
+        : selected
+        ? colors.primaryNormal
+        : colors.backgroundElevatedNormal;
+    final iconData = isPartial ? Icons.remove_rounded : Icons.check_rounded;
+
+    return SizedBox.square(
+      dimension: AppIconSize.sm,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: fillColor,
+          borderRadius: BorderRadius.circular(AppRadius.checkboxRadius),
+          border: Border.all(color: borderColor, width: AppLineWidth.outline),
+        ),
+        child: selected
+            ? Icon(
+                iconData,
+                size: AppIconSize.sm,
+                color: isDisabled
+                    ? colors.componentCheckboxIconDisabled
+                    : colors.componentCheckboxIconEnabled,
+              )
+            : null,
       ),
     );
   }
