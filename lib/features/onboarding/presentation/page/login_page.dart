@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wingle/app/config/theme/components/buttons/default_filled_button.dart';
-import 'package:wingle/app/config/theme/components/dividers/default_vertical_divider.dart';
 import 'package:wingle/app/config/theme/components/states/default_toast.dart';
 import 'package:wingle/app/config/theme/components/texts/default_page_header.dart';
 import 'package:wingle/app/config/theme/components/texts/text_scale_policy.dart';
@@ -13,11 +12,9 @@ import 'package:wingle/app/config/theme/constants/spacing.dart';
 import 'package:wingle/app/router/onboarding_redirect_resolver.dart';
 import 'package:wingle/common/extensions/context_typography.dart';
 import 'package:wingle/features/auth/domain/models/login_profile_status.dart';
-import 'package:wingle/features/onboarding/presentation/components/button/change_phone_number_button.dart';
-import 'package:wingle/features/onboarding/presentation/components/button/reset_password_button.dart';
-import 'package:wingle/features/onboarding/presentation/components/button/signup_button.dart';
 import 'package:wingle/features/onboarding/presentation/components/input/password_input_field.dart';
 import 'package:wingle/features/onboarding/presentation/components/input/phone_input_field.dart';
+import 'package:wingle/features/onboarding/presentation/components/wrapper/login_secondary_action_group.dart';
 import 'package:wingle/features/onboarding/presentation/providers/login_page_provider.dart';
 
 /// 로그인 페이지
@@ -108,22 +105,8 @@ class LoginPage extends ConsumerWidget {
 
           Container(
             padding: .symmetric(horizontal: AppPadding.scaffold),
-            child: Row(
-              mainAxisAlignment: .center,
-              children: [
-                Expanded(child: ChangePhoneNumberButton()),
-                DefaultVerticalDivider(
-                  textScalePolicy: .cappedLarge,
-                  fontSize: context.typography.buttonSmall.fontSize,
-                ),
-                Expanded(child: ResetPasswordButton()),
-                DefaultVerticalDivider(
-                  textScalePolicy: .cappedLarge,
-                  fontSize: context.typography.buttonSmall.fontSize,
-                ),
-                Expanded(child: SignupButton(isInOnboarding: false)),
-              ],
-            ),
+            alignment: .center,
+            child: const LoginSecondaryActionGroup(),
           ),
         ],
       ),
