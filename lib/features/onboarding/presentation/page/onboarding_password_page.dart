@@ -18,6 +18,10 @@ class OnboardingPasswordPage extends ConsumerWidget {
   /// 인증된 유저 전화번호
   final String phoneNumber;
 
+  static const Duration _keyboardActionTransitionDuration = Duration(
+    milliseconds: 120,
+  );
+
   /// 생성자
   const OnboardingPasswordPage({super.key, required this.phoneNumber});
 
@@ -44,6 +48,7 @@ class OnboardingPasswordPage extends ConsumerWidget {
           isValid: state.isPasswordValid,
           onChanged: notifier.updatePassword,
           onToggleVisibility: notifier.togglePasswordVisibility,
+          unfocusOnTapOutside: false,
         ),
         SizedBox(height: AppSpacing.s24),
         PasswordInputField(
@@ -53,22 +58,42 @@ class OnboardingPasswordPage extends ConsumerWidget {
           onChanged: notifier.updateConfirmPassword,
           onToggleVisibility: notifier.toggleConfirmPasswordVisibility,
           isConfirm: true,
+          unfocusOnTapOutside: false,
         ),
       ],
-      floatingActionButton: DefaultFloatingButton(
-        label: 'onboarding.password.button.complete',
-        onPressed: () async {
-          final result = await notifier.submit();
+      floatingActionButton: Builder(
+        builder: (context) {
+          final isKeyboardVisible = MediaQuery.viewInsetsOf(context).bottom > 0;
 
-          if (!context.mounted) return;
-          if (result) {
-            DefaultToast.show(context, 'onboarding.password.toast.success');
-            context.goNamed(OnboardingRoutes.login.name);
-          } else {
-            DefaultToast.show(context, 'onboarding.password.toast.failure');
-          }
+          return AnimatedSwitcher(
+            duration: _keyboardActionTransitionDuration,
+            child: isKeyboardVisible
+                ? const SizedBox.shrink(key: ValueKey('hidden-password-cta'))
+                : DefaultFloatingButton(
+                    key: const ValueKey('visible-password-cta'),
+                    label: 'onboarding.password.button.complete',
+                    onPressed: () async {
+                      final result = await notifier.submit();
+
+                      if (!context.mounted) return;
+                      if (result) {
+                        DefaultToast.show(
+                          context,
+                          'onboarding.password.toast.success',
+                        );
+                        context.goNamed(OnboardingRoutes.login.name);
+                      } else {
+                        DefaultToast.show(
+                          context,
+                          'onboarding.password.toast.failure',
+                        );
+                      }
+                    },
+                    isLoading: state.isLoading,
+                    disabled: !state.canSignUp,
+                  ),
+          );
         },
-        isLoading: state.isLoading,
       ),
     );
   }

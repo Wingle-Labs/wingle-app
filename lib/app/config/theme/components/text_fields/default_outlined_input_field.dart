@@ -74,6 +74,12 @@ class DefaultOutlinedInputField extends StatelessWidget {
   /// max length
   final int? maxLength;
 
+  /// 포커스 시 스크롤 여백
+  final EdgeInsets scrollPadding;
+
+  /// 필드 외부 탭 시 포커스 해제 여부
+  final bool unfocusOnTapOutside;
+
   /// 명시적 상태
   final DefaultInputFieldState? state;
 
@@ -106,6 +112,8 @@ class DefaultOutlinedInputField extends StatelessWidget {
     this.validator,
     this.focusNode,
     this.maxLength,
+    this.scrollPadding = const EdgeInsets.all(20),
+    this.unfocusOnTapOutside = true,
     this.state,
     this.type = DefaultInputFieldType.inputSuffix,
   }) : assert(
@@ -142,6 +150,8 @@ class DefaultOutlinedInputField extends StatelessWidget {
       validator: validator,
       focusNode: focusNode,
       maxLength: maxLength,
+      scrollPadding: scrollPadding,
+      unfocusOnTapOutside: unfocusOnTapOutside,
     );
   }
 }

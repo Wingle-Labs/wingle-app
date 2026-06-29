@@ -34,6 +34,12 @@ class PasswordInputField extends StatelessWidget {
   /// 비밀번호 재입력 필드 여부
   final bool isConfirm;
 
+  /// 포커스 시 스크롤 여백
+  final EdgeInsets scrollPadding;
+
+  /// 필드 외부 탭 시 포커스 해제 여부
+  final bool unfocusOnTapOutside;
+
   /// 생성자
   const PasswordInputField({
     super.key,
@@ -44,6 +50,8 @@ class PasswordInputField extends StatelessWidget {
     required this.onToggleVisibility,
     this.controller,
     this.isConfirm = false,
+    this.scrollPadding = const EdgeInsets.all(20),
+    this.unfocusOnTapOutside = true,
   });
 
   @override
@@ -76,6 +84,8 @@ class PasswordInputField extends StatelessWidget {
               RegExp(r'[\u{1F300}-\u{1FAFF}]', unicode: true),
             ),
           ],
+          scrollPadding: scrollPadding,
+          unfocusOnTapOutside: unfocusOnTapOutside,
           suffix: DefaultIconButton(
             icon: isVisible
                 ? Iconify(Ph.eye_closed_bold, color: colors.textAssistive)

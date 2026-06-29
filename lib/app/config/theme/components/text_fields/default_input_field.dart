@@ -136,6 +136,12 @@ class DefaultInputField extends StatefulWidget {
   /// max length
   final int? maxLength;
 
+  /// 포커스 시 스크롤 여백
+  final EdgeInsets scrollPadding;
+
+  /// 필드 외부 탭 시 포커스 해제 여부
+  final bool unfocusOnTapOutside;
+
   /// suffix semantic label
   final String? suffixSemanticLabel;
 
@@ -170,6 +176,8 @@ class DefaultInputField extends StatefulWidget {
     this.minLines,
     this.maxLines,
     this.maxLength,
+    this.scrollPadding = const EdgeInsets.all(20),
+    this.unfocusOnTapOutside = true,
     this.suffixSemanticLabel,
   }) : assert(
          controller == null || initialValue == null,
@@ -290,13 +298,16 @@ class _DefaultInputFieldState extends State<DefaultInputField> {
                 setState(() {});
               },
               onTap: widget.onTap,
+              scrollPadding: widget.scrollPadding,
               onEditingComplete: () {
                 _showValidation();
                 _focusNode.unfocus();
               },
-              onTapOutside: (_) {
-                _focusNode.unfocus();
-              },
+              onTapOutside: widget.unfocusOnTapOutside
+                  ? (_) {
+                      _focusNode.unfocus();
+                    }
+                  : null,
               enabled: !widget.isDisabled,
               maxLength: widget.maxLength,
               minLines: widget.variant == DefaultInputFieldVariant.multiline
