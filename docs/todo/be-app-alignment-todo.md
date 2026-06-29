@@ -29,15 +29,17 @@ Last checked: 2026-06-16 KST
 
 ## P0: 앱 요청/상태 전이를 BE 사양에 맞출 항목
 
-- [x] 주관식 선택 문항 스킵 시 빈 배열 POST를 보내지 않는다.
-  - BE evidence: `SaveEssayAnswersRequest.answers`는 `@NotEmpty`.
-  - BE behavior: 상태 전이는 `CHOICE_QUESTION_COMPLETED` 상태에서 필수 주관식 답변이 모두 있을 때만 `ESSAY_QUESTION_COMPLETED`.
-  - APP target: 선택 주관식만 스킵하는 경우 `/essay-questions/answers`를 호출하지 않고, 이미 필수 주관식 저장으로 상태가 전환됐는지 `/profiles/me` 또는 로컬 상태로 확인한 뒤 연락처 차단 단계로 이동한다.
+- [~] 주관식 질문은 전체 선택 입력이며 전체 스킵 가능해야 한다.
+  - Policy: 2026-06-28 기준 주관식 질문에는 필수 항목이 없고, 전체 스킵이 가능해야 한다.
+  - BE evidence: 현재 `SaveEssayAnswersRequest.answers`는 `@NotEmpty`이고, `EssayAnswerService`는 `isRequire` 질문 답변 완료 여부를 검사한 뒤 `ESSAY_QUESTION_COMPLETED`로 전환한다.
+  - Current APP: 스킵 시 `/essay-questions/answers` 빈 배열 POST를 보내지 않고 로컬 상태를 `ESSAY_QUESTION_COMPLETED`로 저장해 연락처 차단 단계로 이동한다.
+  - Required BE: `isRequire` 기반 필수 완료 검사를 제거하거나 주관식 전체 스킵 상태 전이 API를 제공해야 한다. 이후 APP은 성공 응답 뒤 `/profiles/me`로 서버 상태를 동기화한다.
 
 - [x] 연락처 차단 스킵은 빈 배열 업로드가 아니라 `POST /contacts/skip`을 사용한다.
   - BE evidence: `UploadContactsRequest.phoneNumbers`는 `@NotEmpty`, `@Size(max = 500)`.
   - BE behavior: `skipContacts`는 `ESSAY_QUESTION_COMPLETED` 상태에서만 `ONBOARDING_COMPLETED`로 전환한다.
   - APP target: 연락처 스킵 버튼은 반드시 `/contacts/skip`을 호출하고, 성공 후 `/profiles/me` 동기화로 `ONBOARDING_COMPLETED`를 반영한다.
+  - Dependency: 주관식 전체 스킵 사용자는 BE가 먼저 `ESSAY_QUESTION_COMPLETED` 전이를 허용해야 연락처 스킵까지 성공한다.
 
 - [x] 연락처 업로드 전 전화번호를 `010-XXXX-XXXX` 형식으로 정규화한다.
   - BE evidence: Swagger 설명은 `010-XXXX-XXXX` 형식 요구.

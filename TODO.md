@@ -33,7 +33,7 @@ Last checked: 2026-06-15 KST
   - Implementation target: map `CodebookGroup.bodyType` entries into the existing body shape UI model and add regression tests.
 
 - [x] Remove or retire the legacy `selectiveSelfIntro` mock flow.
-  - Evidence: Latest Notion state doc uses `ESSAY_QUESTION_COMPLETED` for required essay answers and optional skips; Swagger exposes `/essay-questions/snapshot` and `/essay-questions/answers`.
+  - Evidence: Latest policy treats essay questions as optional; Swagger exposes `/essay-questions/snapshot` and `/essay-questions/answers`.
   - Current app risk: `selective_self_intro_mock_data.dart` and `SelectiveSelfIntro` route still exist, while the real essay question flow is already API-backed.
   - Implementation target: audit route references, remove dead mock UI if unused, or hard-disable it behind the current essay question flow.
 
@@ -66,6 +66,12 @@ Last checked: 2026-06-15 KST
   - Gap: no explicit duplicate-check/logging contract is exposed to the app.
   - Decision: app can keep endpoint separation and error display, but duplicate/log semantics need backend contract or documented error codes.
 
+- [~] Essay question full skip server transition.
+  - Evidence: Product policy confirmed on 2026-06-28 that essay questions have no required items and may be skipped entirely.
+  - Swagger/BE gap: `/essay-questions/answers` requires a non-empty `answers` list and current BE checks required essay answers before `ESSAY_QUESTION_COMPLETED`.
+  - Current app basis: essay skip does not POST an empty array and moves to the contact step locally.
+  - Decision: backend should remove required essay completion checks or expose an essay skip transition before contact upload/skip can reliably complete onboarding.
+
 - [~] Approval pending illustration/image area.
   - Evidence: Notion/Figma-like flow expects a visual area for approval pending/completion.
   - Swagger gap: not API-driven.
@@ -75,7 +81,7 @@ Last checked: 2026-06-15 KST
 ## Confirmed Or Already Implemented
 
 - [x] Latest onboarding status order is reflected by API basis.
-  - Evidence: 0615 Notion state doc defines `ESSAY_QUESTION_COMPLETED` after required essay answers and `ONBOARDING_COMPLETED` after contact upload or skip.
+  - Evidence: 0615 Notion state doc defines `ONBOARDING_COMPLETED` after contact upload or skip; essay question policy was corrected on 2026-06-28 to allow full skip.
   - Swagger basis: `/essay-questions/answers`, `/contacts`, and `/contacts/skip` exist.
 
 - [x] Contact upload/skip is implementable and present.
